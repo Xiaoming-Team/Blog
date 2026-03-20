@@ -2110,7 +2110,7 @@ hexo-generator-index-pin-top@^0.2.2:
     hexo-pagination "0.0.2"
     object-assign "^4.0.1"
 
-hexo-generator-searchdb@^1.4.0:
+hexo-generator-searchdb@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/hexo-generator-searchdb/-/hexo-generator-searchdb-1.5.0.tgz#ba7b48670e997378b3151684fffa2913b662a031"
   integrity sha512-d0b5SueDxJimTFaHpPg430FQFx7DtMkmEIHo0UTOjXWRy+eDqNSp1CuS04P7fWzMnH2h+aQc6O9D2yY+3sdAUg==
