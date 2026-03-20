@@ -2252,10 +2252,10 @@ hexo-symbols-count-time@^0.6.2:
   resolved "https://registry.npmjs.org/hexo-symbols-count-time/-/hexo-symbols-count-time-0.6.2.tgz"
   integrity sha512-E/LzwPVv+0+r4JrFlIoC+NPw5C337vJGR/lITMLrG4vUFldKMsc9UUwFYxHPr9K8duAKxeM0Hyp2/WaE8rEx+A==
 
-hexo-theme-landscape@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/hexo-theme-landscape/-/hexo-theme-landscape-0.0.3.tgz#87d1f4d613da9be5245dad0d4b80479eab70d386"
-  integrity sha512-b0Di+TUVs4ESrNX4ULEh9uQmADpO6kr10rIJ2OGZM8suNQNFKdxn+vJUjnLfKkCPJAfVmS7/S83KCNYe4tpoNw==
+hexo-theme-landscape@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/hexo-theme-landscape/-/hexo-theme-landscape-1.1.0.tgz#756335efcc8abd240170f16f36c4af5c4c51c739"
+  integrity sha512-nszjixBEiEDZjf7glAGbHg0nKGHZdUDwzFVVdRDeu4FeHfGcY5CZNl9sF4vSligjnD8IwFXpDfx5E+GRmNKvWg==
 
 hexo-util@^0.6.3:
   version "0.6.3"
