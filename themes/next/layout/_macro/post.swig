@@ -2,6 +2,32 @@
   {### POST BLOCK ###}
   {##################}
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="{{ post.lang or config.language }}">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "{{ post.title }}",
+      "description": "{{ post.description or post.excerpt | striptags | truncate(200) }}",
+      "datePublished": "{{ post.date.toISOString() }}",
+      "dateModified": "{{ post.updated.toISOString() }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ author }}"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "{{ title }}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ url_for(theme.favicon.medium or theme.images + '/logo-32.png') }}"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ post.permalink }}"
+      }
+    }
+    </script>
     <link itemprop="mainEntityOfPage" href="{{ post.permalink }}">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
