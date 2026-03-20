@@ -1999,7 +1999,7 @@ hexo-deployer-git@^3.0.0:
     moment "^2.18.0"
     nunjucks "^3.2.1"
 
-hexo-excerpt@^1.2.1:
+hexo-excerpt@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/hexo-excerpt/-/hexo-excerpt-1.3.1.tgz#7f90b6fa062ddd13eb1694a60b2ffd0caf3da715"
   integrity sha512-IIK3SxqUxMPJyU2DlN6jKLIpz8fb3QZw6i+FIk6D8T3ncyhPCxnaxAiuj23jdyhsBzyQEpSERcK8SDlHXhYZDQ==
