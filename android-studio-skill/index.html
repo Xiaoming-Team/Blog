@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="工欲善其事，必先利其器 俗话说，“工欲善其事，必先利其器”，对致力于让计算机解决人类问题的程序员来说，更应该如此（打字慢还找什么借口……）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你可能不知道的Android Studio&#x2F;IDEA使用技巧">
+<meta property="og:url" content="https://www.xiaoming.io/android-studio-skill/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="工欲善其事，必先利其器 俗话说，“工欲善其事，必先利其器”，对致力于让计算机解决人类问题的程序员来说，更应该如此（打字慢还找什么借口……）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/427ab0b02d831a355e36d2ff469cd084.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/a3f5e08d2b6054578bce694ce872c845.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/1d2c2ac7cbb1e7cf060461376ad8e2be.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/1acebba179e907e2c65542fd06f69801.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/5c3bf4a4f33e85091775f694f8d04b24.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/77098c50d271b60533178508412d5de1.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/8c8dacdab50a29e0be158fc979b76baf.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/8586ded639df6f5a29683a35499ceb08.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/ca385f6c79d87f6a84c125f161d65b6d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/ac4e159df0b52713387519cc6a4833fe.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/cc8c7b8b1e012a99e8ec7295a3d7e64a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/31f2fe5f79db11c277b79886d06c6d50.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/ea40e130cd4f96d2566196607c95ac30.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/18608bdac341663f1b2da4c48f1d4f8f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/10e2d554a1b0f03c095df7d86226bba7.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/c2fb9391e62bd5d9dc19513b63ba7a23.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/02ae7baa23e2844b9afc638e1b6964a5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/89c479b8f2c957e1ce08a346856b0c4a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/4eea452273955b0ef125c2f4d19593a5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/b70ee4e704d67b1239d49de92a49b674.png">
+<meta property="article:published_time" content="2017-04-15T02:39:58.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.573Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="安卓">
+<meta property="article:tag" content="AndroidStudio">
+<meta property="article:tag" content="移动开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/427ab0b02d831a355e36d2ff469cd084.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/android-studio-skill/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>你可能不知道的Android Studio/IDEA使用技巧 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/android-studio-skill/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          你可能不知道的Android Studio/IDEA使用技巧
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-04-15 10:39:58" itemprop="dateCreated datePublished" datetime="2017-04-15T10:39:58+08:00">2017-04-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/android-studio-skill/" class="post-meta-item leancloud_visitors" data-flag-title="你可能不知道的Android Studio/IDEA使用技巧" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/android-studio-skill/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/android-studio-skill/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="工欲善其事，必先利其器">工欲善其事，必先利其器</h2>
+<p>俗话说，“工欲善其事，必先利其器”，对致力于让计算机解决人类问题的程序员来说，更应该如此（打字慢还找什么借口……）</p>
+<p>最开始以为程序员对使用技巧都比较关注，不过从自己和身边同事的交流来看，很多我常用的技巧尤其是快捷键，确实不少人都不太了解，于是就有了这篇文章。</p>
+<p>本文<strong>基于Android Studio Mac版</strong>。</p>
+<p>Android Studio基于IntelliJ IDEA Community Edition（社区版），主要是在其基础上增加了Android插件。因此Android Studio中很多功能和IDEA是相同的。</p>
+<blockquote>
+<p>IDEA Android插件源码<br>
+<a target="_blank" rel="noopener" href="https://github.com/JetBrains/android">https://github.com/JetBrains/android</a></p>
+</blockquote>
+<h2 id="设置">设置</h2>
+<p>左上角菜单 Android Studio - Preferences，打开设置对话框。可以直接搜索设置项。</p>
+<h3 id="设置的导入-导出">设置的导入/导出</h3>
+<p>File - Import Settings / Export Settings</p>
+<p>应用场景举例：团队共享Lint检查配置、代码格式化风格</p>
+<h2 id="Help-Search">Help - Search</h2>
+<p>在菜单Help - Search中，输入任意一个不了解的功能名称，例如Reformat Code，可以看到这个功能在哪打开，并打开这个功能。<strong>所以在后面的文章里，每个功能我都会给出对应的英文名，不知道怎么打开的，直接这么搜索就能找到了。</strong></p>
+<h2 id="KeyMap">KeyMap</h2>
+<p>对于快捷键用的少，还没有养成很强使用习惯的人，可以考虑使用Eclipse MacOS风格。</p>
+<p>本文在括号中注明的是<strong>我自己用的快捷键</strong>，大部分基于Eclipse MacOS风格，做过一些修改。</p>
+<h2 id="编辑">编辑</h2>
+<p>列举几个编辑器通用的功能</p>
+<ul>
+<li>
+<p>块操作：按住Alt，上下拖动鼠标选中，可以编辑内容相似的多行。</p>
+</li>
+<li>
+<p>缩进：选中多行，按Tab和Shift+Tab，可以批量缩进。</p>
+</li>
+<li>
+<p>大部分软件中，缩放通常通过这几种方法实现：</p>
+</li>
+</ul>
+<ol>
+<li>Ctrl+鼠标滚轮；</li>
+<li>触控板双指捏合；</li>
+<li><code>Cmd</code>加<code>+/-</code>缩放
+<ol>
+<li>在Android Studio低版本中可用触控板双指捏合，2.3版本缩放功能关了</li>
+<li>绝大多数浏览器可以用<code>Cmd</code>加<code>+/-</code>缩放字体大小</li>
+</ol>
+</li>
+</ol>
+<h3 id="自动补全">自动补全</h3>
+<p>图中这样的情况：</p>
+<ol>
+<li>如果直接按回车键，被选项会插入到光标处，还需要手动删掉光标后面的内容；</li>
+<li>如果按Tab键，则备选项会直接替换当前的layout属性。</li>
+</ol>
+<p><img data-src="/blog-imgs/tech/android/images/427ab0b02d831a355e36d2ff469cd084.png" alt=""></p>
+<h2 id="Scope">Scope</h2>
+<p>Scope是IDEA中的一个通用概念，表示代码范围，可以是工程最终产出的代码（Production Files），也可以包括测试代码，可以包含Library，可以指定为某些文件、目录、包，也可以自己定义。</p>
+<p>在Find等功能中都可以使用Scope。</p>
+<p>很有用但往往不为人知的一个Scope是Project And Libraries，除了工程文件，还包括已经同步成功的AAR中的代码。</p>
+<p><img data-src="/blog-imgs/tech/android/images/a3f5e08d2b6054578bce694ce872c845.png" alt=""></p>
+<h2 id="查找与跳转">查找与跳转</h2>
+<ol>
+<li>
+<p>Main Menu - Edit - Find，所有搜索相关功能（包括当前设置的快捷键）</p>
+</li>
+<li>
+<p>Main Menu - View，所有查看相关功能</p>
+</li>
+<li>
+<p>Main Menu - Navigate，所有导航相关功能</p>
+</li>
+</ol>
+<h3 id="导航-跳转">导航/跳转</h3>
+<ol>
+<li>
+<p>Go To Definition 选中变量、方法、类等，跳转到定义（经典的<code>F3</code>）</p>
+</li>
+<li>
+<p>Navagate Back/Forward。往前、往后跳转。(<code>Cmd+[</code>/<code>Cmd+]</code>)</p>
+</li>
+<li>
+<p>点击父类/子类class和方法声明行左侧的上下箭头，可以跳转到父类/子类中的实现。</p>
+</li>
+</ol>
+<p><img data-src="/blog-imgs/tech/android/images/1d2c2ac7cbb1e7cf060461376ad8e2be.png" alt=""></p>
+<ol>
+<li>
+<p>Bookmarks</p>
+<ul>
+<li>
+<p>在代码任意行，选择Navigate - Bookmarks - Toggle Bookmark或定义的快捷键，可以添加、删除书签</p>
+</li>
+<li>
+<p>选择Navigate - Bookmarks - Show Bookmarks或定义的快捷键，可以看到所有书签</p>
+</li>
+<li>
+<p>应用场景：适合在多个文件的某几个地方反复切换的情况。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="查看">查看</h3>
+<ol>
+<li>
+<p>Recent Files 查看最近使用的文件（<code>Cmd+E</code>）</p>
+</li>
+<li>
+<p>Quick Documentation 选中变量、方法、类等，查看JavaDoc注释（<code>F2</code>）</p>
+</li>
+</ol>
+<ul>
+<li>按一下快捷键，悬浮窗查看注释</li>
+<li>继续按快捷键，可以在悬浮窗、独立小窗口、大窗口之间循环切换</li>
+</ul>
+<ol>
+<li>Type Hierarchy 选中类的声明，查看class继承关系（<code>F4</code>）</li>
+</ol>
+<h3 id="搜索">搜索</h3>
+<ol>
+<li>Find Usage 查看被调用情况（<code>Cmd+Shift+G</code>）</li>
+</ol>
+<ul>
+<li>默认搜索范围(Scope)是Project Files。可点击Find窗口的设置按钮，搜索范围指定为Project Files and Libraries(没有AAR包时没有这个选项)，则会包含AAR包中的调用。可参考后文中对Scope的说明。</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/android/images/1acebba179e907e2c65542fd06f69801.png" alt=""></p>
+<ol>
+<li>
+<p>Search Everywhere 查找文件、设置等（<code>Shift Shift</code>）</p>
+</li>
+<li>
+<p>当前文件中Find、Replace字符串（<code>Cmd+F</code>、修改为<code>Cmd+R</code>）</p>
+</li>
+<li>
+<p>所有文件中Find、Replace字符串（<code>Cmd+H</code>）</p>
+</li>
+<li>
+<p>指定文件夹中Find、Replace字符串：右击，搜索</p>
+</li>
+</ol>
+<h2 id="Project-Window">Project Window</h2>
+<p>点击Project视图上的设置按钮（齿轮图标），菜单中可以勾选：</p>
+<ol>
+<li>
+<p>Flatten Packages：所有的包都在同一级扁平显示，而不是树形折叠/展开形式，例如</p>
+<ol>
+<li><code>com.demo.main</code></li>
+<li><code>com.demo.main.ui</code></li>
+</ol>
+</li>
+<li>
+<p>Compact Empty Middle Packages：当一个package里只有一个子package，会扁平化显示在一行，而不是折叠展开的子目录形式，例如<code>com.demo.main</code></p>
+</li>
+<li>
+<p><code>com</code></p>
+</li>
+<li>
+<p><code>demo</code></p>
+</li>
+<li>
+<p><code>main</code></p>
+</li>
+<li>
+<p><code>com.demo.main</code></p>
+</li>
+<li>
+<p>Show Members：在Project窗口，class文件还能继续展开，查看具体的成员变量、方法。</p>
+</li>
+<li>
+<p>Autoscroll to Source：选择导航窗口中的文件、方法，会自动定位到源码对应位置。对于大工程容易卡顿，可以关掉。</p>
+</li>
+<li>
+<p>Autoscroll from Source：查看源码，会自动定位到导航窗口中的文件、方法。对于大工程容易卡顿，可以关掉。</p>
+</li>
+</ol>
+<p>当<code>Autoscroll from Source</code>关闭时，点击Project视图上的定位按钮（圆圈图标），可以从当前查看的源码定位到导航栏中的文件。</p>
+<p><img data-src="/blog-imgs/tech/android/images/5c3bf4a4f33e85091775f694f8d04b24.png" alt=""></p>
+<h2 id="Code-Style">Code Style</h2>
+<p>Java变量前缀(prefix)的设置</p>
+<ul>
+<li>
+<p>Code Style - Java - Code Generation - Naming - Name Prefix</p>
+</li>
+<li>
+<p>Field设置为m，Static Field设置为s</p>
+</li>
+<li>
+<p>设置完成后，自动补全时会自动处理变量前缀</p>
+</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/android/images/77098c50d271b60533178508412d5de1.png" alt=""></p>
+<h2 id="Reformat-Code">Reformat Code</h2>
+<ul>
+<li>
+<p>Main Menu - Code：代码格式化、补全、查看相关</p>
+</li>
+<li>
+<p>代码格式化（Ctrl+Shift+F）</p>
+</li>
+<li>
+<p>格式化完成时会展示一个小气泡，点击<code>Show reformat dialog</code>，可勾选：</p>
+<ul>
+<li>Optimize imports，自动优化imports</li>
+<li>Rearrange Code，按照一定规则，自动调整成员变量、方法、内部类的先后顺序</li>
+</ul>
+</li>
+<li>
+<p>Preferences - Editor - General - Auto Import - Optimize imports on the fly：编辑代码时自动优化import</p>
+</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/android/images/8c8dacdab50a29e0be158fc979b76baf.png" alt=""></p>
+<h2 id="Inspections、Analyze">Inspections、Analyze</h2>
+<p>Inspections是IDEA中用于代码静态检查的组件，包括语法检查、拼写检查等，IDEA的Android插件实现了Lint检查，也是基于Inspections的。</p>
+<ol>
+<li>
+<p>Preference - Editor - Inspections：代码检查</p>
+</li>
+<li>
+<p>配置分为Default和Project Default，作用范围分别是全局和当前工程</p>
+</li>
+<li>
+<p>Lint检查到代码问题会提示警告或错误</p>
+</li>
+<li>
+<p>Main Menu - Analyze - Inspect Code：在弹窗中选择Scope（范围），Inspection Profile（要检查的规则），可以对整个项目或指定Scope进行检查</p>
+</li>
+<li>
+<p>Main Menu - Analyze - Code Cleanup：在弹窗中选择Scope（范围），Inspection Profile（要检查的规则），可以对整个项目或指定Scope进行格式化、Lint问题自动修复、无用变量代码等自动优化</p>
+</li>
+<li>
+<p>Main Menu - Analyze - Analyze Dependencies：可以分析指定Scope中代码所有的依赖项。</p>
+</li>
+</ol>
+<h2 id="Code-Generation">Code Generation</h2>
+<ul>
+<li>
+<p>Prefrence - Editor - General - Postfix Completion：一些常用快捷输入，例如<code>fori</code>可直接输入循环<code>for (int i = 0; i &lt; foo; i++) &#123;&#125;</code></p>
+</li>
+<li>
+<p>Prefrence - Editor - Live Templates：快捷输入，例如<code>psvm</code>输入<code>public static void main(String[] args)&#123;&#125;</code>，也可以自己定义</p>
+</li>
+<li>
+<p>Main Menu - Code - Generate</p>
+</li>
+<li>
+<p>继承方法：直接输入父类方法名前缀，自动补全默认的继承方法</p>
+</li>
+<li>
+<p>输入set、get，自动创建setter、getter</p>
+</li>
+</ul>
+<h2 id="Intentions（Quick-Fixes）：没有做不到的，只有想不到的">Intentions（Quick Fixes）：没有做不到的，只有想不到的</h2>
+<p>Intentions意为“意图”，是IDEA中用于代码高级补全、自动修复的机制。在菜单Preference - Editor - Intentions中，可以查看和开关各种Intentions。</p>
+<p>在任意代码位置，打开Show Intention Actions 自动补全(<code>Cmd+1</code>)，即可选择Intentions Actions操作。</p>
+<ol>
+<li>
+<p>各种代码补全</p>
+<ul>
+<li>Parcelable补全实现</li>
+<li>创建构造函数</li>
+<li>变量赋值移动到声明</li>
+<li>…</li>
+</ul>
+</li>
+<li>
+<p>语法级别问题的自动优化/修复</p>
+<ul>
+<li>添加强制转换</li>
+<li>添加变量声明</li>
+<li>添加try-catch或方法增加throw…</li>
+<li>创建调用super的构造函数</li>
+<li>逻辑表达式化简、无用逻辑删除（例如<code>if(true)&#123; ... &#125;</code>）</li>
+</ul>
+</li>
+<li>
+<p>Android Lint问题自动修复（由IDEA中的Android插件实现）</p>
+</li>
+</ol>
+<ul>
+<li>解决Lint问题（例如Layout中的字符串提取到Strings中）
+<ul>
+<li>添加SupressLint</li>
+<li>可以关闭当前工程中的这类问题的检查，如图<br>
+<img data-src="/blog-imgs/tech/android/images/8586ded639df6f5a29683a35499ceb08.png" alt=""></li>
+</ul>
+</li>
+</ul>
+<h3 id="举例：快速创建字符串资源">举例：快速创建字符串资源</h3>
+<ol>
+<li>Layout文件中，text属性直接用了文本，没有引用String资源，会有Lint警告</li>
+<li>光标点选文本，按Intentions的快捷键，选择Extract string resource</li>
+<li>弹出窗口输入资源的id，确认即可</li>
+</ol>
+<h3 id="举例：快速创建XML资源文件">举例：快速创建XML资源文件</h3>
+<p>写Layout时，需要给ImageView写一个ShapeDrawable资源文件</p>
+<ol>
+<li>常规方法：</li>
+</ol>
+<ul>
+<li>从左侧找到Drawable目录</li>
+<li>右击，创建Drawable资源文件</li>
+<li>切换回Layout，引用创建的资源文件</li>
+</ul>
+<ol>
+<li>Intentions实现：直接在src属性中填上drawable文件的名字，会标红提示没有这个资源文件，按Intentions快捷键，选择<code>Create Drawable Resource File</code>，弹窗点击确认即可。</li>
+</ol>
+<h2 id="Refactor">Refactor</h2>
+<h3 id="Rename（Shift-F6）">Rename（Shift+F6）</h3>
+<ul>
+<li>
+<p>按Shift+F6重命名：变量、类名、文件名、文件夹、包名、资源文件等</p>
+</li>
+<li>
+<p>重命名变量，会弹窗提示是否同步重命名getter、setter</p>
+</li>
+<li>
+<p>默认注释中的名字也会被同步改变；资源文件中的引用也会改变</p>
+</li>
+<li>
+<p>连续按两次Shift+F6可以打开重命名窗口，勾选/取消勾选findInComment，避免修改到错误的地方</p>
+</li>
+</ul>
+<h4 id="要注意的坑">要注意的坑</h4>
+<ol>
+<li>
+<p>对于名字比较短的情况，特别是资源文件、id等，很容易和注释中的东西重名，重构过程中应该先看下引用，防止误修改到错误的内容。一般会自动打开Refactoring Preview窗口预览要改的所有位置，右击选择Exclude/Include可以包含、取消要改的地方。</p>
+</li>
+<li>
+<p>资源文件中的<code>.9.png</code>图片，重命名时容易丢失<code>.9</code>扩展名，需要特别注意</p>
+</li>
+</ol>
+<p><img data-src="/blog-imgs/tech/android/images/ca385f6c79d87f6a84c125f161d65b6d.png" alt=""></p>
+<h3 id="Move-Cmd-Alt-V">Move (Cmd+Alt+V)</h3>
+<ul>
+<li>移动package（多个module中相同的包会被同步移动）</li>
+<li>移动文件夹（不会处理其他module）</li>
+<li>移动文件、Class</li>
+<li>移动静态方法、常量</li>
+</ul>
+<p>举例：XXConstants的抽取</p>
+<p>通过Move，可以快速把代码中散落在各个文件中的SharedPreference常量，统一移动到名为SPConstants的interface中。</p>
+<h3 id="Change-Signature-Cmd-Alt-S">Change Signature (Cmd+Alt+S)</h3>
+<ul>
+<li>改变方法签名</li>
+<li>方法名可改变</li>
+<li>参数可以调整顺序、改变名字、类型等</li>
+<li>新增的参数，可以设置默认值，会尽可能自动匹配并填充</li>
+</ul>
+<h3 id="Extract与Inline">Extract与Inline</h3>
+<p>这里快捷键做过较多改动，目前我的设置是Inline统一用快捷键Cmd+Alt+I，Extract快捷键见括号。</p>
+<ul>
+<li>
+<p>Extract/Inline Constants (Cmd+Alt+C)</p>
+</li>
+<li>
+<p>Extract/Inline Field (Cmd+Alt+F)</p>
+</li>
+<li>
+<p>Extract/Inline Local Variable (Cmd+Alt+L)</p>
+</li>
+<li>
+<p>Extract/Inline Method (Cmd+Alt+M)</p>
+</li>
+<li>
+<p>勾选static可抽取成static方法</p>
+</li>
+<li>
+<p>可修改Parameter，同Change Signature</p>
+</li>
+<li>
+<p>Extract/Inline Class (右键菜单-Refactor)</p>
+</li>
+<li>
+<p>Extract/Inline Layout (右键菜单-Refactor)</p>
+</li>
+<li>
+<p>Extract/Inline Style (右键菜单-Refactor)</p>
+</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>
+<p>Extract Method如果选中的代码块中产生了超过一个后面会用到的变量，就不能直接Extract，默认会提示可以建一个Object实现</p>
+</li>
+<li>
+<p>Inline Method，如果Method中有分支return，就不能直接Inline，需要手动处理。</p>
+</li>
+</ul>
+<h4 id="举例：快速抽取工具类">举例：快速抽取工具类</h4>
+<ol>
+<li>
+<p>想抽取一个LogUtil方法，用于输出Log。</p>
+<ol>
+<li><code>void func() &#123;</code></li>
+<li><code>Log.d(&quot;tag&quot;, System.currentTimeMillis() + &quot;&quot;);</code></li>
+<li><code>&#125;</code></li>
+</ol>
+</li>
+<li>
+<p>选中<code>System.currentTimeMillis() + &quot;&quot;</code>，Extrac Variable。</p>
+</li>
+<li>
+<p><code>void func() &#123;</code></p>
+</li>
+<li>
+<p><code>String msg = System.currentTimeMillis() + &quot;&quot;;</code></p>
+</li>
+<li>
+<p><code>Log.d(&quot;tag&quot;, msg);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p>选中代码块<code>Log.d(&quot;tag&quot;, msg);</code>，Extrac Method。</p>
+</li>
+<li>
+<p>输入方法名，同时勾选static。</p>
+</li>
+<li>
+<p>Refactor-Move，移动到工具类。如果输入的工具类没建，还会提示并自动创建。</p>
+</li>
+<li>
+<p><code>public class LogUtils &#123;</code></p>
+</li>
+<li>
+<p><code>public static void log(String msg) &#123;</code></p>
+</li>
+<li>
+<p><code>Log.d(&quot;tag&quot;, msg);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>void func() &#123;</code></p>
+</li>
+<li>
+<p><code>String msg = System.currentTimeMillis() + &quot;&quot;;</code></p>
+</li>
+<li>
+<p><code>LogUtils.log(msg);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<h4 id="举例：内联接口和父类">举例：内联接口和父类</h4>
+<p>写了一个抽象类<code>class Cls implements MyInterface</code>，实现了接口，现在想把接口去掉，抽象方法直接定义在抽象类中</p>
+<ol>
+<li>光标选中MyInterface</li>
+<li>Inline</li>
+<li>选择As is</li>
+<li>注：继承类的情况也可以这么用，不过可能会有一些同名变量等冲突，需要手动再处理下。</li>
+</ol>
+<h4 id="举例：匿名内部类移到成员变量中">举例：匿名内部类移到成员变量中</h4>
+<ol>
+<li>
+<p>要将直接实例化的匿名类移到成员变量中，原代码如下。</p>
+<ol>
+<li><code>void f() &#123;</code></li>
+<li><code>setRunnable(new Runnable() &#123;</code></li>
+<li><code>@Override</code></li>
+<li><code>public void run() &#123;</code></li>
+<li><code>// ...</code></li>
+<li><code>&#125;</code></li>
+<li><code>&#125;);</code></li>
+<li><code>&#125;</code></li>
+</ol>
+</li>
+<li>
+<p>选中<code>new Runnable()&#123;&#125;</code>代码块，Refactor，Extract Field。</p>
+<ol>
+<li>
+<p><code>private Runnable mRunnable;</code></p>
+</li>
+<li>
+<p><code>void f() &#123;</code></p>
+</li>
+<li>
+<p><code>mRunnable = new Runnable() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void run() &#123;</code></p>
+</li>
+<li>
+<p><code>// ...</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>setRunnable(mRunnable);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+</li>
+<li>
+<p>Extract默认不会改变代码逻辑，Runnable的实例化和赋值还是在方法中，可以选择Intentions，<code>Move assignment to field declaration</code>，将赋值移到Field声明的地方。</p>
+<ol>
+<li>
+<p><code>private Runnable mRunnable = new Runnable() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void run() &#123;</code></p>
+</li>
+<li>
+<p><code>// ...</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>void f() &#123;</code></p>
+</li>
+<li>
+<p><code>setRunnable(mRunnable);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="举例：批量替换Deprecated方法">举例：批量替换Deprecated方法</h4>
+<ol>
+<li>
+<p>历史代码中，实现了一个Log工具类，且代码中有大量的调用。</p>
+</li>
+<li>
+<p>之后发现老的工具类定义不合理，打Log时不能指定Tag，于是新实现了一个Log工具类，并将原有的方法标记为Deprecated。</p>
+<ol>
+<li>
+<p><code>void f1() &#123;</code></p>
+</li>
+<li>
+<p><code>deprecated_log(&quot;my_msg_1&quot;);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>void f2() &#123;</code></p>
+</li>
+<li>
+<p><code>deprecated_log(&quot;my_msg_2&quot;);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>// ...</code></p>
+</li>
+<li>
+<p><code>@Deprecated</code></p>
+</li>
+<li>
+<p><code>void deprecated_log(String msg) &#123;</code></p>
+</li>
+<li>
+<p><code>Log.d(&quot;old_tag&quot;, msg);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>void log(String tag, String msg) &#123;</code></p>
+</li>
+<li>
+<p><code>Log.d(tag, msg);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+</li>
+<li>
+<p>现在想把老的工具类调用全部替换成新的工具类。手工替换非常繁琐而且容易出错，但是使用Inline可以很快解决问题。</p>
+</li>
+<li>
+<p>步骤一：修改deprecated方法，让其调用新的工具类。</p>
+<ol>
+<li><code>@Deprecated</code></li>
+<li><code>void deprecated_log(String msg) &#123;</code></li>
+<li><code>log(&quot;old_tag&quot;, msg);</code></li>
+<li><code>&#125;</code></li>
+</ol>
+</li>
+<li>
+<p>步骤二：选中deprecated方法调用的位置，Inline，选择<code>Inline all invocations and remove the method</code>，确认，则所有Deprecated方法都会被内联成新的工具方法。</p>
+</li>
+</ol>
+<h3 id="Refactor-Members">Refactor Members</h3>
+<ul>
+<li>Push Members Up</li>
+<li>Pull Members Down</li>
+</ul>
+<p>举例：写了一个Class，现在想将其中一些方法抽取成接口</p>
+<ol>
+<li>class implements MyInterface</li>
+<li>自动补全，创建MyInterface</li>
+<li>Pull Members Up</li>
+<li>选中新建的接口，勾选要抽取的方法</li>
+<li>Done</li>
+</ol>
+<h2 id="TODO">TODO</h2>
+<p>代码注释中增加<code>TODO</code>，在IDEA中默认会显示成蓝色；在TODO窗口中可以看到所有的TODO，且可以设置Scope过滤。</p>
+<h3 id="应用场景举例">应用场景举例</h3>
+<ul>
+<li>
+<p>在重构老代码时特别有用，因为有很多小的点，可能在新的代码结构中一时不好实现，可以加个TODO后期再完成。</p>
+</li>
+<li>
+<p>需求开发过程中有一些需要等待确认的点，可以先写一个TODO。</p>
+</li>
+<li>
+<p>开发过程中用代码实现了一些假数据，开发完了要删掉，可以写一个TODO避免后面忘记删。</p>
+</li>
+</ul>
+<h2 id="Debug">Debug</h2>
+<h3 id="Attach">Attach</h3>
+<p>对于设备上已经运行的Debug版App，点击<code>Attach debugger to Android process</code>，选择进程即可调试，不需要重新编译安装。如果改动的代码和被调试代码无关且不影响行号，也不需要重新编译安装。</p>
+<p><img data-src="/blog-imgs/tech/android/images/ac4e159df0b52713387519cc6a4833fe.png" alt=""></p>
+<h3 id="变量">变量</h3>
+<h4 id="修改变量值">修改变量值</h4>
+<p>在Variables窗口会显示当前所有变量，右击变量 - Set Value，可以直接修改值。</p>
+<p><img data-src="/blog-imgs/tech/android/images/cc8c7b8b1e012a99e8ec7295a3d7e64a.png" alt=""></p>
+<h4 id="查看变量和表达式的值">查看变量和表达式的值</h4>
+<p>在Watches窗口点加号，可以添加和查看变量、表达式的值。点击<code>Show watches in variables tab</code>按钮，可以切换Watches显示成独立窗口，还是和Variables显示在一起。</p>
+<p><img data-src="/blog-imgs/tech/android/images/31f2fe5f79db11c277b79886d06c6d50.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/android/images/ea40e130cd4f96d2566196607c95ac30.png" alt=""></p>
+<h3 id="断点">断点</h3>
+<h4 id="查看断点">查看断点</h4>
+<p>点击View Breakpoints可以查看所有断点，快速启用、禁用、删除断点。</p>
+<p><img data-src="/blog-imgs/tech/android/images/18608bdac341663f1b2da4c48f1d4f8f.png" alt=""></p>
+<h4 id="禁用断点">禁用断点</h4>
+<p>点击Mute Breakpoints，可以临时快速禁用所有断点。</p>
+<p><img data-src="/blog-imgs/tech/android/images/10e2d554a1b0f03c095df7d86226bba7.png" alt=""></p>
+<h4 id="变量断点、方法断点">变量断点、方法断点</h4>
+<p>单击成员变量、方法定义行的左侧，可打变量断点、方法断点。只要有对变量、方法的访问，就会断点。</p>
+<h4 id="条件断点">条件断点</h4>
+<p>单击代码左侧可以打断点，右击红色断点标志，在弹窗的Condition中输入返回boolean的表达式，即可作为条件断点，当表达式成立时就会断点</p>
+<p><img data-src="/blog-imgs/tech/android/images/c2fb9391e62bd5d9dc19513b63ba7a23.png" alt=""></p>
+<h2 id="Gradle">Gradle</h2>
+<h3 id="Gradle-Sync">Gradle Sync</h3>
+<p>Android Studio中，会通过Gradle Sync的过程，下载更新所有依赖项，将JAR/AAR源码或class关联到工程，输出到<code>build/generated</code>目录，建立起代码之间的关联，从而实现代码跳转、补全等功能。</p>
+<p>从Gradle Console的输出可以看到，实际执行的是<code>prepareComXxx</code>，<code>generateXxx</code>等Gradle Task。</p>
+<p>除了修改Gradle脚本、编译，Sync操作也可以直接点击工具栏或Gradle Projects窗口中的按钮触发。</p>
+<p><img data-src="/blog-imgs/tech/android/images/02ae7baa23e2844b9afc638e1b6964a5.png" alt=""></p>
+<h3 id="Run-Configurations">Run Configurations</h3>
+<p>点击运行的三角形时，默认会执行编译(gradle assemble)、安装(gradle install)等操作，可以在Edit Configurations窗口中，指定同时要执行的其他Gradle任务，如图。</p>
+<p><img data-src="/blog-imgs/tech/android/images/89c479b8f2c957e1ce08a346856b0c4a.png" alt=""></p>
+<h2 id="Version-Control">Version Control</h2>
+<p>Version Control包括git、CVS等版本控制工具（以插件形式安装），以及Android Studio自带的版本控制（代码修改的撤销等）。</p>
+<ul>
+<li>
+<p>Preferences - Version Control：可设置IDE保存的可以回退的历史记录条数，还有常用的git项目关联。</p>
+</li>
+<li>
+<p>关联git后，右击代码窗口左侧 - Annotate，可以查看最近的git修改记录。</p>
+</li>
+<li>
+<p>更多git功能可以在Main Menu - VCS - git中找到。</p>
+</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/android/images/4eea452273955b0ef125c2f4d19593a5.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/android/images/b70ee4e704d67b1239d49de92a49b674.png" alt=""></p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-bitmap/" rel="bookmark">Android Bitmap操作内存问题总结(图片处理、截屏等)</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/glide-study/" rel="bookmark">Glide使用简介与源码分析</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-7-ratingbar-bug/" rel="bookmark">Android 7.0中RatingBar评星点击区域不准确的解决</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"># 安卓</a>
+              <a href="/tags/AndroidStudio/" rel="tag"># AndroidStudio</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/fragment-visibility/" rel="prev" title="Android Fragment可见性的判断与监听完全实现">
+      <i class="fa fa-chevron-left"></i> Android Fragment可见性的判断与监听完全实现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/android-7-ratingbar-bug/" rel="next" title="Android 7.0中RatingBar评星点击区域不准确的解决">
+      Android 7.0中RatingBar评星点击区域不准确的解决 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B%EF%BC%8C%E5%BF%85%E5%85%88%E5%88%A9%E5%85%B6%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">工欲善其事，必先利其器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%9A%84%E5%AF%BC%E5%85%A5-%E5%AF%BC%E5%87%BA"><span class="nav-number">2.1.</span> <span class="nav-text">设置的导入&#x2F;导出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Help-Search"><span class="nav-number">3.</span> <span class="nav-text">Help - Search</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KeyMap"><span class="nav-number">4.</span> <span class="nav-text">KeyMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%BE%91"><span class="nav-number">5.</span> <span class="nav-text">编辑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="nav-number">5.1.</span> <span class="nav-text">自动补全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scope"><span class="nav-number">6.</span> <span class="nav-text">Scope</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E4%B8%8E%E8%B7%B3%E8%BD%AC"><span class="nav-number">7.</span> <span class="nav-text">查找与跳转</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA-%E8%B7%B3%E8%BD%AC"><span class="nav-number">7.1.</span> <span class="nav-text">导航&#x2F;跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B"><span class="nav-number">7.2.</span> <span class="nav-text">查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2"><span class="nav-number">7.3.</span> <span class="nav-text">搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Project-Window"><span class="nav-number">8.</span> <span class="nav-text">Project Window</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code-Style"><span class="nav-number">9.</span> <span class="nav-text">Code Style</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reformat-Code"><span class="nav-number">10.</span> <span class="nav-text">Reformat Code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inspections%E3%80%81Analyze"><span class="nav-number">11.</span> <span class="nav-text">Inspections、Analyze</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Code-Generation"><span class="nav-number">12.</span> <span class="nav-text">Code Generation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intentions%EF%BC%88Quick-Fixes%EF%BC%89%EF%BC%9A%E6%B2%A1%E6%9C%89%E5%81%9A%E4%B8%8D%E5%88%B0%E7%9A%84%EF%BC%8C%E5%8F%AA%E6%9C%89%E6%83%B3%E4%B8%8D%E5%88%B0%E7%9A%84"><span class="nav-number">13.</span> <span class="nav-text">Intentions（Quick Fixes）：没有做不到的，只有想不到的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B%EF%BC%9A%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%B5%84%E6%BA%90"><span class="nav-number">13.1.</span> <span class="nav-text">举例：快速创建字符串资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B%EF%BC%9A%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BAXML%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6"><span class="nav-number">13.2.</span> <span class="nav-text">举例：快速创建XML资源文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refactor"><span class="nav-number">14.</span> <span class="nav-text">Refactor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rename%EF%BC%88Shift-F6%EF%BC%89"><span class="nav-number">14.1.</span> <span class="nav-text">Rename（Shift+F6）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E5%9D%91"><span class="nav-number">14.1.1.</span> <span class="nav-text">要注意的坑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Move-Cmd-Alt-V"><span class="nav-number">14.2.</span> <span class="nav-text">Move (Cmd+Alt+V)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Change-Signature-Cmd-Alt-S"><span class="nav-number">14.3.</span> <span class="nav-text">Change Signature (Cmd+Alt+S)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extract%E4%B8%8EInline"><span class="nav-number">14.4.</span> <span class="nav-text">Extract与Inline</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B%EF%BC%9A%E5%BF%AB%E9%80%9F%E6%8A%BD%E5%8F%96%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="nav-number">14.4.1.</span> <span class="nav-text">举例：快速抽取工具类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B%EF%BC%9A%E5%86%85%E8%81%94%E6%8E%A5%E5%8F%A3%E5%92%8C%E7%88%B6%E7%B1%BB"><span class="nav-number">14.4.2.</span> <span class="nav-text">举例：内联接口和父类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B%EF%BC%9A%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E7%A7%BB%E5%88%B0%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%AD"><span class="nav-number">14.4.3.</span> <span class="nav-text">举例：匿名内部类移到成员变量中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B%EF%BC%9A%E6%89%B9%E9%87%8F%E6%9B%BF%E6%8D%A2Deprecated%E6%96%B9%E6%B3%95"><span class="nav-number">14.4.4.</span> <span class="nav-text">举例：批量替换Deprecated方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Refactor-Members"><span class="nav-number">14.5.</span> <span class="nav-text">Refactor Members</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TODO"><span class="nav-number">15.</span> <span class="nav-text">TODO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B"><span class="nav-number">15.1.</span> <span class="nav-text">应用场景举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug"><span class="nav-number">16.</span> <span class="nav-text">Debug</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Attach"><span class="nav-number">16.1.</span> <span class="nav-text">Attach</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">16.2.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%8F%98%E9%87%8F%E5%80%BC"><span class="nav-number">16.2.1.</span> <span class="nav-text">修改变量值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%8F%98%E9%87%8F%E5%92%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%80%BC"><span class="nav-number">16.2.2.</span> <span class="nav-text">查看变量和表达式的值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%AD%E7%82%B9"><span class="nav-number">16.3.</span> <span class="nav-text">断点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%AD%E7%82%B9"><span class="nav-number">16.3.1.</span> <span class="nav-text">查看断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%81%E7%94%A8%E6%96%AD%E7%82%B9"><span class="nav-number">16.3.2.</span> <span class="nav-text">禁用断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%96%AD%E7%82%B9%E3%80%81%E6%96%B9%E6%B3%95%E6%96%AD%E7%82%B9"><span class="nav-number">16.3.3.</span> <span class="nav-text">变量断点、方法断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E6%96%AD%E7%82%B9"><span class="nav-number">16.3.4.</span> <span class="nav-text">条件断点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradle"><span class="nav-number">17.</span> <span class="nav-text">Gradle</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradle-Sync"><span class="nav-number">17.1.</span> <span class="nav-text">Gradle Sync</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-Configurations"><span class="nav-number">17.2.</span> <span class="nav-text">Run Configurations</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Version-Control"><span class="nav-number">18.</span> <span class="nav-text">Version Control</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

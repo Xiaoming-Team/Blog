@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="2014-11-22更新：感谢Ireland同学的提醒，修改了PNP型三极管驱动电路，蜂鸣器从三极管的发射极改到了集电极，这样效果会更好，电路也更合理。同时增加了备注4。 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单片机小白学步(22) IO口：蜂鸣器的使用&#x2F;三极管的工作原理">
+<meta property="og:url" content="https://www.xiaoming.io/mcu-primer-22/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="2014-11-22更新：感谢Ireland同学的提醒，修改了PNP型三极管驱动电路，蜂鸣器从三极管的发射极改到了集电极，这样效果会更好，电路也更合理。同时增加了备注4。 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/00031b7992070433a03f7f191c1f0772.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/9e57d5a81bdd6ced24238f43169c8d3a.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/5c6c05bc52a47e8b98d50bd8509ede04.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/8f5e8d753d4dab09c77705793b1f0a7d.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/c7d81705ba5b22f04135ff4e7e4b67e0.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/f218676eddd043036e5ca960cea1d42a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/41b4561344627ca18cb7b0b2172708c7.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/3f5d01802108324b9d66a94c9dd319fa.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/fdf08f882996368d1b092a7a9518deea.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/e2ea2c2f1a9725a535923901ba53cc8b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/b3327495460ba6d885bc65cd37c75d73.png">
+<meta property="article:published_time" content="2014-11-18T12:58:22.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.773Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="电路设计">
+<meta property="article:tag" content="硬件开发">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="入门">
+<meta property="article:tag" content="#单片机小白学步#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/00031b7992070433a03f7f191c1f0772.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/mcu-primer-22/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/mcu-primer-22/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-11-18 20:58:22" itemprop="dateCreated datePublished" datetime="2014-11-18T20:58:22+08:00">2014-11-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mcu-primer/" itemprop="url" rel="index"><span itemprop="name">单片机小白学步</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/mcu-primer-22/" class="post-meta-item leancloud_visitors" data-flag-title="单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/mcu-primer-22/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/mcu-primer-22/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>2014-11-22更新：感谢Ireland同学的提醒，修改了PNP型三极管驱动电路，蜂鸣器从三极管的发射极改到了集电极，这样效果会更好，电路也更合理。同时增加了备注4。</p>
+<p>======================================</p>
+<p>这一篇继续上一篇的内容，我们来做实验四：按键控制有源蜂鸣器，按下按键蜂鸣器响，释放按键不响。</p>
+<h2 id="蜂鸣器">蜂鸣器</h2>
+<p>实验四之前简单介绍下蜂鸣器。蜂鸣器有两种，无源蜂鸣器和有源蜂鸣器，一般用于发出报警的声音。声音是由震动产生的，大家都见过喇叭，喇叭里面有磁铁和线圈。给线圈通上不断变化的电压，在磁铁产生的磁场中就会运动。于是和线圈固定在一起的振膜就会震动，于是就能听见声音了，而无源蜂鸣器和喇叭效果基本一样。和无源蜂鸣器不同的是，有源蜂鸣器内部就有发声电路，通上电压合适的直流电就会发出叫声。另外，有源蜂鸣器有正负极之分。图中是常用的一种工作电压为5V的有源蜂鸣器，正面标有加号的一侧引脚为正极，如果器件是全新的没有剪过引脚，正极引脚比负极长。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/00031b7992070433a03f7f191c1f0772.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/9e57d5a81bdd6ced24238f43169c8d3a.jpg" alt=""></p>
+<h2 id="驱动电路">驱动电路</h2>
+<p>从上面的介绍来看，有源蜂鸣器和LED一样，只要通电就能工作（如果没有特殊说明，后面蜂鸣器就是指有源蜂鸣器）。但是为什么要单独作为一个实验呢？</p>
+<p>前面我们说了，单片机IO口能通过的电流是有限的，过大的电流可能会烧坏管脚，或者不能正常工作。蜂鸣器和LED相比最主要的区别，就是蜂鸣器比LED需要的电流大很多，电压一般也会高一些。</p>
+<p>为了让单片机驱动蜂鸣器，也就是控制蜂鸣器工作，我们需要使用一些特别的电路。不知道大家是否了解继电器，继电器的特点就是用小电流低电压，控制大电流高电压电路。但是一般的继电器控制端需要的电流，对于单片机来说还是太大了，而且继电器价格比较高，能控制很大的电流，用在这里大材小用了。而这里我们要用的器件是三极管。</p>
+<h2 id="三极管基本介绍">三极管基本介绍</h2>
+<p>三极管的作用主要是放大电流。和名字一样，三极管有三个管脚：发射极、基极、集电极，分别简写为E、B、C。有两种类型，PNP型和NPN型，两种类型的三极管工作时电流方向恰好相反，电路符号也不相同，如图所示。发射极上的箭头正是表示工作时电流方向的。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/5c6c05bc52a47e8b98d50bd8509ede04.png" alt=""></p>
+<p>三极管有很多参数，实际的三极管也有很多种，封装也各种各样。下图是常见的TO-92封装的直插式小功率三极管。注意，这种外形只是封装，并不是三极管专用，也有其他器件会用这样的封装，具体要看上面标示的器件型号，例如图中的S9012表示它是9012三极管。像图中一样管脚朝下放置，半圆柱的平面正对自己，从左往右三个管脚分别是E、B、C。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/8f5e8d753d4dab09c77705793b1f0a7d.jpg" alt=""></p>
+<h2 id="三极管作为电子开关使用">三极管作为电子开关使用</h2>
+<p>三极管有三种工作状态，截止区、放大区、饱和区。在放大区，可以放大电信号，我们用的扩音器等设备就可以通过三极管实现。在单片机中我们主要利用三极管的截止区和饱和区，作电子开关使用，常用下面这样的电路图。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/c7d81705ba5b22f04135ff4e7e4b67e0.png" alt=""></p>
+<p>左图和右图分别是NPN、PNP型三极管的电路图。R1、S1和R2、S2相当于单片机IO口，三极管集电极接蜂鸣器。NPN型电路控制蜂鸣器高电平有效，即IO口输出高电平的时候，蜂鸣器就会响。PNP型反之。为了方便观察，我接的是LED，和蜂鸣器是一样的道理，可以看到图中LED就点亮了。注意三极管的管脚位置不可接反，要驱动的负载即图中的LED也不能接反。</p>
+<p>常用PNP三极管有9012、8550等，NPN三极管有9013，8050等。</p>
+<p>三极管的原理和很详细的工作情况分析，需要不少的计算过程，有兴趣的读者可以查看模拟电路相关的书籍资料。文章末尾也会简单分析三极管工作机制，有兴趣的同学可以看看。如果觉得难以理解，学习单片机过程中，可以不做深入研究。</p>
+<h2 id="电路设计">电路设计</h2>
+<p>程序的实现和点亮LED差不多，不过要看你的电路确定是高电平还是低电平有效。按照前面的三极管电路，我们可以用9012实现蜂鸣器驱动电路，低电平有效，电路图如下，注意蜂鸣器的正负极不能接反。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/f218676eddd043036e5ca960cea1d42a.png" alt=""></p>
+<p>图中P1.0上接的LED还放在那（当然也可以去掉），P2.0上接了按键开关，P2.1上连接了三极管驱动的蜂鸣器。</p>
+<p>我用面包板搭建的电路。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/41b4561344627ca18cb7b0b2172708c7.jpg" alt=""></p>
+<p>备注：三极管在这里起到开关的状态，建议优先考虑使用PNP型三极管电路。因为三极管的作用是放大电流，对于同一个三极管而言，如果要输出更大的电流，一般就要在基极输入更大电流。而使用PNP型电路时，IO口输出低电平有效，对于单片机来说是灌电流，此时基极能提供的电流更大，从而提供更大电流以驱动蜂鸣器。我在实际测试时，如果使用NPN型三极管9013，可以驱动LED，但不足以驱动蜂鸣器，除非自己给IO口再外接一个上拉电阻。</p>
+<h2 id="程序实现">程序实现</h2>
+<p>首先是定义LED、按键、蜂鸣器三个IO口</p>
+<p>sbit LED = P1^0;</p>
+<p>sbit KEY = P2^0;</p>
+<p>sbit BUZZER = P2^1;</p>
+<p>然后先设置KEY=1，然后在主循环中处理即可。这里我用的是PNP驱动，蜂鸣器和LED一样，是低电平有效。</p>
+<p>void main()</p>
+<p>{</p>
+<p>KEY = 1;</p>
+<p>while(1) {</p>
+<p>LED = KEY;</p>
+<p>BUZZER = KEY;</p>
+<p>}</p>
+<p>}</p>
+<p>搭建完电路并烧写好程序，按下按键，LED会被点亮，同时蜂鸣器就能发出声音了。</p>
+<h2 id="三极管工作机制简要分析">三极管工作机制简要分析</h2>
+<p>三极管的特性分析比较复杂，这里我通过仿真进行简单介绍，三极管的原理和更多的深入知识，可以查阅相关模拟电路书籍。下图是我用Multisim软件仿真的电路（如果有兴趣自己仿真，请自行安装学习Multisim软件）。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/3f5d01802108324b9d66a94c9dd319fa.png" alt=""></p>
+<p>图中左边的VCC通过可调电阻Rp分压，接到三极管基极，右边VCC通过一个电阻接到三极管集电极，三极管发射极接地。两个绿色箭头是Multisim中的探针，可以在黄色的框中显示导线上通过的电流大小，以及导线上的电压（也就是相对于GND的电压）。</p>
+<p>我们把这个电路看成两个电流通路，分别是由紫色和橙色箭头标注。调节Rp到合适的位置，就会有电流通过基极，大小为Ib，也就是紫色通路的电流。由于三极管的特性，Ic即橙色通路的电流也会根据Ib而变化。从图中也可以看出来，左右两个探针显示的直流电流I(dc)分别为1.71nA和172nA（即Ib和Ic）。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/fdf08f882996368d1b092a7a9518deea.png" alt=""></p>
+<p>如果调节Rp，如图Ib=3.33uA，此时Ic=333uA。多调整几次并观察结果，可以发现在一定范围内，始终近似有Ic=100*Ib（在模拟电路中，常直接用等号代表约等于，误差在所难免）。这正是三极管的放大特性。如果在基极接的是话筒，在集电极接喇叭，就可以放大声音信号了。当然实际电路还需要添加一些器件。而这里的100就是图中三极管的放大倍率，是三极管很重要的一个参数（所谓参数，就像电阻的阻值一样的道理）。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/e2ea2c2f1a9725a535923901ba53cc8b.png" alt=""></p>
+<p>如果调节Rp，使基极电流Ib很大，例如图中Ib=1mA，此时Ic只有4.95mA，而不是100mA，不满足前面的条件了。前面说的是在一定范围内，Ic=100*Ib，也就是两者成正比，叫做三极管的线性区，也叫放大区。而如果基极和发射极之间电压太大，超过一定范围，就进入了三极管的饱和区，Ic的值比较大；反之，如果电压太小就会进入截止区，在截止区，Ic很小，几乎为0。正是利用这个特性，我们可以把单片机IO口接在基极，而在三极管集电极连接蜂鸣器，从而进行控制。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/b3327495460ba6d885bc65cd37c75d73.png" alt=""></p>
+<p>备注1：仿真电路有很大的局限性，只能在一定程度上模拟实际电路。实际电路很复杂，例如导线有电阻，但是仿真软件的设计很难考虑这么多因素，还有一些目前仍然未知的问题也不能考虑到。所以仿真结果只能作为参考。例如上面这个电路，我发现即使不断调节Rp，让滑片直接移动到5V的那一端，基极电压却仍然没有达到5V，和实际电路中并不相符。</p>
+<p>备注2：前面说单片机IO口使用了电子开关，就类似于上面的三极管电路，不过单片机中实际用的一般是MOS管。</p>
+<p>备注3：为了让三极管工作在放大区，常常使用电阻使基极和发射极之间电压保持在一定的范围内。这个过程叫做静态工作点的设置。设置好静态工作点，然后在其上叠加需要放大的幅度较小的交流信号（如果直接加交流信号，不会工作在放大区）。</p>
+<p>备注4：三极管作为电子开关时，虽然不工作在放大区，但是仍然起到了电流放大的作用，只是不满足线性区的放大倍数关系。上图中的Rp如果换成一个固定电阻和一个阻值随温度变化的热敏电阻，三极管放大倍数足够大的情况下，就可以做成热敏开关，可以根据温度控制LED的开关，而电子开关也因此得名。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-16/" rel="bookmark">单片机小白学步(16) 单片机/计算机系统概述：模块化思想</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-15/" rel="bookmark">单片机小白学步(15) 单片机程序下载失败总结</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/macro-photography/" rel="prev" title="微距摄影原理、器材和拍摄技巧">
+      <i class="fa fa-chevron-left"></i> 微距摄影原理、器材和拍摄技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/college-last-three-month/" rel="next" title="【转】大学生活的最后三个月，这将会是我孤独奋战的日子吗——有感于西交教授、华为培训及与其员工的交流，写给西电的朋友们">
+      【转】大学生活的最后三个月，这将会是我孤独奋战的日子吗——有感于西交教授、华为培训及与其员工的交流，写给西电的朋友们 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%9C%82%E9%B8%A3%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">蜂鸣器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E7%94%B5%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">驱动电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%9E%81%E7%AE%A1%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">三极管基本介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%9E%81%E7%AE%A1%E4%BD%9C%E4%B8%BA%E7%94%B5%E5%AD%90%E5%BC%80%E5%85%B3%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">三极管作为电子开关使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1"><span class="nav-number">5.</span> <span class="nav-text">电路设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0"><span class="nav-number">6.</span> <span class="nav-text">程序实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%9E%81%E7%AE%A1%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6%E7%AE%80%E8%A6%81%E5%88%86%E6%9E%90"><span class="nav-number">7.</span> <span class="nav-text">三极管工作机制简要分析</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

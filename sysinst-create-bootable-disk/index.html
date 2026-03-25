@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="启动盘是什么 所谓启动盘，就是能启动电脑的盘（说了等于没说……）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装系统不求人——利用Grub4dos打造万能启动盘">
+<meta property="og:url" content="https://www.xiaoming.io/sysinst-create-bootable-disk/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="启动盘是什么 所谓启动盘，就是能启动电脑的盘（说了等于没说……）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/e8da177f4b2a54273323707e412849b5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/53cb4680674b99b9200c6f2771dbfe27.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/8dcffb7e8be94fc9fbb7c28931938b5d.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/e6b7f5515b2075b11e804003c0468f1b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/f6e496b0406ccc9a3fc9076e3cd6af38.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/6d2537b318a31d87b677b45b28768a48.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/fa22b9b81c689191a6dcb17f58fd5b9e.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/d2bee5d8b06b28b001222d6d58786e82.png">
+<meta property="article:published_time" content="2015-04-02T09:02:20.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.872Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="#装系统不求人#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/e8da177f4b2a54273323707e412849b5.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/sysinst-create-bootable-disk/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>装系统不求人——利用Grub4dos打造万能启动盘 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/sysinst-create-bootable-disk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          装系统不求人——利用Grub4dos打造万能启动盘
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-02 17:02:20" itemprop="dateCreated datePublished" datetime="2015-04-02T17:02:20+08:00">2015-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sysinst/" itemprop="url" rel="index"><span itemprop="name">装系统不求人</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sysinst-create-bootable-disk/" class="post-meta-item leancloud_visitors" data-flag-title="装系统不求人——利用Grub4dos打造万能启动盘" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sysinst-create-bootable-disk/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sysinst-create-bootable-disk/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="启动盘是什么">启动盘是什么</h2>
+<p>所谓<strong>启动盘</strong>，就是能启动电脑的盘（说了等于没说……）</p>
+<p>电脑之所以能开机，因为我们有装<strong>操作系统</strong>，操作系统一般是装在电脑硬盘里的。这种常识就不多解释了，如果完全不知道硬盘是什么也从没听说过，请自觉放弃本系列文章。</p>
+<p>很多时候电脑不开机了，那通常都是因为硬盘或者硬盘里面的系统挂掉了。这个时候怎么办呢？电脑都不开机了还怎么修电脑……这个时候神奇的启动盘就派上用场了。</p>
+<p>简单来说，所谓启动盘就是<strong>装了系统的U盘、光盘等</strong>。启动U盘插上电脑，就可以设置从U盘启动进入系统，然后对挂掉的硬盘或其中的操作系统胡作非为了。</p>
+<p>所谓操作系统，其实也就是一堆文件。一开始学电脑的时候，老师都会说，大家没事千万不敢乱动C盘里面的东西，因为C盘里面装的好多系统文件。</p>
+<h2 id="老板，给我来一斤启动盘">老板，给我来一斤启动盘</h2>
+<p>下面我们来制造启动U盘。有网的没网的，先戳这里下载附件吧：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1c08NJs0">http://pan.baidu.com/s/1c08NJs0</a></p>
+<p>需要下载这两个文件：</p>
+<ul>
+<li>bootable-drive-files 万能启动盘文件</li>
+<li>grub-tools 万能启动盘工具包</li>
+</ul>
+</blockquote>
+<h3 id="一、U盘格式化成HDD格式">一、U盘格式化成HDD格式</h3>
+<p>U盘和电脑硬盘是有区别的（废话），这里我们通过软件，将U盘格式化成硬盘的HDD格式。</p>
+<blockquote>
+<p>如果你是电脑小白，并且电脑不是很古老（比如五年前的）的那种，可以直接忽略这一段。下面的话主要是给有一定基础、可能会对我的方法质疑的读者看的：因为现在的绝大多数电脑都能较好的支持USB HDD格式，所以这里直接做的HDD格式启动盘。如果是比较古老的电脑，不支持这种格式，可以考虑从网上找找其他的启动盘制作教程。</p>
+</blockquote>
+<ol>
+<li>
+<p>格式化前赶紧先把U盘里面的文件复制出来，因为U盘格式化了里面文件就没了（要是<strong>格式化</strong>这么可怕的名词也毫无概念，那……百度搜索吧，别告诉我百度你也不知道是什么意思……）。</p>
+</li>
+<li>
+<p>机智的你右击了附件<code>grub-tools</code>中的“USB格式化工具”，并选择“以管理员身份运行”（如果是XP系统直接双击就可以了）。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/e8da177f4b2a54273323707e412849b5.png" alt=""></p>
+</li>
+<li>
+<p>如图选择你的U盘，文件系统选FAT32，勾选Quick Format，点击Start。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/53cb4680674b99b9200c6f2771dbfe27.png" alt=""></p>
+</li>
+<li>
+<p>会弹出对话框告诉你：“喂，U盘里所有的文件都会丢失，你真的确定一定以及肯定要执行格式化操作吗？”已经备份过U盘文件的你，眼睛都没眨一下就点了“是”。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/8dcffb7e8be94fc9fbb7c28931938b5d.jpg" alt=""></p>
+</li>
+<li>
+<p>不到半分钟就搞定了：“看，我已经把你的U盘格式化了哦~感觉自己萌萌哒~blablablablablablabla……”</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/e6b7f5515b2075b11e804003c0468f1b.png" alt=""></p>
+</li>
+</ol>
+<h3 id="二、给U盘装上Grub4dos">二、给U盘装上Grub4dos</h3>
+<p>Grub4dos是一个BootLoader，或者翻译成中文大概是“启动器”吧。BootLoader干什么的？就是用来启动系统的。比如你或许见过装有多个系统的电脑刚开机时会让你选择启动哪个系统，那就是BootLoader给出的提示。</p>
+<ol>
+<li>
+<p>右击grubinst_gui.exe这货，以管理员身份运行（同样XP系统还是直接双击就行）。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/f6e496b0406ccc9a3fc9076e3cd6af38.png" alt=""></p>
+</li>
+<li>
+<p>注意了，<strong>磁盘一定要要选择你的U盘</strong>！！不能误选了电脑硬盘！！你可以根据容量来判断哪个是U盘。这里的容量是以MB为单位的，比如我的16GB U盘，容量大概是16000MB。千万别选错了这个，要不然装到电脑硬盘上，你的电脑就挂掉不能开机了，那就只好求人了（严重违背了“装系统不求人”的初衷好么）。</p>
+</li>
+<li>
+<p>选项里面，勾选“不保存原来MBR”“不引导原来MBR”“启动时不搜索软盘”三项。请强迫症用户<strong>再次检查磁盘有没有选错</strong>……最后点击“安装”。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/6d2537b318a31d87b677b45b28768a48.png" alt=""></p>
+</li>
+<li>
+<p>一个幽灵一样的黑窗口弹出，提醒你安装完成。这时你可以把它们都关掉了。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/fa22b9b81c689191a6dcb17f58fd5b9e.jpg" alt=""></p>
+</li>
+</ol>
+<h3 id="三、复制系统文件">三、复制系统文件</h3>
+<p>前面变态的两步搞定了，这一步就很平民化了，往U盘复制文件，简单吧。把附件中的<code>bootable-drive-files</code>文件夹下的内容都复制到U盘的根目录，结果如图。</p>
+<blockquote>
+<p><strong>强迫症患者不要随便改每个文件的名字</strong>，以免电脑爆炸，后果自负~~⊙▽⊙</p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/sysinst/images/d2bee5d8b06b28b001222d6d58786e82.png" alt=""></p>
+<h2 id="启动盘搞定">启动盘搞定</h2>
+<p>启动盘搞好了，神器已经在你手上了，妈妈再也不用担心我没有启动盘了 O(∩_∩)O~~</p>
+<p>从此以后，你的U盘不仅能作为启动盘使用，也可以用来保存自己的文件。如果你想一直保留启动盘功能，<strong>不要再格式化U盘</strong>，也<strong>别删掉刚才复制进来的那些文件</strong>。当然不嫌麻烦的你，可以在每次需要启动盘的时候，再照着本文做一遍 Orz</p>
+<h3 id="送给强迫症的小礼物">送给强迫症的小礼物</h3>
+<p>身患不治之症强迫症的同学看着这些文件一定很难受，万一哪天不小心删了怎么办？一种简单有效的解决方法就是将它们藏起来~</p>
+<p>把附件<code>grub-tools</code>中的<code>Show_Hide_Files.bat</code>文件也复制到U盘根目录，双击运行。然后按F5刷新，正常情况下你会发现那几个文件都奇迹般的不见了；想还原时，再双击一下这个文件就可以了。不用时你可以把这个bat文件删掉。天呐，这是要过河拆桥啊啊啊啊～(TロT)σ</p>
+<h3 id="XXX神器使用说明书">XXX神器使用说明书</h3>
+<p>启动盘怎么用呢？拿到了神奇的宝物却不知道咒语是什么，那真是世上最悲惨的事了。就像孙悟空发飙要打唐僧（真假孙悟空里就有这个场景的吧），结果唐僧一着急忘了紧箍咒一样可怕（好在原版西游记中的唐僧没有忘记紧箍咒）。</p>
+<p>怎么用呢……我们后面学了更多相关知识再说吧~</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-pwd-crack/" rel="bookmark">装系统不求人——开机密码破解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ubuntu/" rel="bookmark">装系统不求人——安装Ubuntu</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-customize-bootable-disk/" rel="bookmark">装系统不求人——量身定制自己的万能启动盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-xp/" rel="bookmark">装系统不求人——Win XP安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-boot/" rel="bookmark">装系统不求人——BootLoader与引导修复</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-prepare/" rel="bookmark">装系统不求人——系统安装准备工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ghost/" rel="bookmark">装系统不求人——用Ghost备份还原系统</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-follow-up/" rel="bookmark">装系统不求人——系统安装后续工作</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B8%8D%E6%B1%82%E4%BA%BA/" rel="tag"># #装系统不求人#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sysinst-summary/" rel="prev" title="装系统不求人——概述">
+      <i class="fa fa-chevron-left"></i> 装系统不求人——概述
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sysinst-bios/" rel="next" title="装系统不求人——BIOS设置">
+      装系统不求人——BIOS设置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%9B%98%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">启动盘是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%81%E6%9D%BF%EF%BC%8C%E7%BB%99%E6%88%91%E6%9D%A5%E4%B8%80%E6%96%A4%E5%90%AF%E5%8A%A8%E7%9B%98"><span class="nav-number">2.</span> <span class="nav-text">老板，给我来一斤启动盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81U%E7%9B%98%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%88%90HDD%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">一、U盘格式化成HDD格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BB%99U%E7%9B%98%E8%A3%85%E4%B8%8AGrub4dos"><span class="nav-number">2.2.</span> <span class="nav-text">二、给U盘装上Grub4dos</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%A4%8D%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">三、复制系统文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%9B%98%E6%90%9E%E5%AE%9A"><span class="nav-number">3.</span> <span class="nav-text">启动盘搞定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%81%E7%BB%99%E5%BC%BA%E8%BF%AB%E7%97%87%E7%9A%84%E5%B0%8F%E7%A4%BC%E7%89%A9"><span class="nav-number">3.1.</span> <span class="nav-text">送给强迫症的小礼物</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XXX%E7%A5%9E%E5%99%A8%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E%E4%B9%A6"><span class="nav-number">3.2.</span> <span class="nav-text">XXX神器使用说明书</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

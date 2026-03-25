@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文写给：和我一样想要有一套操作容易、使用方便、兼容性好的 高质量个人知识管理和博客 实现方案的人。本文适合喜欢折腾的人士使用，搭建好自己的WordPress博客，然后对前后台相关知识有基本了解，能自己修改代码。虽然折腾的过程非常费时，但是一旦折腾完成，就是一劳永逸，非常方便。 欢迎通过此链接注册为知笔记来支持本人：https:&#x2F;&#x2F;note.wiz.cn&#x2F;i&#x2F;1fe81312">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WordPress+Markdown+为知笔记&#x2F;PublishMarkdown，实现高质量笔记和博客">
+<meta property="og:url" content="https://www.xiaoming.io/wp-markdown-wiz-blog/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本文写给：和我一样想要有一套操作容易、使用方便、兼容性好的 高质量个人知识管理和博客 实现方案的人。本文适合喜欢折腾的人士使用，搭建好自己的WordPress博客，然后对前后台相关知识有基本了解，能自己修改代码。虽然折腾的过程非常费时，但是一旦折腾完成，就是一劳永逸，非常方便。 欢迎通过此链接注册为知笔记来支持本人：https:&#x2F;&#x2F;note.wiz.cn&#x2F;i&#x2F;1fe81312">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-02-20T09:14:57.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.398Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="Web开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/wp-markdown-wiz-blog/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WordPress+Markdown+为知笔记/PublishMarkdown，实现高质量笔记和博客 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/wp-markdown-wiz-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WordPress+Markdown+为知笔记/PublishMarkdown，实现高质量笔记和博客
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-02-20 17:14:57" itemprop="dateCreated datePublished" datetime="2015-02-20T17:14:57+08:00">2015-02-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/wp-markdown-wiz-blog/" class="post-meta-item leancloud_visitors" data-flag-title="WordPress+Markdown+为知笔记/PublishMarkdown，实现高质量笔记和博客" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/wp-markdown-wiz-blog/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/wp-markdown-wiz-blog/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文写给：和我一样想要有一套<strong>操作容易、使用方便、兼容性好</strong>的 <em>高质量个人知识管理和博客</em> 实现方案的人。本文适合喜欢折腾的人士使用，搭建好自己的WordPress博客，然后对前后台相关知识有基本了解，能自己修改代码。虽然折腾的过程非常费时，但是一旦折腾完成，就是一劳永逸，非常方便。</p>
+<p><strong>欢迎通过此链接注册为知笔记来支持本人：<a target="_blank" rel="noopener" href="https://note.wiz.cn/i/1fe81312">https://note.wiz.cn/i/1fe81312</a></strong></p>
+<h2 id="2020-2-4更新：Publish-Markdown博客发布工具">2020.2.4更新：Publish Markdown博客发布工具</h2>
+<p>PublishMarkdown是由本人开发的一款将本地Markdown文件发布到博客的开源工具，基于Electron实现，支持中英文，兼容Windows、Linux、MacOS平台。</p>
+<p>PublishMarkdown解决了为知笔记发布博客的一些问题。例如：</p>
+<ol>
+<li>为知笔记只有Windows版本才能支持发布博客，而PublishMarkdown基于Electron构建，原生就是跨平台的；</li>
+<li>为知笔记在编辑文章时，会重复上传相同图片，而PublishMarkdown会自动判断，不重复上传图片；</li>
+<li>为知笔记只能发布在为知笔记中写好的文章，而PublishMarkdown可以直接发布独立的Markdown文件（对于程序员群体，Markdown文件用git进行版本管理和同步更方便）；</li>
+<li>PublishMarkdown是开源软件，Markdown中代码高亮、MathJax渲染的逻辑更加清晰明确，方便用户使用，而为知笔记中的渲染方案发生过一次大的调整，导致本文中的一些结论也失效了；</li>
+<li>对于WordPress用户，PublishMarkdown只需按照说明配置代码高亮和MathJax插件即可，不需要自己开发WordPress主题。</li>
+</ol>
+<p>GitHub主页 <a target="_blank" rel="noopener" href="https://github.com/jzj1993/PublishMarkdown">https://github.com/jzj1993/PublishMarkdown</a></p>
+<p>技术博客 <a href="http://www.xiaoming.io/publish-markdown">http://www.xiaoming.io/publish-markdown</a></p>
+<p>本文由于“年代久远”，部分内容已经过时，可以考虑使用PublishMarkdown+WordPress插件实现效果。下面是原文内容。</p>
+<hr>
+<h2 id="需求">需求</h2>
+<p>平时学东西时，喜欢写一些笔记，一方面作为记录，时间久了不记得了可以看看，另一方面发到网上或许能帮到别人。之前用CSDN，发现博客编辑实在是非常难用，索性自己建了一个WordPress的站点，每次发布完再复制粘贴到CSDN博客。</p>
+<p>记笔记我用的为知笔记，为知笔记有个博客离线发布的功能，我在本地写好的笔记，可以直接一键发送到博客，非常方便。但是由于兼容性问题，博客发布后显示效果不是那么理想，尤其是代码在本地为知笔记有自己的一套代码高亮系统，WordPress和CSDN又分别有不同的代码高亮系统，发布时还是不得不手动做不少修改。</p>
+<p>由于前段时间有人决定开始写博客，然后问了我一些问题，包括博客怎么做到编辑方便又能很好的排版，同时可以在本地有一份方便管理的笔记，我就给他推荐了为知笔记、CSDN、WordPress还有Markdown，让他自己了解下再决定。Markdown是一种实现高质量文章的好方法，由于为知笔记支持Markdown，之前我也试过，但是发布到博客显示效果不是很好，而且也没有很大需求。这次重新研究了一番，最后总结除了一套个人感觉比较好的实现高质量知识管理和博客的方法，总结成这篇文章。</p>
+<p><strong>说明：如果你是一个技术小白，或者没兴趣和时间过多的研究技术尤其是动手写代码，我会在每部分中用黑体标出最关键的步骤，通常直接完成这些关键步骤，就能基本实现效果了。</strong></p>
+<h2 id="最终效果展示">最终效果展示</h2>
+<p>平时需要写博客时，只需要在本地的为知笔记中用Markdown写好（当然也可以不用Markdown），然后离线发布到博客。下面是与传统的WordPress文档编辑器的对比。</p>
+<h3 id="插入图片">插入图片</h3>
+<p>在WordPress中插入图片尽管比很多博客系统（尤其是还没有Markdown模式的CSDN）强大多了，但是也免不了每插入一张图片都要提前上传好，然后点开图库页面去选择图片。特别是不少人的博客都用的国外服务器，在线编辑器真的慢如蜗牛。</p>
+<p>而绝大多数Markdown编辑器，插入图片也需要将图片一张张上传到某个图床，然后一张一张的粘贴URL链接，实在是个磨人的小妖精。</p>
+<p>而为知笔记的本地编辑器是笔记软件、Markdown编辑器中都非常强大的，想插入图片，可以直接从Word文档、文件夹、网络等任何地方复制并粘贴，或是任性的拖动到编辑器中，并且自带截图，也可以从手机传图到电脑，以及简单的编辑功能。至今我还没有发现其他任何一款Markdown编辑器可以这么任性。发布时，会自动上传每张图片到博客网站。</p>
+<p>我有时会写一些复杂的图文教程，例如某某软件的使用，一篇文章几十张图片很正常，如果不能用为知笔记这样的类似Word的傻瓜式手法，估计我会被累死，即使不会累死，我也不想把生命浪费在那些机械的重复性动作上。</p>
+<h3 id="代码高亮">代码高亮</h3>
+<p>网上有各种五花八门的WordPress代码高亮插件，使用起来其实也很郁闷，也是我的切身体会。尝试使用过各种代码高亮插件包括WP-Syntax等+WordPress自带编辑器或者编辑器增强插件，总体来说插入高亮代码简直是灾难，各种担心字符会不会被转义，或是各种网页性能、兼容性问题。</p>
+<p>而用Markdown插入代码并通过插件自动渲染实现高亮，不知道要方便多少。尤其是对于一些需要很多段文字和代码混排的情况，例如本文，如果每插入一段代码都要做大量工作，实在不能忍。</p>
+<p>WordPress也有几款Markdown插件，但是不建议去尝试了，因为网上就没见几个人说那些插件好用的。</p>
+<h3 id="LaTeX公式插入">LaTeX公式插入</h3>
+<p>其实没什么可比的，WordPress自带本来就没有LaTeX公式支持，个别能解析LaTeX公式的WordPress插件也非常难用，总结起来就是用不了。</p>
+<p>而为知笔记的Markdown插入LaTeX公式和插入代码一样方便，只要了解一下LaTeX公式语法就好办了，高显示质量的公式一气呵成。到底有多高质量，看一下这个例子就知道了：</p>
+<p>理想恢复公式： $$ x(t) = \sum_{n=-\infty}^{\infty}x(nT)Sa(\frac{t-nT}{T}) $$<br>
+其中： $$ Sa(x) = sinc(x) = \frac{sin(\pi x)}{\pi x} $$</p>
+<h3 id="高度智能化、高度可定制性">高度智能化、高度可定制性</h3>
+<p>最重要的一点是，当你点击一键发布到博客时，除了第一次需要进行一些设置外，以后只需要为文章选择好分类，整个发布的过程是全自动的：</p>
+<ul>
+<li>每张图片会自动上传到博客</li>
+<li>附件会自动附加到文章末尾</li>
+<li>文章标签可以被自动同步</li>
+<li>Markdown自动被渲染成HTML，你可以通过CSS自行定义其排版样式</li>
+<li>代码会自动被预设的CSS高亮，颜色当然也可以通过CSS定制</li>
+<li>LaTeX自动被MathJax渲染成高质量的公式</li>
+<li>还能同时给文章设置自定义的固定链接</li>
+</ul>
+<h3 id="性能最优，兼容性最强，一次编辑，多平台同步">性能最优，兼容性最强，一次编辑，多平台同步</h3>
+<p>这种方式直接生成最终网页代码，用普通的HTML+CSS搞定了代码高亮、LaTeX公式。在加载页面时不依赖任何后台PHP插件或是前台JavaScript插件，不需要执行任何额外前后端代码，因此网页在服务器上的输出，以及页面自身性能都达到了最优化。</p>
+<p>使用为知笔记，文章在本地编辑，完全不会有时延。在本地编辑好文章，既是个人笔记，又可以一键发布到WordPress博客。而受益于为知笔记强大的笔记管理功能，发布的博客可以随时在本地笔记中方便的查阅。</p>
+<p>博客网页不仅可以在多种平台包括手机上显示的很好（有兴趣你可以在手机上打开本页面检验一下效果），而且还能直接复制粘贴到其他博客，仍然保持足够好的显示效果。并且这一切永远是高质量的，因为Markdown就是为编写高质量文档而生。</p>
+<h3 id="最大的缺陷">最大的缺陷</h3>
+<p>目前必须使用Windows版本的为知笔记，其他平台下没有离线发布的功能。希望为知笔记早日升级版本增加这个功能。至于我，则是在MacOS下安装了Windows虚拟机，必要时就用为知笔记Windows版同步一下笔记然后发布。</p>
+<h2 id="基础知识与准备工作">基础知识与准备工作</h2>
+<p>如果想尽快完成整个的折腾过程，这些准备工作可以先只做简单了解甚至直接跳过，具体需要的时候再详细去研究。</p>
+<p>了解Markdown的使用。Markdown是本文必要的基础知识，如果不知道Markdown是什么，也就没法体会本文所强调的方便了。</p>
+<blockquote>
+<p>可参考《Markdown简介和基本语法》<br>
+<a href="http://www.xiaoming.io/markdown">http://www.xiaoming.io/markdown</a></p>
+</blockquote>
+<p>安装和了解为知笔记的使用，尤其是Markdown的使用和离线发布功能。</p>
+<blockquote>
+<p>可参考</p>
+<ul>
+<li>《为知笔记：优秀国产知识管理软件的使用心得》<br>
+<a href="http://www.xiaoming.io/wiz-note">http://www.xiaoming.io/wiz-note</a></li>
+<li>《为知笔记离线博客发布功能》<br>
+<a href="http://www.xiaoming.io/wiz-blog">http://www.xiaoming.io/wiz-blog</a></li>
+</ul>
+</blockquote>
+<p>搭建自己的WordPress博客。没有WordPress博客，想必你也不需要来看本文。</p>
+<blockquote>
+<p>可参考《网站搭建从零开始》系列博客：<br>
+<a href="http://www.xiaoming.io/category/mobile-web/website-primer">http://www.xiaoming.io/category/mobile-web/website-primer</a></p>
+</blockquote>
+<p>简单了解HTML、CSS基本知识。不了解也没有什么大的影响。</p>
+<blockquote>
+<p>可参考《w3school 在线教程》<br>
+<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/">http://www.w3school.com.cn/</a></p>
+</blockquote>
+<p>简单了解WordPress主题的制作。其实不了解也不影响，但是至少你要知道，WordPress主题是保存在<code>wp-content/themes/主题名称</code>的目录下的，并且知道利用WordPress后台或是FTP等工具修改这些文件，因为后面需要修改这个文件夹下的文件。</p>
+<blockquote>
+<p>可参考《WordPress主题制作全过程》系列博客<br>
+<a target="_blank" rel="noopener" href="http://www.ludou.org/create-wordpress-themes-prepare.html">http://www.ludou.org/create-wordpress-themes-prepare.html</a></p>
+</blockquote>
+<p>了解LaTeX数学公式常用语法。这个也不是必要准备工作，完全可以在需要用到公式的时候才去研究。</p>
+<blockquote>
+<p>LaTeX可以参考《一份其实很短的 LaTeX 入门文档》<br>
+<a target="_blank" rel="noopener" href="http://liam0205.me/2014/09/08/latex-introduction/">http://liam0205.me/2014/09/08/latex-introduction/</a><br>
+LaTeX数学公式语法可以需要时再从网上搜索</p>
+</blockquote>
+<h2 id="为知笔记相关说明">为知笔记相关说明</h2>
+<p>这里主要做几点说明。<strong>首先这两点是必须知道的</strong>：</p>
+<ul>
+<li>为知笔记在笔记名后增加<code>.md</code>，打开后在编辑模式下为Markdown源文件，在阅读模式下即为经过Markdown渲染后的效果（如果没有显示渲染后的效果，可以关掉笔记重新打开）。</li>
+<li>使用Markdown的笔记，在点击发布到博客时，需要勾选&quot;使用Markdown渲染&quot;的选项。</li>
+</ul>
+<p>后面这两点可以用于技术分析，不想研究技术的可以不做具体了解：</p>
+<ul>
+<li>使用Markdown渲染后发布到WordPress的文章，只含HTML内容，不含CSS样式。CSS样式由WordPress主题中的<code>style.css</code>决定。</li>
+<li>经过对输出HTML的分析，为知笔记Markdown中的代码高亮，由Google开源项目<code>prettyprint</code>实现。</li>
+</ul>
+<h2 id="利用为知笔记Markdown-自定义CSS，高质量代码编辑So-Easy">利用为知笔记Markdown+自定义CSS，高质量代码编辑So Easy</h2>
+<p>前面做了一些准备工作，下面要说的就是本文的核心内容。</p>
+<p><strong>注意，如果你的WordPress用了其他代码高亮插件，建议先将其停用，然后再进行操作，以免发生冲突。</strong></p>
+<p>我们可以用为知笔记写一个简单的Markdown笔记，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">### 标题3</span><br><span class="line"></span><br><span class="line">#### 标题4</span><br><span class="line"></span><br><span class="line">***</span><br><span class="line"></span><br><span class="line">- 列表1</span><br><span class="line">- 列表2</span><br><span class="line"></span><br><span class="line">***</span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    printf(&quot;Hello World!\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>保存为<code>test.md</code>，即可在为知笔记中看到渲染后的效果。</p>
+<p>将其发布到WordPress博客，查看网页源代码，可以看到为知笔记输出的HTML结果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span> <span class="attr">id</span>=<span class="string">&quot;-3&quot;</span>&gt;</span>标题3<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h4</span> <span class="attr">id</span>=<span class="string">&quot;-4&quot;</span>&gt;</span>标题4<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>列表1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>列表2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pre</span> <span class="attr">class</span>=<span class="string">&quot;prettyprint linenums language-undefined prettyprinted&quot;</span> <span class="attr">style</span>=<span class="string">&quot;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ol</span> <span class="attr">class</span>=<span class="string">&quot;linenums&quot;</span> <span class="attr">style</span>=<span class="string">&quot;padding-left: 0px;&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">&quot;list-style-type: none; padding-left: 0px;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;L0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">code</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;com&quot;</span>&gt;</span>#include<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pln&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;str&quot;</span>&gt;</span><span class="symbol">&amp;lt;</span>stdio.h<span class="symbol">&amp;gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">&quot;list-style-type: none; padding-left: 0px;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;L1&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">code</span>&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">&quot;list-style-type: none; padding-left: 0px;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;L2&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">code</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;kwd&quot;</span>&gt;</span>int<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pln&quot;</span>&gt;</span> main<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pun&quot;</span>&gt;</span>()<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pln&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pun&quot;</span>&gt;</span>&#123;<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">&quot;list-style-type: none; padding-left: 0px;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;L3&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">code</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pln&quot;</span>&gt;</span> printf<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pun&quot;</span>&gt;</span>(<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;str&quot;</span>&gt;</span>&quot;Hello World!\n&quot;<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pun&quot;</span>&gt;</span>);<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">&quot;list-style-type: none; padding-left: 0px;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;L4&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">code</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pln&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;kwd&quot;</span>&gt;</span>return<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pln&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;lit&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pun&quot;</span>&gt;</span>;<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">&quot;list-style-type: none; padding-left: 0px;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;L5&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">code</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;pun&quot;</span>&gt;</span>&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>但是我们看到的显示效果可能并不好，原因在于我们的WordPress主题中的CSS没有针对Markdown进行优化完善。下面的问题就很简单了，就是改CSS文件，一般在主题文件夹下的<code>style.css</code>中。根据个人喜好，网站风格等，将CSS进行修改完善。</p>
+<p>对于<code>h1，h2，h3，ul，ol，li，hr</code>这些常规标签样式的修改，倒没什么问题，而且通常主题自身就含有这些标签的样式，主要是代码高亮部分的样式。</p>
+<p>要注意的是，这里的代码高亮用的是<code>prettyprint</code>的风格，因此可以下载到<code>prettyprint</code>插件，并将其CSS复制到我们的CSS中。经过测试<code>prettyprint</code>的CSS还是有一些问题，可能是因为版本等原因。反复修改后，下面给出我使用的CSS（代码高亮部分），由于不同主题中的元素差异，不能保证在其他网站也完全兼容，仅供参考。</p>
+<p><strong>如果你对HTML、CSS等前端知识不甚了解，可以直接尝试将下面这些代码复制到你的主题文件夹下的<code>style.css</code>文件末尾，于是就可以支持为知笔记博客离线发布的代码高亮了。</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.pln</span>&#123;<span class="attribute">color</span>:<span class="number">#000</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.str</span>&#123;<span class="attribute">color</span>:<span class="number">#080</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.kwd</span>&#123;<span class="attribute">color</span>:<span class="number">#24F</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.com</span>&#123;<span class="attribute">color</span>:<span class="number">#78C</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.typ</span>&#123;<span class="attribute">color</span>:<span class="number">#24F</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.lit</span>&#123;<span class="attribute">color</span>:<span class="number">#066</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.tag</span>&#123;<span class="attribute">color</span>:<span class="number">#008</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.atn</span>&#123;<span class="attribute">color</span>:<span class="number">#606</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.atv</span>&#123;<span class="attribute">color</span>:<span class="number">#080</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.fun</span>&#123;<span class="attribute">color</span>:<span class="number">#F00</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.dec</span>,<span class="selector-class">.var</span>&#123;<span class="attribute">color</span>:<span class="number">#606</span>&#125;</span><br><span class="line"><span class="selector-tag">code</span> <span class="selector-class">.pun</span>,<span class="selector-class">.opn</span>,<span class="selector-class">.clo</span>&#123;<span class="attribute">color</span>:<span class="number">#333</span>&#125;</span><br><span class="line"><span class="selector-class">.single-content</span> pre,<span class="selector-class">.single-content</span> <span class="selector-tag">code</span>&#123;<span class="attribute">font-family</span>:Consolas,<span class="string">&#x27;Liberation Mono&#x27;</span>,Menlo,Courier,monospace<span class="meta">!important</span>&#125;</span><br><span class="line"><span class="selector-class">.single-content</span> <span class="selector-tag">p</span> <span class="selector-tag">code</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">2px</span>;<span class="attribute">padding</span>:<span class="number">2px</span> <span class="number">5px</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#eaeaea</span>;<span class="attribute">background-color</span>:<span class="number">#f8f8f8</span>;<span class="attribute">border-radius</span>:<span class="number">3px</span>&#125;</span><br><span class="line"><span class="selector-class">.single-content</span> <span class="selector-tag">ol</span><span class="selector-class">.linenums</span>&#123;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">10px</span> <span class="number">10px</span> <span class="number">0</span><span class="meta">!important</span>;<span class="attribute">background-color</span>:<span class="number">#f7f7f9</span>;<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#e1e1e8</span>;<span class="attribute">border-radius</span>:<span class="number">3px</span>;<span class="attribute">box-shadow</span>:<span class="number">#fbfbfc</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">0</span> inset,<span class="number">#ececf0</span> <span class="number">51px</span> <span class="number">0</span> <span class="number">0</span> inset&#125;</span><br><span class="line"><span class="selector-class">.single-content</span> <span class="selector-tag">ol</span><span class="selector-class">.linenums</span> <span class="selector-tag">li</span>&#123;<span class="attribute">margin</span>:<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">55px</span>;<span class="attribute">line-height</span>:<span class="number">1.5</span>;<span class="attribute">min-height</span>:<span class="number">1.5em</span>;<span class="attribute">color</span>:<span class="number">#AAA</span>;<span class="attribute">list-style-type</span>:decimal<span class="meta">!important</span>;<span class="attribute">padding-left</span>:<span class="number">10px</span><span class="meta">!important</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，在我的网站，这篇测试文章实际显示的效果如下。如果使用的Chrome浏览器，你可以在右键-审查元素中看到我编写的CSS实际效果。</p>
+<h3 id="标题3">标题3</h3>
+<h4 id="标题4">标题4</h4>
+<hr>
+<ul>
+<li>列表1</li>
+<li>列表2</li>
+</ul>
+<hr>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello World!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="一些问题">一些问题</h3>
+<p>在这个过程中，遇到了很多问题，特别是对CSS不了解的情况下，更是困难重重。下面进行一些列举，或许能对别人有所帮助。</p>
+<p>1、为知笔记中Markdown渲染后，代码不缩进。解决这个问题的方法是，编写代码时用空格做缩进而不是<code>tab</code>符号，Markdown会自动忽略<code>tab</code>符号（除非用HTML转义字符书写）。</p>
+<p>2、代码中的空行不显示</p>
+<p>查看代码可以看到，代码中的空行会被转换成<code>&lt;li style=&quot;list-style-type: none; padding-left: 0px;&quot; class=&quot;L1&quot;&gt;&lt;code&gt;&lt;/code&gt;&lt;/li&gt;</code>，<code>code</code>标签中为空，然后会直接不显示，于是所有代码中的空行直接消失不见了。我的解决方法是，给每个<code>li</code>元素设置一个最小高度<code>min-height</code>，这个高度和行高<code>line-height</code>相同，这样即使<code>code</code>标签不显示，空行还是会保证一行的最小高度。</p>
+<p>3、代码不显示行号</p>
+<p>行号显示是利用有序列表的<code>li</code>标签自身序号实现的，需要设置属性<code>list-style-type:decimal!important</code>。注意这里加了后缀<code>!important</code>，因为生成的HTML中，标签<code>li</code>被自动添加了这个属性且为内联式，只有在CSS中添加<code>!important</code>，才能让CSS设置的值生效，而不是被内联式的样式覆盖掉。另外要注意的是，如果<code>li</code>元素使用了<code>overflow:hidden</code>属性，也会导致前面的标号不显示；这时要么去掉<code>overflow</code>属性，要么再添加一个<code>list-style-position:inside</code>属性即可。</p>
+<p>4、为知笔记的非VIP用户每次都会在文末生成一个 <em>来自为知笔记</em> 的链接。</p>
+<pre><code>这个是用于为知笔记推广的链接，通过这个链接注册为知笔记还可以增加积分，建议保留。如果一定要去掉，特别是强迫症用户，又不想每次手动在WordPress中编辑，可以通过在主题的`functions.php`文件中添加如下`php`代码。这段代码通过添加钩子，在文章保存到数据库前，对文章内容进行了正则替换，将包含为知笔记链接的内容自动替换为空字符串了。
+</code></pre>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">content_replace</span>(<span class="params"><span class="variable">$data</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 正则字符串写法为&#x27;/reg_exp/&#x27;, /需要转义成\/</span></span><br><span class="line">  <span class="variable">$data</span> = preg_replace(<span class="string">&quot;/&lt;div&gt;&lt;a.*http:\/\/www.wiz.cn\/.*&lt;\/a&gt;&lt;\/div&gt;/&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="variable">$data</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="variable">$data</span>;</span><br><span class="line">&#125;</span><br><span class="line">add_filter( <span class="string">&#x27;content_save_pre&#x27;</span>, <span class="string">&#x27;content_replace&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>如果你的主题中使用的是CSS3，更简单的一个方法是在<code>style.css</code>中添加一条如下代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#post-content</span> <span class="selector-tag">div</span>&gt;<span class="selector-tag">a</span><span class="selector-attr">[title^=<span class="string">&#x27;来自为知笔记&#x27;</span>]</span>&#123;<span class="attribute">display</span>:none&#125;</span><br></pre></td></tr></table></figure>
+<p>5、文章一旦发布到WordPress，如果在WordPress编辑器在线进行编辑，切换到图形界面并保存，会导致文章内容出现一些错误，具体的表现和原因如下。</p>
+<ul>
+<li>尖括号及其内部代码会被处理掉，例如<code>&lt;stdio.h&gt;</code>。尖括号本身容易和HTML标签混淆，所以一般都会被转换成转义字符。这个通常是因为其他代码高亮插件没有被关掉，例如WP-Syntax等。</li>
+<li>代码缩进格式被删除。原因是代码缩进用的是空格，在WordPress的图形编辑器中，会自动忽略掉HTML中的空格。避免这个问题比较好的方法是避免使用图形编辑器，而直接用文本编辑器。还有种办法，在functions中，还是通过正则替换的方法，将HTML源码中的空格替换成<code>&amp;nbsp;</code>，这样就不会被图形化编辑器去掉了。</li>
+<li>代码段落的背景混乱。还是因为图形编辑器，把pre标签自动给去掉了（WordPress的图形编辑器真是相当霸道 o(╯□╰)o ）。我应对这个问题的办法就是直接不用图形编辑器；另外，代码段由<code>pre.prettyprint</code>和<code>ol.linenums</code>标签包裹，我把CSS样式全部设置给<code>ol.linenums</code>了，这样即使pre标签被去掉，也不影响代码的显示。</li>
+</ul>
+<p><strong>总而言之，最大的问题就是不能轻易使用WordPress的编辑器、特别是图形编辑器对文章进行修改。如果需要修改，可以在为知笔记中改好再重新发布（会自动判断并编辑文章而不是新建）；或者直接使用文本界面进行编辑。</strong> 虽然这样做很麻烦，但是比之前我用WP-Syntax插入代码要轻松多了。</p>
+<p>6、固定链接的问题。有人喜欢手动给每篇文章设置好看的固定链接，即使用<code>%postname%</code>字段作为文章网址。而用为知笔记的离线发布，会自动将文章标题作为<code>postname</code>从而生成链接。一种方法是可以先发布再修改固定链接，修改时，直接在快速编辑中修改即可，避免进入编辑界面影响文章内容；另一种方法单独写成了一篇文章，如下：</p>
+<blockquote>
+<p>WordPress离线发表文章自动生成别名<br>
+<a href="http://www.xiaoming.io/wp-auto-postname">http://www.xiaoming.io/wp-auto-postname</a></p>
+</blockquote>
+<h2 id="添加LaTeX公式支持（使用MathJax）">添加LaTeX公式支持（使用MathJax）</h2>
+<p>为知笔记的Markdown中支持插入LaTeX公式，输出由MathJax渲染。只要在编辑时，使用<code>$</code>或<code>$$</code>符号包含LaTeX公式代码，即可自动转换成公式。</p>
+<h3 id="实例">实例</h3>
+<p>例如下面的Markdown代码</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Latex公式测试</span><br><span class="line"></span><br><span class="line">行内公式 $ \delta = \beta / (\alpha + 1)$</span><br><span class="line"></span><br><span class="line">行间公式 $$ \frac&#123;O&#125;&#123;I&#125; \approx \frac&#123;A&#125;&#123;1+AF&#125; $$</span><br><span class="line"></span><br><span class="line">上下标 $$ U<span class="emphasis">_o = A^2 * ( U_</span>+ - U<span class="emphasis">_- ) $$</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">积分 $$ \int_</span>1 ^2 sin x dx $$</span><br><span class="line"></span><br><span class="line">方程组</span><br><span class="line">$$</span><br><span class="line">\begin&#123;aligned&#125;</span><br><span class="line">\dot&#123;x&#125; &amp; = \sigma(y-x) \\</span><br><span class="line">\dot&#123;y&#125; &amp; = \rho x - y - xz \\</span><br><span class="line">\dot&#123;z&#125; &amp; = -\beta z + xy</span><br><span class="line">\end&#123;aligned&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>最终显示效果如下。</p>
+<p>Latex公式测试</p>
+<p>行内公式 $ \delta = \beta / (\alpha + 1)$</p>
+<p>行间公式 $$ \frac{O}{I} \approx \frac{A}{1+AF} $$</p>
+<p>上下标 $$ U_o = A^2 * ( U_+ - U_- ) $$</p>
+<p>积分 $$ \int_1 ^2 sin x dx $$</p>
+<p>方程组<br>
+$$<br>
+\begin{aligned}<br>
+\dot{x} &amp; = \sigma(y-x) \<br>
+\dot{y} &amp; = \rho x - y - xz \<br>
+\dot{z} &amp; = -\beta z + xy<br>
+\end{aligned}<br>
+$$</p>
+<h3 id="插入专用字体">插入专用字体</h3>
+<p>需要注意的是，要想用MathJax达到最佳的显示效果，需要使用专用字体，可在主题的CSS文件中添加以下代码（这段代码从MathJax官网的页面源文件取得）。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Main; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Main-bold; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Main-italic; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Math-italic; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Caligraphic; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Size1; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Size2; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Size3; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br><span class="line"><span class="keyword">@font-face</span> &#123;<span class="attribute">font-family</span>: MathJax_Size4; <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;woff&#x27;</span>), <span class="built_in">url</span>(<span class="string">&#x27;http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?rev=2.5.0&#x27;</span>) <span class="built_in">format</span>(<span class="string">&#x27;opentype&#x27;</span>)&#125;</span><br></pre></td></tr></table></figure>
+<p>如果直接将这段CSS添加到主题的<code>style.css</code>中，而使用MathJax的页面比较少，在部分浏览器中，即使页面中没有使用<code>@font-face</code>中的字体，也会下载字体文件，会造成一定的浪费，降低了性能。</p>
+<blockquote>
+<p>在这篇文章中提出了这个问题，并给出了测试实例<br>
+<a target="_blank" rel="noopener" href="http://www.stevesouders.com/blog/2009/10/13/font-face-and-performance/">http://www.stevesouders.com/blog/2009/10/13/font-face-and-performance/</a></p>
+</blockquote>
+<p>为了避免这种情况，可将上述CSS代码写在一个独立的文件<code>mathjax.css</code>中，然后利用jQuery进行判断，如果页面中用到了MathJax，就在<code>&lt;head&gt;</code>标签中添加CSS的引用，然后才从这段CSS加载字体。jQuery大致写法如下，其中<code>url</code>为MathJax的CSS文件<code>mathjax.css</code>的URL地址。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f_mathjax</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ($(<span class="string">&quot;.MathJax&quot;</span>).length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> url = <span class="string">&#x27;http://www.abc.com/css/mathjax.css&#x27;</span>;</span><br><span class="line">    $(<span class="string">&quot;head&quot;</span>).append(<span class="string">&#x27;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#x27;</span>+url+<span class="string">&#x27;&quot;/&gt;&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  f_mathjax();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>如果你对HTML、CSS、jQuery等前端知识不甚了解，但又想在自己的博客写出好看的公式，建议直接把前面说的那段CSS代码直接贴进你的主题文件夹下的<code>style.css</code>中，不用过分考虑性能了。因为现代浏览器越来越成熟，这种性能问题迟早会解决的。</strong></p>
+<h3 id="一个显示问题">一个显示问题</h3>
+<p>我遇到的一个问题是，公式显示效果不好，分数的横线直接不显示了。经过一步一步的排查，最后终于发现问题出在我的网站CSS中有一个属性<code>line-height:1.8</code>，影响了公式的正常显示。于是添加下面的CSS即解决了问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.MathJax&#123;line-height:1&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>如果你也遇到了类似的问题，请尝试添加上述CSS代码。</strong></p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nginx-config/" rel="bookmark">Nginx常用配置整理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/node-sharp/" rel="bookmark">sharp图片库用法总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mysql-basic-usage/" rel="bookmark">MySQL基本命令总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mysql57-change-password/" rel="bookmark">MySQL 5.7.16可登陆Shell但不能改root密码</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mac-tomcat/" rel="bookmark">MAC安装配置Tomcat</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/ubuntu-lnmp/" rel="bookmark">Ubuntu搭建LNMP</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wp-auto-postname/" rel="bookmark">WordPress离线发表文章自动生成别名</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wp-log/" rel="bookmark">WordPress主题输出Log信息</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Web%E5%BC%80%E5%8F%91/" rel="tag"># Web开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/python-django-sql-error/" rel="prev" title="Python Django框架根据模型不能新建表">
+      <i class="fa fa-chevron-left"></i> Python Django框架根据模型不能新建表
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/wiz-note/" rel="next" title="为知笔记：优秀国产知识管理软件的使用心得">
+      为知笔记：优秀国产知识管理软件的使用心得 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2020-2-4%E6%9B%B4%E6%96%B0%EF%BC%9APublish-Markdown%E5%8D%9A%E5%AE%A2%E5%8F%91%E5%B8%83%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">2020.2.4更新：Publish Markdown博客发布工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">3.</span> <span class="nav-text">最终效果展示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87"><span class="nav-number">3.1.</span> <span class="nav-text">插入图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE"><span class="nav-number">3.2.</span> <span class="nav-text">代码高亮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LaTeX%E5%85%AC%E5%BC%8F%E6%8F%92%E5%85%A5"><span class="nav-number">3.3.</span> <span class="nav-text">LaTeX公式插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E5%BA%A6%E6%99%BA%E8%83%BD%E5%8C%96%E3%80%81%E9%AB%98%E5%BA%A6%E5%8F%AF%E5%AE%9A%E5%88%B6%E6%80%A7"><span class="nav-number">3.4.</span> <span class="nav-text">高度智能化、高度可定制性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%9C%80%E4%BC%98%EF%BC%8C%E5%85%BC%E5%AE%B9%E6%80%A7%E6%9C%80%E5%BC%BA%EF%BC%8C%E4%B8%80%E6%AC%A1%E7%BC%96%E8%BE%91%EF%BC%8C%E5%A4%9A%E5%B9%B3%E5%8F%B0%E5%90%8C%E6%AD%A5"><span class="nav-number">3.5.</span> <span class="nav-text">性能最优，兼容性最强，一次编辑，多平台同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%A4%A7%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="nav-number">3.6.</span> <span class="nav-text">最大的缺陷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%B8%8E%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">基础知识与准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E7%9F%A5%E7%AC%94%E8%AE%B0%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E"><span class="nav-number">5.</span> <span class="nav-text">为知笔记相关说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E4%B8%BA%E7%9F%A5%E7%AC%94%E8%AE%B0Markdown-%E8%87%AA%E5%AE%9A%E4%B9%89CSS%EF%BC%8C%E9%AB%98%E8%B4%A8%E9%87%8F%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91So-Easy"><span class="nav-number">6.</span> <span class="nav-text">利用为知笔记Markdown+自定义CSS，高质量代码编辑So Easy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E9%A2%983"><span class="nav-number">6.1.</span> <span class="nav-text">标题3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E9%A2%984"><span class="nav-number">6.1.1.</span> <span class="nav-text">标题4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-number">6.2.</span> <span class="nav-text">一些问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0LaTeX%E5%85%AC%E5%BC%8F%E6%94%AF%E6%8C%81%EF%BC%88%E4%BD%BF%E7%94%A8MathJax%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">添加LaTeX公式支持（使用MathJax）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">7.1.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E4%B8%93%E7%94%A8%E5%AD%97%E4%BD%93"><span class="nav-number">7.2.</span> <span class="nav-text">插入专用字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98"><span class="nav-number">7.3.</span> <span class="nav-text">一个显示问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

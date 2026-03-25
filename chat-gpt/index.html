@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ChatGPT最近一阵子很火，而OpenAI和微软的合作紧密，微软也在把GPT相关的技术积极整合到自家产品上，包括New Bing，Copilot，Office等。作为微软的员工，自然会对这个东西很关注，并且发现其真的很有用。这篇文章从程序员的视角，主要总结最近我用ChatGPT的一些经验，然后也简单提一下Copilot。 全新的英语学习方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我如何使用ChatGPT和Copilot">
+<meta property="og:url" content="https://www.xiaoming.io/chat-gpt/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="ChatGPT最近一阵子很火，而OpenAI和微软的合作紧密，微软也在把GPT相关的技术积极整合到自家产品上，包括New Bing，Copilot，Office等。作为微软的员工，自然会对这个东西很关注，并且发现其真的很有用。这篇文章从程序员的视角，主要总结最近我用ChatGPT的一些经验，然后也简单提一下Copilot。 全新的英语学习方式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/422d819d0b6833c8b4d27a77f7af8196.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/5287c0723d85d2a4c9826c430214aef6.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/29e182ddb9d2118a2609bf7fd815fa00.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/07729e6d6a287d7d0bf103abe5316492.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/31a0bb1069c967c83c24137a578da22b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/32c8866d0b79ff2efe02ed3fcf7f6f1a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/05785e2e8fdba4a050e2d6cae13d1bd5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/11cfecd7899d0c7461c8aada567d6f78.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/1cfde4108936c5c8f092cb2e98ce6139.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/0cf4b258071fb89d5bf166e6deec070e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/3755aa2da2730ecc9024340a6866559c.png">
+<meta property="article:published_time" content="2023-05-27T08:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.596Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="总结">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/2025/chat-gpt/images/422d819d0b6833c8b4d27a77f7af8196.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/chat-gpt/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>我如何使用ChatGPT和Copilot | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/chat-gpt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          我如何使用ChatGPT和Copilot
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-27 16:00:00" itemprop="dateCreated datePublished" datetime="2023-05-27T16:00:00+08:00">2023-05-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">学习思考</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/chat-gpt/" class="post-meta-item leancloud_visitors" data-flag-title="我如何使用ChatGPT和Copilot" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/chat-gpt/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/chat-gpt/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>ChatGPT最近一阵子很火，而OpenAI和微软的合作紧密，微软也在把GPT相关的技术积极整合到自家产品上，包括New Bing，Copilot，Office等。作为微软的员工，自然会对这个东西很关注，并且发现其真的很有用。这篇文章从程序员的视角，主要总结最近我用ChatGPT的一些经验，然后也简单提一下Copilot。</p>
+<h2 id="全新的英语学习方式">全新的英语学习方式</h2>
+<p>学英语的时候会学很多语法但是记不住，我平时主要还是靠语感，有时候一些表达总觉得不对。比如下面这个句子”它可能是这么被引入的“，我自己用likely来翻译，感觉读起来不顺口，这时可以让ChatGPT帮我纠正语法错误，还可以给我解释原因。</p>
+<p>而如果用常规翻译软件，没办法指定用likely这个词，翻译出来完全不是一回事。</p>
+<p>还有就是我记得以前学过一些表达概率的词，但是想不起来了，去网上搜会很费劲，问ChatGPT就会很轻松得到答案。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/422d819d0b6833c8b4d27a77f7af8196.png" alt=""><br>
+<img data-src="/blog-imgs/2025/chat-gpt/images/5287c0723d85d2a4c9826c430214aef6.png" alt=""></p>
+<h2 id="写作文写故事写剧本">写作文写故事写剧本</h2>
+<p>ChatGPT很擅长写故事，只需要给出故事梗概，还能指定字数，并且可以反复提要求让ChatGPT修改直到满意。这对语言功底一般的人而言太有用了，ChatGPT的文采比我实在好太多了。</p>
+<p>比如小学时的经典记叙文情节。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/29e182ddb9d2118a2609bf7fd815fa00.png" alt=""></p>
+<p>再比如我突发奇想，AI如果以后真的开始取代人类程序员，可能会遭到人类程序员的抗议。ChatGPT直接帮我写成了短篇科幻小说，甚至还在末尾做了升华，很符合社会主义价值观。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/07729e6d6a287d7d0bf103abe5316492.png" alt=""></p>
+<p>爱好Vlog的朋友还可以让ChatGPT写剧本。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/31a0bb1069c967c83c24137a578da22b.png" alt=""></p>
+<p>也可以写小红书风格的文案。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/32c8866d0b79ff2efe02ed3fcf7f6f1a.png" alt=""></p>
+<h2 id="提炼关键信息、扩充文字、转述文字">提炼关键信息、扩充文字、转述文字</h2>
+<p>ChatGPT可以轻松的从一大段文字中提炼关键点，把简单的几句话扩展成一整篇文章，或是把文字用不同方式转述出来。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/05785e2e8fdba4a050e2d6cae13d1bd5.png" alt=""></p>
+<p>可以指定风格，转述同一段话。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/11cfecd7899d0c7461c8aada567d6f78.png" alt=""></p>
+<h2 id="自动写代码片段">自动写代码片段</h2>
+<p>经常需要写点bash帮我实现一些功能，但是bash命令实在太多了根本记不住，这个时候用ChatGPT就会很有帮助了，不过它写出来的也不一定完全符合要求，但是复制粘贴改改就能用了，节省了很多查资料的时间。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/1cfde4108936c5c8f092cb2e98ce6139.png" alt=""></p>
+<h2 id="学习编程基础知识">学习编程基础知识</h2>
+<p>我之前主要做Android开发，最近刚好需要学习C++和OC做iOS开发，很多基础知识不了解或者学过但是记不清了，ChatGPT真的是帮了大忙。</p>
+<p>可以问各种弱智的基础问题，不用担心被人嘲笑，也不会把同事问烦了，比搜索引擎效率又高很多。</p>
+<p>举个例子，网上的文章太多了，Demo太复杂了，我让ChatGPT给我写了一个极简Demo，让我很快就能对iOS上UIViewController的用法有个基本概念。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/0cf4b258071fb89d5bf166e6deec070e.png" alt=""></p>
+<h2 id="找代码BUG">找代码BUG</h2>
+<p>随便发一段代码给ChatGPT，就能给你找到各种Bug，还会给你修正后的结果。</p>
+<p><img data-src="/blog-imgs/2025/chat-gpt/images/3755aa2da2730ecc9024340a6866559c.png" alt=""></p>
+<h2 id="Copilot">Copilot</h2>
+<p>这里顺便提一下Copilot。Copilot是最近开始用的，主要说几个让我感受到震撼的点。</p>
+<h3 id="自动补全bash脚本调用命令">自动补全bash脚本调用命令</h3>
+<p>最近想写个脚本设置mac的网卡使用DHCP而不是固定IP，我本来想去查一下networksetup命令要怎么设置这个，但是当我写下 macUseDhcp() 的时候，Copilot自动补全了整个函数，networksetup -setdhcp Wi-Fi，networksetup -setdnsservers Wi-Fi Empty。结果去看了下，发现这个命令真的就是这样用的。</p>
+<h3 id="自动写代码注释">自动写代码注释</h3>
+<p>有时候写了一段代码想注释一下，但是还得想想怎么组织语言，但是Copilot能看懂我的代码，直接把注释给我写好了，按一下tab就行了。</p>
+<h3 id="Copilot的使用感受">Copilot的使用感受</h3>
+<p>我主要用Copilot写工程代码，实际场景中的复杂需求都在我脑子里，Copilot很难从上下文推断出我下一步要干啥然后补全代码。如果是一些明确的需求，例如写一个排序算法，当我打出函数名SortData时，需求就很明确了，Copilot应该就知道自动补全了。从这个角度来看，AI想替代人类写代码，最难的问题大概就是理解实际需求了，特别是客户端项目，还得能理解设计师给出的设计图。</p>
+<p>在复杂项目中写C++时，Copilot推荐的代码有时会调用一个语法上不存在的API，而基于clangd语法解析后的自动补全功能，则不会提示一个不存在的API。这说明Copilot对当前项目的语法树和编译规则并不了解（实际上也不能配置相关的选项），而是仅凭阅读代码本身来实现自动补全的。这样的情况下还常常能补全我想要的代码，甚至知道从我同时打开的另一个源文件里帮我抄代码过来，真的挺厉害的。如果能把Copilot和编译工具（例如前面说的clangd）做个结合，再让他可以阅读需求文档和设计图，大概就更厉害了。</p>
+<p>总的来说，Copilot目前离全自动写代码还有很长的路要走，但仅仅靠阅读文本并猜测的方式补全代码，对于打字比较慢的我而言也挺有用的了，经常只需要按一下tab就能输入一整行代码，这时心情真的非常不错。</p>
+<h2 id="总结">总结</h2>
+<p>ChatGPT可以作为高级搜索引擎使用，它可以通过复杂的语言描述过滤搜索结果，而传统搜索引擎只能用关键字匹配。</p>
+<p>写文章一类需求，我认为本质上AI是把学到的各种文章做了整合，所以只要我给出梗概，就可以输出一篇看起来挺像回事的文章。</p>
+<p>ChatGPT的创造力有限。之前有朋友问能不能让他写三体的续集，果然ChatGPT写不出来，只是给了几个思考方向，估计也是从网上什么文章搬过来的。</p>
+<p>不能过于相信回答的结果，因为有时候会有错误，需要自己去验证。</p>
+<p>提问的方式很重要，如果问题描述不全很可能得不到想要的结果，但是因为他本身有上下文，可以一直补全问题从而逐渐获取更准确的结果。</p>
+<p>这篇文章本身也尝试用ChatGPT做润色修改，不过反复测试调整后，感觉还是不符合我一贯的表达方式且会丢失一些细节，所以还是放弃了。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2025-year-end-review/" rel="bookmark">大厂码农的2025：被AI取代、卖房血亏、炒股白干，我却更自由了</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/coin-game/" rel="bookmark">为什么做了正确的选择，还是会失败？——从抛硬币游戏看人生</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2024-year-end-review/" rel="bookmark">2024年终总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2023-year-end-review/" rel="bookmark">2023年终总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/note-and-blog-system/" rel="bookmark">构建自己的笔记博客系统（程序员版）</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wiz-export-html-md/" rel="bookmark">知笔记批量导出HTML并转换为Markdown</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022-year-end-review/" rel="bookmark">2022年终总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021-year-end-review/" rel="bookmark">2021年终总结</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E6%80%BB%E7%BB%93/" rel="tag"># 总结</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022-year-end-review/" rel="prev" title="2022年终总结">
+      <i class="fa fa-chevron-left"></i> 2022年终总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/wiz-export-html-md/" rel="next" title="知笔记批量导出HTML并转换为Markdown">
+      知笔记批量导出HTML并转换为Markdown <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E6%96%B0%E7%9A%84%E8%8B%B1%E8%AF%AD%E5%AD%A6%E4%B9%A0%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">全新的英语学习方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%BD%9C%E6%96%87%E5%86%99%E6%95%85%E4%BA%8B%E5%86%99%E5%89%A7%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text">写作文写故事写剧本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%82%BC%E5%85%B3%E9%94%AE%E4%BF%A1%E6%81%AF%E3%80%81%E6%89%A9%E5%85%85%E6%96%87%E5%AD%97%E3%80%81%E8%BD%AC%E8%BF%B0%E6%96%87%E5%AD%97"><span class="nav-number">3.</span> <span class="nav-text">提炼关键信息、扩充文字、转述文字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%86%99%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5"><span class="nav-number">4.</span> <span class="nav-text">自动写代码片段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">5.</span> <span class="nav-text">学习编程基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%BE%E4%BB%A3%E7%A0%81BUG"><span class="nav-number">6.</span> <span class="nav-text">找代码BUG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Copilot"><span class="nav-number">7.</span> <span class="nav-text">Copilot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8bash%E8%84%9A%E6%9C%AC%E8%B0%83%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">7.1.</span> <span class="nav-text">自动补全bash脚本调用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%86%99%E4%BB%A3%E7%A0%81%E6%B3%A8%E9%87%8A"><span class="nav-number">7.2.</span> <span class="nav-text">自动写代码注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Copilot%E7%9A%84%E4%BD%BF%E7%94%A8%E6%84%9F%E5%8F%97"><span class="nav-number">7.3.</span> <span class="nav-text">Copilot的使用感受</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

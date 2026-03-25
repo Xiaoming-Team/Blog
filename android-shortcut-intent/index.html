@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Intent 在安卓中，Activity启动时通常需要Intent参数。Intent参数中包含以下几个常用的属性：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓创建快捷方式相关问题 Intent Intent-filter">
+<meta property="og:url" content="https://www.xiaoming.io/android-shortcut-intent/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="Intent 在安卓中，Activity启动时通常需要Intent参数。Intent参数中包含以下几个常用的属性：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-10-19T02:09:09.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.573Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="安卓">
+<meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="Intent">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/android-shortcut-intent/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>安卓创建快捷方式相关问题 Intent Intent-filter | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/android-shortcut-intent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          安卓创建快捷方式相关问题 Intent Intent-filter
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-19 10:09:09" itemprop="dateCreated datePublished" datetime="2014-10-19T10:09:09+08:00">2014-10-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/android-shortcut-intent/" class="post-meta-item leancloud_visitors" data-flag-title="安卓创建快捷方式相关问题 Intent Intent-filter" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/android-shortcut-intent/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/android-shortcut-intent/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Intent"><strong>Intent</strong></h3>
+<p>在安卓中，Activity启动时通常需要Intent参数。Intent参数中包含以下几个常用的属性：</p>
+<p>Component，指定了要启动的Activity，以及启动的context，使用Intent.setClass或Intent.setComponent方法可以设置；</p>
+<p>Action属性，可用Intent.setAction方法设置；</p>
+<p>Category属性，可用Intent.addCategory方法添加，Action和Category属性一般用于做过滤；</p>
+<p>Extra属性，用于传入一些参数，可通过Intent.putExtra方法添加。在Activity被启动后可以通过getIntent.getExtra获取Extra参数。</p>
+<h3 id="Manifest"><strong>Manifest</strong></h3>
+<p>安卓Activity有一个intent-filter属性，用于过滤启动启动此Activity所使用的Intent，不满足条件的Intent无法启动这个Activity，也就是Intent的Action和Category属性了。</p>
+<p>最常见的用法，就是主启动Activity一般这么写：</p>
+<p>&lt;activity</p>
+<p>android:name=“.MainActivity”</p>
+<p>android:label=“@string/title_activity_main” &gt;</p>
+<p>&lt;intent-filter&gt;</p>
+<p>&lt;action android:name=“android.intent.action.MAIN” /&gt;</p>
+<p>&lt;category android:name=“android.intent.category.LAUNCHER” /&gt;</p>
+<p>&lt;/intent-filter&gt;</p>
+<p>&lt;/activity&gt;</p>
+<p>给Activity设置intent-filter.action属性，则该Activity可以作为应用程序入口，被其他程序调用（比如Launcher启动器）。可以有多个action，只要Intent具有其中的一个action就可以启动Activity。如：</p>
+<p>&lt;action android:name=“voice” /&gt;</p>
+<p>&lt;action android:name=“android.intent.action.MAIN” /&gt;</p>
+<p>在Activity的intent-filter.category属性中添加LAUNCHER值，则此Activity可以出现在Launcher中，也就是手机应用程序主菜单中。</p>
+<p>&lt;category android:name=“android.intent.category.LAUNCHER” /&gt;</p>
+<p>如果设置了action但没有对category属性添加LAUNCHER，会出现下述警告，表明Activity暴漏在外面，可被外部的非Launcher程序调用，可能会有安全性问题。</p>
+<p>Exported activity does not require permission</p>
+<p>此时设置android:exported=&quot;false&quot;则警告会消失。这是，这个Activity只能在本应用内部被调用。因此，指向具有这一属性的Activity的快捷方式被点击时，Launcher无法调用Activity，于是会显示应用程序不存在。</p>
+<p>android:exported=“false”</p>
+<p>同一个App可以有多个Activity具有action.MAIN属性，Launcher会自动选择一个作为程序入口。</p>
+ <!-- 欢迎界面 -->
+<p>&lt;activity</p>
+<p>android:name=“.ui.ActivityWelcome”</p>
+<p>android:theme=“@android:style/Theme.Light.NoTitleBar.Fullscreen” &gt;</p>
+<p>&lt;intent-filter&gt;</p>
+<p>&lt;action android:name=“android.intent.action.MAIN” /&gt;</p>
+<p>&lt;category android:name=“android.intent.category.LAUNCHER” /&gt;</p>
+<p>&lt;/intent-filter&gt;</p>
+<p>&lt;/activity&gt;</p>
+ <!-- 主界面 -->
+<p>&lt;activity android:name=“.ui.ActivityMain” &gt;</p>
+<p>&lt;intent-filter&gt;</p>
+<p>&lt;action android:name=“MAIN” /&gt;</p>
+<p>&lt;category android:name=“android.intent.category.LAUNCHER” /&gt;</p>
+<p>&lt;/intent-filter&gt;</p>
+<p>&lt;/activity&gt;</p>
+<h3 id="代码添加快捷方式的方法"><strong>代码添加快捷方式的方法</strong></h3>
+<p>/**</p>
+<p>* 创建快捷方式</p>
+<p>* <p></p>
+<p>* 需要权限</p>
+<p>* <p></p>
+<p>* &lt;uses-permission</p>
+<p>* android:name=“com.android.launcher.permission.INSTALL_SHORTCUT” /&gt;</p>
+<p>* <p></p>
+<p>*</p>
+<p>* @param context</p>
+<p>*            Context</p>
+<p>* @param intent</p>
+<p>*            要启动的Intent</p>
+<p>* @param name</p>
+<p>*            快捷方式名</p>
+<p>* @param icon</p>
+<p>*            快捷方式图标</p>
+<p>*/</p>
+<p>public static final void addShortcut(Context context, Intent intent,</p>
+<p>String name, int icon) {</p>
+<p>ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(</p>
+<p>context, icon);</p>
+<p>Intent sc = new Intent(“com.android.launcher.action.INSTALL_SHORTCUT”);</p>
+<p>sc.putExtra(Intent.EXTRA_SHORTCUT_NAME, name); // 快捷方式名</p>
+<p>sc.putExtra(“duplicate”, false); // 不允许重复创建</p>
+<p>sc.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes); // 快捷方式图标</p>
+<p>sc.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent); // 启动Intent</p>
+<p>context.sendBroadcast(sc);</p>
+<p>}</p>
+<p>public static final void addShortcut(Context context, Intent intent,</p>
+<p>int name, int icon) {</p>
+<p>addShortcut(context, intent, context.getString(name), icon);</p>
+<p>}</p>
+<h3 id="通过给Intent设置不同的Component、Action等，即可从Launcher启动相应Activity，并可传入Extra参数，这样可以实现一些诸如一键截屏，快捷启动之类的功能。"><strong>通过给Intent设置不同的Component、Action等，即可从Launcher启动相应Activity，并可传入Extra参数，这样可以实现一些诸如一键截屏，快捷启动之类的功能。</strong></h3>
+<p>Intent intent = new Intent(Intent.ACTION_MAIN);</p>
+<p>intent.setClass(this, ActivityWelcome.class);</p>
+<p>addShortcut(this, intent, R.string.app_name, R.drawable.ic_launcher);</p>
+<p>Intent intent1 = new Intent(“MAIN”);</p>
+<p>intent1.setClass(this, this.getClass());</p>
+<p><em>addShortcut</em>(this, intent1, R.string.app_name, R.drawable.ic_launcher);</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-bitmap/" rel="bookmark">Android Bitmap操作内存问题总结(图片处理、截屏等)</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/glide-study/" rel="bookmark">Glide使用简介与源码分析</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-7-ratingbar-bug/" rel="bookmark">Android 7.0中RatingBar评星点击区域不准确的解决</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"># 安卓</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+              <a href="/tags/Intent/" rel="tag"># Intent</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/android-screen/" rel="prev" title="安卓屏幕尺寸相关知识总结">
+      <i class="fa fa-chevron-left"></i> 安卓屏幕尺寸相关知识总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/wiz-blog/" rel="next" title="为知笔记离线博客发布功能">
+      为知笔记离线博客发布功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Intent"><span class="nav-number">1.</span> <span class="nav-text">Intent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Manifest"><span class="nav-number">2.</span> <span class="nav-text">Manifest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%B7%BB%E5%8A%A0%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">代码添加快捷方式的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E7%BB%99Intent%E8%AE%BE%E7%BD%AE%E4%B8%8D%E5%90%8C%E7%9A%84Component%E3%80%81Action%E7%AD%89%EF%BC%8C%E5%8D%B3%E5%8F%AF%E4%BB%8ELauncher%E5%90%AF%E5%8A%A8%E7%9B%B8%E5%BA%94Activity%EF%BC%8C%E5%B9%B6%E5%8F%AF%E4%BC%A0%E5%85%A5Extra%E5%8F%82%E6%95%B0%EF%BC%8C%E8%BF%99%E6%A0%B7%E5%8F%AF%E4%BB%A5%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%BA%9B%E8%AF%B8%E5%A6%82%E4%B8%80%E9%94%AE%E6%88%AA%E5%B1%8F%EF%BC%8C%E5%BF%AB%E6%8D%B7%E5%90%AF%E5%8A%A8%E4%B9%8B%E7%B1%BB%E7%9A%84%E5%8A%9F%E8%83%BD%E3%80%82"><span class="nav-number">4.</span> <span class="nav-text">通过给Intent设置不同的Component、Action等，即可从Launcher启动相应Activity，并可传入Extra参数，这样可以实现一些诸如一键截屏，快捷启动之类的功能。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

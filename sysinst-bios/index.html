@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="我们都爱小实验：  请重启电脑 请在开机时睁大双眼观察开机画面 在电脑刚刚开机显示品牌Logo的时候，有没有发现画面中有句英文~类似这样的：  Press DEL to enter setup…… Press F2 to run setup…… To interrupt normal startup, press the ENTER button……   只要看到这句话，小实验就圆满完成了 完全不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装系统不求人——BIOS设置">
+<meta property="og:url" content="https://www.xiaoming.io/sysinst-bios/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="我们都爱小实验：  请重启电脑 请在开机时睁大双眼观察开机画面 在电脑刚刚开机显示品牌Logo的时候，有没有发现画面中有句英文~类似这样的：  Press DEL to enter setup…… Press F2 to run setup…… To interrupt normal startup, press the ENTER button……   只要看到这句话，小实验就圆满完成了 完全不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/1d9c74a10beb0c1b129aabcf2f587958.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/43e71cfc5443dfc8624be4336d5ade85.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/130a35a9df65f7d9b4601428d8506724.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/bc40fe629088d5d9e994cd6f7046238e.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/6df527252cd65423a40d24d650c7dc7f.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/5a5fbf7ebb64bf5bff775e8889a89457.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/43e71cfc5443dfc8624be4336d5ade85.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/aea3306379513ced962e096cb6f37b36.jpg">
+<meta property="article:published_time" content="2015-04-02T09:04:34.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.402Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="#装系统不求人#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/1d9c74a10beb0c1b129aabcf2f587958.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/sysinst-bios/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>装系统不求人——BIOS设置 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/sysinst-bios/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          装系统不求人——BIOS设置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-02 17:04:34" itemprop="dateCreated datePublished" datetime="2015-04-02T17:04:34+08:00">2015-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sysinst/" itemprop="url" rel="index"><span itemprop="name">装系统不求人</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sysinst-bios/" class="post-meta-item leancloud_visitors" data-flag-title="装系统不求人——BIOS设置" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sysinst-bios/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sysinst-bios/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我们都爱小实验：</p>
+<ol>
+<li>请重启电脑</li>
+<li>请在开机时睁大双眼观察开机画面</li>
+<li>在电脑刚刚开机显示品牌Logo的时候，有没有发现画面中有句英文~类似这样的：
+<ul>
+<li>Press DEL to enter setup……</li>
+<li>Press F2 to run setup……</li>
+<li>To interrupt normal startup, press the ENTER button……</li>
+</ul>
+</li>
+<li>只要看到这句话，小实验就圆满完成了</li>
+<li>完全不懂英文？那……拼音字母能看懂吧……至少认识类似ESC、DEL、ENTER、F1、F2、F10这样的按键名字吧<code>╭∩╮(︶︿︶）╭∩╮</code></li>
+</ol>
+<h2 id="BIOS">BIOS</h2>
+<p>装系统的核心机密之一就在这里了。这货叫做BIOS，也有人把它叫做CMOS（虽然不准确），小实验中刚开机时显示电脑品牌的画面，就是这货输出的。BIOS=Basic Input / Output System，自己看着理解下就行。</p>
+<p>BIOS干嘛的？它用来保存一些基本设置，例如你的系统时间，在比如开机从哪个地方启动。平时电脑都是从硬盘启动的，然后进入了我们每天面对的Windows等系统；现在想让电脑从我们的神器——启动U盘启动，要做的就是<strong>插上U盘</strong>和<strong>修改BIOS设置</strong>。</p>
+<blockquote>
+<p>你可以试着关机拔掉插头和电池，过一个月再装上，发现时间竟然还是对的。喂，你不会真的等上一个月吧……意思一下就好 o(╯□╰)o</p>
+<p>原因是BIOS有独立的电池，装在电脑里的主板上，维持几个月没问题的。</p>
+<p>既然是电池嘛，总会有没电的时候，就只能换了。但是现在的很多电脑中BIOS的电池，都是可充电的，趁着接上电源后偷偷自动充电，所以一般不会没电。除非你故意给电脑断电一年。</p>
+<p>早期的电脑主板可能不支持U盘启动，只能光盘。不过只要你用的不是很古董的电脑，就不用担心了。</p>
+</blockquote>
+<h2 id="电脑开机过程">电脑开机过程</h2>
+<p>到了这里，我们简单梳理一下电脑开机过程：</p>
+<ol>
+<li>电脑通上电，然后按了开机键</li>
+<li>BIOS启动，显示你电脑的品牌LOGO画面</li>
+<li>BootLoader启动（还记得制作启动盘用的Grub4dos么）
+<ul>
+<li>如果有多个系统，BootLoader会让你挑一个</li>
+<li>一个BootLoader还可以启动别的BootLoader</li>
+</ul>
+</li>
+<li>操作系统启动，例如我们熟悉的“正在启动Windows”</li>
+<li>启动各种熟悉的软件，QQ啦、DOTA啦、美图秀秀啦、快播啦等等</li>
+</ol>
+<h2 id="Legacy-BIOS-EFI-BIOS-UEFI-BIOS">Legacy BIOS / EFI BIOS / UEFI BIOS</h2>
+<p>BIOS也有几种类型。</p>
+<ol>
+<li>
+<p>Legacy BIOS指的就是传统BIOS，很常见。</p>
+</li>
+<li>
+<p>EFI BIOS是传统BIOS的升级版，由Intel公司推出（EFI = Extensible Firmware Interface，可扩展固件接口）。</p>
+</li>
+<li>
+<p>UEFI BIOS可以理解成EFI BIOS的第二版（UEFI=Unified Extensible Firmware Interface，统一可扩展固件接口）。</p>
+</li>
+</ol>
+<p>为什么要升级呢？对于我们装系统来说又有什么作用？</p>
+<p>早些时候，硬盘都是MBR类型，最大只能支持2TB容量。而人们对硬盘需求越来越大，电影越来越高清啦，游戏越来越逼真啦，还有各种收藏癖……所以就有了GPT硬盘，它能支持的容量大得多。</p>
+<p>Legacy BIOS<strong>只能</strong>启动MBR硬盘上的系统，而EFI/UEFI BIOS<strong>只能</strong>启动GPT硬盘上的系统。有些主板只支持Legacy BIOS，而一些新推出的电脑主板同时支持Legacy BIOS和EFI/UEFI BIOS。</p>
+<blockquote>
+<p>有关MBR和GPT更详细的介绍，可参考本系列后续文章<br>
+《装系统不求人——硬盘的秘密》<br>
+<a href="http://www.xiaoming.io/sysinst-harddisk">http://www.xiaoming.io/sysinst-harddisk</a></p>
+<p>如果不是启动硬盘上的系统，只要软件支持，Legacy BIOS的电脑上，使用GPT格式的硬盘保存数据也没问题。</p>
+</blockquote>
+<h2 id="BIOS设置">BIOS设置</h2>
+<p>由于不同品牌电脑的BIOS界面不完全一样，我没法把每种BIOS的设置都一步步列出来<code>（┬＿┬）</code></p>
+<p>不过好在BIOS里面就那几个单词，差别不会很大。英文不好的自己估计下，多试几次电脑一般不会爆炸的。电脑小白想把电脑彻底搞坏以至于修不好，其实是很困难的；除非使用暴力手段，例如丢水里，放把火，掉地上……</p>
+<p>唯一一种需要担心的情况是，你周围方圆五百里都没有懂电脑的，也没有电脑维修店，并且设置错了，自己还健忘的不会改回来，那就有点麻烦了 <code>o(*￣▽￣*)o</code></p>
+<p>因为我手头资源有限，只有一台电脑，所以呐，我主要按照我的电脑来写的了，顺便给出了一些适用于其他电脑的总结。如果你仍然没能找到自己电脑上的相关选项：</p>
+<ul>
+<li>可以从网上再多找几篇看看</li>
+<li>要能找到你的电脑品牌对应的BIOS设置教程就更好了</li>
+<li>或者请教别人（喂，又违背了不求人的基本原则嘛 <code>í﹏ì</code>）</li>
+</ul>
+<p>祝好运~</p>
+<h2 id="进入BIOS设置界面">进入BIOS设置界面</h2>
+<p>首先是进入BIOS设置界面。前面我们做了小实验，看到了开机界面的那句话，例如<code>Press DEL to enter setup</code>，意思就是按DEL键进入BIOS设置了。</p>
+<blockquote>
+<p>什么？你不知道DEL键在哪？没事，按键一个个的找，写着DEL或者Delete的就是了。<br>
+观察力强的你，从来没注意到这句话么？<br>
+好奇心强的你，以前都没敢趁机试过按这个按键么……</p>
+</blockquote>
+<p>我们先来看下我的电脑是怎么进入BIOS的，然后我给出一个对多种电脑通用的总结。</p>
+<h3 id="示例">示例</h3>
+<ol>
+<li>
+<p>我的电脑显示的是To interrupt normal startup, press the ENTER button，意思是按ENTER键中止正常启动（也就是平常的那种开机），如下渣图。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/1d9c74a10beb0c1b129aabcf2f587958.jpg" alt=""></p>
+<blockquote>
+<p>别羡慕我用的ThinkPad，低端E系列穷人专享版，没你的最新笔记本值钱……不知道ThinkPad的同学请装作没看见这段。</p>
+</blockquote>
+</li>
+<li>
+<p>所以你按ENTER键，电脑会响一声，然后进入一个菜单如图，里面有几个选项，其中<code>F1 to enter the BIOS Setup Utility</code>就是进入BIOS设置，所以你按了F1。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/43e71cfc5443dfc8624be4336d5ade85.jpg" alt=""></p>
+</li>
+</ol>
+<h3 id="总结">总结</h3>
+<p>常常有这样一些情况（具体按键视情况而定）：</p>
+<ul>
+<li>Press DEL to enter setup, F12 to enter boot menu</li>
+<li>Press F1 to run setup</li>
+<li>Press TAB to show POST screen, DEL to enter setup</li>
+<li>……</li>
+</ul>
+<p>总之如果句子里只说了一个按键，十有八九就是按那个按键；如果里面说了多个按键，只要有enter setup/run setup这种的那个按键就是。学会了这个秘密，再也不用担心换了电脑就不会设置了，也不用去看网上那一大张的电脑品牌和进入BIOS按键的对照表了，感觉自己萌萌哒<code>~O(∩_∩)O~~</code></p>
+<h3 id="注意事项与技巧">注意事项与技巧</h3>
+<p>前面的问题都还好，注意事项才是最磨人的东西。</p>
+<ol>
+<li>
+<p>因为开机启动界面一般只停留几秒，所以<strong>时间上按键得按得恰到好处</strong>。实际上很难保证这一点的，所以呢，你得先搞清这个按键，然后在刚按开机键的时候，就<strong>提前一直不断一下一下的按这个按键</strong>，仿佛像触电发抖一样不断的按来按去，而不是瘫痪了一样按着不放。要是按错了或者没来得及，你就乖乖的、眼睁睁的看着电脑又正常开机了吧。</p>
+<blockquote>
+<p>要是你不知道按键，又想一次实现进入BIOS设置（比如想假装你很厉害），你可以把双手提前放在F1、F2、F10、ESC、DEL、ENTER这些常用的按键上，然后一边开机一边狂按这些按键（这难度可真是大，这场面也真是大）。注意了有时候按多了也不好，可能你已经按进去了，还没反应过来，不小心又按到别的按键上选择了不正确的选项。</p>
+</blockquote>
+</li>
+<li>
+<p>万一没按好，眼看着Windows就要启动了，该怎么办呢？少年，我看你有道灵光从天灵盖喷出，直冲天庭！年纪轻轻的就有一身横练的筋骨，实在是万中无一的练武奇才呀，这里有<strong>两个大招</strong>，只送有缘人！</p>
+<ul>
+<li>
+<p>在系统还没有开始启动前，也就是在BIOS和BootLoader运行时，同时按Ctrl+Alt+Delete，电脑就会<strong>重启</strong>（如果正常开机了，Windows中这个组合按键则用来启动任务管理器）。</p>
+</li>
+<li>
+<p>如果大招一行不通，可长按电源键5秒钟，直到电脑像突然熄火一样黑屏了，这是<strong>强制关机</strong>大法。</p>
+</li>
+<li>
+<p>强制关机大法任何时候都能用，例如小伙伴写了一个小时的文章还没来得及保存的时候（千万要注意安全，因为你可能会被小伙伴当场暴打一顿。因此导致的任何后果自负）；对于平时电脑死机了完全没反应都不能关机也有效。</p>
+</li>
+<li>
+<p>坏处是可能会导致数据丢失（例如前面小伙伴还没保存的文章），平时别偷懒用这种方式代替关机；偶尔应急按一下下倒没啥大的影响。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="修改BIOS设置">修改BIOS设置</h2>
+<blockquote>
+<p>还是和前面一样，先按我的电脑设置方法介绍，然后做总结。</p>
+</blockquote>
+<ol>
+<li>
+<p>说了半天BIOS设置到底长什么样还不知道呢，话说BIOS设置界面的背景是美女图片么？你想多了……和我们熟悉的Windows相比，长得真叫一个难看（如图），但是人不可貌相啊（“嫌我丑下次不让你开机了。”BIOS于是说）。</p>
+<blockquote>
+<p>你和我的电脑显示可能不太一样，有些帅富系列电脑的BIOS（通常是EFI/UEFI BIOS）不仅有背景图片，支持鼠标，而且还是中文的……简直没法比。</p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/sysinst/images/130a35a9df65f7d9b4601428d8506724.jpg" alt=""></p>
+</li>
+<li>
+<p>视力超好的你一眼就看到了Startup选项，并巧妙利用左右方向键切换过去，顺利完成第一关。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/bc40fe629088d5d9e994cd6f7046238e.jpg" alt=""></p>
+</li>
+<li>
+<p>你机智的用上下方向键选中了Boot（Boot不是靴子的意思么……哈哈哈哈哈哈哈），发现左侧有个小箭头，知道它有子菜单，所以果断按下了回车键。成功闯过第二关，见到了老怪如下图（关卡好少玩的真不过瘾啊）。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/6df527252cd65423a40d24d650c7dc7f.jpg" alt=""></p>
+</li>
+<li>
+<p>精通多国语言的你，看到了右边的帮助：上下方向键选择设备，<code>+ / -</code>键上下移动设备，<code>！</code>按键启用或禁用设备（这里的&quot;+“、”!&quot;键也是要按Shift的）……</p>
+<p>左侧有两栏分别是&quot;Boot Priority Order&quot;和&quot;Excluded from boot priority order&quot;，还有一堆全是缩写名词，精通多国语言的你也没看明白。不愧是老怪啊，陌生词汇<strong>杀伤力</strong>增加了好几个数量级啊。所以我来给你加点特技。</p>
+</li>
+<li>
+<p>特技：BIOS启动设备的识别</p>
+<ul>
+<li>写着HDD/SATA/IDE什么的就是硬盘了</li>
+<li>DVD/VCD/CD-ROM这种就是光驱也就是放光盘的地方</li>
+<li>LAN什么的是网卡</li>
+<li>USB就是USB设备</li>
+<li>USB HDD PNY Opener，那个USB HDD就是我的U盘做的启动盘了</li>
+<li>以上词汇不同电脑显示不同，有点像的就对了。</li>
+<li>PNY Opener……哦，那是我的带开瓶器功能的U盘的名字，不信你去百度。</li>
+</ul>
+<blockquote>
+<p>在这里，你就能看到电脑能不能支持USB HDD启动了。只要不是很古董的电脑，都没问题的~</p>
+</blockquote>
+</li>
+<li>
+<p>特技：启动优先级</p>
+<p>电脑开机时是按照优先级来尝试启动的，也就是图中的Boot Priority Order。</p>
+<ul>
+<li>图中我的设置里，硬盘是第一启动项，所以平时电脑直接从硬盘启动开机了。</li>
+<li>如果我设置U盘为第一启动项，硬盘放在第二项，开机时就会先检测和尝试从U盘启动，失败了才会想起备胎，也就是从硬盘启动。</li>
+<li>也就是除了第一项，后面的都是备胎了，按照优先级，挨个尝试每个备胎。</li>
+</ul>
+<p>至于那什么启用/禁用设备，就是把设备放在下面那一栏（Excluded from boot priority order）。在这里的设备就更惨了，连备胎都算不上，不得翻身<code>(＞﹏＜)</code></p>
+</li>
+<li>
+<p>新技能Get，大战老怪</p>
+<p>所以你根据提示中的按键操作，把硬盘设置成备胎，而把USB HDD设置成第一启动项了。别忘了，你的电脑设置界面和我的可能不完全一致，多看看旁边或者底下的说明多试试就知道了，不懂英文用猜的也可以。</p>
+</li>
+<li>
+<p>你以为打完老怪就完事了，激动的按了Ctrl+Alt+Delete重启电脑，发现根本不对，游戏存档怎么都不见了！！！</p>
+<p>看下图，在BIOS设置底部一直显示着一些帮助信息，F10 Save and Exit，保存并退出，这个才是你需要的。打完老怪（设置好了启动顺序）果断按F10，会提示你是否确认保存，你用方向键选择了YES然后回车。你也可以在下面的界面中选择Exit Saving Changes（保存并退出）。</p>
+<blockquote>
+<p>顺便说一下，Load Setup Defaults是加载默认设置的意思，<strong>如果不小心改错了BIOS不能开机，可以加载默认设置，一般就能开机了</strong>。</p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/sysinst/images/5a5fbf7ebb64bf5bff775e8889a89457.jpg" alt=""></p>
+</li>
+</ol>
+<h3 id="总结-2">总结</h3>
+<ol>
+<li>
+<p>通用按键说明</p>
+<ul>
+<li>方向键用来选择菜单项，切换标签页</li>
+<li>ENTER按键用来选中一项，或进入子菜单</li>
+<li>ESC按键用来退出</li>
+</ul>
+</li>
+<li>
+<p>如果有对话框让你确认：</p>
+<ul>
+<li>显示的是YES和NO两个按钮，选择YES就是确认（相应的NO就是取消）；</li>
+<li>如果是OK、CANCEL按钮，OK是确认；</li>
+<li>如果显示了“[Y/N]”，则输入Y再回车表示YES即确认。</li>
+</ul>
+</li>
+<li>
+<p>BIOS启动顺序的设置<br>
+各种BIOS都不一样，没法一一说明。如果你的电脑BIOS和我的一样，现在就已经搞定了。如果不一样，我参考了网上几篇文章，总结了一下在本系列后续这篇文章中：</p>
+<blockquote>
+<p>《装系统不求人——BIOS启动项设置实例》<br>
+<a href="http://www.xiaoming.io/sysinst-bios-example">http://www.xiaoming.io/sysinst-bios-example</a></p>
+</blockquote>
+</li>
+</ol>
+<h2 id="BIOS设置完成">BIOS设置完成</h2>
+<p>从此以后，你就是一个会打BIOS老怪的大神了，是不是很激动呢？还有你的电脑以后每次开机，都会先查找有没有能启动的U盘，没有的话才会从备胎硬盘启动。</p>
+<blockquote>
+<p>所以如果平时你不用U盘启动，可以把硬盘改成第一启动项，加快开机速度。</p>
+</blockquote>
+<p>插上之前做好的启动盘，试着用U盘启动……喂，之前说好的神器使用说明呢？好吧我写在后面这篇文章里了，先看完了再试着用U盘启动电脑……其实不看使用说明也没啥事，最多就是多开关机自己折腾几次了。</p>
+<blockquote>
+<p>《装系统不求人——万能启动U盘使用简介》<br>
+<a href="http://www.xiaoming.io/sysinst-bootable-disk-manual">http://www.xiaoming.io/sysinst-bootable-disk-manual</a></p>
+</blockquote>
+<h2 id="BIOS临时启动设备">BIOS临时启动设备</h2>
+<p>上面的过程挺不容易的，其实一些情况下，可以通过捷径快速打老怪。</p>
+<p>很多笔记本都支持临时启动设备。在我电脑上，还是下面这张图：</p>
+<ul>
+<li>按第一项的ESC，则会退出这个菜单，继续正常开机</li>
+<li>按第二项的F1，就是前文中进入BIOS设置的操作</li>
+<li>按第三项的F12，就能进入秘密通道了~</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/sysinst/images/43e71cfc5443dfc8624be4336d5ade85.jpg" alt=""></p>
+<p>没想到就这么轻松见到了老怪如图~你直接选择USB HDD回车，就从U盘启动了。而且更惊喜的是，这种临时启动设备不会改变BIOS设置。也就是说，你不需要像前面那种方法一样，先把硬盘改成备胎；用完U盘启动后，又重新改回去（因为平时让硬盘作为第一启动项会加快开机速度）。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/aea3306379513ced962e096cb6f37b36.jpg" alt=""></p>
+<h3 id="总结-3">总结</h3>
+<p>前面有提到，在有些电脑上，开机界面会显示类似这种：</p>
+<ol>
+<li><code>Press DEL to enter setup, F12 to enter boot menu</code></li>
+</ol>
+<p>这让选择困难症用户怎么办！！！既然按DEL能进入BIOS，后面那个呢？那个就是选择临时启动设备了。</p>
+<h3 id="注意事项">注意事项</h3>
+<p>又是烦人的注意事项来了。利用临时启动设备，一定得先插入U盘，然后开机设置。要不然在临时启动设备选择界面，看不到你的U盘。</p>
+<p>最后，有没有一种被坑了的感觉，既然有这么好的方法，为什么之前啰嗦那么多说怎么改BIOS设置？原因是并非所有电脑都支持这种高效好用的方法；另外想成为装系统高手，不懂常规的BIOS设置方法肯定是不行的。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-pwd-crack/" rel="bookmark">装系统不求人——开机密码破解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ubuntu/" rel="bookmark">装系统不求人——安装Ubuntu</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-customize-bootable-disk/" rel="bookmark">装系统不求人——量身定制自己的万能启动盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-xp/" rel="bookmark">装系统不求人——Win XP安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-boot/" rel="bookmark">装系统不求人——BootLoader与引导修复</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-prepare/" rel="bookmark">装系统不求人——系统安装准备工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ghost/" rel="bookmark">装系统不求人——用Ghost备份还原系统</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-follow-up/" rel="bookmark">装系统不求人——系统安装后续工作</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B8%8D%E6%B1%82%E4%BA%BA/" rel="tag"># #装系统不求人#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sysinst-create-bootable-disk/" rel="prev" title="装系统不求人——利用Grub4dos打造万能启动盘">
+      <i class="fa fa-chevron-left"></i> 装系统不求人——利用Grub4dos打造万能启动盘
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sysinst-bios-example/" rel="next" title="装系统不求人——BIOS启动项设置实例">
+      装系统不求人——BIOS启动项设置实例 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BIOS"><span class="nav-number">1.</span> <span class="nav-text">BIOS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E8%84%91%E5%BC%80%E6%9C%BA%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">电脑开机过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Legacy-BIOS-EFI-BIOS-UEFI-BIOS"><span class="nav-number">3.</span> <span class="nav-text">Legacy BIOS &#x2F; EFI BIOS &#x2F; UEFI BIOS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BIOS%E8%AE%BE%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">BIOS设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5BIOS%E8%AE%BE%E7%BD%AE%E7%95%8C%E9%9D%A2"><span class="nav-number">5.</span> <span class="nav-text">进入BIOS设置界面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%E4%B8%8E%E6%8A%80%E5%B7%A7"><span class="nav-number">5.3.</span> <span class="nav-text">注意事项与技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9BIOS%E8%AE%BE%E7%BD%AE"><span class="nav-number">6.</span> <span class="nav-text">修改BIOS设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-number">6.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BIOS%E8%AE%BE%E7%BD%AE%E5%AE%8C%E6%88%90"><span class="nav-number">7.</span> <span class="nav-text">BIOS设置完成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BIOS%E4%B8%B4%E6%97%B6%E5%90%AF%E5%8A%A8%E8%AE%BE%E5%A4%87"><span class="nav-number">8.</span> <span class="nav-text">BIOS临时启动设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-3"><span class="nav-number">8.1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">8.2.</span> <span class="nav-text">注意事项</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

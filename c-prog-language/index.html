@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文的核心，是在讨论如何真正的学好C语言，而不是讨论如何在C语言考试中拿高分。当然真正学好了C语言，拿高分也就不那么难了。 C语言是很多大学生大一的一门必修课，尤其是理工科专业，这门课程更是重中之重。如何学好C语言呢？这里提几点我的看法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言那点事——如何从零学好C语言？">
+<meta property="og:url" content="https://www.xiaoming.io/c-prog-language/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本文的核心，是在讨论如何真正的学好C语言，而不是讨论如何在C语言考试中拿高分。当然真正学好了C语言，拿高分也就不那么难了。 C语言是很多大学生大一的一门必修课，尤其是理工科专业，这门课程更是重中之重。如何学好C语言呢？这里提几点我的看法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/638ca580ea0ae0f15aa9c8d4a9c601ea.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/417cdc7b3242d1785314f155011b11a2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/ec69d8bf89934b65adb1bcc84576e922.png">
+<meta property="article:published_time" content="2014-12-27T15:13:23.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.399Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="方法">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/learn/images/638ca580ea0ae0f15aa9c8d4a9c601ea.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/c-prog-language/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C语言那点事——如何从零学好C语言？ | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/c-prog-language/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C语言那点事——如何从零学好C语言？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-12-27 23:13:23" itemprop="dateCreated datePublished" datetime="2014-12-27T23:13:23+08:00">2014-12-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">学习思考</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/c-prog-language/" class="post-meta-item leancloud_visitors" data-flag-title="C语言那点事——如何从零学好C语言？" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/c-prog-language/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/c-prog-language/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文的核心，是在讨论如何真正的学好C语言，而不是讨论如何在C语言考试中拿高分。当然真正学好了C语言，拿高分也就不那么难了。</p>
+<p>C语言是很多大学生大一的一门必修课，尤其是理工科专业，这门课程更是重中之重。如何学好C语言呢？这里提几点我的看法。</p>
+<h2 id="打好基础">打好基础</h2>
+<p>基础对于任何东西的学习都很重要，没有基础肯定不容易学好，遇到问题解决不了，然后发现欠缺了到很多基础，就会感觉无从下手。C语言国内采用较多的是谭浩强的《C程序设计》，我更推荐的是C语言创始人参与编写的《The C Programming Language》，中文名《C程序设计语言》。</p>
+<p>有时候有人问个问题，给他解释根本听不懂。我问他，你知道什么是变量，什么是表达式么？对方表示不知道。这就是基础欠缺太多的表现。这样的情况只能好好去看书补基础。</p>
+<p>当然，基础知识严重欠缺也不能全怪学生。</p>
+<p>由于C语言常常在大一学习，很多人还不能适应从高中到大学的转变。高中老师逼着学，一点一点不厌其烦的灌输知识；而大学，一下课老师就有自己的事，负责任的老师也就是偶尔抽出一些时间给大家集中解答疑问。于是很多人一下子转变不过来了。这个也是教育存在的严重问题吧，不能很好的培养学生的自主学习能力。</p>
+<p>很多人没接触过编程，初次学习很难接受非常正常。很多东西可能都不懂，为什么要这么做啊？为什么printf就能输出Hello World？printf之所以能输出字符串，其原理深入研究下去比较复杂，没有学过编程的人更是无法理解。</p>
+<p>所以初学的时候，不要过早的问为什么，先照着别人说的做，对语言逐步熟悉；到了学习的足够深入时，就有基础去探究深层次的原理了，甚至能自然的理解很多东西，即所谓的融会贯通。说的简单一点，初学C语言依赖printf的使用，而printf的原理则又依赖深入的C语言知识；互相依赖的东西，只有找到一个合适的切入点，一点一点的学习。</p>
+<h2 id="不惧怕英文">不惧怕英文</h2>
+<p>建议编程时，变量名多使用英文而不是拼音，具体的讨论，可参考下文：</p>
+<p>《思想：不要惧怕英文——英文的作用和重要性》 <a href="http://www.xiaoming.io/english">http://www.xiaoming.io/english</a></p>
+<h2 id="好习惯的养成">好习惯的养成</h2>
+<p>很多初学者，对于软件设计规范没有什么概念，甚至一些老师也没有去强调这些问题，或者是学生没有认真听，而这一点恰恰是很重要的。在以后的工作中如果从事软件方面的工作，公司也会对软件设计规范有要求。</p>
+<p>软件设计规范包括：命名风格、代码风格、注释风格、工程文件管理等。</p>
+<p>命名风格包括变量名、函数名等，首先一般都用英文而不是中文，前面已经说了；统一比较重要，例如首字母大小写、单词之间用下划线还是大写的方式分割，例如lcd_display，LCD_Display，printInfomation等。</p>
+<p>参考命名风格（模块名_功能）：</p>
+<p><img data-src="/blog-imgs/learn/images/638ca580ea0ae0f15aa9c8d4a9c601ea.jpg" alt=""></p>
+<p>很多人学习编程时，不知道代码风格的重要性，甚至都不知道什么是代码风格。所谓代码风格，可以简单的理解成程序代码的排版，在合适的地方应该加上缩进、空格，大括号要按照规定的格式对齐。如果你的代码有问题需要别人帮忙，代码排版混乱，高手肯定懒得给你看。就像写作文不加标点不分段一样，即使让作家给你看哪有问题，人家肯定也不愿意看。</p>
+<p>如果有了正确的缩进，遗漏大括号之类的很多问题根本不会发生。</p>
+<p>至于代码具体的风格，例如什么时候换行，什么地方加括号，并没有统一的规范。可参考《C++ Primer》一书中的讨论：</p>
+<p>关于什么是 C 或 C++ 程序的正确格式存在无休止的争论，我们相信没有唯一正确的风格，但一致性是有价值的。在选择代码风格时，要考虑提高可读性，使其易于理解。一旦选择了某种风格，就要始终如一地使用。</p>
+<h3 id="《C-Primer》中的C-代码风格">《C++ Primer》中的C++代码风格</h3>
+<p><img data-src="/blog-imgs/learn/images/417cdc7b3242d1785314f155011b11a2.jpg" alt=""></p>
+<p>除了代码风格，注释风格也有必要注意下，这里不做细说。</p>
+<p>参考注释风格：</p>
+<p><img data-src="/blog-imgs/learn/images/ec69d8bf89934b65adb1bcc84576e922.png" alt=""></p>
+<p>工程文件管理，对于初学编程时，小的程序一般只有几个文件，没有太多的问题。</p>
+<h3 id="规范书写程序的重要性">规范书写程序的重要性</h3>
+<p>减少代码错误，方便学习交流</p>
+<p>代码混乱，别人看不懂 ，时间久了，自己也看不懂</p>
+<p>实现代码复用，大大提高编程效率</p>
+<p>完成大型工程时，好的风格非常有必要</p>
+<p>多人开发程序，便于分工合作</p>
+<p>公司工作对代码风格要求严格</p>
+<p>养成良好代码风格是写出高质量程序的重要过程</p>
+<p>写出优美的代码是一门艺术</p>
+<p>……</p>
+<p>当然，前面说的这些风格未免要求过分严格，对于我们平时学习编程来说，没必要总是那么规范，但是至少要做到，能让人看起来比较清晰舒服，基本的代码风格还是要有保证的。</p>
+<h2 id="认真">认真</h2>
+<p>认真也是相当的重要。据观察，大神、学霸等某方面比较成功的人，在他所在领域，一般都非常认真。中国的技术为什么做不好，有一个重要因素就是缺乏认真做事的意识。从小由于环境等因素，作业只是为了完成任务，养成了不认真的习惯。我希望中国每个大学生，至少在自己想学好的事情上足够认真，这样才能对得起“大学生”这个称呼。转自科学网的一篇文章很值得我们思考：</p>
+<p>《中日差距一厕所》<a href="http://www.xiaoming.io/china-japan-difference">http://www.xiaoming.io/china-japan-difference</a></p>
+<h2 id="多练习">多练习</h2>
+<p>想要学好C语言，最重要的一点就是多练习。学校开设的C语言课程基本上都会有上机课，一定要抓紧这些机会去实际练习编程。如果有时间和条件，也可以在机房或是自己的电脑上多进行实际操作练习。</p>
+<h2 id="自主学习与提问的智慧">自主学习与提问的智慧</h2>
+<p>当自己学习出了问题时，要尽可能独立思考去解决；再考虑通过查阅书籍和网上的资料来解决；实在还是解决不了，再考虑请教别人，而提问也需要智慧。具体可参考：</p>
+<p>《自主学习 &amp; 提问的智慧——学习中遇到难题怎么破？》 <a href="http://www.xiaoming.io/solve-problem">http://www.xiaoming.io/solve-problem</a></p>
+<p>C程序如果出了问题需要提问，建议做到以下几点，会大大增加被人回答的几率：</p>
+<p>至少有基本的代码风格，例如合理的缩进；</p>
+<p>说明程序的目的；</p>
+<p>如果出错了，描述一下哪里出错，错误的现象是什么。如果是编译时就有的语法错误，把编译器报错信息贴出来；如果是执行结果不对，不正确的执行结果是多少说清楚。因为看的人不一定能用电脑给你的程序再执行一遍试试，即使大神也不是机器人，代码也不是一眼能看明白的。</p>
+<p>对于稍微复杂一点的程序，最好给出几个测试用例，也就是分别输入1、2、3的时候，正确结果应该是多少。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/msp430-study/" rel="bookmark">怎样学习MSP430单片机</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E6%96%B9%E6%B3%95/" rel="tag"># 方法</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/solve-problem/" rel="prev" title="自主学习 & 提问的智慧——学习中遇到难题怎么破？">
+      <i class="fa fa-chevron-left"></i> 自主学习 & 提问的智慧——学习中遇到难题怎么破？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/life-meaning/" rel="next" title="生活的意义：将感兴趣的东西做到极致">
+      生活的意义：将感兴趣的东西做到极致 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%A5%BD%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">打好基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E6%83%A7%E6%80%95%E8%8B%B1%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">不惧怕英文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%BD%E4%B9%A0%E6%83%AF%E7%9A%84%E5%85%BB%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">好习惯的养成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%8AC-Primer%E3%80%8B%E4%B8%AD%E7%9A%84C-%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="nav-number">3.1.</span> <span class="nav-text">《C++ Primer》中的C++代码风格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%84%E8%8C%83%E4%B9%A6%E5%86%99%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="nav-number">3.2.</span> <span class="nav-text">规范书写程序的重要性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A4%E7%9C%9F"><span class="nav-number">4.</span> <span class="nav-text">认真</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%BB%83%E4%B9%A0"><span class="nav-number">5.</span> <span class="nav-text">多练习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E4%B8%BB%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7"><span class="nav-number">6.</span> <span class="nav-text">自主学习与提问的智慧</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

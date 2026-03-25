@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、概述 在Java、Android相关的开发中，经常会用到Json自动解析框架，其中比较常见的一个就是Google推出的Gson。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gson源码设计学习">
+<meta property="og:url" content="https://www.xiaoming.io/gson-study/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="一、概述 在Java、Android相关的开发中，经常会用到Json自动解析框架，其中比较常见的一个就是Google推出的Gson。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-01T11:24:26.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.395Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/gson-study/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Gson源码设计学习 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/gson-study/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gson源码设计学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-01 19:24:26" itemprop="dateCreated datePublished" datetime="2017-12-01T19:24:26+08:00">2017-12-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/gson-study/" class="post-meta-item leancloud_visitors" data-flag-title="Gson源码设计学习" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/gson-study/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/gson-study/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、概述">一、概述</h2>
+<p>在Java、Android相关的开发中，经常会用到Json自动解析框架，其中比较常见的一个就是Google推出的Gson。</p>
+<p>关于Gson的使用，这个系列文章已经讲的很全面了，就不重复写了。</p>
+<blockquote>
+<p>你真的会用Gson吗?Gson使用指南<br>
+<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/e740196225a4">http://www.jianshu.com/p/e740196225a4</a></p>
+</blockquote>
+<p>Gson源码分析的文章相对较少。本文尝试对Gson源码进行简明且较全面的分析，重点关注其中的设计思想。基于Gson 2.8.0，建议结合源码阅读。</p>
+<blockquote>
+<p>Google / Gson - GitHub<br>
+<a target="_blank" rel="noopener" href="https://github.com/google/gson">https://github.com/google/gson</a></p>
+</blockquote>
+<p>文章开始前，先简单回顾一下Gson基本用法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析数据（使用Class）</span></span><br><span class="line">String json1 = <span class="string">&quot;&#123;\&quot;key\&quot;:\&quot;value\&quot;&#125;&quot;</span>;</span><br><span class="line">Data data1 = gson.fromJson(json, Data.class);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析带泛型的数据（使用TypeToken）</span></span><br><span class="line">String json2 = <span class="string">&quot;[&#123;\&quot;key\&quot;,\&quot;value1\&quot;&#125;,&#123;\&quot;key\&quot;,\&quot;value2\&quot;&#125;]&quot;</span>;</span><br><span class="line">List&lt;Data&gt; list = gson.fromJson(json2, <span class="keyword">new</span> TypeToken&lt;List&lt;Data&gt;&gt;()&#123;&#125;.getType());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 序列化数据</span></span><br><span class="line">Data data3 = <span class="keyword">new</span> Data();</span><br><span class="line">String json3 = gson.toJson(data3);</span><br></pre></td></tr></table></figure>
+<h2 id="二、主要接口">二、主要接口</h2>
+<h3 id="TypeToken：类型处理工具类">TypeToken：类型处理工具类</h3>
+<p>Gson解析数据时要知道Java对象的类型（包括其泛型），TypeToken工具类可以方便的处理类型。</p>
+<p>例如给Gson传一个<code>List&lt;String&gt;</code>类型的Type对象，可以用下面的方式。TypeToken提供了protected权限的构造函数，通过继承一个匿名类即可实例化，getType返回一个ParameterizedType实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Type type = <span class="keyword">new</span> TypeToken&lt;List&lt;String&gt;&gt;()&#123;&#125;.getType();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Type是Java中的接口，表示对象类型。Type有一个实现类<code>Class</code>（普通类型，例如<code>Object</code>、<code>ArrayList</code>）和几个子类接口：</p>
+<ul>
+<li>GenericArrayType（数组类型，例如<code>String[]</code>）</li>
+<li>ParameterizedType（泛型类型，例如<code>List&lt;String&gt;</code>）</li>
+<li>WildcardType（形如<code>? extends ClassA</code>、<code>？super ClassB</code>）</li>
+<li>TypeVariable（类型变量）</li>
+</ul>
+<p>参考：Java Type详解<br>
+<a target="_blank" rel="noopener" href="http://blog.csdn.net/gdutxiaoxu/article/details/68926515">http://blog.csdn.net/gdutxiaoxu/article/details/68926515</a></p>
+</blockquote>
+<h3 id="JsonToken：Json流式操作API">JsonToken：Json流式操作API</h3>
+<p>Gson封装了一组偏底层的JsonToken API。JsonToken是一个枚举类型，每种类型表示一个原始Json元素，例如：</p>
+<ul>
+<li>BEGIN_ARRAY：对应<code>[</code></li>
+<li>BEGIN_OBJECT：对应<code>&#123;</code></li>
+<li>NULL：对应<code>null</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">JsonToken</span> </span>&#123;</span><br><span class="line">  BEGIN_ARRAY,</span><br><span class="line">  END_ARRAY,</span><br><span class="line">  BEGIN_OBJECT,</span><br><span class="line">  END_OBJECT,</span><br><span class="line">  NAME,</span><br><span class="line">  STRING,</span><br><span class="line">  NUMBER,</span><br><span class="line">  BOOLEAN,</span><br><span class="line">  NULL,</span><br><span class="line">  END_DOCUMENT</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="JsonReader、JsonWriter：JsonString转JsonToken">JsonReader、JsonWriter：JsonString转JsonToken</h3>
+<p>JsonReader和JsonWriter用于读写Json字符串，在Json字符串和JsonToken之间转换。</p>
+<p>JsonToken、JsonReader、JsonReader通过数据流的形式操作Json，都放在包<code>com.google.gson.stream</code>中，也称为Stream API。</p>
+<h3 id="JsonElement：Json元素树">JsonElement：Json元素树</h3>
+<p>Gson还封装了一组JsonElement API。抽象类JsonElement表示一个Json元素，每个JsonElement可包含0到多个子JsonElement，形成树结构。JsonElement的子类有：</p>
+<ul>
+<li>JsonPrimitive：Json基本类型，例如<code>1</code>, <code>&quot;text&quot;</code>, <code>true</code></li>
+<li>JsonObject：Json对象，例如<code>&#123;&quot;key&quot;, &quot;val&quot;&#125;</code></li>
+<li>JsonArray：Json数组，例如<code>[&#123;&quot;key&quot;, &quot;val1&quot;&#125;, &#123;&quot;key&quot;, &quot;val2&quot;&#125;]</code></li>
+<li>JsonNull：Json Null元素，即<code>null</code></li>
+</ul>
+<h3 id="JsonSerializer、JsonDeserializer：JsonElement转JavaObject">JsonSerializer、JsonDeserializer：JsonElement转JavaObject</h3>
+<p>JsonSerializer和JsonDeserializer用于实现JsonElement树到Java对象之间的转换。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">JsonSerializer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> JsonElement <span class="title">serialize</span><span class="params">(T src, Type typeOfSrc, JsonSerializationContext context)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">JsonDeserializer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">deserialize</span><span class="params">(JsonElement json, Type typeOfT, JsonDeserializationContext context)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> JsonParseException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="TypeAdapter：JsonToken转JavaObject">TypeAdapter：JsonToken转JavaObject</h3>
+<h4 id="相关背景">相关背景</h4>
+<p>早期的Gson例如1.6版本中，Json数据先通过JsonReader/JsonWriter转换到JsonToken流，再通过Streams工具类转换到JsonElement树，最后由JsonSerializer/JsonDeserializer转换到Java对象。</p>
+<p>Gson在2.0版本中引入了TypeAdapter，并在2.1版本开放接口。TypeAdapter可以直接转换JsonToken流和Java对象，可以不经过JsonElement，性能得到了提高。</p>
+<blockquote>
+<p>Version 2.0<br>
+Previous versions first parsed complete document into a DOM-style model (JsonObject or JsonArray) and then bound data against that. Gson 2 does data binding directly from the stream parser.</p>
+</blockquote>
+<blockquote>
+<p>Version 2.1<br>
+Support for user-defined streaming type adapters</p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/google/gson/blob/master/CHANGELOG.md">https://github.com/google/gson/blob/master/CHANGELOG.md</a></p>
+</blockquote>
+<h4 id="接口定义">接口定义</h4>
+<p>TypeAdapter是一个抽象类，除了一些共通方法，还包含了两个抽象方法：</p>
+<ul>
+<li>write：序列化，Java对象 --&gt; JsonToken --&gt; JsonWriter</li>
+<li>read：反序列化，JsonReader --&gt; JsonToken --&gt; Java对象</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">TypeAdapter</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(JsonWriter out, T value)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> T <span class="title">read</span><span class="params">(JsonReader in)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="TypeAdapter与Serializer对比">TypeAdapter与Serializer对比</h4>
+<p>TypeAdapter</p>
+<p>JsonSerializer、JsonDeserializer</p>
+<p>引入版本</p>
+<p>2.0</p>
+<p>1.x</p>
+<p>Stream API</p>
+<p>支持</p>
+<p>不支持，要先生成JsonElement</p>
+<p>内存占用</p>
+<p>较小</p>
+<p>较大</p>
+<p>效率</p>
+<p>较高</p>
+<p>较低</p>
+<p>作用范围</p>
+<p>序列化 和 反序列化</p>
+<p>序列化 或 反序列化</p>
+<h4 id="TypeAdapters">TypeAdapters</h4>
+<p>TypeAdapters类中包含了一些基本类型的TypeAdapter实现，具体可以自行阅读源码。</p>
+<h3 id="TypeAdapterFactory：创建TypeAdapter">TypeAdapterFactory：创建TypeAdapter</h3>
+<p>TypeAdapterFactory用于创建TypeAdapter。传入特定的type，Factory返回相应的TypeAdapter实例。如果不支持这种类型，则返回null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TypeAdapterFactory</span> </span>&#123;</span><br><span class="line">  &lt;T&gt; <span class="function">TypeAdapter&lt;T&gt; <span class="title">create</span><span class="params">(Gson gson, TypeToken&lt;T&gt; type)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Gson、GsonBuilder">Gson、GsonBuilder</h3>
+<p>通常使用Gson对象来序列化/反序列化Json数据。</p>
+<p>Gson对象中包含了一系列的配置属性。对于常规简单情况，可以直接用<code>new Gson()</code>方式创建一个全部使用默认配置的Gson实例。如果需要自定义各种配置，则可使用GsonBuilder创建。</p>
+<p>Gson对象内部是线程安全的，因此创建了一个Gson实例后，可以在多线程之间反复使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Gson工具类封装</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GsonUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Gson gson;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">                .create();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Gson <span class="title">getGson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gson;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">fromJson</span><span class="params">(String json, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gson.fromJson(json, clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">String <span class="title">toJson</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> gson.toJson(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、Gson设计学习">三、Gson设计学习</h2>
+<h3 id="解析时Java对象的创建">解析时Java对象的创建</h3>
+<p>在解析数据时，会给Gson传入Java对象的Type。Gson需要从Type创建对象实例，其中绝大多数对象都是通过ConstructorConstructor工具类创建的。</p>
+<ol>
+<li>大部分类型的实例创建，直接通过反射调用默认无参构造函数。</li>
+<li>对于List、Map、Set等接口类型，创建默认实现类ArrayList、HashMap、HashSet等的对象。</li>
+<li>对于没有默认构造函数的其他类型，可以向Gson注册InstanceCreator自己创建。</li>
+<li>Primitive及封装类型、数组类型等，在相应的TypeAdapter中自己创建，不调用ConstructorConstructor。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Context context;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.context = context;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserInstanceCreator</span> <span class="keyword">implements</span> <span class="title">InstanceCreator</span>&lt;<span class="title">User</span>&gt; </span>&#123;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">createInstance</span><span class="params">(Type type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> User(ContextProvider.getDefaultContext());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">.registerTypeAdapter(User.class, <span class="keyword">new</span> UserInstanceCreator())</span><br><span class="line">    .create();</span><br></pre></td></tr></table></figure>
+<h3 id="TypeAdapter获取过程">TypeAdapter获取过程</h3>
+<p>Gson在序列化/反序列化前，都需要先知道Java对象的Type，获取到对应的TypeAdapter，再进行操作。</p>
+<p>Gson.getAdapter()方法可以根据传入的TypeToken，返回对应的TypeAdapter。下面对其代码进行分析。</p>
+<h4 id="TypeAdapter缓存">TypeAdapter缓存</h4>
+<p>Gson有个ConcurrentHashMap缓存，先从缓存取已经生成了的TypeAdapter。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;TypeToken&lt;?&gt;, TypeAdapter&lt;?&gt;&gt; typeTokenCache = <span class="keyword">new</span> ConcurrentHashMap&lt;TypeToken&lt;?&gt;, TypeAdapter&lt;?&gt;&gt;();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TypeAdapter&lt;?&gt; cached = typeTokenCache.get(type == <span class="keyword">null</span> ? NULL_KEY_SURROGATE : type);</span><br><span class="line"><span class="keyword">if</span> (cached != <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="keyword">return</span> (TypeAdapter&lt;T&gt;) cached;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="遍历TypeAdapterFactory创建TypeAdapter">遍历TypeAdapterFactory创建TypeAdapter</h4>
+<p>Gson中还有一个<code>List&lt;TypeAdapterFactory&gt;</code>，按优先级保存了若干TypeAdapterFactory。</p>
+<p>如果上一步TypeAdapter没有缓存，则需要创建。Gson依次遍历每个TypeAdapterFactory并调用create，直到有一个Factory返回了非空的TypeAdapter对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> List&lt;TypeAdapterFactory&gt; factories;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (TypeAdapterFactory factory : factories) &#123;</span><br><span class="line">    TypeAdapter&lt;T&gt; candidate = factory.create(<span class="keyword">this</span>, type);</span><br><span class="line">    <span class="keyword">if</span> (candidate != <span class="keyword">null</span>) &#123;</span><br><span class="line">        call.setDelegate(candidate);</span><br><span class="line">        typeTokenCache.put(type, candidate);</span><br><span class="line">        <span class="keyword">return</span> candidate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="递归调用问题的解决">递归调用问题的解决</h4>
+<p>Factory在创建Adapter时，可能会嵌套递归调用<code>Gson.getAdapter</code>方法导致死循环、堆栈溢出。为了解决这个问题，getAdapter在调用Factory前会先保存一个空的FutureTypeAdapter到ThreadLocal中；之后Factory再嵌套调用getAdapter时取到的是FutureTypeAdapter；当获取到最终的Adapter后再设置到这个FutureTypeAdapter中。</p>
+<blockquote>
+<p>This thread local guards against reentrant calls to getAdapter(). In certain object graphs, creating an adapter for a type may recursively require an adapter for the same type! Without intervention, the recursive lookup would stack overflow. We cheat by returning a proxy type adapter. The proxy is wired up once the initial adapter has been created.</p>
+</blockquote>
+<h3 id="DelegateAdapter设计：拦截器效果">DelegateAdapter设计：拦截器效果</h3>
+<p>Gson中有些TypeAdapter会有类似网络框架拦截器的效果(Interceptor)，例如只在部分情况处理序列化/反序列化，或插入一些操作，剩下的再交给其他匹配的TypeAdapter处理。</p>
+<p>为了实现这种效果，Gson中设计了DelegateAdapter机制。通过调用Gson.getDelegateAdapter方法并传入跳过的Factory，Gson会遍历优先级更低的Factory创建DelegateAdapter。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// skipPast即为跳过的Factory，遍历比skipPast优先级更低的Factory创建DelegateAdapter</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">TypeAdapter&lt;T&gt; <span class="title">getDelegateAdapter</span><span class="params">(TypeAdapterFactory skipPast, TypeToken&lt;T&gt; type)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>如下就是DelegateAdapter的一个应用，可以统计Gson序列化/反序列化了多少对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StatsTypeAdapterFactory</span> <span class="keyword">implements</span> <span class="title">TypeAdapterFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> numReads = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> numWrites = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">TypeAdapter&lt;T&gt; <span class="title">create</span><span class="params">(Gson gson, TypeToken&lt;T&gt; type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> TypeAdapter&lt;T&gt; delegate = gson.getDelegateAdapter(<span class="keyword">this</span>, type);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> TypeAdapter&lt;T&gt;() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(JsonWriter out, T value)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                ++numWrites;</span><br><span class="line">                delegate.write(out, value);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> T <span class="title">read</span><span class="params">(JsonReader in)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                ++numReads;</span><br><span class="line">                <span class="keyword">return</span> delegate.read(in);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="自定义TypeAdapter-TypeAdapterFactory">自定义TypeAdapter/TypeAdapterFactory</h3>
+<p>当需要自己处理特定数据类型时，可以用GsonBuilder配置生成Gson对象，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">.registerTypeAdapter(Test1.class, <span class="keyword">new</span> Test1Adapter())</span><br><span class="line">    .registerTypeHierarchyAdapter(Test2.class, <span class="keyword">new</span> Test2Deserializer())</span><br><span class="line">    .registerTypeAdapterFactory(<span class="keyword">new</span> Test3AdapterFactory())</span><br><span class="line">    .create();</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li>registerTypeAdapter，可传入JsonSerializer、JsonDeserializer、InstanceCreator、TypeAdapter，处理特定类型数据</li>
+<li>registerTypeHierarchyAdapter，可传入JsonSerializer、JsonDeserializer、TypeAdapter，处理特定类型及其子类数据</li>
+<li>registerTypeAdapterFactory，注册自定义的Factory</li>
+</ul>
+<p>Builder中注册的JsonSerializer/JsonDeserializer/TypeAdapter都会被转换成TypeAdapterFactory，最终加入到Gson的Factory列表中。</p>
+<p>自定义的Factory，<strong>比Gson内置的大部分Factory优先级高</strong>（除了个别特殊的内置Factory）。</p>
+<h3 id="TypeAdapters-JSON-ELEMENT：JsonToken转JsonElement">TypeAdapters.JSON_ELEMENT：JsonToken转JsonElement</h3>
+<p>JSON_ELEMENT的作用是转换JsonToken和JsonElement。</p>
+<p>有时需要自己序列化/反序列化Java对象，除了自定义TypeAdapter/Serializer，还可以直接让Gson将Json字符串转换到JsonElement树，之后再处理。</p>
+<p>例如某个网络请求，不同的code对应不同的data结构，可以直接把data定义为JsonElement类型，由Gson解析成JsonElement树，之后再根据code在业务代码中处理。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">&quot;code&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;data&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;key&quot;</span>: <span class="string">&quot;value&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">&quot;code&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;data&quot;</span>: <span class="string">&quot;msg&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Response</span> </span>&#123;</span><br><span class="line"><span class="keyword">int</span> code;</span><br><span class="line">    JsonElement data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">String json = <span class="string">&quot;...&quot;</span>;</span><br><span class="line">Response response = <span class="keyword">new</span> Gson().fromJson(json, Response.class);</span><br><span class="line"><span class="keyword">if</span> (response != <span class="keyword">null</span>) &#123;</span><br><span class="line"><span class="keyword">switch</span> (response.code) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>: <span class="comment">// ...</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>: <span class="comment">// ...</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="TreeTypeAdapter">TreeTypeAdapter</h3>
+<p>前面提到，在Gson 1.x中只有JsonSerializer/JsonDeserializer，2.0才开始引入TypeAdapter。TreeTypeAdapter就是适配Serializer而设计的。</p>
+<p>一方面TreeTypeAdapter将JsonToken转换到JsonElement树，再调用Serializer，这也是其名称中“Tree”的由来；另一方面TreeTypeAdapter支持只设置JsonSerializer或JsonDeserializer之一，另一个则通过调用DelegateAdapter来处理。</p>
+<p>TreeTypeAdapter.read方法如下(write方法类似)，如果有Deserializer则转换到JsonElement并使用Deserializer，否则调用DelegateAdapter处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeTypeAdapter</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">TypeAdapter</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">read</span><span class="params">(JsonReader in)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (deserializer == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> delegate().read(in);</span><br><span class="line">        &#125;</span><br><span class="line">        JsonElement value = Streams.parse(in);</span><br><span class="line">        <span class="keyword">if</span> (value.isJsonNull()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> deserializer.deserialize(value, typeToken.getType(), context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> TypeAdapter&lt;T&gt; <span class="title">delegate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        TypeAdapter&lt;T&gt; d = delegate;</span><br><span class="line">        <span class="keyword">return</span> d != <span class="keyword">null</span> ? d : (delegate = gson.getDelegateAdapter(skipPast, typeToken));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="JsonAdapter注解：设置自定义TypeAdapter">JsonAdapter注解：设置自定义TypeAdapter</h3>
+<p>给数据类型自定义TypeAdapter/TypeAdapterFactory或JsonSerializer/JsonDeserializer，除了用GsonBuilder配置，也可以直接用JsonAdapter注解。<strong>这个注解可作用于类和成员变量</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@JsonAdapter(UserDeserializer.class)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line"><span class="meta">@JsonAdapter(IdTypeAdapter.class)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">long</span> id;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>JsonAdapter的实现在JsonAdapterAnnotationTypeAdapterFactory中，这个Factory的create方法会判断如果Type有JsonAdapter注解，则根据注解创建对应的Adapter/Serializer处理。</p>
+<p>需要注意的是，由于JsonAdapterAnnotationTypeAdapterFactory在Gson中的优先级很低（具体可以看Gson构造函数源码），因此<strong>JsonAdapter注解修饰绝大多数Gson原生支持数据类型时是无效的</strong>，包括Primitive和封装类型(int/Integer/long/Long…)、String、数组、Collection及Map的子类等。</p>
+<h3 id="ReflectiveTypeAdapterFactory：反射解析Java对象">ReflectiveTypeAdapterFactory：反射解析Java对象</h3>
+<p>ReflectiveTypeAdapterFactory是Gson中优先级最低、但使用很频繁的Factory，前面所有Factory都没有处理的Type，最终都会由这个Factory创建Adapter来处理。</p>
+<p>ReflectiveTypeAdapterFactory.Adapter通过反射读取Java对象的每个Field，然后根据相应的名字和类型，再调用其他匹配的Adapter来处理。</p>
+<h4 id="FieldNamingStrategy与SerializedName注解：字段名映射配置">FieldNamingStrategy与SerializedName注解：字段名映射配置</h4>
+<p>ReflectiveTypeAdapterFactory.Adapter读取Java对象的Field，默认对应到Json中的字段名就是FieldName，但也可以改变这个规则。</p>
+<ul>
+<li>
+<p>通过GsonBuilder.setFieldNamingStrategy，可以设置FieldNamingStrategy，按照一定的规则转换命名风格。例如设置为<code>FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES</code>，则Java字段<code>someFieldName</code>对应Json中的<code>some_field_name</code>字段。</p>
+</li>
+<li>
+<p>通过SerializedName注解，可以指定Field对应的Json字段名，还可以用alternate指定解析时尝试多个候选项。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SerializedName(&quot;name&quot;)</span></span><br><span class="line">    String a;</span><br><span class="line">    <span class="meta">@SerializedName(value=&quot;name1&quot;, alternate=&#123;&quot;name2&quot;, &quot;name3&quot;&#125;)</span></span><br><span class="line">    String b;</span><br><span class="line">    String c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Expose注解：字段过滤">Expose注解：字段过滤</h4>
+<p>ReflectiveTypeAdapterFactory.Adapter默认处理Java对象的每个Field(static和transient成员除外)，也可以用Expose注解配置。</p>
+<ul>
+<li>Expose注解有serialize、deserialize两个字段，默认均为true，设置为false则不处理这个字段</li>
+<li>没有Expose注解的字段默认均处理，如果设置了GsonBuilder.excludeFieldsWithoutExposeAnnotation，则跳过所有没添加Expose注解的字段。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Expose</span></span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line">    <span class="meta">@Expose(serialize = false)</span></span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">    <span class="meta">@Expose</span> (serialize = <span class="keyword">false</span>, deserialize = <span class="keyword">false</span>)</span><br><span class="line">    <span class="keyword">private</span> String emailAddress;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Excluder、ExclusionStrategy、Since-Until注解：Class和字段过滤">Excluder、ExclusionStrategy、Since/Until注解：Class和字段过滤</h3>
+<p>Excluder用于忽略指定的类和Field。</p>
+<p>前面已经提到可以使用Expose注解忽略特定字段。此外还可以忽略带有特定修饰符的Field（Modifier）、根据Since/Until注解指定的版本忽略、忽略内部类、使用ExclusionStrategy忽略等。具体用法可参考下文，不再详细介绍。</p>
+<blockquote>
+<p>你真的会用Gson吗?Gson使用指南（三） <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/0e40a52c0063">http://www.jianshu.com/p/0e40a52c0063</a></p>
+</blockquote>
+<p>实现方面，对Field的忽略，是由ReflectiveTypeAdapterFactory调用Excluder实现的。对于Class的忽略，Excluder自身也是一个TypeAdapterFactory，且优先级高于绝大多数Factory，在Excluder.create方法中判断如果Type的序列化或反序列化需要忽略，则进行相应的拦截处理。</p>
+<h3 id="Gson-Design-Document">Gson Design Document</h3>
+<p>在Gson官方的Design Document中，还列举了一些Gson设计过程中遇到的问题，例如解析时如何创建对象实例，为什么Gson中的大部分类都是final的，等等。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/google/gson/blob/master/GsonDesignDocument.md">https://github.com/google/gson/blob/master/GsonDesignDocument.md</a></p>
+<h2 id="四、参考资料与扩展阅读">四、参考资料与扩展阅读</h2>
+<p>通过自定义TypeAdapter对Gson进行封装，解决一些开发中经常遇到的问题，可阅读这篇文章</p>
+<blockquote>
+<p>Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理<br>
+<a href="http://www.xiaoming.io/gson-technic">http://www.xiaoming.io/gson-technic</a></p>
+</blockquote>
+<p>其他参考资料</p>
+<blockquote>
+<p>Google / Gson - GitHub<br>
+<a target="_blank" rel="noopener" href="https://github.com/google/gson">https://github.com/google/gson</a></p>
+</blockquote>
+<blockquote>
+<p>你真的会用Gson吗?Gson使用指南<br>
+<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/e740196225a4">http://www.jianshu.com/p/e740196225a4</a></p>
+</blockquote>
+<blockquote>
+<p>Java Type详解<br>
+<a target="_blank" rel="noopener" href="http://blog.csdn.net/gdutxiaoxu/article/details/68926515">http://blog.csdn.net/gdutxiaoxu/article/details/68926515</a></p>
+</blockquote>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gson-technic/" rel="bookmark">Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dynamic-proxy-java-bus/" rel="bookmark">一种基于动态代理实现的Android/Java总线通信组件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/infer/" rel="bookmark">空指针静态代码检查工具Infer</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/online-video-download/" rel="prev" title="网页视频通用下载方法(支持网易云音乐MV、优酷等)">
+      <i class="fa fa-chevron-left"></i> 网页视频通用下载方法(支持网易云音乐MV、优酷等)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/gson-technic/" rel="next" title="Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理">
+      Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BB%E8%A6%81%E6%8E%A5%E5%8F%A3"><span class="nav-number">2.</span> <span class="nav-text">二、主要接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeToken%EF%BC%9A%E7%B1%BB%E5%9E%8B%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="nav-number">2.1.</span> <span class="nav-text">TypeToken：类型处理工具类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JsonToken%EF%BC%9AJson%E6%B5%81%E5%BC%8F%E6%93%8D%E4%BD%9CAPI"><span class="nav-number">2.2.</span> <span class="nav-text">JsonToken：Json流式操作API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JsonReader%E3%80%81JsonWriter%EF%BC%9AJsonString%E8%BD%ACJsonToken"><span class="nav-number">2.3.</span> <span class="nav-text">JsonReader、JsonWriter：JsonString转JsonToken</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JsonElement%EF%BC%9AJson%E5%85%83%E7%B4%A0%E6%A0%91"><span class="nav-number">2.4.</span> <span class="nav-text">JsonElement：Json元素树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JsonSerializer%E3%80%81JsonDeserializer%EF%BC%9AJsonElement%E8%BD%ACJavaObject"><span class="nav-number">2.5.</span> <span class="nav-text">JsonSerializer、JsonDeserializer：JsonElement转JavaObject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeAdapter%EF%BC%9AJsonToken%E8%BD%ACJavaObject"><span class="nav-number">2.6.</span> <span class="nav-text">TypeAdapter：JsonToken转JavaObject</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E8%83%8C%E6%99%AF"><span class="nav-number">2.6.1.</span> <span class="nav-text">相关背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E5%AE%9A%E4%B9%89"><span class="nav-number">2.6.2.</span> <span class="nav-text">接口定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TypeAdapter%E4%B8%8ESerializer%E5%AF%B9%E6%AF%94"><span class="nav-number">2.6.3.</span> <span class="nav-text">TypeAdapter与Serializer对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TypeAdapters"><span class="nav-number">2.6.4.</span> <span class="nav-text">TypeAdapters</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeAdapterFactory%EF%BC%9A%E5%88%9B%E5%BB%BATypeAdapter"><span class="nav-number">2.7.</span> <span class="nav-text">TypeAdapterFactory：创建TypeAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gson%E3%80%81GsonBuilder"><span class="nav-number">2.8.</span> <span class="nav-text">Gson、GsonBuilder</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81Gson%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.</span> <span class="nav-text">三、Gson设计学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E6%97%B6Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">3.1.</span> <span class="nav-text">解析时Java对象的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeAdapter%E8%8E%B7%E5%8F%96%E8%BF%87%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">TypeAdapter获取过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TypeAdapter%E7%BC%93%E5%AD%98"><span class="nav-number">3.2.1.</span> <span class="nav-text">TypeAdapter缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%81%8D%E5%8E%86TypeAdapterFactory%E5%88%9B%E5%BB%BATypeAdapter"><span class="nav-number">3.2.2.</span> <span class="nav-text">遍历TypeAdapterFactory创建TypeAdapter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="nav-number">3.2.3.</span> <span class="nav-text">递归调用问题的解决</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DelegateAdapter%E8%AE%BE%E8%AE%A1%EF%BC%9A%E6%8B%A6%E6%88%AA%E5%99%A8%E6%95%88%E6%9E%9C"><span class="nav-number">3.3.</span> <span class="nav-text">DelegateAdapter设计：拦截器效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89TypeAdapter-TypeAdapterFactory"><span class="nav-number">3.4.</span> <span class="nav-text">自定义TypeAdapter&#x2F;TypeAdapterFactory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeAdapters-JSON-ELEMENT%EF%BC%9AJsonToken%E8%BD%ACJsonElement"><span class="nav-number">3.5.</span> <span class="nav-text">TypeAdapters.JSON_ELEMENT：JsonToken转JsonElement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeTypeAdapter"><span class="nav-number">3.6.</span> <span class="nav-text">TreeTypeAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JsonAdapter%E6%B3%A8%E8%A7%A3%EF%BC%9A%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89TypeAdapter"><span class="nav-number">3.7.</span> <span class="nav-text">JsonAdapter注解：设置自定义TypeAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReflectiveTypeAdapterFactory%EF%BC%9A%E5%8F%8D%E5%B0%84%E8%A7%A3%E6%9E%90Java%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.8.</span> <span class="nav-text">ReflectiveTypeAdapterFactory：反射解析Java对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FieldNamingStrategy%E4%B8%8ESerializedName%E6%B3%A8%E8%A7%A3%EF%BC%9A%E5%AD%97%E6%AE%B5%E5%90%8D%E6%98%A0%E5%B0%84%E9%85%8D%E7%BD%AE"><span class="nav-number">3.8.1.</span> <span class="nav-text">FieldNamingStrategy与SerializedName注解：字段名映射配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Expose%E6%B3%A8%E8%A7%A3%EF%BC%9A%E5%AD%97%E6%AE%B5%E8%BF%87%E6%BB%A4"><span class="nav-number">3.8.2.</span> <span class="nav-text">Expose注解：字段过滤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Excluder%E3%80%81ExclusionStrategy%E3%80%81Since-Until%E6%B3%A8%E8%A7%A3%EF%BC%9AClass%E5%92%8C%E5%AD%97%E6%AE%B5%E8%BF%87%E6%BB%A4"><span class="nav-number">3.9.</span> <span class="nav-text">Excluder、ExclusionStrategy、Since&#x2F;Until注解：Class和字段过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gson-Design-Document"><span class="nav-number">3.10.</span> <span class="nav-text">Gson Design Document</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E4%B8%8E%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="nav-number">4.</span> <span class="nav-text">四、参考资料与扩展阅读</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

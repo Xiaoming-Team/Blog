@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="这篇文章里，我们一起来折腾自己装满各种珍贵资料的硬盘~ 不好好学习本文，以后硬盘出了问题不会修，平时珍藏的好看的电影音乐收藏、偷偷保存的男神女神照片、各种好玩的游戏就都没啦~~当然你可以先简单了解，然后在需要的时候再具体看｡◕‿◕｡ 本篇涉及的一些软件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装系统不求人——硬盘折腾大全与数据恢复">
+<meta property="og:url" content="https://www.xiaoming.io/sysinst-harddisk-op/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="这篇文章里，我们一起来折腾自己装满各种珍贵资料的硬盘~ 不好好学习本文，以后硬盘出了问题不会修，平时珍藏的好看的电影音乐收藏、偷偷保存的男神女神照片、各种好玩的游戏就都没啦~~当然你可以先简单了解，然后在需要的时候再具体看｡◕‿◕｡ 本篇涉及的一些软件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/0bd59eb17f9edf0e3a8b24c538c5efa2.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/8b580c303e87fb31f9c12ae7818a3826.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/e252b18da57b0880c2170328b86931ce.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/91d1e1950d4e251372192e430bea9a7e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/920d60aacd77abc71e5765d06e3ba316.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/f051458f4d607a577691f6dac82ef269.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/7194517d4bd77c881c772d5142dd1778.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/9c6024b86a0745b1fdbb91f113ba16bf.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/1500d3b198105d8e65917b9e141223da.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/5c207b8a68853e6e060f0f13eac26aef.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/3ebffc2fa969d00ad0047d027c5af5c7.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/36cac118d8ab44c8765683bde973e4d1.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/7297901b8868237407c3c7c8e4015563.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/2377f09ec8a736073d56cdf24c4abe79.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/809b5eec80a19c8e0b417f6e93f61266.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/920d60aacd77abc71e5765d06e3ba316.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/20100309225158-803742163.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/2be1c33e39be8b795ed347aa9c407649.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/49ebc60f552281e8146d92e18e0a0b5f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/80e62de9d72d246057686b4078fac885.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/9022dcaa80fc0a028e1ffc2cb805dbf6.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/3dcdcc8b8a2772e7b2cf0a339db37b8a.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/1b63b45fcb97291446b370a6e7861f9f.png">
+<meta property="article:published_time" content="2015-04-02T09:08:57.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.403Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="#装系统不求人#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/0bd59eb17f9edf0e3a8b24c538c5efa2.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/sysinst-harddisk-op/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>装系统不求人——硬盘折腾大全与数据恢复 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/sysinst-harddisk-op/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          装系统不求人——硬盘折腾大全与数据恢复
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-02 17:08:57" itemprop="dateCreated datePublished" datetime="2015-04-02T17:08:57+08:00">2015-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sysinst/" itemprop="url" rel="index"><span itemprop="name">装系统不求人</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sysinst-harddisk-op/" class="post-meta-item leancloud_visitors" data-flag-title="装系统不求人——硬盘折腾大全与数据恢复" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sysinst-harddisk-op/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sysinst-harddisk-op/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章里，我们一起来折腾自己装满各种珍贵资料的硬盘~ 不好好学习本文，以后硬盘出了问题不会修，平时珍藏的好看的电影音乐收藏、偷偷保存的男神女神照片、各种好玩的游戏就都没啦~~当然你可以先简单了解，然后在需要的时候再具体看<code>｡◕‿◕｡</code></p>
+<h2 id="本篇涉及的一些软件">本篇涉及的一些软件</h2>
+<h3 id="DiskGenius">DiskGenius</h3>
+<p>DiskGenius是一款很优秀的国产磁盘管理软件，是在知名的国产分区软件DiskMan的基础上开发的。DiskGenius功能强大，还有很多同类软件都不具备的特异功能，并且提供免费版本，能满足大多数常规的硬盘操作。实乃<strong>系统安装、硬盘维护的必备神器</strong>，强烈推荐~~<code>o(*≧▽≦)ツ</code></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/0bd59eb17f9edf0e3a8b24c538c5efa2.png" alt=""></p>
+<blockquote>
+<p>DiskGenius软件官方下载地址<br>
+<a target="_blank" rel="noopener" href="http://www.diskgenius.cn/download.php">http://www.diskgenius.cn/download.php</a></p>
+</blockquote>
+<h3 id="ADDS（Acronis-Disk-Director-Suite）">ADDS（Acronis Disk Director Suite）</h3>
+<p>ADDS是一款比较知名的分区管理器及硬盘工具包。它集合最流行的磁盘管理功能、分区恢复工具及启动磁盘管理器。从网上贴了一张截图过来~</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/8b580c303e87fb31f9c12ae7818a3826.jpg" alt=""></p>
+<h3 id="Windows自带分区工具">Windows自带分区工具</h3>
+<p>在桌面右击计算机（Win7）或我的电脑（WinXP），管理，选择左侧的存储–&gt;磁盘管理，即可打开Windows自带的分区软件，能满足最基本的分区需要~虽然相对比较挫，但是毕竟是系统自带的不用额外下载啊~~</p>
+<blockquote>
+<p>本文中以自带分区工具的Win7版本进行演示，其他版本的操作类似。</p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/sysinst/images/e252b18da57b0880c2170328b86931ce.png" alt=""></p>
+<p>想起了一个黑Windows自带的IE浏览器的笑话：</p>
+<blockquote>
+<p>网络大百科Urban Dictionary对于Internet Explorer的释义（不懂英文那就别看了……）：<br>
+<img data-src="/blog-imgs/tech/sysinst/images/91d1e1950d4e251372192e430bea9a7e.png" alt=""><br>
+<a target="_blank" rel="noopener" href="http://www.urbandictionary.com/define.php?term=internet+explorer">http://www.urbandictionary.com/define.php?term=internet+explorer</a></p>
+</blockquote>
+<h2 id="分区工具运行环境">分区工具运行环境</h2>
+<ul>
+<li>
+<p>Windows环境：上面说的几款分区工具，在Windows下都是可以运行的。</p>
+</li>
+<li>
+<p>WinPE环境：本系列之前文章提到的万能启动盘，在进入Win7PE后，里面就有集成DiskGenius，可以直接使用。也可以在PE环境下直接双击Windows下的DiskGenius软件的exe文件运行。Win7PE中也包含了Windows自带的分区工具。</p>
+</li>
+<li>
+<p>DOS环境：万能启动盘中还有直接可启动的DOS版DiskGenius和ADDS。用启动盘启动电脑，直接选择相应的选项，按回车即可启动。</p>
+</li>
+<li>
+<p>在Windows环境下系统所在分区被占用，很多硬盘操作无法执行，或是由于硬盘问题电脑不能开机，这时就可以考虑使用WinPE或DOS环境下的相关工具。</p>
+</li>
+</ul>
+<h2 id="建立分区">建立分区</h2>
+<p>对一块新硬盘，我们可以按需要给它分几个分区~<code>(●'◡'●)ﾉ♥</code> 这里用DiskGenius作示范。</p>
+<ol>
+<li>
+<p>一块全新未建立分区的空白硬盘在资源管理器中是不显示的，在DiskGenius中打开会看到整块硬盘如下。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/920d60aacd77abc71e5765d06e3ba316.png" alt=""></p>
+</li>
+<li>
+<p>右击这块灰色空闲区域，选择建立新分区。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/f051458f4d607a577691f6dac82ef269.png" alt=""></p>
+</li>
+<li>
+<p>弹出窗口中可以设置以下参数，点击确定即在空闲区域的起始处新建分区。这里我新建了一个100G容量、NTFS格式的主分区。</p>
+<ul>
+<li>分区类型：主分区、扩展分区、逻辑分区</li>
+<li>文件系统：NTFS、FAT32等</li>
+<li>分区大小：勾选“对齐到下列扇区的整数倍”，并选择4096扇区，可以实现4K对齐，有利于硬盘的读写。</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/sysinst/images/7194517d4bd77c881c772d5142dd1778.jpg" alt=""></p>
+</li>
+<li>
+<p>用同样的方法，在空闲区域建立好不超过3个主分区，然后新建一个扩展分区。如图，在扩展分区里面右击，可以再新建逻辑分区。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/9c6024b86a0745b1fdbb91f113ba16bf.png" alt=""></p>
+</li>
+<li>
+<p>建立两个逻辑分区。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/1500d3b198105d8e65917b9e141223da.jpg" alt=""></p>
+</li>
+<li>
+<p>最后如下图，第一个是主分区，后面两个是逻辑分区。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/5c207b8a68853e6e060f0f13eac26aef.png" alt=""></p>
+</li>
+<li>
+<p>点击“保存更改”按钮，分区的修改就会被保存。保存时会提示是否格式化分区，点“是”即可格式化分区。</p>
+<p><strong>DiskGenius软件中在点击“保存更改”之前，随意新建删除分区都是虚拟的，可以预览最终效果，但不会真实操作硬盘</strong>。所以保存之前你可以随便改动，不用担心操作出错，让人很放心有木有<code>╮(╯▽╰)╭</code></p>
+</li>
+</ol>
+<blockquote>
+<p>也可以参考DiskGenius官方给的教程《建立分区 - DiskGenius》<br>
+<a target="_blank" rel="noopener" href="http://www.diskgenius.cn/help/createpartex.php">http://www.diskgenius.cn/help/createpartex.php</a></p>
+</blockquote>
+<h2 id="查看-设置活动分区">查看/设置活动分区</h2>
+<h3 id="使用Windows自带的分区工具">使用Windows自带的分区工具</h3>
+<p>如图可以看出我的硬盘中最前面没有盘符的1G隐藏分区为主分区，且为活动分区。</p>
+<blockquote>
+<p>PS：由于自带分区工具对Linux下的EXT格式分区支持不完善，导致最后面三个EXT格式扩展分区被误识别成了主分区。</p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/sysinst/images/3ebffc2fa969d00ad0047d027c5af5c7.png" alt=""></p>
+<p>在自带分区工具中右击主分区，即可选择“将分区标记为活动分区”。图中因为我选的已经是活动分区了，所以这项是灰的~</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/36cac118d8ab44c8765683bde973e4d1.png" alt=""></p>
+<h3 id="使用DiskGenius软件">使用DiskGenius软件</h3>
+<p>打开DiskGenius软件，鼠标移动到分区上，就可以看到分区信息，例如下图中的第一个分区为活动分区。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/7297901b8868237407c3c7c8e4015563.png" alt=""></p>
+<p>右击主分区，即可选择“激活当前分区”或“取消分区激活状态”。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/2377f09ec8a736073d56cdf24c4abe79.png" alt=""></p>
+<h2 id="查看分区GUID">查看分区GUID</h2>
+<p>用DiskGenius选中分区即可查看，如图中左下方的“卷GUID”：</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/809b5eec80a19c8e0b417f6e93f61266.png" alt=""></p>
+<h2 id="分区表备份-还原">分区表备份/还原</h2>
+<p>为了数据的安全，可以考虑备份分区表。如果分区出现错误，还原分区表就可以恢复分区。</p>
+<p>注意<strong>备份文件要放在其他存储设备中</strong>。举个栗子，硬盘A的分区表备份文件，可以放在U盘或硬盘B中，如果还是保存在硬盘A上，硬盘A坏了备份文件也就打不开了，就像把钥匙锁在柜子里一样 <code>( &gt;﹏&lt;。)～</code></p>
+<blockquote>
+<p>DiskGenius备份与还原分区表<br>
+<a target="_blank" rel="noopener" href="http://www.diskgenius.cn/help/ptbackup.php">http://www.diskgenius.cn/help/ptbackup.php</a></p>
+</blockquote>
+<h2 id="数据恢复">数据恢复</h2>
+<p><strong>机械硬盘</strong>中误删的数据有机会被恢复出来，之前就提到过。因为机械硬盘删除文件只是修改了文件分配表，标记文件已经被删除，并没有清除实际的文件数据。只要这些数据所在的位置没有被新文件覆盖，将数据分配表修改回来，文件就找回来了。</p>
+<p>所以<strong>如果不慎误删文件想找回，最好立即停止往那个分区保存任何文件，以免被误删文件的数据被覆盖掉</strong>。如果是系统分区，最好尽快关机，以免系统写入的文件将误删文件的数据覆盖掉，然后利用启动盘开机尝试恢复数据。</p>
+<ol>
+<li>
+<p>自己恢复数据用数据恢复软件就可以了。操作不是很难，实在不会可以自行百度。这里直接推荐几款数据恢复软件。</p>
+<ul>
+<li>EasyRecovery</li>
+<li>FreeFastRecovery</li>
+<li>EasyUndelete</li>
+<li>FinalData</li>
+<li>BadCopy</li>
+<li>Recuva</li>
+<li>SmartFlashRecovery</li>
+</ul>
+<p>提供这些软件的<strong>珍藏版打包下载</strong>，收集了好久~( ´◔ ‸◔`)</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1c08NJs0">http://pan.baidu.com/s/1c08NJs0</a><br>
+其中的<code>data-recovery</code>就是~</p>
+</blockquote>
+<p><strong>在之前文章所说的万能启动盘中，也有集成可直接使用的数据恢复软件EasyRecovery</strong>，启动电脑后选择那一项就可以用了。</p>
+</li>
+<li>
+<p>如果常规的数据恢复软件很难恢复回数据，尤其是删的比较早的文件，但是数据比较重要，可以考虑请<strong>数据恢复公司</strong>帮忙~当然是要收费的~~~</p>
+</li>
+</ol>
+<h2 id="重建主引导记录（重建MBR）">重建主引导记录（重建MBR）</h2>
+<p>DiskGenius软件在启动、保存分区表时会自动检测硬盘分区，如果发生错误会自动给出提示，例如MBR无效、没有活动分区等，点击确定即可自动修复。</p>
+<blockquote>
+<p>重建主引导记录(重建MBR)<br>
+<a target="_blank" rel="noopener" href="http://www.diskgenius.cn/help/rebuildmbr.php">http://www.diskgenius.cn/help/rebuildmbr.php</a></p>
+</blockquote>
+<h2 id="搜索已丢失分区（重建分区表）">搜索已丢失分区（重建分区表）</h2>
+<p>有时发生意外，硬盘分区出错，甚至分区全没了，你一定会觉得完蛋了~ 我就有这样的经历，看到自己存了好多东西的硬盘，突然就显示成了图中这样，真是可怕极了……<code>（┬＿┬）</code></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/920d60aacd77abc71e5765d06e3ba316.png" alt=""></p>
+<p>幸好有了DiskGenius，还有希望挽回一切，具体操作参考下文 <code>｡◕‿◕｡</code></p>
+<p>啰嗦几句：前面说了，DiskGenius在点击“保存更改”之前，分区操作都是虚拟的。在搜索分区表的过程中，尚未保存更改，每个你选择保留的分区都会被显示出来，还能预览其中的文件甚至复制出来。如果能看到自己的文件了，说明分区重建对了，再点击“保存更改”，完全不用担心操作错<code>╮(╯▽╰)╭</code></p>
+<blockquote>
+<p>搜索已丢失分区 - DiskGenius<br>
+<a target="_blank" rel="noopener" href="http://www.diskgenius.cn/help/rebuild.php">http://www.diskgenius.cn/help/rebuild.php</a></p>
+</blockquote>
+<h2 id="还原RAW格式分区">还原RAW格式分区</h2>
+<p>有时候会遇到硬盘分区变成RAW格式，无法识别的情况，用DiskGenius<strong>重建分区表</strong>的方法也可能解决问题。</p>
+<p>只是当年我不知道有这种手段，所以狠心把自己装了好多文档的分区重新格式化了，后来弄了很久也没能把一些数据恢复回来 <code>%&gt;_&lt;%</code></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/20100309225158-803742163.jpg" alt=""></p>
+<blockquote>
+<p>《分区变成RAW格式，万幸恢复出数据》<br>
+<a target="_blank" rel="noopener" href="http://blog.csdn.net/qiuling007/article/details/8131860">http://blog.csdn.net/qiuling007/article/details/8131860</a></p>
+</blockquote>
+<h2 id="MBR和GPT分区硬盘转换">MBR和GPT分区硬盘转换</h2>
+<p>可以直接用DiskGenius实现，但是注意，超过2TB的大硬盘转换成MBR分区格式，就只能使用最前面的2TB空间了 <code>( ◔ ڼ ◔ )</code></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/2be1c33e39be8b795ed347aa9c407649.png" alt=""></p>
+<h2 id="动态磁盘无损转换成基本磁盘">动态磁盘无损转换成基本磁盘</h2>
+<p>在之前的文章中，说到了动态磁盘和基本磁盘，动态磁盘支持多余4个主分区，还能支持跨区卷、镜像卷等多种分区，例如前面说到基本磁盘的分区空间必须连续，而动态磁盘的跨区卷就可以利用不连续的空间。但是很多软件甚至操作系统都不支持动态磁盘。所以不小心将硬盘转换成了动态磁盘，这里就给出了一些还原方案。</p>
+<p>和前面的调整分区一样，这里最大的问题也在于<strong>无损</strong>，即不影响已有文件。</p>
+<p>如果不用考虑硬盘中的文件，直接删掉所有分区重新建立就好了，简单粗暴~<code>( -。-)</code></p>
+<h3 id="方法一：使用DiskGenius重建分区表">方法一：使用DiskGenius重建分区表</h3>
+<p>如果动态磁盘中<strong>只有简单卷</strong>，可以尝试用DiskGenius<strong>重建分区表</strong>的方法，先删除所有分区然后搜索并重建分区。注意转换成基本磁盘，就不能重建超过四个主分区了。</p>
+<blockquote>
+<p>最新版的DiskGenius中也有动态磁盘转换为基本磁盘的功能了，但是我没有实际试过，不知道效果如何。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/49ebc60f552281e8146d92e18e0a0b5f.png" alt=""></p>
+</blockquote>
+<h3 id="方法二：使用动态磁盘转换器">方法二：使用动态磁盘转换器</h3>
+<p>这个软件我没有实际用过，但是从介绍来看，似乎是能全面支持所有类型的动态磁盘往基本磁盘的转换。</p>
+<blockquote>
+<p>动态磁盘转换器官网主页<br>
+<a target="_blank" rel="noopener" href="http://www.disktool.cn/ddc.html">http://www.disktool.cn/ddc.html</a></p>
+</blockquote>
+<h2 id="无损调整分区">无损调整分区</h2>
+<p>对于已经建好的分区，可以进行调整。如果之前看了下文，对硬盘分区的实际构造比较了解，分区尤其是调整分区会更加得心应手。当然没看也不会有很大影响<code>｡◕‿◕｡</code></p>
+<blockquote>
+<p>《装系统不求人——硬盘的秘密深入》<br>
+<a href="http://www.xiaoming.io/sysinst-harddisk-details">http://www.xiaoming.io/sysinst-harddisk-details</a></p>
+</blockquote>
+<p>调整分区包括分区容量的修改，多个分区合并成一个，一个分区分成多个等。</p>
+<h3 id="面临的问题">面临的问题</h3>
+<p>最大的问题还是在于<strong>无损</strong>，也就是不影响已经保存在硬盘中的文件。不然还是可以用简单粗暴的方法，删掉相关分区再新建~</p>
+<p>分区调整会面临什么样的问题呢？</p>
+<ol>
+<li>
+<p>在DiskGenius中选中分区，点击下方的分析按钮，显示如图。可以看到，下方的条形区域显示的是硬盘中文件实际的分布情况，白色表示空闲区域。分区中的文件数据并不是从前往后分布的。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/80e62de9d72d246057686b4078fac885.png" alt=""></p>
+</li>
+<li>
+<p>在基本磁盘中，<strong>一个硬盘分区必须在一段连续的空间中</strong>。所以对于下图这样的文件分布，如果我想把E盘剩余的空间拿出来建一个新分区，可以将现有文件全部往前移动，空闲全部保留在E盘的末尾，然后才能操作。</p>
+</li>
+<li>
+<p>平时将文件在同一个分区的不同文件夹移动时，实际上只是改变了文件分配表信息，并不会改动文件数据实际保存在硬盘中的位置。所以<strong>需要专门的工具移动文件数据位置</strong>。</p>
+</li>
+<li>
+<p>实际上还有一个更棘手的问题，由于在Windows下调整分区时，<strong>一些文件尤其是系统分区的文件，处于使用状态，无法被移动</strong>，所以可能需要利用启动盘启动电脑进行操作。</p>
+</li>
+</ol>
+<h3 id="Windows自带工具实现分区容量调整">Windows自带工具实现分区容量调整</h3>
+<p>容量的调整可以考虑使用系统自带的工具。但是由于正常开机状态一些文件无法被移动，所以用这种方式有一定的限制。</p>
+<ol>
+<li>
+<p>如果一个分区有剩余空间，可以减小容量。右击分区，选择压缩卷。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/9022dcaa80fc0a028e1ffc2cb805dbf6.png" alt=""></p>
+</li>
+<li>
+<p>系统会自动计算该分区可用压缩空间，这个过程需要一定的时间。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/3dcdcc8b8a2772e7b2cf0a339db37b8a.jpg" alt=""></p>
+</li>
+<li>
+<p>设置要减小的分区容量，点击确定即可。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/1b63b45fcb97291446b370a6e7861f9f.png" alt=""></p>
+</li>
+<li>
+<p>压缩后空出来的空间可以用来新建分区~</p>
+</li>
+<li>
+<p>如果一个分区之后有空闲的空间，则可以使用扩展卷增加分区容量。</p>
+</li>
+</ol>
+<h3 id="利用启动盘调整分区">利用启动盘调整分区</h3>
+<p>万能启动盘中集成了可直接启动的DOS版DiskGenius和ADDS，可以自由的调整分区。因为是启动盘启动电脑的，所以不用担心Windows系统分区中的文件无法移动。</p>
+<p>软件具体的操作不是很复杂，多摸索一下就会了，不做详细介绍了。</p>
+<h3 id="没有启动盘的情况">没有启动盘的情况</h3>
+<p>如果没有启动盘，DiskGenius、ADDS、分区助手软件，也可以在Windows下进行分区调整：</p>
+<ol>
+<li>在Windows中用可视化的界面，设置好想进行的分区操作并确认。</li>
+<li>软件会自动重启电脑，并在开机的过程中或DOS环境下，对硬盘文件进行移动，从而执行分区调整操作。</li>
+<li>这种方式不需要启动盘，使用起来比较轻松简单。</li>
+</ol>
+<p>具体操作参考网上的教程吧，就不写重复的东西了。</p>
+<blockquote>
+<p>DiskGenius软件帮助目录<br>
+<a target="_blank" rel="noopener" href="http://www.diskgenius.cn/help/index.php">http://www.diskgenius.cn/help/index.php</a></p>
+<p>DiskGenius无损分区大小调整<br>
+<a target="_blank" rel="noopener" href="http://www.diskgenius.cn/help/partresizing.php">http://www.diskgenius.cn/help/partresizing.php</a></p>
+<p>ADDS分区调整教程<br>
+<a target="_blank" rel="noopener" href="http://bbs.zol.com.cn/nbbbs/d223_70565.html">http://bbs.zol.com.cn/nbbbs/d223_70565.html</a></p>
+<p>分区助手官网下载<br>
+<a target="_blank" rel="noopener" href="http://www.disktool.cn/feature.html">http://www.disktool.cn/feature.html</a></p>
+<p>分区助手使用教程<br>
+<a target="_blank" rel="noopener" href="http://www.disktool.cn/jiaocheng/index.html">http://www.disktool.cn/jiaocheng/index.html</a></p>
+</blockquote>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-pwd-crack/" rel="bookmark">装系统不求人——开机密码破解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ubuntu/" rel="bookmark">装系统不求人——安装Ubuntu</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-customize-bootable-disk/" rel="bookmark">装系统不求人——量身定制自己的万能启动盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-xp/" rel="bookmark">装系统不求人——Win XP安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-boot/" rel="bookmark">装系统不求人——BootLoader与引导修复</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-prepare/" rel="bookmark">装系统不求人——系统安装准备工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ghost/" rel="bookmark">装系统不求人——用Ghost备份还原系统</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-follow-up/" rel="bookmark">装系统不求人——系统安装后续工作</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B8%8D%E6%B1%82%E4%BA%BA/" rel="tag"># #装系统不求人#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sysinst-harddisk-details/" rel="prev" title="装系统不求人——硬盘的秘密深入">
+      <i class="fa fa-chevron-left"></i> 装系统不求人——硬盘的秘密深入
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sysinst-win-nt6/" rel="next" title="装系统不求人——Windows7/8系统的安装（利用Win$Man）">
+      装系统不求人——Windows7/8系统的安装（利用Win$Man） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E7%AF%87%E6%B6%89%E5%8F%8A%E7%9A%84%E4%B8%80%E4%BA%9B%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">本篇涉及的一些软件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DiskGenius"><span class="nav-number">1.1.</span> <span class="nav-text">DiskGenius</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADDS%EF%BC%88Acronis-Disk-Director-Suite%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">ADDS（Acronis Disk Director Suite）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E8%87%AA%E5%B8%A6%E5%88%86%E5%8C%BA%E5%B7%A5%E5%85%B7"><span class="nav-number">1.3.</span> <span class="nav-text">Windows自带分区工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E5%B7%A5%E5%85%B7%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">分区工具运行环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%88%86%E5%8C%BA"><span class="nav-number">3.</span> <span class="nav-text">建立分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-%E8%AE%BE%E7%BD%AE%E6%B4%BB%E5%8A%A8%E5%88%86%E5%8C%BA"><span class="nav-number">4.</span> <span class="nav-text">查看&#x2F;设置活动分区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Windows%E8%87%AA%E5%B8%A6%E7%9A%84%E5%88%86%E5%8C%BA%E5%B7%A5%E5%85%B7"><span class="nav-number">4.1.</span> <span class="nav-text">使用Windows自带的分区工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8DiskGenius%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">使用DiskGenius软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%88%86%E5%8C%BAGUID"><span class="nav-number">5.</span> <span class="nav-text">查看分区GUID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8%E5%A4%87%E4%BB%BD-%E8%BF%98%E5%8E%9F"><span class="nav-number">6.</span> <span class="nav-text">分区表备份&#x2F;还原</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="nav-number">7.</span> <span class="nav-text">数据恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%BB%BA%E4%B8%BB%E5%BC%95%E5%AF%BC%E8%AE%B0%E5%BD%95%EF%BC%88%E9%87%8D%E5%BB%BAMBR%EF%BC%89"><span class="nav-number">8.</span> <span class="nav-text">重建主引导记录（重建MBR）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%B7%B2%E4%B8%A2%E5%A4%B1%E5%88%86%E5%8C%BA%EF%BC%88%E9%87%8D%E5%BB%BA%E5%88%86%E5%8C%BA%E8%A1%A8%EF%BC%89"><span class="nav-number">9.</span> <span class="nav-text">搜索已丢失分区（重建分区表）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%98%E5%8E%9FRAW%E6%A0%BC%E5%BC%8F%E5%88%86%E5%8C%BA"><span class="nav-number">10.</span> <span class="nav-text">还原RAW格式分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MBR%E5%92%8CGPT%E5%88%86%E5%8C%BA%E7%A1%AC%E7%9B%98%E8%BD%AC%E6%8D%A2"><span class="nav-number">11.</span> <span class="nav-text">MBR和GPT分区硬盘转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%A3%81%E7%9B%98%E6%97%A0%E6%8D%9F%E8%BD%AC%E6%8D%A2%E6%88%90%E5%9F%BA%E6%9C%AC%E7%A3%81%E7%9B%98"><span class="nav-number">12.</span> <span class="nav-text">动态磁盘无损转换成基本磁盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8DiskGenius%E9%87%8D%E5%BB%BA%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="nav-number">12.1.</span> <span class="nav-text">方法一：使用DiskGenius重建分区表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E4%BD%BF%E7%94%A8%E5%8A%A8%E6%80%81%E7%A3%81%E7%9B%98%E8%BD%AC%E6%8D%A2%E5%99%A8"><span class="nav-number">12.2.</span> <span class="nav-text">方法二：使用动态磁盘转换器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E6%8D%9F%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA"><span class="nav-number">13.</span> <span class="nav-text">无损调整分区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E4%B8%B4%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">13.1.</span> <span class="nav-text">面临的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E8%87%AA%E5%B8%A6%E5%B7%A5%E5%85%B7%E5%AE%9E%E7%8E%B0%E5%88%86%E5%8C%BA%E5%AE%B9%E9%87%8F%E8%B0%83%E6%95%B4"><span class="nav-number">13.2.</span> <span class="nav-text">Windows自带工具实现分区容量调整</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%90%AF%E5%8A%A8%E7%9B%98%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA"><span class="nav-number">13.3.</span> <span class="nav-text">利用启动盘调整分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B2%A1%E6%9C%89%E5%90%AF%E5%8A%A8%E7%9B%98%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">13.4.</span> <span class="nav-text">没有启动盘的情况</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

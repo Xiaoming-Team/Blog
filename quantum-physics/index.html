@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文尝试对量子通信以及量子隐形传输技术进行科普介绍，力求通俗易懂（全篇没有一个公式）。  由于个人水平有限，如有不当或错误之处，望批评指正。有疑问和不确定的地方我也会标注出来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="写给大家看的量子力学——量子通信、量子隐形传输技术简介">
+<meta property="og:url" content="https://www.xiaoming.io/quantum-physics/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本文尝试对量子通信以及量子隐形传输技术进行科普介绍，力求通俗易懂（全篇没有一个公式）。  由于个人水平有限，如有不当或错误之处，望批评指正。有疑问和不确定的地方我也会标注出来。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-01-15T07:39:39.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.662Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/quantum-physics/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>写给大家看的量子力学——量子通信、量子隐形传输技术简介 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/quantum-physics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          写给大家看的量子力学——量子通信、量子隐形传输技术简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-01-15 15:39:39" itemprop="dateCreated datePublished" datetime="2015-01-15T15:39:39+08:00">2015-01-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/quantum-physics/" class="post-meta-item leancloud_visitors" data-flag-title="写给大家看的量子力学——量子通信、量子隐形传输技术简介" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/quantum-physics/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/quantum-physics/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文尝试对量子通信以及量子隐形传输技术进行科普介绍，力求通俗易懂（全篇没有一个公式）。</p>
+<blockquote>
+<p>由于个人水平有限，如有不当或错误之处，望批评指正。有疑问和不确定的地方我也会标注出来。</p>
+</blockquote>
+<h2 id="量子（Quantum）">量子（Quantum）</h2>
+<p><strong>量子</strong>是现代物理的重要概念。最早是<strong>M·普朗克</strong>在1900年提出的。他假设黑体辐射中的辐射能量是不连续的，只能取能量基本单位的整数倍。后来的研究表明，不但能量表现出这种不连续的分离化性质，其他物理量诸如角动量、自旋、电荷等也都表现出这种不连续的量子化现象。</p>
+<p>一个物理量如果存在最小的不可分割的基本单位，则这个物理量是量子化的，并把最小单位称为量子。量子英文名称量子一词来自拉丁语<code>quantus</code>，意为“有多少”，代表“相当数量的某物质”。在物理学中常用到量子的概念，指一个不可分割的基本个体。例如，“光的量子”（光子）是光的单位。</p>
+<h2 id="通信加密技术">通信加密技术</h2>
+<p>在说明量子通信问题之前，先来介绍一下目前的通信过程中非常必要的加密技术。对于对称加密、非对称加密等概念已有了解的读者，可以跳过这一段，当然也可以再看一下温故一下知识。</p>
+<p>现有的通信技术通常利用电磁波等进行传输，为了确保信息传输安全，不被第三方中途拦截获取，需要采用加密的方法。</p>
+<p>加密的方式有很多，可以分为<strong>对称加密</strong>和<strong>非对称加密</strong>两种。在对称加密中，加解密用的是同样的一套规则，解密就是加密的逆运算，因此知道怎么加密的，就能知道如何解密的；而非对称加密技术所用的加解密规则不同，知道其中一者并不能推出另一者。下面分别进行说明。</p>
+<h3 id="对称加密技术-私钥加密技术">对称加密技术/私钥加密技术</h3>
+<p>对称加密技术又被成为私钥加密技术，因为加解密所用的规则，只有收发双方知道，而不能让其他人知道。</p>
+<p><strong>凯撒密码</strong>是一种最原始的加密方式，就属于对称加密。它被用来加密英文，将每个英文字母用它在字母表中后面第n个字母代替从而进行加密。例如n取1，此时a转换成b，b转换成c，……z又被转换成a，从而，<code>test abcd</code>可以被转换成<code>uftu bcde</code>。只要知道加密规则，就能推出解密方法，接收方收到加密后的文章，通过相反的方式还原即可。当然这种原始的加密方式很容易被破解。</p>
+<blockquote>
+<p>凯撒密码的破解思路：</p>
+<ol>
+<li>
+<p>统计法：在英文中，如果文章足够长，不同字母出现的概率有一定的规律，字母e最常出现。通过统计凯撒加密的文章中出现频率最高的字母，并假设其为e，就可以很容易推出n。</p>
+</li>
+<li>
+<p>暴力破解：如果知道或猜测一段密文采用的是凯撒密码，可以分别假设n为1~25，逐个判断，很快就能推出n的正确值。</p>
+</li>
+</ol>
+<p>这种尝试所有可能性从而破解加密的方式称为<strong>暴力破解</strong>。理论上来说，只要时间足够长，且没有尝试次数的限制，这种方法可以破解任何密码。</p>
+</blockquote>
+<h3 id="对称加密的相关问题">对称加密的相关问题</h3>
+<p>在这个加密通信过程中，发送方和接收方需要知道加解密的规则，从而正常通信。不知道这个规则的第三方，即使在传输过程中获取了加密信息，也无法对其进行还原。我们可以简单的把这种加解密规则视为通信的<strong>密钥</strong>（例如前面凯撒密码中的加密规则以及n）。</p>
+<p>通信双方都需要知道密钥，因此密钥得通过安全的方式进行传输，确保不会被无关人员获取，否则加密就不可靠了。密钥自身不能再被加密，否则就没法知道密钥是什么了。例如前面的凯撒密码，可以派一个信使将密钥告诉通信的另一方。而在现代通信中，专门派人去转交密钥给另一方的成本太高，只能通过常规的通信方式传输密钥，而密钥安全可靠的传输很难得到保证。</p>
+<blockquote>
+<p>注意，只需要保证收发双方的密钥是一致的就可以正常通信了。所以密钥既可以是发送方发给接收方，也可以反过来，还可以是安全可靠的第三方将密钥同时发送给收发双方。</p>
+</blockquote>
+<h3 id="非对称加密技术-公钥加密技术">非对称加密技术/公钥加密技术</h3>
+<p>非对称加密技术，又叫做公钥加密技术。公钥加密系统中，即使知道了加密方法，也无法知道解密方法，因此即使公开了加密方法，也无法进行解密操作。</p>
+<p><strong>RSA</strong>是一种常用的公钥加密算法，基于下面的简单数论事实：两个很大的素数，可以用计算机很轻松的得到它们的乘积；但是反过来，想把这个乘积重新分解成两个大素数，对于现代计算机来说却很困难（但不是不可能，而是需要很长的时间去运算，例如几百年，也就是暴力破解的方式）。RSA算法的流程通常如下。</p>
+<ol>
+<li>
+<p><strong>故事背景</strong>：小明（发送方）要给小红（接收方）发一封情书（要发送的信息），但是双方都不希望别人看到其中的内容。</p>
+</li>
+<li>
+<p><strong>密钥生成</strong>：首先小红通过算法随机生成<strong>一套对应的公钥K和私钥P</strong>，私钥P用于解密，小红自己保留；公钥K用于加密，直接把它写在了学校大门上：“小明，公钥是123456，看到了就可以加密了”，人人都能看到。</p>
+</li>
+<li>
+<p><strong>加解密通信</strong>：看到公钥K是123456后，小明将写好的情书通过公钥K加密后发给小红，小红收到后，通过私钥P解密，于是看到了小明发送的信息。</p>
+</li>
+<li>
+<p><strong>图谋不轨的第三方</strong>：小李很好奇这俩人到底写了些什么。他看到了门口写着的公钥K，但是很可惜，他不能破解通过K加密的信息；而唯一能用来解密的私钥P一直保存在小红那，也很难被别人获取。</p>
+</li>
+<li>
+<p><strong>冒名顶替的第四方</strong>：小王是个很聪明的人，也很好奇这俩人写了些什么。小王得知两人用的竟然就是大名鼎鼎的RSA加密算法，于是自己也用算法生成了一套公钥K1和私钥P1。趁着没人，在校门口写了一句：“小明，公钥是000000”。小明以为是小红写的，于是用这个公钥K1加密了信息发了出去，然后被小王给偷偷的截获了。因为是由K1加密的，所以小王顺利的用P1解密，看到了小明发送的信息（小王发现小明这次写的信竟然在表白~）。</p>
+</li>
+<li>
+<p><strong>数字证书</strong>：后来小明发现情况不对，似乎上次发的信息没有被小红收到？“我没考虑周全，好可怕。竟然被人破解了。”小明心想。于是他想到了数字证书。根据数字证书的工作方式，小红用算法又生成了一套公钥K0和私钥P0，这次和之前不同，P0用来加密，K0用来解密。</p>
+</li>
+<li>
+<p><strong>新的通信方式</strong>：小明给小红先发送一段随机的信息M，然后小红用P0加密M再发给小明，小明再用K0解密，如果解密后，还是那段信息M，说明和自己通信的就是小红，然后就可以互相通信了。在小红收到信息M的时候，还可以捎带把其他信息X按照一定的格式附加在M后面，再用P0加密了发给小明，小明用K0解密了不仅能知道对方是不是小红，还可以收到这段附加的信息X。只有小红掌握了P0，因此也只有她才能用P0加密M，生成能用K0解密出来的字符串。</p>
+</li>
+</ol>
+<h2 id="量子态与量子纠缠">量子态与量子纠缠</h2>
+<h3 id="量子态">量子态</h3>
+<p>电子做稳恒的运动，具有完全确定的能量，这种稳恒的运动状态称为<strong>量子态</strong>。</p>
+<h3 id="量子纠缠">量子纠缠</h3>
+<p>假设有两个粒子A和B（例如光子或原子）组成一个系统，将其称为<strong>纠缠态系统</strong>。A和B都处于一半左旋一半右旋的<strong>量子叠加状态</strong>（也就是有一半的概率是处于左旋状态，一半概率处于右旋状态），并且两者的旋转方向始终相反；但在用仪器测量之前并不知道某个时刻谁是左旋，谁是右旋。</p>
+<blockquote>
+<p>疑问：这里的量子叠加态有两种说法，一种解释是两个粒子都处于一半时间左旋另一半时间右旋的状态；另一种解释是，两个粒子有一个一直左旋，另一个一直右旋，只是测量之前不知道谁是左旋谁是右旋。</p>
+</blockquote>
+<p>当A、B相对运动直到离得很远时，用仪器对A进行测量，A会立刻由<strong>量子叠加态</strong>坍缩为<strong>确定态</strong>，表现出左旋或右旋状态的一种。而此时，距此很远的B粒子也会立刻坍缩成确定态。经过无数次的实验，AB始终表现出相反的旋转状态（一个左旋，另一个右旋）。尽管两个粒子距离很远，但它们状态的改变是完全同时的，即使是光速也达不到这么快。这就是<strong>量子纠缠</strong>。</p>
+<p>上面的解释或许不好理解，下面是一些人举的例子，便于理解。</p>
+<blockquote>
+<ul>
+<li>
+<p>中科大量子信息实验室的郭光灿院士曾用比喻解释这个问题，说在美国的女儿生下孩子那一瞬间，远在中国的母亲就变成了姥姥，即便她自己还不知道。</p>
+</li>
+<li>
+<p>知乎网友Ivony说了个形象的故事来解释这个问题。三国时期某年，曹操令司马懿、张辽挂帅兵分两路于汉中和荆州伐蜀，诸葛亮出汉中，刘备出荆州拒敌，诸葛亮到达汉中，远远见敌方大将乃是张辽，心中暗道不好，主公怎的遇上了司马懿？诸葛亮为什么见到了张辽就知道刘备遇到的是司马懿？因为出兵的只有张辽和司马懿，如果诸葛亮遇到了司马懿，那么刘备就会遇到张辽，如果诸葛亮遇到了张辽，刘备就会遇到司马懿。这就是诸葛亮和刘备虽然远隔千里，却也能第一时间知道刘备遇到的是谁。</p>
+</li>
+<li>
+<p>David Bohm 是现代全息理论的创始人，他用“鱼缸里的鱼”来做比喻：<br>
+在一个长方体玻璃鱼缸中放进一条鱼，两台相互垂直的摄像机&quot;观察&quot;鱼的活动，图象直接在两台电视机上播放出来。在电视机里我们可以看到，&quot;两&quot;条鱼分别作着方向相反、速度相等的游动。如果其中一条鱼的状态改变了，另一条鱼的状态也立即随之改变。<br>
+玻姆以此展开对超距作用的解释：“两个同谋粒子应当被视为同一六维现实的两个不同的三维投影，在三维空间看来，二者没有相互接触，毫无因果关联；而实际情况是，两个粒子之间相互关联的方式，非常类似于上面所说的鱼的两个电视图像之间相互关联的方式。因此普遍地说，隐秩序必须被扩展到一个高维现实，这个高维原则上是不可分割的整体，其包含整个具有其全部‘场’和‘粒子’的整体宇宙。于是我们必须说，全运动在高维空间中卷入与展出，其维数实际上是无限的。”<br>
+在玻姆所构想的宇宙的本体论图景中，宇宙真空的高维隐秩序被激发而展开和投影为三维物质世界的显秩序，而这种物质显秩序又不断卷入为宇宙真空中的隐秩序。用简单的话说，就是我们肉眼直接可见的三维物质世界的独立个体，实际上是更高维整体的一个投映，我们由于不能理解更高维度的整体性而误以为我们所看到的一个个人或物是独立的个体。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="物理学理论的本质">物理学理论的本质</h2>
+<p>至于为什么会有量子纠缠这种匪夷所思的性质呢？这一点恐怕很难解释。</p>
+<p>当我们把石头从地面平抛一亿次，每次都会落地，于是我们得出一条结论，石头抛出去会落地。但物理理论的本质并非真理，而是客观规律，我们并不能保证下一次平抛石头还会落地。没有绝对正确的理论，有一天我们发现当石头抛出的速度很快时，石头不再落地，而是绕地球旋转，于是我们得出来新的结论。新的理论，在原有理论的基础上，进行了补充和完善，这正是物理学的发展过程。</p>
+<p>而今天的社会，正是利用了很多这样的科学规律，通过巧妙的工程方法，实现了各种奇迹。通过半导体器件的物理特性，我们制造出基本的逻辑门电路，并利用各种手段，最终制造出了功能强大的计算机。而这在古人看来，是不可思议的。同样的道理，利用量子纠缠等很基本的物理特性，就有可能彻底改变世界（事实上量子力学目前在晶体管、化学、材料科学等领域已经有应用了）。</p>
+<h2 id="量子通信">量子通信</h2>
+<p>广义的量子通信主要涉及：<strong>量子保密通信</strong>、<strong>量子远程传态</strong>和<strong>量子密集编码</strong>等。本文重点要讨论的，正是前面两种技术。</p>
+<p>目前行内所说的量子通信，指的是<strong>狭义</strong>的量子通信技术，一般称为<strong>量子保密通信</strong>，或<strong>量子密钥分发</strong>（<strong>Quantum Key Distribution</strong>）。量子密钥分发要解决的问题，并非取代现有的通信技术，而是为了解决通信<strong>安全问题</strong>。</p>
+<p>前面已经介绍了现有的公钥加密手段，公钥加密并非不可解密，而是现有计算机的计算能力难以破解（暴力破解的方式）。而计算机的性能不断提高，特别是分布式计算和量子计算机的研制，可能导致现有的大量公钥加密失效，造成很严重的后果。量子密钥分发则借助量子力学的基本特性，去实现密钥的安全分发。</p>
+<p>量子密钥分发可利用量子纠缠的特性去实现。发送方或接收方，通过一定的手段制备出两个处于纠缠态的光子。将其中的一个，通过光纤发送至另一方，然后双方对光子进行测量。根据量子纠缠特性，两个光子一个左旋一个右旋，这样双方就可以得到互补的二进制0和1。至于哪一方得到0哪一方得到1并不影响密钥分发，因为只需要双方的密钥对应即可。在这个过程中，并没有真正的实现一方将任意信息发送给另一方，但双方得到了相互对应的密钥（这就是前面介绍密钥时所说的，第三方将密钥发送给收发双方，这里的第三方想象成是上帝好了）。另外由于是通过粒子作为传输载体的，也不能实现超光速通信。</p>
+<blockquote>
+<p>疑问：量子通信不能实现超光速，上面的理解是否正确。</p>
+</blockquote>
+<h2 id="量子密钥分发的安全性">量子密钥分发的安全性</h2>
+<p>理论上来说，量子密钥分发能实现绝对的安全，物理原理决定了第三方不能获取到密钥。这主要基于两个重要原理，分别是<strong>量子态不可克隆原理</strong>，和<strong>海森堡测不准原理</strong>。</p>
+<p>而在实际当中，由于工程技术原因，目前还难以保证绝对的安全，可能存在一些方法对此进行破解，所以需要进一步完善。</p>
+<p>下面介绍这两个重要原理。</p>
+<ol>
+<li>
+<p>不可克隆原理，说的是不能实现量子态的完美复制（不完美是可以的），也就是前面所说的粒子传输过程中，无法完美复制它的量子态。说的形象一点，A和B两个纠缠态粒子，A一会儿左旋一会儿右旋，而B和A始终保持状态完全相反。无法实现让粒子C的运动状态保持始终和B一样，也就是不能完美复制。</p>
+<blockquote>
+<p>疑问：上面的理解基于“量子态是两个粒子都是50%的概率左旋，50%的概率右旋”这一结论。如果量子纠缠的含义是，两个粒子其中一个是100%的概率左旋，另一个是100%的概率右旋，测不准原理应该怎么理解。</p>
+</blockquote>
+</li>
+<li>
+<p>测不准原理，是说对量子态进行测量，很有可能改变它的状态。例如原来是左旋，可能测完就变成了右旋。</p>
+<p>于是在粒子传输过程中，第三方不能复制它的量子态，也不能对它进行测量。一旦进行测量，接收方收到的状态就会有很大变化，从而得知有第三方进行了测量，于是这个密钥不安全。</p>
+</li>
+</ol>
+<h2 id="量子隐形传态（Quantum-teleportation）">量子隐形传态（Quantum teleportation）</h2>
+<p>量子隐形传态，又称<strong>量子隐形传输</strong>、<strong>量子远距传输</strong>等。利用量子纠缠，将甲地的某一粒子的未知量子态，瞬间转移给乙地的另一个粒子。如同经历了科幻小说中描写的“超时空传输”，在一个地方神秘地消失，不依赖任何载体，又在另一个地方神秘地出现。</p>
+<p>2012年8月，中国科学家潘建伟等人在国际上首次成功实现百公里量级的自由空间量子隐形传态和纠缠分发。</p>
+<h2 id="量子隔空传物的可能性">量子隔空传物的可能性</h2>
+<p>在很多科幻电影例如《星际迷航》中，常看到未来的高科技，通过某种技术将人或飞船从一个地方瞬间转移到另一个地方，非常神奇。很多人或许期待这种技术的发明，但能否实现呢？</p>
+<p>物质是由基本粒子构成。<strong>一些人认为，对于物体来说，信息是其构成的根本，而原子等粒子本身并不重要</strong>。也就是说通过转移量子态，等价于转移物体自身。于是物体的转移变成了通信问题。这是目前量子隔空传输物体技术实现的基础。</p>
+<blockquote>
+<ul>
+<li>
+<p>维基百科中“量子隐形传态”词条指出，量子遥传与一般所说的瞬间移动没有关系，量子遥传无法传递系统本身，也无法用来安排分子以在另一端组成物体。</p>
+</li>
+<li>
+<p>能够传递一组信息并不意味着已经可以传递实物。“我们对世界的了解仍然不够透彻。”一位研究者说。“科学家们现在还不知道应该如何通过隐形传输的方式传送实物，我们曾经以为世界上最小的是原子，可是后来发现原来里面还有质子和中子。然而，没有人知道质子和中子是否还能被继续拆分。更何况想要传送一个生命体，又该如何处理他复杂的脑电活动呢？”</p>
+</li>
+<li>
+<p>中科大研究员彭承志说：“目前我们实现的仅仅是单光子量子态的隐形传输，在未来有可能实现复杂量子系统的量子态隐形传输，但距离宏观物体的量子态隐形传输还具有非常遥远的距离。”</p>
+</li>
+</ul>
+</blockquote>
+<p>从现有的研究来说，目前只能实现在光子、原子等微粒之间转移量子态，且距离有限，而量子隔空传物并没有实验可以支持。理论上，也没有证据能支持这种技术实现的可能。但是科技的发展总是让人难以置信的，或许以后真的会实现。</p>
+<h2 id="量子传输的科幻">量子传输的科幻</h2>
+<p>这一段只是个人对量子传输的一点幻想，没有什么根据。</p>
+<p>量子隐形传输，转移的是粒子的状态，是信息而不是物质，类似于计算机中转移硬盘文件。文件是虚拟抽象的东西，其本质是信息，而磁盘是其载体。通过对物理磁盘进行磁化，保存文件信息。而文件可以通过网络等方式，从一个地方转移到另一个地方，磁盘本身并没有转移。</p>
+<p>一方面，计算机中可以通过通信系统转移文件信息；另一方面，直接通过物理方式运输存有数据的磁盘等存储设备，可以实现非常高速的文件转移。反过来考虑，物体的转移，是否可以不通过物理方式进行呢？如果物质的本质是信息，粒子只是信息的载体，那么通过量子实现隔空传物就会有可能。</p>
+<p>如果量子传输技术有了初步实现，能传输小的物体，是否有可能传输生命体呢？人的意识（或是灵魂），是否可以分解成粒子的量子态进行转移？与此有点像的一个问题是，如果对磁盘进行量子转移，能否保留其上的磁性从而实现文件数据的转移？对磁性的本质，我们的理解还是不够清楚。</p>
+<p>从某种程度上来说，“<strong>隔空传物</strong>”的技术已经初步实现了，3D打印就是。例如一个塑料制品，只需要将其转化为3D模型并通过网络将其传输到另一处，就可以通过3D打印机还原出外形与之基本一致的物体。3D打印的一个特点是，物体可以复制很多份。而量子传输能否做到这一点呢？或许量子态不可克隆原理会导致量子传输只能转移物体，而不能复制物体；也或许未来的科技能突破这种限制。</p>
+<p>如果量子传输技术实现并且成熟应用，世界会发生巨大的变化。快递业可能发生颠覆性的变化，甚至不复存在；交通运输也可能完全转变形式。很多人觉得即使这种技术出现，也不敢尝试去传输自己。觉得经过这样的传输自己就不是自己了，或是担心传输出错人就直接消失了。但是我觉得这种技术如果真的能实现并且很好的完善，达到非常小的出错可能性，推广并为大众接受只是时间问题。因为它与现有的交通方式相比，优势很明显。而现有的交通方式会继续存在，但其主要功能不再是交通，而是发展成类似旅游和体验的形式了。</p>
+<p><strong>本文参考资料</strong></p>
+<blockquote>
+<ul>
+<li>《计算机科学概论》第11版（人民邮电出版社）（第四章关于信息加密的介绍）</li>
+<li>什么是量子通信 - 知乎 <a target="_blank" rel="noopener" href="http://www.zhihu.com/question/20919153">http://www.zhihu.com/question/20919153</a></li>
+<li>什么是量子纠缠 - 知乎 <a target="_blank" rel="noopener" href="http://www.zhihu.com/question/20322494">http://www.zhihu.com/question/20322494</a></li>
+<li>通俗的解释量子物理 - 知乎 <a target="_blank" rel="noopener" href="http://www.zhihu.com/question/22131485">http://www.zhihu.com/question/22131485</a></li>
+<li>量子纠缠为什么能传递密码信息 - 知乎 <a target="_blank" rel="noopener" href="http://www.zhihu.com/question/23610849">http://www.zhihu.com/question/23610849</a></li>
+<li>如何看待量子纠缠的超距作用 - 知乎 <a target="_blank" rel="noopener" href="http://www.zhihu.com/question/21184280">http://www.zhihu.com/question/21184280</a></li>
+<li>如果量子力学至今没有被发现,世界会有什么不一样? - 知乎 <a target="_blank" rel="noopener" href="http://www.zhihu.com/question/27070897">http://www.zhihu.com/question/27070897</a></li>
+<li>科学网《弥天大谎：实现量子隐形传输》 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-212815-335606.html">http://blog.sciencenet.cn/blog-212815-335606.html</a></li>
+<li>百度文库《纠缠光子的制备和应用》 <a target="_blank" rel="noopener" href="http://wenku.baidu.com/link?url=RYbkBbuzFTAue1MJ9MLF02MxW6_zJL3VHddxpsDgZECSmtJxLVZsr26pA2NdGp2wFO1Lb-W8LRx0Ip1rHQ_Od11jRd_nfcBeHKLOIHJvVjS">http://wenku.baidu.com/link?url=RYbkBbuzFTAue1MJ9MLF02MxW6_zJL3VHddxpsDgZECSmtJxLVZsr26pA2NdGp2wFO1Lb-W8LRx0Ip1rHQ_Od11jRd_nfcBeHKLOIHJvVjS</a></li>
+<li>维基百科词条：凯撒密码，量子密码学，量子隐形传态，爱因斯坦-波多尔斯基-罗森悖论</li>
+<li>百度百科词条：RSA算法，量子，量子态，量子纠缠，量子传输，量子通信，量子隐形传态</li>
+</ul>
+</blockquote>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/optical-fiber-communication/" rel="bookmark">光纤通信和家用万兆网络布线知识总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/network-learning/" rel="bookmark">计算机网络相关知识学习</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/desktop-computer-knowledge/" rel="bookmark">台式机组装知识系统梳理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chromium-print-cpp-stack/" rel="bookmark">Chromium打印C++ Stack Trace</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openwrt-godaddy-ddns/" rel="bookmark">OpenWRT Godaddy DDNS设置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/pve-config-nic/" rel="bookmark">PVE换网卡后重新设置网络</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dont-make-me-think/" rel="bookmark">Don't make me think思想在代码设计中的应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/online-video-download/" rel="bookmark">网页视频通用下载方法(支持网易云音乐MV、优酷等)</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/ubuntu-install/" rel="prev" title="通过ISO镜像文件安装Ubuntu（可实现默认启动Windows的双系统）">
+      <i class="fa fa-chevron-left"></i> 通过ISO镜像文件安装Ubuntu（可实现默认启动Windows的双系统）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/relational-database/" rel="next" title="关系型数据库的基本概念">
+      关系型数据库的基本概念 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%EF%BC%88Quantum%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">量子（Quantum）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF"><span class="nav-number">2.</span> <span class="nav-text">通信加密技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF-%E7%A7%81%E9%92%A5%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF"><span class="nav-number">2.1.</span> <span class="nav-text">对称加密技术&#x2F;私钥加密技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%9A%84%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">对称加密的相关问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF-%E5%85%AC%E9%92%A5%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF"><span class="nav-number">2.3.</span> <span class="nav-text">非对称加密技术&#x2F;公钥加密技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E6%80%81%E4%B8%8E%E9%87%8F%E5%AD%90%E7%BA%A0%E7%BC%A0"><span class="nav-number">3.</span> <span class="nav-text">量子态与量子纠缠</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E6%80%81"><span class="nav-number">3.1.</span> <span class="nav-text">量子态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E7%BA%A0%E7%BC%A0"><span class="nav-number">3.2.</span> <span class="nav-text">量子纠缠</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%AD%A6%E7%90%86%E8%AE%BA%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="nav-number">4.</span> <span class="nav-text">物理学理论的本质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E9%80%9A%E4%BF%A1"><span class="nav-number">5.</span> <span class="nav-text">量子通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E5%AF%86%E9%92%A5%E5%88%86%E5%8F%91%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">6.</span> <span class="nav-text">量子密钥分发的安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E9%9A%90%E5%BD%A2%E4%BC%A0%E6%80%81%EF%BC%88Quantum-teleportation%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">量子隐形传态（Quantum teleportation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E9%9A%94%E7%A9%BA%E4%BC%A0%E7%89%A9%E7%9A%84%E5%8F%AF%E8%83%BD%E6%80%A7"><span class="nav-number">8.</span> <span class="nav-text">量子隔空传物的可能性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E4%BC%A0%E8%BE%93%E7%9A%84%E7%A7%91%E5%B9%BB"><span class="nav-number">9.</span> <span class="nav-text">量子传输的科幻</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

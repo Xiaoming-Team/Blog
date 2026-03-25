@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文介绍几个Gson使用的技巧实例，可以解决一些实际开发容易遇到的、数据解析相关的问题。建议结合示例工程源码阅读。  本文完整示例工程 https:&#x2F;&#x2F;github.com&#x2F;jzj1993&#x2F;GsonStudy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理">
+<meta property="og:url" content="https://www.xiaoming.io/gson-technic/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本文介绍几个Gson使用的技巧实例，可以解决一些实际开发容易遇到的、数据解析相关的问题。建议结合示例工程源码阅读。  本文完整示例工程 https:&#x2F;&#x2F;github.com&#x2F;jzj1993&#x2F;GsonStudy">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-01T11:24:52.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.396Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/gson-technic/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/gson-technic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-01 19:24:52" itemprop="dateCreated datePublished" datetime="2017-12-01T19:24:52+08:00">2017-12-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/gson-technic/" class="post-meta-item leancloud_visitors" data-flag-title="Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/gson-technic/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/gson-technic/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文介绍几个Gson使用的技巧实例，可以解决一些实际开发容易遇到的、数据解析相关的问题。建议结合示例工程源码阅读。</p>
+<blockquote>
+<p>本文完整示例工程<br>
+<a target="_blank" rel="noopener" href="https://github.com/jzj1993/GsonStudy">https://github.com/jzj1993/GsonStudy</a></p>
+</blockquote>
+<p>有关Gson源码设计相关，可以阅读</p>
+<blockquote>
+<p>Gson源码设计学习<br>
+<a href="http://www.xiaoming.io/gson-study">http://www.xiaoming.io/gson-study</a></p>
+</blockquote>
+<h2 id="解析的数据免判空">解析的数据免判空</h2>
+<p>解析完数据，使用时经常需要对数据判空，以免后台返回数据格式有误导致客户端Crash，非常繁琐，且容易遗漏。</p>
+<p>从Gson解析的角度，可以考虑让解析出来的数据不为null，从而不需要做判空。具体实现方面，有几种思路。</p>
+<ol>
+<li>
+<p>修改数据实现类：在数据Model实现类中过滤掉null值。例如设计一个List，只有非null值才能被添加进去，取出Item时就不需要判空了。</p>
+</li>
+<li>
+<p>全局替换解析过程：对于特定类型，全局替换Gson解析过程。例如String类型null解析为空串<code>&quot;&quot;</code>；数组、List解析为空数组、空List而不是null等。</p>
+</li>
+<li>
+<p>定制化解析：全局替换的方式比较粗暴，对于复杂工程可能会引起预料不到的问题，可以结合注解等方式，对指定的元素进行特殊处理。</p>
+</li>
+</ol>
+<h3 id="ItemNonNullList：List中的Item免判空">ItemNonNullList：List中的Item免判空</h3>
+<p>List中的每个元素的判空，很容易漏掉。</p>
+<p>可以封装一个ItemNonNullList，在ArrayList外面包一层，并特殊处理add/addAll相关方法，保证为null的Item不会被添加进去。不需要自定义TypeAdapter修改Gson解析过程。</p>
+<p>具体代码详见示例工程。</p>
+<h3 id="全局替换TypeAdapter：特定类型免判空">全局替换TypeAdapter：特定类型免判空</h3>
+<p>以String为例，可以把TypeAdapters.STRING复制出来，并修改其中代码如下，将null解析为空字符串，然后注册到Gson中，覆盖String默认的TypeAdapter。</p>
+<p>类似的，还可以覆盖Gson内置的TypeAdapters.INTEGER、CollectionTypeAdapterFactory、ArrayTypeAdapter等，实现Integer、Collection、数组等类型的免判空。</p>
+<p>具体也可以参考这篇文章</p>
+<blockquote>
+<p>Gson：自定义TypeAdapter<br>
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/linjzong/p/5201565.html">https://www.cnblogs.com/linjzong/p/5201565.html</a></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义TypeAdapter ,null对象将被解析成空字符串</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> TypeAdapter&lt;String&gt; STRING = <span class="keyword">new</span> TypeAdapter&lt;String&gt;() &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">read</span><span class="params">(JsonReader reader)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (reader.peek() == JsonToken.NULL) &#123;</span><br><span class="line">                reader.nextNull();</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;&quot;</span>; <span class="comment">// 原先是返回null，这里改为返回空字符串</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> reader.nextString();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(JsonWriter writer, String value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (value == <span class="keyword">null</span>) &#123;</span><br><span class="line">                writer.nullValue();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            writer.value(value);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">.registerTypeAdapter(String.class, STRING)</span><br><span class="line">    .create();</span><br></pre></td></tr></table></figure>
+<h3 id="NonNullField注解：任意字段免判空">NonNullField注解：任意字段免判空</h3>
+<p>设计一个NonNullField字段，注解到自定义类的成员变量上，可以确保解析时该字段不会为null，会使用默认的实例来代替。</p>
+<p>NonNullField注解定义如下。支持给字段配置自定义的InstanceCreator来创建实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.FIELD)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> NonNullField &#123;</span><br><span class="line">    Class&lt;? extends InstanceCreator&gt; value() <span class="keyword">default</span> NonNullFieldConstructor.class;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用示例如下，NonNullField注解支持继承、泛型参数类型、嵌套class、自定义InstanceCreator。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseData</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"><span class="comment">// 泛型参数类型；成员变量继承</span></span><br><span class="line"><span class="meta">@NonNullField</span></span><br><span class="line">T type;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Data</span> <span class="keyword">extends</span> <span class="title">BaseData</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">    String nullField;</span><br><span class="line"><span class="meta">@NonNullField</span></span><br><span class="line">    String string;</span><br><span class="line">    <span class="comment">// 自定义InstanceCreator；</span></span><br><span class="line">    <span class="comment">// 嵌套class(Extra内部又定义了NonNullField)</span></span><br><span class="line">    <span class="meta">@NonNullField(ExtraCreator.class)</span></span><br><span class="line">    Extra extra;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Extra</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="meta">@NonNullField</span></span><br><span class="line">    Integer integer;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Extra</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtraCreator</span> <span class="keyword">implements</span> <span class="title">InstanceCreator</span>&lt;<span class="title">Extra</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Extra <span class="title">createInstance</span><span class="params">(Type type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Extra(<span class="string">&quot;extra&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试代码如下，正常情况下应该解析出Data实例且所有Field均为null。但使用了NonNullField后，相应字段都会赋值为默认实例而不是null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Gson gson = <span class="keyword">new</span> GsonBuilder().registerTypeAdapterFactory(<span class="keyword">new</span> NonNullFieldFactory()).create();</span><br><span class="line">Data data = gson.fromJson(<span class="string">&quot;&#123;&#125;&quot;</span>, Data.class);</span><br><span class="line"></span><br><span class="line">Assert.assertNull(data.nullField);</span><br><span class="line">Assert.assertEquals(<span class="string">&quot;&quot;</span>, data.type);</span><br><span class="line"></span><br><span class="line">Assert.assertNotNull(data.extra);</span><br><span class="line"></span><br><span class="line">Assert.assertEquals(<span class="string">&quot;extra&quot;</span>, data.extra.name);</span><br><span class="line">Assert.assertEquals((Integer) <span class="number">0</span>, data.extra.integer);</span><br></pre></td></tr></table></figure>
+<p>NonNullField注解通过NonNullFieldFactory实现如下。此Factory在创建TypeAdapter时，先搜索Class和父类中包含NonNullField注解的成员变量：</p>
+<ul>
+<li>如果没找到，则返回null，由其他Factory创建TypeAdapter；</li>
+<li>如果找到了，则在DelegateAdapter外包裹一层，DelegateAdapter解析完成后调用replaceNonNullFields方法，将NonNullField的null值替换为默认实例。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NonNullFieldFactory</span> <span class="keyword">implements</span> <span class="title">TypeAdapterFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">TypeAdapter&lt;T&gt; <span class="title">create</span><span class="params">(Gson gson, TypeToken&lt;T&gt; typeToken)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        List&lt;Field&gt; fields = findMatchedFields(typeToken);</span><br><span class="line">        <span class="keyword">final</span> Type type = typeToken.getType();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果找到了，则包裹一层Adapter</span></span><br><span class="line">        <span class="keyword">if</span> (fields != <span class="keyword">null</span> &amp;&amp; !fields.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">final</span> TypeAdapter&lt;T&gt; delegate = gson.getDelegateAdapter(<span class="keyword">this</span>, typeToken);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TypeAdapter&lt;T&gt;() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(JsonWriter out, T value)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                    delegate.write(out, value);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> T <span class="title">read</span><span class="params">(JsonReader in)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                    T t = delegate.read(in);</span><br><span class="line">                    replaceNonNullFields(t, typeToken);</span><br><span class="line">                    <span class="keyword">return</span> t;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在replaceNonNullFields方法中，调用InstanceCreator创建实例，然后通过反射设置给Java对象。创建默认实例时，还会递归替换默认实例中嵌套的NonNullField，从而支持嵌套class。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">replaceNonNullFields</span><span class="params">(Object o, TypeToken typeToken)</span> </span>&#123;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">    List&lt;Field&gt; fields = fieldMap.get(typeToken.getType());</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Object fieldValue = field.get(o);</span><br><span class="line">            <span class="keyword">if</span> (fieldValue == <span class="keyword">null</span>) &#123;</span><br><span class="line">                Object value = constructField(field, resolveFieldType(typeToken, field));</span><br><span class="line">                <span class="comment">// ...</span></span><br><span class="line">                field.set(o, value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalArgumentException  IllegalAccessException e) &#123;</span><br><span class="line">            L.e(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Object <span class="title">constructField</span><span class="params">(Field field, Type type)</span> </span>&#123;</span><br><span class="line">    NonNullField annotation = field.getAnnotation(NonNullField.class);</span><br><span class="line">    Class&lt;? extends InstanceCreator&gt; creatorClass = annotation.value();</span><br><span class="line">    InstanceCreator creator = getCreator(creatorClass);</span><br><span class="line">    Object instance = creator.createInstance(type);</span><br><span class="line">    replaceNonNullFields(instance, TypeToken.get(type));</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>InstanceCreator可由NonNullField注解指定，默认值为NonNullFieldConstructor。NonNullFieldConstructor中先判断如果是基本类型或数组，则直接创建，否则调用Gson内部的ConstructorConstructor工具类创建实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NonNullFieldConstructor</span> <span class="keyword">implements</span> <span class="title">InstanceCreator</span>&lt;<span class="title">Object</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 保存基本类型及其默认值。基本类型默认值的内容不能被修改，因此可以重复利用，赋值给多个Field。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Map&lt;Class, Object&gt; basicMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Gson的Constructor</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ConstructorConstructor constructor = <span class="keyword">new</span> ConstructorConstructor(<span class="keyword">new</span> HashMap&lt;&gt;());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        basicMap.put(Boolean.class, <span class="keyword">false</span>);</span><br><span class="line">        basicMap.put(Byte.class, (<span class="keyword">byte</span>) <span class="number">0</span>);</span><br><span class="line">        basicMap.put(Character.class, (<span class="keyword">char</span>) <span class="number">0</span>);</span><br><span class="line">        basicMap.put(Short.class, (<span class="keyword">short</span>) <span class="number">0</span>);</span><br><span class="line">        basicMap.put(Integer.class, <span class="number">0</span>);</span><br><span class="line">        basicMap.put(Long.class, <span class="number">0L</span>);</span><br><span class="line">        basicMap.put(Float.class, <span class="number">0F</span>);</span><br><span class="line">        basicMap.put(Double.class, (<span class="keyword">double</span>) <span class="number">0</span>);</span><br><span class="line">        basicMap.put(String.class, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">createInstance</span><span class="params">(Type type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (type <span class="keyword">instanceof</span> Class) &#123;</span><br><span class="line">            Object o = basicMap.get(type);</span><br><span class="line">            <span class="keyword">if</span> (o != <span class="keyword">null</span>) &#123; <span class="comment">// Integer.class</span></span><br><span class="line">                <span class="keyword">return</span> o;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (((Class) type).isArray()) &#123; <span class="comment">// String[].class</span></span><br><span class="line">                <span class="keyword">return</span> Array.newInstance($Gson$Types.getRawType(((Class) type).getComponentType()), <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type <span class="keyword">instanceof</span> GenericArrayType) &#123; <span class="comment">// String[]</span></span><br><span class="line">            <span class="keyword">return</span> Array.newInstance($Gson$Types.getRawType(((GenericArrayType) type).getGenericComponentType()), <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 其他类型使用constructor创建</span></span><br><span class="line">        TypeToken&lt;?&gt; typeToken = TypeToken.get(type);</span><br><span class="line">        <span class="keyword">return</span> constructor.get(typeToken).construct();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="DeserializeAction">DeserializeAction</h2>
+<h3 id="IDataValidateAction：解析后校验数据">IDataValidateAction：解析后校验数据</h3>
+<p>解析完数据除了判空，有时还要对一些字段有效性做判断（例如id有效）。能否在解析过程中直接过滤掉无效异常数据，用的时候不需要再判断呢？</p>
+<p>可以设计一个IDataValidateAction接口定义如下。自动解析完成后，如果对象实现了这个接口，Gson就会调用isDataValid校验数据，如果数据无效，则直接过滤掉这个对象，返回null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IDataValidateAction</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDataValid</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ValidUser</span> <span class="keyword">implements</span> <span class="title">IDataValidateAction</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isDataValid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 如果id为0或负值，说明接口异常，视为无效数据，丢弃不用</span></span><br><span class="line">        <span class="keyword">return</span> id &gt; <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="IAfterDeserializeAction：解析后预处理数据">IAfterDeserializeAction：解析后预处理数据</h3>
+<p>接口返回的数据自动解析后，经常和最终需要的数据格式不完全一致，需要进行预处理。例如User的名称返回空串，则需要在客户端显示成“匿名”；再例如接口返回二维数组，而UI组件需要的是带有Type信息的一维数组来实现分组列表。</p>
+<p>解决上述问题的常规思路有：</p>
+<ol>
+<li>
+<p>在网络框架onResponse方法中处理整个Response。onResponse方法在UI线程执行，容易引起卡顿；如果数据Model嵌套层级深，还需要逐层访问；Model与其预处理的代码分散在不同地方，设计不够合理。</p>
+</li>
+<li>
+<p>在Model中添加Getter方法，调用时对数据进行处理。Getter中要用标志位判断以避免重复处理；有UI线程卡顿问题。</p>
+</li>
+<li>
+<p>包裹一层UI Model，对数据Model做转换。有些繁琐；有UI线程卡顿问题。</p>
+</li>
+<li>
+<p>直接注册Deserializer手动解析整个Model。有些繁琐。</p>
+</li>
+</ol>
+<p>结合Gson强大的自定义功能，我们可以通过定义IAfterDeserializeAction接口更好的解决问题。自动解析完成后，如果对象实现了该接口，就会在数据解析线程继续调用doAfterDeserialize方法处理数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IAfterDeserializeAction</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doAfterDeserialize</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">IAfterDeserializeAction</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAfterDeserialize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (TextUtils.isEmpty(name)) &#123;</span><br><span class="line">            name = <span class="string">&quot;匿名&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实现">实现</h3>
+<p>DeserializeAction的实现很简单，只需要给Gson注册一个DeserializeActionAdapterFactory即可。这个Factory会判断如果Type实现了DeserializeAction相关接口，则在DelegateAdapter外包裹一层进行相应的处理；否则直接返回DelegateAdapter。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeserializeActionAdapterFactory</span> <span class="keyword">implements</span> <span class="title">TypeAdapterFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function">TypeAdapter&lt;T&gt; <span class="title">create</span><span class="params">(Gson gson, TypeToken&lt;T&gt; type)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取其他低优先级Factory创建的DelegateAdapter</span></span><br><span class="line">        <span class="keyword">final</span> TypeAdapter&lt;T&gt; delegate = gson.getDelegateAdapter(<span class="keyword">this</span>, type);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果type实现了DeserializeAction，则返回包裹后的TypeAdapter</span></span><br><span class="line">        <span class="keyword">if</span> (shouldWrap(type.getRawType())) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TypeAdapter&lt;T&gt;() &#123;</span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(JsonWriter out, T value)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                    delegate.write(out, value);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="keyword">public</span> T <span class="title">read</span><span class="params">(JsonReader in)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                    T t = delegate.read(in);</span><br><span class="line">                    <span class="keyword">if</span> (t <span class="keyword">instanceof</span> IDataValidateAction) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (!((IDataValidateAction) t).isDataValid()) &#123;</span><br><span class="line">                            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (t <span class="keyword">instanceof</span> IAfterDeserializeAction) &#123;</span><br><span class="line">                        ((IAfterDeserializeAction) t).doAfterDeserialize();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> t;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> delegate;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">shouldWrap</span><span class="params">(Class clazz)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> IAfterDeserializeAction.class.isAssignableFrom(clazz)</span><br><span class="line">                IDataValidateAction.class.isAssignableFrom(clazz);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料与扩展阅读">参考资料与扩展阅读</h2>
+<p>本文完整示例工程<br>
+<a target="_blank" rel="noopener" href="https://github.com/jzj1993/GsonStudy">https://github.com/jzj1993/GsonStudy</a></p>
+<p>Gson源码设计学习<br>
+<a href="http://www.xiaoming.io/gson-study">http://www.xiaoming.io/gson-study</a></p>
+<p>Gson：自定义TypeAdapter<br>
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/linjzong/p/5201565.html">https://www.cnblogs.com/linjzong/p/5201565.html</a></p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gson-study/" rel="bookmark">Gson源码设计学习</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dynamic-proxy-java-bus/" rel="bookmark">一种基于动态代理实现的Android/Java总线通信组件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/infer/" rel="bookmark">空指针静态代码检查工具Infer</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/gson-study/" rel="prev" title="Gson源码设计学习">
+      <i class="fa fa-chevron-left"></i> Gson源码设计学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/android-lint-1-usage/" rel="next" title="Android Lint：基本使用与配置">
+      Android Lint：基本使用与配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E7%9A%84%E6%95%B0%E6%8D%AE%E5%85%8D%E5%88%A4%E7%A9%BA"><span class="nav-number">1.</span> <span class="nav-text">解析的数据免判空</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ItemNonNullList%EF%BC%9AList%E4%B8%AD%E7%9A%84Item%E5%85%8D%E5%88%A4%E7%A9%BA"><span class="nav-number">1.1.</span> <span class="nav-text">ItemNonNullList：List中的Item免判空</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2TypeAdapter%EF%BC%9A%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E5%85%8D%E5%88%A4%E7%A9%BA"><span class="nav-number">1.2.</span> <span class="nav-text">全局替换TypeAdapter：特定类型免判空</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NonNullField%E6%B3%A8%E8%A7%A3%EF%BC%9A%E4%BB%BB%E6%84%8F%E5%AD%97%E6%AE%B5%E5%85%8D%E5%88%A4%E7%A9%BA"><span class="nav-number">1.3.</span> <span class="nav-text">NonNullField注解：任意字段免判空</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DeserializeAction"><span class="nav-number">2.</span> <span class="nav-text">DeserializeAction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IDataValidateAction%EF%BC%9A%E8%A7%A3%E6%9E%90%E5%90%8E%E6%A0%A1%E9%AA%8C%E6%95%B0%E6%8D%AE"><span class="nav-number">2.1.</span> <span class="nav-text">IDataValidateAction：解析后校验数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IAfterDeserializeAction%EF%BC%9A%E8%A7%A3%E6%9E%90%E5%90%8E%E9%A2%84%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE"><span class="nav-number">2.2.</span> <span class="nav-text">IAfterDeserializeAction：解析后预处理数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E4%B8%8E%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="nav-number">3.</span> <span class="nav-text">参考资料与扩展阅读</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

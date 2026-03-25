@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="电赛全称全国大学生电子设计竞赛，全国赛在每逢单数年的9月份举行，竞赛时间四天三夜。 竞赛流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2013电赛总结【西电专用】">
+<meta property="og:url" content="https://www.xiaoming.io/nuedc/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="电赛全称全国大学生电子设计竞赛，全国赛在每逢单数年的9月份举行，竞赛时间四天三夜。 竞赛流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-10-07T14:22:59.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.661Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="总结">
+<meta property="article:tag" content="电路设计">
+<meta property="article:tag" content="硬件开发">
+<meta property="article:tag" content="西电">
+<meta property="article:tag" content="竞赛">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/nuedc/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>2013电赛总结【西电专用】 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/nuedc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2013电赛总结【西电专用】
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-07 22:22:59" itemprop="dateCreated datePublished" datetime="2014-10-07T22:22:59+08:00">2014-10-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/nuedc/" class="post-meta-item leancloud_visitors" data-flag-title="2013电赛总结【西电专用】" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/nuedc/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/nuedc/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>电赛全称全国大学生电子设计竞赛，全国赛在每逢单数年的9月份举行，竞赛时间四天三夜。</p>
+<h2 id="竞赛流程">竞赛流程</h2>
+<p>政策可能有变，每一届竞赛流程可能都不一样，这里只是根据我的了解进行总结的。</p>
+<p>我们学校电赛差不多是从每年年初新学期开学时开始进行选拔，也有可能会在前一学期快结束时开始选拔。首先会有两轮笔试，考试内容主要为数电、模电、单片机和微机原理、电子设计常识、简单电子系统设计。题目涉及的东西很多，也比较难，不过正因如此，即使考的分数低也完全有希望。两轮笔试都是全校统一进行的，第二轮笔试之后一般各个学院再自己确定如何选拔。以我们通院为例，指导老师对我们进行了一次面试，然后选进去大约30人。</p>
+<p>面试结束后，开始在实验室进行培训。最初都是从最简单的模拟电路开始，一般都是运放的各种基本电路，然后是单片机，再后来可能会做一些题练习。培训完了开始进行校赛选拔。校赛是单人单组进行的，规定在一天半的时间内，按照全校统一的题目去设计制作电路，尽可能多而好的完成相应指标，然后由教务处公布成绩。校赛一般会淘汰掉一部分人，或者也会有一些人自己离开，往往可能是因为要考研，找工作，或者只是想体验一下电赛，并不打算花费太多时间等。</p>
+<p>校赛之后开始进行组队，每三人一组。每个队会安排指导老师。至此，排除那些后来由于各种原因自主放弃的参赛人员，电赛最终能进入国家赛资格的人员已经基本确定。组队好了，然后继续进行训练。由于已经组队，而且之前已经有过一些训练，因此这时训练的内容难度会更大一点，由三个人合作完成。期间有一个陕西省五校联赛，即省赛，五校统一出题，然后在三天两夜的时间内由团队合作完成题目。省赛主要是练习，基本上不会刷人，一方面是练习技术知识，另一方面是锻炼队员之间的默契和团队合作能力。</p>
+<p>省赛结束之后，已经快到暑假了，暑假仍然会继续训练，为国家赛做准备。暑期培训今年是安排在了新校区，往年也有在老校区培训的。国家赛在9月份进行，具体时间每年不太一样。国家赛一般会根据不同方向出多道题，如电源类、高频类、通信类、仪器仪表类、控制类等，但是实际上每个类型是否会出题以及出几道题是不确定的，也会有一些题同时可能包含多个方向的内容。因此，准备国家赛时，由于时间精力有限，各个队伍需要按照队员特长，着重选择一两个方向来训练，有时还得考虑实验室的条件，因为可能需要一些比较昂贵的器材和仪器。后期培训可能涉及到的学科就比较多了，信号系统、DSP、高频、通信原理、自动化控制原理、算法等，当然要看队伍选择的训练方向。</p>
+<p>暑假培训完，新学期开学不久，就会举行国家赛。四天三夜的时间，每个队可以根据之前培训的内容选择一道题来做，其中分本科组题、高职高专组题，只要队伍中有一个本科生，就只能选本科组题。而高职高专类学校队伍既可以选择高职高专组题，也可以直接选做本科组题。国家赛每个省都会安排一些比赛场地，一般每年西电就有比赛场地的名额，因此西电的学生，可以直接在本校实验室做比赛。做完国家赛之后，作品会先后进行省级测试和国家级复测。陕西省的省级测试场地，一般也在西电。国家赛比赛时间截止时，作品会密封保存，并交到作品室，不允许再进行改动。作品室则由测试场地所在学校进行安排。</p>
+<p>忙完四天三夜辛苦的比赛，会有一些休息时间，然后开始进行测试。省级测试之后，名次出来了，一般会选取每道题前8%的优秀队伍，继续进行国家级奖项评选的复测。这些队伍需要参加全国统一的综合测评，要求在短时间内、不允许上网但是可以提前备好资料的封闭条件下，完成一些比较简单的电路设计和搭建。综合测评通过之后就可以进行国家级复测，然后评选国家奖。</p>
+<h2 id="知识准备">知识准备</h2>
+<p>参加电赛首先面临的问题就是如何通过前两轮笔试。首先最好有一定的英语成绩，因为试卷上会提到四六级是否已过。因为比赛过程中会经常用到英文资料和软件。笔试内容主要为数电、模电、单片机和微机原理、电子制作常识、简单电子系统设计。整个考试内容偏重于应用，理论性不会很强，很少会涉及复杂的计算之类的。数电比较简单，自己好好学一学就行了。模电考一些基本概念知识，然后着重考察对运放的理解，尤其是运放的非理想特性，还有查看运放芯片手册的能力。单片机和微机原理部分，可能会考一些接口、汇编程序等，也可能会考一些单片机编程技巧等，一般会在竞赛培训过程中介绍。电子制作常识设计的东西就比较零散了，比如电烙铁的使用、电子元件参数的识别等，这些知识则需要在平时的电子制作过程中不断积累，培训的时候会简单介绍一些，也有一些元器件识别之类的书籍可供参考。简单电子系统设计一般会在笔试复赛中考到，比如设计一个频率计等（只需要画出框图，可能要计算一些关键参数之类）。如果笔试选拔的时候你已经是大三，那很多课程都已经学过，比较有优势。如果你是大二，那么很多课程都需要自己提前学习，但是只要你有一个坚定的信念，完全可以做到的。我参加电赛的时候就是大二，寒假在家学的模电、数电。之前对单片机有了解，电子制作常识积累的比较多，所以笔试考的成绩也不差。如果你感觉考的内容太多，学不完也没关系，如果你能对其中几个方面比较擅长，对个别方面了解很少，也是完全有希望的。</p>
+<h2 id="训练期间很累，需要能坚持">训练期间很累，需要能坚持</h2>
+<p>笔试通过的时候，大部分人其实还是很缺乏实践经验的，当然也有一些参加过其他类似竞赛的人会有一些经验。在短短几个月的时间里，电赛训练要把这样的一些人训练到能设计并实现一个不算很简单的电子系统的水平，其间辛苦可想而知。而且尤其是如果你身处大二，可能还会有比较多的重要课程需要学习，所以很难兼顾这两方面。在这期间，谁能坚持到最后，就是胜利。举个最简单的例子，刚开始训练我们做的是运放基本电路，书上看似简单的加法器减法器放大器滤波器，到实际电路搭建，差得远了，经常出现一些奇怪的结果，但是却无从解决。可能是运放并非书上分析的那么理想，可能是电路连错了，也可能是焊接的问题等等。模电难度比较大，以至于有些问题指导老师也不一定能解决。我们花了一个多星期的时间，最终才实现了预期的效果，中间都快崩溃了。而这还只是所有训练的开始。以至于后来，我们发现，谁能坚持到最后，谁就一定能取得一些成绩。</p>
+<h2 id="团队合作">团队合作</h2>
+<p>团队合作在电赛过程中非常重要。不像其他很多竞赛，要不就是项目难度可能并不很大，要不就是完全没有明确时间限制。电赛国赛出的题，在四天三夜的时间里，如果没有三个队员的协力合作，而单靠其中某一个人的实力，恐怕很难做好。于是合作就显得非常重要了。由于大家都是历经重重考验才进入最后的国赛的，所以大家都是有实力的人。但是这里就产生了一个问题：如果意见出现分歧，应该怎么解决呢？意见分歧是很常见的现象，比如实现同样的功能，可以有多种不同的方案，哪种方案容易实现，效果好，往往只有在实际做了之后才能看出来。出现意见分歧，如果一个人不能很好的说服另一个人，或者谁也不愿意妥协，最终选择任何一个方案都可能出现问题。往往缺乏的不是实力，而是合作不好。至于这样的问题，我也没有什么好的解决方法。选择队友的时候，既要考虑对方实力，又要看大家的性格如何，还有团队合作意识如何。所以大家对此引起重视，自己想办法吧。</p>
+<p>如果想了解更多有关电赛的信息，可以上电赛官方网站：<a target="_blank" rel="noopener" href="http://www.nuedc.com.cn/">http://www.nuedc.com.cn/</a></p>
+<p>官方还有一个FTP站点，可以下载到历年全国赛的题目： <a target="_blank" rel="noopener" href="http://ftp://ftp.nuedc.com.cn/">ftp://ftp.nuedc.com.cn/</a></p>
+<p>也可以自行查找历年电赛选拔试题、电赛国奖论文等相关资料。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/self-made-pcb/" rel="bookmark">热转印法手工自制单面PCB流程和技巧总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/analog-circuit/" rel="bookmark">我对模拟电路课程的理解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/analog-circuit-design/" rel="bookmark">模拟电路设计：理论的神话与残酷的现实</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%80%BB%E7%BB%93/" rel="tag"># 总结</a>
+              <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E8%A5%BF%E7%94%B5/" rel="tag"># 西电</a>
+              <a href="/tags/%E7%AB%9E%E8%B5%9B/" rel="tag"># 竞赛</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/analog-circuit/" rel="prev" title="我对模拟电路课程的理解">
+      <i class="fa fa-chevron-left"></i> 我对模拟电路课程的理解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/gprs-design/" rel="next" title="浅谈GSM/GPRS模块软硬件设计（基于有方M660+模块和单片机）">
+      浅谈GSM/GPRS模块软硬件设计（基于有方M660+模块和单片机） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%9E%E8%B5%9B%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">竞赛流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">知识准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%9C%9F%E9%97%B4%E5%BE%88%E7%B4%AF%EF%BC%8C%E9%9C%80%E8%A6%81%E8%83%BD%E5%9D%9A%E6%8C%81"><span class="nav-number">3.</span> <span class="nav-text">训练期间很累，需要能坚持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%A2%E9%98%9F%E5%90%88%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">团队合作</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

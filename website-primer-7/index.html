@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="系列博客说明  《网站搭建从零开始》系列博客 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;tag&#x2F;website-primer 对于完整的学习，强烈建议先阅读《网站搭建从零开始（〇） 内容概要与学习方法》 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;website-primer-0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网站搭建从零开始（七） WordPress站点的完善">
+<meta property="og:url" content="https://www.xiaoming.io/website-primer-7/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="系列博客说明  《网站搭建从零开始》系列博客 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;tag&#x2F;website-primer 对于完整的学习，强烈建议先阅读《网站搭建从零开始（〇） 内容概要与学习方法》 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;website-primer-0">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-11-01T15:44:08.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.405Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="WordPress">
+<meta property="article:tag" content="网站">
+<meta property="article:tag" content="#网站搭建从零开始#">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/website-primer-7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网站搭建从零开始（七） WordPress站点的完善 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/website-primer-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网站搭建从零开始（七） WordPress站点的完善
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-11-01 23:44:08" itemprop="dateCreated datePublished" datetime="2014-11-01T23:44:08+08:00">2014-11-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/website-primer/" itemprop="url" rel="index"><span itemprop="name">网站搭建从零开始</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/website-primer-7/" class="post-meta-item leancloud_visitors" data-flag-title="网站搭建从零开始（七） WordPress站点的完善" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/website-primer-7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/website-primer-7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="系列博客说明">系列博客说明</h2>
+<blockquote>
+<p>《网站搭建从零开始》系列博客 <a href="http://www.xiaoming.io/tag/website-primer">http://www.xiaoming.io/tag/website-primer</a></p>
+<p>对于完整的学习，强烈建议先阅读《网站搭建从零开始（〇） 内容概要与学习方法》 <a href="http://www.xiaoming.io/website-primer-0">http://www.xiaoming.io/website-primer-0</a></p>
+</blockquote>
+<hr>
+<p>这篇文章介绍WordPress站点的完善。由于很多操作可能需要自己修改源代码，所以先对相关知识进行简单介绍。<strong>建议对上述语言先有简单的了解，在实际使用时，再根据需要再现学现用</strong>。对所用到的程序语言和技术有所了解，改代码时就不至于像我一开始那样不知所措了（从对网站毫无了解到一瞬间看到各种完全陌生的语言混合在一起，可能会有点接受不了）。</p>
+<p><strong>本文主要是列举一个WordPress站点的完善可能需要考虑的东西并简单介绍，而不对具体的操作进行详细分析，因为网上有很多相关的文章可以参考，没必要再写</strong>。</p>
+<h2 id="基础知识">基础知识</h2>
+<p>通常一个网站的整个构建过程中需要大量的技术支持，尤其是用到很多种计算机语言。网站的构建主要分后端和前端两部分，后端代码在服务器上运行，而前端程序源码则通过网络传输到用户的浏览器，由浏览器执行。WordPress站点的页面属于动态页面，也就是说页面是程序动态生成的，不同的人、不同时刻访问同一个网址对应的页面，看到的内容是不一样的。和动态页面相对的是静态页面，静态页面的扩展名一般是html，不需要后端语言动态的生成网页。</p>
+<h3 id="后端语言PHP">后端语言PHP</h3>
+<p>实现网站后端的语言有很多，如PHP、ASP、Python、Java、Node.js等。以WordPress为例，主要是用PHP完成的，访问数据库会用到一些SQL语言。PHP在WordPress中一方面负责后端数据处理逻辑，另一方面负责前端动态页面代码的生成。PHP可以很容易的嵌入到HTML中，实现PHP和HTML等语言的混合编程。例如：</p>
+<ol>
+<li><code>&lt;html&gt;</code></li>
+<li><code>&lt;head&gt;</code></li>
+<li><code>&lt;title&gt;PHP&lt;/title&gt;</code></li>
+<li><code>&lt;/head&gt;</code></li>
+<li><code>&lt;body&gt;</code></li>
+<li><code>&lt;?php echo '&lt;p&gt;Hello World&lt;/p&gt;'; ?&gt;</code></li>
+<li><code>&lt;/body&gt;</code></li>
+<li><code>&lt;/html&gt;</code></li>
+</ol>
+<p>将其保存为php扩展名的文件，放在配置了PHP环境的服务器中，并用浏览器访问此文件，就会执行PHP部分代码，生成相应的Html页面（即前端代码），并传输到浏览器中，由浏览器执行。</p>
+<p>更详细的PHP知识可以访问w3school，或者查看PHP官方给出的手册。</p>
+<h3 id="后端语言SQL">后端语言SQL</h3>
+<p>WordPress访问数据库时会用到SQL语言，SQL语言号称第四代编程语言，语法非常接近自然语言，基本操作学习起来不是很困难。</p>
+<h3 id="前端语言HTML、CSS">前端语言HTML、CSS</h3>
+<p>HTML是浏览器使用的最主要的语言，HTML通过标签表示各种元素，即网站的内容。CSS为层叠样式表，即网站的风格，如文字大小、颜色、排版位置等。目前主流网站一般主要都是采用HTML和CSS实现界面。对于静态网站页面，可以直接将HTML、CSS等文件保存在网站服务器供用户访问，更新页面时直接对网页文件进行修改。</p>
+<p>HTML和CSS的语法不是很复杂，学起来也比较容易。严格来说不算编程语言，只是描述性语言。学习的时候需要慢慢熟悉各种标签、属性等，不熟悉的经常查阅资料做参考。</p>
+<h3 id="前端语言JavaScript与jQuery程序库、Ajax技术">前端语言JavaScript与jQuery程序库、Ajax技术</h3>
+<p>JavaScript是网页中使用非常多的一种程序语言，可用来实现各种动态效果，执行一些简单的数据操作等，例如注册账号时判断用户填写的邮箱格式是否正确，网页版的计算器等。</p>
+<p>jQuery不是编程语言，而是用JavaScript实现的程序库，能很轻松的实现很多常用功能。例如很多网站为了加快网页载入速度，使用jQuery实现图片的延迟加载，只有在访问到图片文件时，图片才会被加载，否则不加载图片，提高了用户体验。</p>
+<p>Ajax是一种交互式网页技术，用于实现网页的异步更新。例如我们在访问QQ空间网页时，滚动到最下方，就会加载更多内容，动态更新网页，而不需要跳转页面。</p>
+<h3 id="网页访问大致的运行流程">网页访问大致的运行流程</h3>
+<p>访问WordPress网站时，用户浏览器发出的网址请求被服务器接收到，服务器就会找到相应的页面，通过执行PHP生成HTML页面，这个过程是服务器完成的。然后将HTML页面通过网络发送到浏览器。而浏览器则可以打开HTML、CSS，然后运行JavaScript等语言对页面进行一些修改等操作，然后页面就被显示出来。当用户进行一些操作，例如点击特定的按钮时，JavaScript中设置的监听器函数就会执行，完成响应的操作，例如打开弹出窗口，显示用户登录信息（当然这个不一定都是用JavaScript实现）。</p>
+<h2 id="基本功能">基本功能</h2>
+<h3 id="确定好合适的主题">确定好合适的主题</h3>
+<p>网站搭建好后，如果你需要比较多的自行定制内容，推荐选用一套合适的主题，然后就固定下来不再随便修改。因为很多定制内容都是通过修改主题源码实现的，如果更换主题所有定制的内容就都没了。</p>
+<p>网上有一些高手制作的主题功能非常强大，其中有些是收费的，也有一些免费的。但是可能别人制作的主题不是你想要的风格，例如我用的主题就是知名博主知更鸟做的，但是个人更喜欢清新简洁的风格，这个时候就可以通过CSS进行修改，偶尔也需要对HTML和PHP进行少量修改。当然，使用别人的主题，应该尊重原作者的成果，注明原作者和作者的网站链接。</p>
+<p>下面所说的很多东西，几乎都可以直接通过修改主题实现，也可以安装插件实现，而有些主题本身就集成了很多强大的功能，不需要自己进行添加。我更推荐直接修改主题实现，因为使用插件会拖慢网站速度，有可能插件和主题之间冲突，而且不同插件显示效果和主题不匹配，最后看着比较乱，一个个插件去修改太麻烦（插件代码也可以修改，但是插件一般更新比较频繁，更新后对插件所做的修改全部失效了）。</p>
+<h3 id="网站图标、标题、简介">网站图标、标题、简介</h3>
+<p>这个不用多说，网站肯定是要有标题的，并用一句话作为简介，概括网站的核心内容思想等，这样有利于访问者快速了解网站。例如不少网站会以类似“关注互联网创业”“中国最大的_*_网站”这样的格式来写。另外网站可以做个小图标，这样放在收藏夹里也会好看一点。</p>
+<h3 id="版权信息">版权信息</h3>
+<p>个人创办的网站，一般不希望别人随便的盗用里面的原创文章，版权信息当然必不可少。你可以安装Add Post URL插件，或者直接修改主题。</p>
+<p>另外网站底部一般也会有“版权所有”之类的声明，如果有备案，还会有备案号，这个可以直接修改主题的footer.php文件中的HTML代码。</p>
+<h3 id="图片自动加水印">图片自动加水印</h3>
+<p>DX-Watermark可以直接在发表文章上传时，自动给图片加上指定的水印，以免随意盗图。不过根据我的实际经验，感觉给图片加水印效果不好。图片大小不同，加的水印大小也不一样；还有水印的颜色如果比较浅，尺寸比较小，有些图片上根本看不见，尺寸过大，或者颜色太深了，例如很深的大红色，会严重影响用户体验。最后我还是决定取消了图片水印。</p>
+<h3 id="邮件发送">邮件发送</h3>
+<p>有的服务器不支持邮件发送，导致WordPress默认的邮件发送工作不正常，导致很多问题，例如用于注册时无法收到登录密码，这时可以通过插件配置邮箱进行发送。</p>
+<blockquote>
+<p>可参考《WordPress通过插件发送邮件》 <a href="http://www.xiaoming.io/wordpress-send-email-via-plugins">http://www.xiaoming.io/wordpress-send-email-via-plugins</a></p>
+</blockquote>
+<h3 id="编辑器插件">编辑器插件</h3>
+<p>WordPress自带的文章编辑器功能比较少，你可以安装插件加强编辑器功能。CKEditor for WordPress就比较强大，不过似乎配置有点麻烦，还有点兼容方面的问题不想麻烦，后来我改用TinyMCE Advanced。自己编辑文章主要还是用为知笔记，然后离线发布上传的，所以用编辑器主要也只是偶尔进行文章的修改了。</p>
+<h2 id="用户交互">用户交互</h2>
+<h3 id="分享、喜欢按钮">分享、喜欢按钮</h3>
+<p>好的文章，希望读者分享到社交网站，让更多的人看到并增加网站访问量和知名度。可以使用JiaThis插件实现，或修改主题。喜欢按钮也可以插件或修改主题进行实现。</p>
+<h3 id="社交化登录、用户模块">社交化登录、用户模块</h3>
+<p>你可以考虑让用户直接通过QQ登录你的网站发表评论，非常方便。</p>
+<blockquote>
+<p>关于社交化登录、用户评论方面的东西，可参考《WordPress的用户系统总结》：<br>
+<a href="http://www.xiaoming.io/wordpress-user-module">http://www.xiaoming.io/wordpress-user-module</a></p>
+</blockquote>
+<h3 id="评论框表情">评论框表情</h3>
+<p>允许用户在评论框使用表情，可以提高用户体验，让评论内容更加丰富。表情图片也可以通过修改主题自行定义，替换掉WordPress自带的不太好看的表情，具体方法请自行搜索。</p>
+<h3 id="读者留言板">读者留言板</h3>
+<p>留言板就是一个可以发表评论的页面，在后台新建页面，命名为留言板即可，并设置显示在菜单中，便于让访客看到。有任何问题都可以在留言板进行评论留言。</p>
+<h3 id="访问量统计">访问量统计</h3>
+<p>访问量统计是各种社交网站和博客网站的标配。可以看到文章的访问数量，对写博客来说算是一个反馈，知道有多少人访问过，还能制作热门排行的侧边工具栏。可以用WP-PostViews，并结合主题的修改实现。</p>
+<h2 id="用户体验">用户体验</h2>
+<h3 id="面包屑导航栏">面包屑导航栏</h3>
+<p>面包屑导航栏有助于用户了解当前处于网站的什么位置，能提高用户体验。一般通过修改主题实现。</p>
+<h3 id="移动主题切换">移动主题切换</h3>
+<p>移动设备访问网站时，网站应该能对移动设备进行优化，如果你的主题是响应式的，能自动调整，那样挺好。如果不是，你可以考虑对电脑和移动设备甚至平板，使用两套以上的主题，并用WordPress Mobile Themes插件自动切换。</p>
+<h3 id="新窗口打开外部链接">新窗口打开外部链接</h3>
+<p>个人认为如果文章中有超链接，比较合适的做法是，站内链接直接在当前窗口打开，站外链接则在新窗口打开，但是每次编辑超链接都自己设置太麻烦了。External Links插件就能实现新窗口外链打开功能，并在外链右侧插入一个小图标提醒读者，链接打开的将会是一个外部链接，注意上网安全。</p>
+<h3 id="代码语法高亮">代码语法高亮</h3>
+<p>如果你做的网站有技术类文章，文中常常少不了程序代码，语法高亮能方便看懂程序。可以选用WP-Syntax插件实现。</p>
+<h2 id="加速和优化">加速和优化</h2>
+<h3 id="图片压缩">图片压缩</h3>
+<p>图片压缩可以加快网页加载速度，同时节约服务器空间和流量。WP Smush.it可以轻松的压缩图片，既能在上传时自动压缩，也可以压缩已有图片。而Compress PNG for WP则利用TinyPNG网站的API实现了对PNG图片非常好的压缩。</p>
+<h3 id="优化数据库">优化数据库</h3>
+<p>WP-Optimize是一款很好的数据库优化插件，每隔一段时间，对数据库优化一下，删掉不需要的东西，加快了网站速度。</p>
+<h3 id="网站加速技术">网站加速技术</h3>
+<p>WP Super Cache是一款网站页面缓存插件，大概意思是缓存一些页面，免得每次访问的时候都动态生成，加快网页访问速度。有关网站加速的技巧，之后我会再写一篇文章进行更详细的介绍。</p>
+<h2 id="安全">安全</h2>
+<h3 id="垃圾评论拦截">垃圾评论拦截</h3>
+<p>你可以用Akismet插件拦截垃圾评论，例如恶意广告，病毒等评论。</p>
+<h3 id="网站的安全">网站的安全</h3>
+<p>BulletProof Security是一款比较强大的安全插件，不妨试一试，虽然刚建立的小站估计也没人会攻击，但是防患于未然总是好的。</p>
+<h3 id="禁止非管理员用户进入后台、禁止用户注册">禁止非管理员用户进入后台、禁止用户注册</h3>
+<p>有些人不希望普通用户注册登录后能进入WordPress后台界面，或者认为存在安全隐患，也有观点认为用户注册可能会导致安全问题，因为WordPress的网站管理员和普通注册用户的唯一区别是权限不一样，如果居心不良的人注册用户并突破了权限成为管理员，就能随意修改网站内容。但是禁止用户自行注册似乎有点不妥，而禁止普通用户进入后台会影响注册用户的体验。例如默认的注册密码是随机生成的，普通用户能通过后台修改密码方便记忆，如果禁止进入后台，就无法达到这个目的了。</p>
+<h2 id="SEO">SEO</h2>
+<h3 id="网站SEO">网站SEO</h3>
+<p>SEO是搜索引擎优化的意思，也就是通过优化网站的一些内容，让搜索引擎更快更准确的收录你网站中的东西，这样有利于被更多人访问到。网站SEO实际上比较复杂，并且有专门的人进行研究，甚至成了一门学科，成了一种工作职业，这里我也了解很少，没法做更多介绍，但是推荐一款插件SEO Ultimate，有兴趣可以好好研究下。我用到的这个插件最多的功能是Code Insertor，有时网站验证需要在网页中插入一些代码，但是又不想随便改主题，刚好用这个功能就可以直接插入代码了。</p>
+<h3 id="Robots访问记录">Robots访问记录</h3>
+<p>一个网站能被搜索引擎搜索到，是因为搜索引擎的网络爬虫（又叫做Robots）访问了你的站点并收录进了搜索引擎的数据库。wp-log-robots可以记录Robots对你的网站页面访问的记录，从而进行SEO优化。而对于新手建站，虽说不一定有很大作用，至少可以满足一下好奇心吧。</p>
+<h3 id="网站地图">网站地图</h3>
+<p>网站地图也是SEO的一种手段，通过建立一个固定的页面，记录了你的网站所有页面的地址、更新时间等信息，引导Robots对你的网站页面进行收录。推荐使用Google XML Sitemaps，百度也有网站地图插件，但是似乎不会自己刷新，不知道是不是我配置不对。</p>
+<h3 id="Ping更新服务">Ping更新服务</h3>
+<p>在网站发表一篇新的文章后，你可以通过设置Ping提醒搜索引擎及时收录你的文章。在设置-撰写-更新服务中，添加百度Ping的链接，就可以实现了：<br>
+<a target="_blank" rel="noopener" href="http://ping.baidu.com/ping/RPC2">http://ping.baidu.com/ping/RPC2</a></p>
+<h3 id="固定链接设置">固定链接设置</h3>
+<p>文章发表后会有一个链接地址，为了方便被搜索引擎索引到，一般可以设置成固定链接，链接可以用一些英文或拼音缩写表示。最合理的格式网上不同的人意见不一样，个人比较喜欢的是最简单的“网站URL+缩写”的方式，具体可以自行搜索了解。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-8/" rel="bookmark">网站搭建从零开始（八） 网站加速技术</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-6/" rel="bookmark">网站搭建从零开始（六） WordPress快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-5/" rel="bookmark">网站搭建从零开始（五） WordPress的安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wordpress-user-module/" rel="bookmark">WordPress的用户系统总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wordpress-send-email-via-plugins/" rel="bookmark">WordPress通过插件发送邮件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-4/" rel="bookmark">网站搭建从零开始（四）域名解析设置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-3/" rel="bookmark">网站搭建从零开始（三） 服务器空间的配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-2/" rel="bookmark">网站搭建从零开始（二）服务器空间的选择</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WordPress/" rel="tag"># WordPress</a>
+              <a href="/tags/%E7%BD%91%E7%AB%99/" rel="tag"># 网站</a>
+              <a href="/tags/%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/" rel="tag"># #网站搭建从零开始#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/virtualbox-ubuntu-network-conf/" rel="prev" title="Windows7下用VirtualBox安装Ubuntu网卡配置">
+      <i class="fa fa-chevron-left"></i> Windows7下用VirtualBox安装Ubuntu网卡配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/school-policy/" rel="next" title="我看通院月考——学生应该做点什么？">
+      我看通院月考——学生应该做点什么？ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E5%88%97%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">系列博客说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">2.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E8%AF%AD%E8%A8%80PHP"><span class="nav-number">2.1.</span> <span class="nav-text">后端语言PHP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E8%AF%AD%E8%A8%80SQL"><span class="nav-number">2.2.</span> <span class="nav-text">后端语言SQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E8%AF%AD%E8%A8%80HTML%E3%80%81CSS"><span class="nav-number">2.3.</span> <span class="nav-text">前端语言HTML、CSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E8%AF%AD%E8%A8%80JavaScript%E4%B8%8EjQuery%E7%A8%8B%E5%BA%8F%E5%BA%93%E3%80%81Ajax%E6%8A%80%E6%9C%AF"><span class="nav-number">2.4.</span> <span class="nav-text">前端语言JavaScript与jQuery程序库、Ajax技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E9%A1%B5%E8%AE%BF%E9%97%AE%E5%A4%A7%E8%87%B4%E7%9A%84%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.5.</span> <span class="nav-text">网页访问大致的运行流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text">基本功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E5%A5%BD%E5%90%88%E9%80%82%E7%9A%84%E4%B8%BB%E9%A2%98"><span class="nav-number">3.1.</span> <span class="nav-text">确定好合适的主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%AB%99%E5%9B%BE%E6%A0%87%E3%80%81%E6%A0%87%E9%A2%98%E3%80%81%E7%AE%80%E4%BB%8B"><span class="nav-number">3.2.</span> <span class="nav-text">网站图标、标题、简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF"><span class="nav-number">3.3.</span> <span class="nav-text">版权信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E8%87%AA%E5%8A%A8%E5%8A%A0%E6%B0%B4%E5%8D%B0"><span class="nav-number">3.4.</span> <span class="nav-text">图片自动加水印</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81"><span class="nav-number">3.5.</span> <span class="nav-text">邮件发送</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6"><span class="nav-number">3.6.</span> <span class="nav-text">编辑器插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%BA%A4%E4%BA%92"><span class="nav-number">4.</span> <span class="nav-text">用户交互</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BA%AB%E3%80%81%E5%96%9C%E6%AC%A2%E6%8C%89%E9%92%AE"><span class="nav-number">4.1.</span> <span class="nav-text">分享、喜欢按钮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BE%E4%BA%A4%E5%8C%96%E7%99%BB%E5%BD%95%E3%80%81%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97"><span class="nav-number">4.2.</span> <span class="nav-text">社交化登录、用户模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E8%AE%BA%E6%A1%86%E8%A1%A8%E6%83%85"><span class="nav-number">4.3.</span> <span class="nav-text">评论框表情</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E8%80%85%E7%95%99%E8%A8%80%E6%9D%BF"><span class="nav-number">4.4.</span> <span class="nav-text">读者留言板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1"><span class="nav-number">4.5.</span> <span class="nav-text">访问量统计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C"><span class="nav-number">5.</span> <span class="nav-text">用户体验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%8C%85%E5%B1%91%E5%AF%BC%E8%88%AA%E6%A0%8F"><span class="nav-number">5.1.</span> <span class="nav-text">面包屑导航栏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E4%B8%BB%E9%A2%98%E5%88%87%E6%8D%A2"><span class="nav-number">5.2.</span> <span class="nav-text">移动主题切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E7%AA%97%E5%8F%A3%E6%89%93%E5%BC%80%E5%A4%96%E9%83%A8%E9%93%BE%E6%8E%A5"><span class="nav-number">5.3.</span> <span class="nav-text">新窗口打开外部链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE"><span class="nav-number">5.4.</span> <span class="nav-text">代码语法高亮</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E9%80%9F%E5%92%8C%E4%BC%98%E5%8C%96"><span class="nav-number">6.</span> <span class="nav-text">加速和优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9"><span class="nav-number">6.1.</span> <span class="nav-text">图片压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.2.</span> <span class="nav-text">优化数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%AB%99%E5%8A%A0%E9%80%9F%E6%8A%80%E6%9C%AF"><span class="nav-number">6.3.</span> <span class="nav-text">网站加速技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8"><span class="nav-number">7.</span> <span class="nav-text">安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E8%AF%84%E8%AE%BA%E6%8B%A6%E6%88%AA"><span class="nav-number">7.1.</span> <span class="nav-text">垃圾评论拦截</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%AB%99%E7%9A%84%E5%AE%89%E5%85%A8"><span class="nav-number">7.2.</span> <span class="nav-text">网站的安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A6%81%E6%AD%A2%E9%9D%9E%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E8%BF%9B%E5%85%A5%E5%90%8E%E5%8F%B0%E3%80%81%E7%A6%81%E6%AD%A2%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C"><span class="nav-number">7.3.</span> <span class="nav-text">禁止非管理员用户进入后台、禁止用户注册</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SEO"><span class="nav-number">8.</span> <span class="nav-text">SEO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%AB%99SEO"><span class="nav-number">8.1.</span> <span class="nav-text">网站SEO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Robots%E8%AE%BF%E9%97%AE%E8%AE%B0%E5%BD%95"><span class="nav-number">8.2.</span> <span class="nav-text">Robots访问记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%AB%99%E5%9C%B0%E5%9B%BE"><span class="nav-number">8.3.</span> <span class="nav-text">网站地图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ping%E6%9B%B4%E6%96%B0%E6%9C%8D%E5%8A%A1"><span class="nav-number">8.4.</span> <span class="nav-text">Ping更新服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E9%93%BE%E6%8E%A5%E8%AE%BE%E7%BD%AE"><span class="nav-number">8.5.</span> <span class="nav-text">固定链接设置</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

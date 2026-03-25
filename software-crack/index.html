@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="声明：本文所涉及内容，仅供学习交流使用，请勿用于非法用途，否则后果自负！ MarkdowPad 2是Windows下的一款基于.Net的离线Markdown编辑器，普通版功能受限，专业版需要购买序列号。网上意外看到一篇文章，说的是用工具破解MarkdownPad，感觉比较有趣，就做了学习和尝试（后面简称为“原文”）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件破解技术初探">
+<meta property="og:url" content="https://www.xiaoming.io/software-crack/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="声明：本文所涉及内容，仅供学习交流使用，请勿用于非法用途，否则后果自负！ MarkdowPad 2是Windows下的一款基于.Net的离线Markdown编辑器，普通版功能受限，专业版需要购买序列号。网上意外看到一篇文章，说的是用工具破解MarkdownPad，感觉比较有趣，就做了学习和尝试（后面简称为“原文”）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/409c89bf98e2dbabf7d026c5197510db.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/73366b54500c7fb1aff6127c665f210d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/b012197be1af9334424d07728d72561c.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/451176cd0f9a6b7c9894da483b60de24.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/211700daf611ab3f3a8ca3bcb2c158b2.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/b48c1d772d30e494898a13db2b20aac5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9e23ed62e5eb865c4044dae946f8ae93.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0714bfe714ed3ae135883622b1e22a62.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/977e7809f4e0a3d78aeb2e4748bf0b1a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ca5a0133d5f7a78e565c2dba8f8311c6.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/f94a6f56313b6569a6e6c85cc8934080.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9c08e76cbea884e65a46f372fe19f7ea.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/2365230f4c51cd54f3ae052c69c471ec.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/39303eea4c402c43071fa0ef6b8210ac.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c51f851f27deb938dddb4727056c6319.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/2435518ca8a13927bec8192513f55a74.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/fb15a728afa327e64cf63752ca46b621.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/85d422a79b885f9382c0c7dff92070ef.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1f1bc99cb3b047d3e7c1e5584fe5ee9d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1c02375395632836eaca162db784fe29.png">
+<meta property="article:published_time" content="2014-12-25T13:56:19.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.662Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/409c89bf98e2dbabf7d026c5197510db.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/software-crack/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>软件破解技术初探 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/software-crack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          软件破解技术初探
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-12-25 21:56:19" itemprop="dateCreated datePublished" datetime="2014-12-25T21:56:19+08:00">2014-12-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/software-crack/" class="post-meta-item leancloud_visitors" data-flag-title="软件破解技术初探" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/software-crack/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/software-crack/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>声明：本文所涉及内容，仅供学习交流使用，请勿用于非法用途，否则后果自负！</p>
+<p>MarkdowPad 2是Windows下的一款基于.Net的离线Markdown编辑器，普通版功能受限，专业版需要购买序列号。网上意外看到一篇文章，说的是用工具破解MarkdownPad，感觉比较有趣，就做了学习和尝试（后面简称为“原文”）。</p>
+<p>文章链接在此 <a target="_blank" rel="noopener" href="http://www.zan3.com/zan492.html">http://www.zan3.com/zan492.html</a></p>
+<h2 id="用ILSpy查看C-源码">用ILSpy查看C#源码</h2>
+<p>可以使用ILSpy直接将基于.NET的EXE文件反编译成源代码进行查看（语言可以选择 C# / VB / IL）。</p>
+<p>在程序目录中找到MarkdownPad2.exe文件，用ILSpy打开如下图。展开MarkdownPad2.Licensing中的LicenseEngine，可以看到里面的VerifyLicense方法，其参数为licenseKey和email，返回值为布尔型。按照原文中的解释，这个函数用于验证License，验证通过就会返回true；所以只要在这里修改，让其直接返回true即可。但是由于ILSpy中不能直接修改EXE的源码，还需要通过一些工具进行。</p>
+<p><img data-src="/blog-imgs/tech/images/409c89bf98e2dbabf7d026c5197510db.png" alt=""></p>
+<h2 id="用IDA工具查看IL指令码，及对应的十六进制码">用IDA工具查看IL指令码，及对应的十六进制码</h2>
+<h3 id="使用IDA工具">使用IDA工具</h3>
+<p>使用工具IDA 6.5，将EXE文件拖动进去，按照默认选项点击OK。</p>
+<p><img data-src="/blog-imgs/tech/images/73366b54500c7fb1aff6127c665f210d.png" alt=""></p>
+<p>然后弹出窗口报错，ph.cnbits is illegal，具体原因不详</p>
+<p><img data-src="/blog-imgs/tech/images/b012197be1af9334424d07728d72561c.png" alt=""></p>
+<p>尝试选择了Portable executable for 80386 (PE) [pe.ldw]，得出的结果如图，Function name中只有一个start函数，不能解析出所有函数。</p>
+<p><img data-src="/blog-imgs/tech/images/451176cd0f9a6b7c9894da483b60de24.png" alt=""></p>
+<h3 id="更换IDA软件">更换IDA软件</h3>
+<p>网上找了找，也没有找到原因。于是重新下载了一个IDA 5.5进行尝试，按默认值，点击OK，反编译成功。估计前面没能成功反编译，是因为IDA软件自身的问题。</p>
+<p><img data-src="/blog-imgs/tech/images/211700daf611ab3f3a8ca3bcb2c158b2.png" alt=""></p>
+<h3 id="查看函数">查看函数</h3>
+<p>点击Function name，按Alt+T，输入VerifyLicense搜索，找到VerifyLicense函数，双击即可以流程图、十六进制编码等形式显示这个函数。</p>
+<p><img data-src="/blog-imgs/tech/images/b48c1d772d30e494898a13db2b20aac5.png" alt=""></p>
+<p>通过标签可以切换不同显示形式。上图中的IDA View-A标签中显示的，是IL指令码的框图，类似于汇编代码。标签Hex View-A中显示的是IL指令码对应的十六进制代码，也就是exe文件中的十六进制编码。</p>
+<p>如果把.NET源程序比作C语言，IL指令集就相当于汇编指令，而十六进制编码就相当于机器码。区别在于这里的代码是IL中间代码，需要.NET环境解析执行；而机器码可以直接被CPU执行。</p>
+<p><img data-src="/blog-imgs/tech/images/9e23ed62e5eb865c4044dae946f8ae93.png" alt=""></p>
+<h2 id="寻找要修改的代码">寻找要修改的代码</h2>
+<p>用十六进制编辑器修改exe文件，就修改了IL指令，相当于改动了源码。按原文说明，在IDA View-A中单击选中图中的ldc.i4.0，这句IL指令与ret组合起来，相当于return false，从流程图中可以分析出，对应了C#源码中VerifyLicense函数的第一个return false。</p>
+<p>public bool VerifyLicense(string licenseKey, string email)</p>
+<p>{</p>
+<p>if (string.IsNullOrEmpty(licenseKey) string.IsNullOrEmpty(email))</p>
+<p>{</p>
+<p>return false;</p>
+<p>}</p>
+<p>// …</p>
+<p>}</p>
+<p><img data-src="/blog-imgs/tech/images/0714bfe714ed3ae135883622b1e22a62.png" alt=""></p>
+<p>切换到Hex View-A视图中，可以看到图中十六进制的16被选中，如果改成17就可以将ldc.i4.0变为ldc.i4.1，相当于把源码中的return false变成了return true。于是按照源码的逻辑，只要邮箱和注册码有一项为空，就会执行到这句返回true，从而使得软件注册通过。</p>
+<p><img data-src="/blog-imgs/tech/images/977e7809f4e0a3d78aeb2e4748bf0b1a.png" alt=""></p>
+<h2 id="使用十六进制编辑器修改EXE文件">使用十六进制编辑器修改EXE文件</h2>
+<p>十六进制编辑器有很多种，经过简单的对比，发现HxD非常好用。不仅是免费的，而且操作起来非常方便。相比而言，WinHex操作并不方便，例如搜索十六进制字符时中间不能有空格，而且免费版使用有限制。</p>
+<p>因为十六进制编码里面肯定有很多16，我们需要的是修改特定的16。在IDA中吧我们找到的16和它后面的一段长度合适的十六进制代码复制出来，如“16 2A 02 02 03 28 4A 01”。然后在HxD中进行搜索，从而找到这个特定的“16”。搜索到了要确定这个16是唯一的匹配项，否则可以自行比对，以确定找到的是正确的16。最后将其改成“17”保存。</p>
+<p><img data-src="/blog-imgs/tech/images/ca5a0133d5f7a78e565c2dba8f8311c6.png" alt=""></p>
+<p>重新用ILSpy打开，可以验证，false已经变成了true，如图。</p>
+<p><img data-src="/blog-imgs/tech/images/f94a6f56313b6569a6e6c85cc8934080.png" alt=""></p>
+<h2 id="打开软件进行验证">打开软件进行验证</h2>
+<p>打开MarkdownPad软件，也就是被修改的exe文件。启动时，发现程序弹出窗口报错，如图。</p>
+<p><img data-src="/blog-imgs/tech/images/9c08e76cbea884e65a46f372fe19f7ea.png" alt=""></p>
+<p>在菜单中选择Help-Upgrade to MarkdownPad Pro，弹出窗口填写邮箱和注册码，发现了一个问题，如果邮箱和注册码有一个为空，OK按钮就无法点击。所以前面修改的代码return true根本没法被执行，所以这个方法无效。</p>
+<p><img data-src="/blog-imgs/tech/images/2365230f4c51cd54f3ae052c69c471ec.png" alt=""></p>
+<h2 id="继续尝试">继续尝试</h2>
+<p>之后又做过尝试，将brtrue指令改为brfalse，相当于使得C#源码成为：</p>
+<p>if ( ! string.IsNullOrEmpty(licenseKey) string.IsNullOrEmpty(email))</p>
+<p>{</p>
+<p>return true;</p>
+<p>}</p>
+<p>从而在licenseKey非空时，可以执行到return true，但是还是没能成功，错误和之前一样。</p>
+<h2 id="网上找到的破解版">网上找到的破解版</h2>
+<p>在网上找到一个破解版的软件，版本号为2.4.2.29969，用ILSpy看到其源码如下。可以看出，这个函数已被做了较大修改。实际尝试时，输入任意邮件和注册码都可以注册通过。</p>
+<p><img data-src="/blog-imgs/tech/images/39303eea4c402c43071fa0ef6b8210ac.png" alt=""></p>
+<h2 id="再次尝试">再次尝试</h2>
+<p>参考上面的代码，再次尝试对代码进行改动。由于程序代码中有很多跳转指令，可能用的是相对寻址一类的方法，和汇编一样。如果直接在exe中插入或者删除一段代码，经过尝试，会导致exe无法运行，甚至连图标都不显示了。所以最简单的方法就是只对EXE的局部进行修改，保证文件大小不变，保证未经修改的部分不受影响。</p>
+<p>考虑将下述代码中的语句进行移动（可以保证文件大小不变）。即将</p>
+<p>if (string.IsNullOrEmpty(licenseKey) string.IsNullOrEmpty(email))</p>
+<p>{</p>
+<p>return false;</p>
+<p>}</p>
+<p>try</p>
+<p>{</p>
+<p>this.License = this.Decrypt(licenseKey);</p>
+<p>this.LicenseProcessed = true;</p>
+<p>}</p>
+<p>catch …</p>
+<p>改成</p>
+<p>this.LicenseProcessed = true;</p>
+<p>return true;</p>
+<p>if (string.IsNullOrEmpty(licenseKey) string.IsNullOrEmpty(email))</p>
+<p>{</p>
+<p>}</p>
+<p>try</p>
+<p>{</p>
+<p>this.License = this.Decrypt(licenseKey);</p>
+<p>}</p>
+<p>catch …</p>
+<p>首先通过IDA找到这段代码的十六进制部分如下图</p>
+<p><img data-src="/blog-imgs/tech/images/c51f851f27deb938dddb4727056c6319.png" alt=""></p>
+<p>用IDA逐条查看，十六进制码和对应的IL指令分别为</p>
+<p><img data-src="/blog-imgs/tech/images/2435518ca8a13927bec8192513f55a74.png" alt=""></p>
+<h2 id="跳转指令">跳转指令</h2>
+<p>注意在这里，有多个相对跳转指令。移动代码后，指令的地址会发生变化，所以需要将指令的操作值进行修改。由于之前只对8086汇编有所接触，而对IL指令集并不了解，所以观察了两条跳转指令，分析出了一些特点。</p>
+<p>跳转指令brtrue.s loc_37A0对应的十六进制码为2D 08 （04 28 A9 00 00 0A），地址为2FBE~2FBF，查看可发现，loc_37A0对应的16 （2A 02 02 03 28 4A 01）地址是2FC8（刚好中间差8，也就是2D 08中的操作数08）</p>
+<p>跳转指令brfalse.s loc_37A2对应的十六进制码为2C 02 （16 2A 02 02 03 28），地址为2FC6~2FC7，查看可发现，loc_37A2对应的02 （02 03 28 4A 01 00 06）地址是2FCA（刚好中间差2，也就是2C 02中的操作数02）</p>
+<h2 id="修改结果">修改结果</h2>
+<p>将其进行修改，结果如图。</p>
+<p><img data-src="/blog-imgs/tech/images/fb15a728afa327e64cf63752ca46b621.png" alt=""></p>
+<p>也就是将</p>
+<p>03 28 A9 00 00 0A 2D 08 04 28 A9 00 00 0A 2C 02 16 2A 02 02 03 28 4A 01 00 06 28 45 01 00 06 02 17 28 48 01 00 06 DD 14 01 00 00</p>
+<p>替换为</p>
+<p>02 17 28 48 01 00 06 17 2A 03 28 A9 00 00 0A 2D 08 04 28 A9 00 00 0A 2C 00 02 02 03 28 4A 01 00 06 28 45 01 00 06 DD 14 01 00 00</p>
+<p>用ILSpy查看，可以看到代码已经按照预想修改好了，如下图：</p>
+<p><img data-src="/blog-imgs/tech/images/85d422a79b885f9382c0c7dff92070ef.png" alt=""></p>
+<h2 id="再次验证失败">再次验证失败</h2>
+<p>但是执行程序进行注册发现还是没有成功，显示错误和之前一样，如下图。查看了一下，我使用的版本为2.4.4.40074，猜测可能是新版本对序列号验证机制进行了改进，使得这种方法无法进行破解。网上没能找到原版2.4.2.29969软件，所以也没法验证这里的破解方法是否有效。</p>
+<p><img data-src="/blog-imgs/tech/images/1f1bc99cb3b047d3e7c1e5584fe5ee9d.png" alt=""></p>
+<h2 id="软件破解常用工具">软件破解常用工具</h2>
+<h3 id="破解补丁">破解补丁</h3>
+<p>如果上面的方法成功了，就可以将其写成一个小程序，自动对exe文件中的特定串进行替换，就成了软件破解补丁。</p>
+<h3 id="注册机">注册机</h3>
+<p>而另外一种常见的方法是注册机，原理是突破了软件的序列号验证算法，能生成可以通过验证的序列号，从而实现注册，不需要修改软件自身。从代码中可以看到，这个软件使用的是很常见的RSA加密算法。</p>
+<p><img data-src="/blog-imgs/tech/images/1c02375395632836eaca162db784fe29.png" alt=""></p>
+<h3 id="账号共享">账号共享</h3>
+<p>还可以共享正式购买的注册账号，实现一个账号在多个客户端上注册。有些商业软件也有这种授权机制，允许一个序列号在指定数目范围内的机器上使用。</p>
+<h3 id="注册表">注册表</h3>
+<p>有些软件的注册信息保存在注册表中，可以将注册表项导入实现软件注册。</p>
+<p>本文的介绍到此为止。再次声明，本文只是为了学习软件破解技术，仅供学习之用，请勿用于不正当用途，否则后果自负。如需使用此软件，请支持正版。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/optical-fiber-communication/" rel="bookmark">光纤通信和家用万兆网络布线知识总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/network-learning/" rel="bookmark">计算机网络相关知识学习</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/desktop-computer-knowledge/" rel="bookmark">台式机组装知识系统梳理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chromium-print-cpp-stack/" rel="bookmark">Chromium打印C++ Stack Trace</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openwrt-godaddy-ddns/" rel="bookmark">OpenWRT Godaddy DDNS设置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/pve-config-nic/" rel="bookmark">PVE换网卡后重新设置网络</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dont-make-me-think/" rel="bookmark">Don't make me think思想在代码设计中的应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/online-video-download/" rel="bookmark">网页视频通用下载方法(支持网易云音乐MV、优酷等)</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/programmer-job-change/" rel="prev" title="程序员转行一般做什么">
+      <i class="fa fa-chevron-left"></i> 程序员转行一般做什么
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/english/" rel="next" title="思想：不要惧怕英文——英文的作用和重要性">
+      思想：不要惧怕英文——英文的作用和重要性 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8ILSpy%E6%9F%A5%E7%9C%8BC-%E6%BA%90%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">用ILSpy查看C#源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8IDA%E5%B7%A5%E5%85%B7%E6%9F%A5%E7%9C%8BIL%E6%8C%87%E4%BB%A4%E7%A0%81%EF%BC%8C%E5%8F%8A%E5%AF%B9%E5%BA%94%E7%9A%84%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">用IDA工具查看IL指令码，及对应的十六进制码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8IDA%E5%B7%A5%E5%85%B7"><span class="nav-number">2.1.</span> <span class="nav-text">使用IDA工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%8D%A2IDA%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">更换IDA软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">查看函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE%E8%A6%81%E4%BF%AE%E6%94%B9%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">寻找要修改的代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E7%BC%96%E8%BE%91%E5%99%A8%E4%BF%AE%E6%94%B9EXE%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">使用十六进制编辑器修改EXE文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81"><span class="nav-number">5.</span> <span class="nav-text">打开软件进行验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E7%BB%AD%E5%B0%9D%E8%AF%95"><span class="nav-number">6.</span> <span class="nav-text">继续尝试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E4%B8%8A%E6%89%BE%E5%88%B0%E7%9A%84%E7%A0%B4%E8%A7%A3%E7%89%88"><span class="nav-number">7.</span> <span class="nav-text">网上找到的破解版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%8D%E6%AC%A1%E5%B0%9D%E8%AF%95"><span class="nav-number">8.</span> <span class="nav-text">再次尝试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%B3%E8%BD%AC%E6%8C%87%E4%BB%A4"><span class="nav-number">9.</span> <span class="nav-text">跳转指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%BB%93%E6%9E%9C"><span class="nav-number">10.</span> <span class="nav-text">修改结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%8D%E6%AC%A1%E9%AA%8C%E8%AF%81%E5%A4%B1%E8%B4%A5"><span class="nav-number">11.</span> <span class="nav-text">再次验证失败</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E7%A0%B4%E8%A7%A3%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="nav-number">12.</span> <span class="nav-text">软件破解常用工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A0%B4%E8%A7%A3%E8%A1%A5%E4%B8%81"><span class="nav-number">12.1.</span> <span class="nav-text">破解补丁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E6%9C%BA"><span class="nav-number">12.2.</span> <span class="nav-text">注册机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%A6%E5%8F%B7%E5%85%B1%E4%BA%AB"><span class="nav-number">12.3.</span> <span class="nav-text">账号共享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">12.4.</span> <span class="nav-text">注册表</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

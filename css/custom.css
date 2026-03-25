@@ -1,0 +1,33 @@
+.content-wrap {
+  background: none !important;
+  padding: 0 !important;
+}
+.content {
+  padding-top: 0 !important;
+}
+.content .post-block {
+  padding: 40px !important;
+  margin-top: 15px !important;
+  background: var(--content-bg-color) !important;
+}
+.content.index .post-footer {
+  display: none !important;
+}
+.comments {
+  padding: 40px !important;
+  margin-top: 15px !important;
+  background: var(--content-bg-color) !important;
+}
+nav.pagination {
+  margin-top: 20px !important;
+  border-top: none !important;
+}
+.pagination .prev,
+.pagination .next,
+.pagination .page-number {
+  border-top: none !important;
+}
+.post-body {
+  font-size: 1em !important;
+  margin-bottom: 1em !important;
+}

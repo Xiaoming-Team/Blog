@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="MSP430是Texas Instrument(TI，德州仪器)推出的一款超低功耗单片机。TI是一个非常有实力的、全球领先的芯片制造公司，MSP430不仅因为其优秀的设计，更因为TI提供的强有力的技术支持，而很快成为今天市场上非常受欢迎的一款单片机。 使用官方资料">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怎样学习MSP430单片机">
+<meta property="og:url" content="https://www.xiaoming.io/msp430-study/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="MSP430是Texas Instrument(TI，德州仪器)推出的一款超低功耗单片机。TI是一个非常有实力的、全球领先的芯片制造公司，MSP430不仅因为其优秀的设计，更因为TI提供的强有力的技术支持，而很快成为今天市场上非常受欢迎的一款单片机。 使用官方资料">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/dea0831ce16e7b9e8d5c507bc5075483.jpg">
+<meta property="article:published_time" content="2014-11-10T14:37:09.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.760Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="方法">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/learn/images/dea0831ce16e7b9e8d5c507bc5075483.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/msp430-study/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>怎样学习MSP430单片机 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/msp430-study/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          怎样学习MSP430单片机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-11-10 22:37:09" itemprop="dateCreated datePublished" datetime="2014-11-10T22:37:09+08:00">2014-11-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">学习思考</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/msp430-study/" class="post-meta-item leancloud_visitors" data-flag-title="怎样学习MSP430单片机" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/msp430-study/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/msp430-study/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>MSP430是Texas Instrument(TI，德州仪器)推出的一款超低功耗单片机。TI是一个非常有实力的、全球领先的芯片制造公司，MSP430不仅因为其优秀的设计，更因为TI提供的强有力的技术支持，而很快成为今天市场上非常受欢迎的一款单片机。</p>
+<h2 id="使用官方资料">使用官方资料</h2>
+<p>学习使用任何一款芯片，我们要明确最根本最权威的参考资料是官方给出的资料。对于MSP430单片机，也不例外。市面上有各种各样介绍MSP430单片机的书，水平参差不齐。而其中有一大部分基本上就是翻译芯片手册，更大的问题是，很多书上还有大量的印刷错误等(像寄存器写错、程序有问题等的现象很常见)。这样的情况下，很难好好学习。</p>
+<p>在学习430单片机的过程中，尤其是对于接触过51单片机的人来说，我们最好不要还是像学习51单片机一样，到处找视频教程，指望着完全中文的资料，而应该学会如何去使用官方给出的资料。或许你没有体会到这样有什么好处，但是将来如果要研究一些比较深入的东西，或者你要用一些最新的芯片，这时你唯一能获取的资料，不是各种中文书籍和翻译来的资料，更不是各种视频教程，而往往只是官方给出的一些全英文的手册。</p>
+<p>所有的芯片官方都会给出对应的Data Sheet(数据手册，芯片手册)，有些会有Application Note(应用笔记)，对于一些复杂的芯片，有一些强大的公司可能也会推出一些中文资料，但还是以英文资料为主。因为英语是国际通用的语言，何况很多高科技产业往往又在国外。过分依赖中文资料，就很难学好这些东西。另外，官方给出的资料，就像是说明书一样，经过了很多次的核对修正，还会及时的勘误，比如430的Errata Sheet会专门指出官方各种手册资料中的纰漏和错误。官方手册的权威性，是任何根据官方手册编写的资料视频所不及的。</p>
+<h2 id="不要惧怕英文">不要惧怕英文</h2>
+<p>在技术性的手册中，除了一些专有名词外，都会避免使用复杂的句式，避免复杂的语法，以及一些难以理解的词汇。看不懂的专有名词，我们完全可以通过查词典来克服。久而久之，就会习惯，英文水平长进了，也不再惧怕英文了。这里引用一位同学的话：“TI的文档写的相当好，通俗易懂，而中文翻译水平层次不一，必要的术语也不知道什么意思。而且中文翻译的文档制作的真心太差。我想你们也不甘心学十年英语就为了一个六级吧？”</p>
+<h2 id="基本认识">基本认识</h2>
+<p>学习MSP430，首先我们应该了解MSP430的特点，分为哪几个系列，这些在官方介绍文档中都有。</p>
+<p>大致了解430内部都集成了哪些外设模块，分别有什么作用，比如AD、串口、硬件I2C等。根据实际应用需要，查看官方选型手册，选择合适的430型号，看RAM、ROM大小、定时器数目、最高运行速度、IO管脚数目、封装等就可以。也可以直接在TI官网选择型号(如下图)。</p>
+<p>如果不知道选什么型号，或者是想先学学，可以选一些常用型号，如MSP430F149，MSP430G2553(LaunchPad上用的，有DIP直插的封装，比较好用)，MSP430F5438(比较高端的一个型号，价格也比较贵)。</p>
+<p><img data-src="/blog-imgs/learn/images/dea0831ce16e7b9e8d5c507bc5075483.jpg" alt=""></p>
+<h2 id="参考资料">参考资料</h2>
+<p>选好型号后，就可以上TI官网，下载该型号对应的DataSheet，User’s Guide，以及Code Examples。</p>
+<p>DataSheet介绍了具体某个型号的各种参数，封装格式，管脚分布，性能特点等。</p>
+<p>User’s Guide是分为几个系列分别去讲各种模块的结构和寄存器，同一个系列的不同型号，含有的同一个模块操作通常都一样，主要是管脚分配不一样，或者一些型号只含有模块中的一部分功能，比如定时器的比较捕获模块数目不同。</p>
+<p>而Code Examples则是官方给出的可直接编译执行的程序代码。比如MSP430G2553内部有10位精度的AD，即ADC10模块，而在MSP430x2xx Family User’s Guide上就有对ADC10模块的介绍。同样是2xx系列，有些芯片没有ADC10，但是有ADC12，这个模块同样会在User’s Guide上介绍。</p>
+<h2 id="开发板">开发板</h2>
+<p>我们可能需要一块开发板，官方推出的LaunchPad是一个不错的选择。LaunchPad上使用的是ValueLine超值系列(2xx系列)的430芯片G2553和G2452，对于简单的项目开发绰绰有余，比51单片机常用的型号89C52RC要强大不少，而且是430单片机中有DIP直插封装的很少的几种型号之一，对于我们手工焊接很方便。</p>
+<p>LaunchPad更大的优势在于，在几十块钱的开发板上，集成了JTAG调试芯片，可以连接计算机直接进行程序的调试。LaunchPad使用的是两线JTAG，而不少430型号不支持两线JTAG，则需要购买比较昂贵的430标准JTAG仿真器。JTAG仿真器同时可以进行程序的烧写。430也支持价格低廉的BSL方式烧写程序，但BSL就没有JTAG强大的调试功能了。</p>
+<p>关于LaunchPad的使用，官方给出了十分详细的介绍文档《Getting Started with the MSP430 LaunchPad》，包括怎么新建工程都有具体到每一步的截图(使用的是CCS软件)。关于具体电路实现，则可以参考官方的《MSP430 Hardware Tools User’s Guide》。如果动手能力强，也可以尝试自己焊接简易开发板。</p>
+<h2 id="开发环境">开发环境</h2>
+<p>然后要安装开发环境。最常用的是官方推出的CCS和IAR公司推出的IAR Embedded Workbench For MSP430。两种软件各有优缺点，CCS的优点是集成Eclipse，还有官方推出的430Ware、Grace插件，用起来比较方便，软件比较稳定，但是由于Eclipse基于Java开发，反应比较迟钝，IAR的优势则是编译效率非常高，能产生高效的代码，缺点是运行不太稳定，有时会死机。总体来说，目前建议用IAR EW430。</p>
+<h2 id="程序编写">程序编写</h2>
+<p>然后就要开始写程序了。首先我们应该了解最基本的一些东西，时钟、看门狗定时器、以及IO操作。我们并不一定要对它们都掌握透彻，但是应该知道怎么初始化时钟开启外部高速晶振，看门狗是什么，怎么关闭看门狗以免系统复位等。</p>
+<p>然后根据我们的实际需求，再进一步去了解定时器、串口、硬件SPI、硬件I2C、Flash读写、AD、DA等的操作。如果是为了做一个项目，我们只要学习要用的模块就足够了，如果是想提前学习以备以后使用，了解常用的模块就可以了。</p>
+<p>学习每个模块时，我们应该先看芯片手册，确认自己使用的型号有这个模块，以及相应IO口的分配情况，然后认真详细的看User’s Guide中内部结构框图和寄存器的介绍，参考Code Examples去写程序，并进行测试。在学习每个模块时，我们可以把这些模块的程序写成独立的文件，必要的地方自己做一些注释说明，保留好这些程序，方便以后使用。下次再用的时候，即使忘了怎么操作，只要复制自己之前写好的模块文件，然后根据自己注释的调用规则去调用函数，就可以很轻松的使用，代码得到了重复利用，非常节省时间精力。</p>
+<p>学过51或其他单片机的人，就没必要特地花时间在学430的时候又特地把数码管、1602什么的外设重新再学一遍了，因为程序都是一样的写法，只是IO口的操作有点不同而已。</p>
+<p>在这里，强烈建议大家学会模块化编程，代码分层。</p>
+<p>前面说的把每个模块写成单独的文件，通过调用函数去重复使用，就是模块化编程的思想。</p>
+<p>另一方面，学会代码分层，比如同样是驱动数码管，对于不同的单片机，只是IO操作语句写法不同，而IO的高低电平控制是一样的。我们把具体IO操作语句用宏定义写出来(如#define LED_OFF P1OUT&amp;=~BIT0)，更换单片机只需要修改宏定义，这样就可以实现代码复用，节省了精力。</p>
+<p>在这里，宏定义根据不同的单片机，写法不一样，属于硬件接口层；而数码管扫描函数始终是调用宏定义过的语句控制IO口电平，不同单片机写法一样，则属于驱动层；这样的做法就叫做代码分层，也是模块化编程很大的一个特点。</p>
+<p>这里再说一点，可能有人之前学习51单片机时写过软件模拟I2C程序读写AT24C01等芯片，现在改用430了，我们仍然可以用宏定义操作IO，软件模拟I2C时序，另一方面，430内部集成了硬件I2C，我们也可以学习硬件I2C，通过设置相关寄存器去控制相同的芯片。一般情况下，硬件接口比软件接口会更有优势，因为不需要占用CPU时间去模拟时序。这个时候，可能就需要重新去了解一下了，因为有些接口用硬件实现和用软件模拟还是有一定区别的。</p>
+<h2 id="单片机不是用来学的，而是要去用的">单片机不是用来学的，而是要去用的</h2>
+<p>用什么学什么，这样能更好的掌握所学知识，也不至于感觉无从下手。MSP430有几百个型号，我们没必要把每种型号每个模块都拿来学一遍，也不可能有那样的精力，即使你打算全部学，还没学完，TI又会推出一款新的产品。对于其它的各种芯片等的使用也是类似的。所以我们要做的，是掌握学习的方法，以不变应万变。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-16/" rel="bookmark">单片机小白学步(16) 单片机/计算机系统概述：模块化思想</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E6%96%B9%E6%B3%95/" rel="tag"># 方法</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mcu-primer-16/" rel="prev" title="单片机小白学步(16) 单片机/计算机系统概述：模块化思想">
+      <i class="fa fa-chevron-left"></i> 单片机小白学步(16) 单片机/计算机系统概述：模块化思想
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/mcu-primer-17/" rel="next" title="单片机小白学步(17) 单片机/计算机系统概述：核心模块">
+      单片机小白学步(17) 单片机/计算机系统概述：核心模块 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9%E8%B5%84%E6%96%99"><span class="nav-number">1.</span> <span class="nav-text">使用官方资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E6%83%A7%E6%80%95%E8%8B%B1%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">不要惧怕英文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%86"><span class="nav-number">3.</span> <span class="nav-text">基本认识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF"><span class="nav-number">5.</span> <span class="nav-text">开发板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-number">6.</span> <span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E7%BC%96%E5%86%99"><span class="nav-number">7.</span> <span class="nav-text">程序编写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%8D%E6%98%AF%E7%94%A8%E6%9D%A5%E5%AD%A6%E7%9A%84%EF%BC%8C%E8%80%8C%E6%98%AF%E8%A6%81%E5%8E%BB%E7%94%A8%E7%9A%84"><span class="nav-number">8.</span> <span class="nav-text">单片机不是用来学的，而是要去用的</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

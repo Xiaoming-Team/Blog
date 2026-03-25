@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文提出一套Android项目的资源文件命令规范，可用于大型Android项目。参考了Android系统自带资源文件的命名风格。 文中的例子只是用于示意说明，并非来自真实的项目。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android项目资源文件命名规范参考">
+<meta property="og:url" content="https://www.xiaoming.io/android-resource-naming/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本文提出一套Android项目的资源文件命令规范，可用于大型Android项目。参考了Android系统自带资源文件的命名风格。 文中的例子只是用于示意说明，并非来自真实的项目。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-11T12:54:47.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.573Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/android-resource-naming/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android项目资源文件命名规范参考 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/android-resource-naming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android项目资源文件命名规范参考
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-11 20:54:47" itemprop="dateCreated datePublished" datetime="2020-01-11T20:54:47+08:00">2020-01-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/android-resource-naming/" class="post-meta-item leancloud_visitors" data-flag-title="Android项目资源文件命名规范参考" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/android-resource-naming/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/android-resource-naming/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文提出一套Android项目的资源文件命令规范，可用于大型Android项目。参考了Android系统自带资源文件的命名风格。</p>
+<p>文中的例子只是用于示意说明，并非来自真实的项目。</p>
+<h2 id="资源文件分类">资源文件分类</h2>
+<p>先简单讨论一下Android中资源文件的分类。</p>
+<p>资源类型上，Android中的资源文件包括layout、drawable、color、dimen、anim、array、style等不同类型，分别对应为R文件中的不同class，例如<code>R.layout</code>，<code>R.color</code>等。</p>
+<p>物理形式上，资源文件默认放在res目录下（可以通过gradle配置修改）。有些资源文件对应的是文件夹中的一个xml或二进制文件，有些对应的是<code>res/values</code>文件夹下xml文件中<code>&lt;resource&gt;</code>标签内的一个子标签。</p>
+<p>一种类型的资源文件可能有不同的物理形式，例如drawable可能是xml文件，可能是二进制文件，也可能是value中的标签。</p>
+<p>示例：</p>
+<p>XML文件</p>
+<ul>
+<li>res/layout/activity_main.xml</li>
+<li>res/drawable/button_pressed.xml</li>
+<li>res/color/button_bg.xml</li>
+</ul>
+<p>二进制文件</p>
+<ul>
+<li>res/drawable/ic_user.png</li>
+<li>res/raw/welcome.mp4</li>
+</ul>
+<p>标签（res/values/xxx.xml文件）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">&quot;colorPrimary&quot;</span>&gt;</span>#6facc6<span class="tag">&lt;/<span class="name">color</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">drawable</span> <span class="attr">name</span>=<span class="string">&quot;new_button&quot;</span>&gt;</span>@drawable/button<span class="tag">&lt;/<span class="name">drawable</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="大小写风格">大小写风格</h2>
+<p>资源名称默认使用小写加下划线，如<code>layout_test.xml</code>，<code>@+id:/txt_test</code>，<code>color/theme_light</code>。</p>
+<p>大小写方面的特例是，应用于Window的主题样式（即Application / Activity / Dialog等使用的style）使用首字母大写、点号分割的形式，如<code>AppTheme.NoActionBar</code>。而应用于View组件的style，还是使用小写加下划线形式，例如<code>app_login_button</code>。</p>
+<h2 id="完整命名格式">完整命名格式</h2>
+<p>资源文件默认的完整命名格式如下：</p>
+<p><code>项目名_(工程名)_模块名_(子模块名)_(页面)_(组件名称)_描述</code></p>
+<p>举例：</p>
+<ul>
+<li>drawable： <code>xxapp_account_login_button_background</code>，某App（xxapp），用户账户模块（account），登录页面（login），按钮的背景。</li>
+<li>string： <code>xxapp_common_network_error</code>，某App（xxapp），全局通用功能模块（common），网络异常的文本提示。</li>
+<li>layout：<code>xxapp_comment_activity_comment_detail</code>，某App（xxapp），用户评论模块（comment），评价详情页面的layout布局。</li>
+</ul>
+<h2 id="项目模块拆分与前缀">项目模块拆分与前缀</h2>
+<p>对于一个复杂项目（对应一个App），可能包含多个子项目，每个子项目也可能有多个工程（对应AAR），一个工程中可能包含多个业务功能模块，模块中又包含若干个页面（对应Activity和Fragment）。项目/工程/模块/页面并没有绝对的界限，会随着业务发展不断调整。</p>
+<p>不同的项目/工程/模块/页面可能由不同的团队/个人负责。为了避免命名冲突，以及方便开发（特别是提高找资源文件的效率），需要通过合适的前缀加以区分。</p>
+<p>项目/工程/模块/页面级别的前缀，应该由各个项目/工程/模块/页面的负责人共同制定，所有相应的资源文件应完全符合前缀规则，还可以配合静态代码检查技术加以约束。而模块内部的命名规则即前缀之后的部分，可以由模块内部人员自行做出少量合理的调整。</p>
+<p>对于会在多个工程/模块/页面中复用的组件，前缀可以用common代替，或者省略掉部分前缀。例如<code>app_common_button_background</code>。</p>
+<h3 id="举例">举例</h3>
+<p>假设某App有用户评价功能，用户评价相关的业务都被划分到comment模块。一开始代码规模较小时，没有子模块，命名可能是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app_comment_ic_edit</span><br><span class="line">app_comment_ic_user</span><br><span class="line">app_comment_ic_xxx</span><br><span class="line">app_comment_img_xxx</span><br></pre></td></tr></table></figure>
+<p>之后评价功能越来越复杂，comment模块代码规模不断增大，以app_comment为前缀的资源文件数量太多，也不便于查找。</p>
+<p>于是根据业务拆成多个子模块，例如app_comment_edit（编辑评价），app_comment_list（评价列表），app_comment_image（评论图片编辑相关）。按照命名规范，在前缀中添加子模块。由于在IDE中是按照文件名排序的，因此每个子模块的资源文件就会被聚合到一起，方便开发。</p>
+<p>此时的命名可能是这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app_comment_edit_ic_xxx</span><br><span class="line">app_comment_edit_bg_xxx</span><br><span class="line"></span><br><span class="line">app_comment_list_ic_xxx</span><br><span class="line">app_comment_list_img_xxx</span><br><span class="line"></span><br><span class="line">app_comment_image_ic_xxx</span><br></pre></td></tr></table></figure>
+<h2 id="单词使用规范">单词使用规范</h2>
+<ol>
+<li>使用英文：避免使用拼音、缩写等不容易理解的单词，避免拼写错误。反面案例：<code>zxkf</code>（在线客服，取了首字母），例如<code>good</code>（商品，应该是goods）。</li>
+<li>缩写规范：可以使用一些约定俗成的常见缩写，例如<code>ic(icon)</code>，<code>lang(language)</code>，<code>bg(background)</code>,<code>lib(library)</code>,<code>img(image)</code>。</li>
+<li>使用拼音的情况：商标、域名、专有名词，极少数难以翻译成英文的词等，在保证不影响理解的情况下，可以使用拼音，例如<code>baidu</code>（百度）。</li>
+<li>特例：用于表示APP或者模块、需要大量使用的通用前缀，为了缩短长度提高输入效率和便于阅读，可以不受上述限制，但应该经过相关开发人员共同确认。例如<code>wx</code>（微信）。</li>
+</ol>
+<h2 id="组件名称">组件名称</h2>
+<p>组件指的是一个或一组View，可大可小，例如页面、弹窗、按钮、文本标签等。</p>
+<h3 id="layout资源常用组件名">layout资源常用组件名</h3>
+<ul>
+<li>activity</li>
+<li>fragment</li>
+<li>adapter</li>
+<li>layout</li>
+<li>view</li>
+<li>dialog</li>
+<li>actionbar</li>
+<li>…</li>
+</ul>
+<p>view和layout的区别：view通常是嵌套层级较少、尺寸也比较小的组件（可能是View也可能是ViewGroup），例如一个左侧带有Icon的文本组件，虽然可能是用LinearLayout实现的，但视觉上更像是一个独立的View。layout一般是比较复杂、显示尺寸大的组件（对应ViewGroup），从视觉上明显包含很多子组件，例如微信会话列表中的一个Item，包含了头像、名称、最新消息、时间等内容。</p>
+<p>完整示例：</p>
+<ul>
+<li>app_comment_list_activity</li>
+<li>app_comment_list_adapter</li>
+</ul>
+<h3 id="其他常用组件名">其他常用组件名</h3>
+<p>一方面可以根据控件的类型划分，例如CheckBox，RatingBar，ProgressBar；一方面可以根据UI特点来划分，例如divider、border、dot、label等。</p>
+<p>关于缩写：缩写建议和Android自身的资源命名保持一致。使用频度高的基本组件一般都有常用且容易理解的写法，例如<code>btn</code>。对于使用频度不高但名称较长的组件，例如<code>ProgressBar</code>，<code>RatingBar</code>，不建议使用含义不明确的<code>rb(RadioButton)</code>、<code>pb(ProgressBar)</code>等首字母缩写；建议取多个单词中的某一个含义明确的词，例如<code>progress(ProgressBar)</code>，<code>rating(RatingBar)</code>。</p>
+<p>举例</p>
+<ul>
+<li>btn：按钮</li>
+<li>text：文本</li>
+<li>checkbox（CheckBox）</li>
+<li>rating（RatingBar）</li>
+<li>progress（ProgressBar）：Loading、进度条</li>
+<li>list：ListView</li>
+<li>label：用于展示的文字标签</li>
+<li>border：边框</li>
+<li>divider：分割线</li>
+<li>dot：小圆点</li>
+<li>avatar：头像</li>
+<li>popup：浮层</li>
+</ul>
+<h2 id="drawable的命名">drawable的命名</h2>
+<p>主要是指出几种图片的区分</p>
+<ul>
+<li>ic / icon：图标，多用于展示尺寸较小、图形简单的图标。</li>
+<li>img / image：图片，尺寸相比图标较大，且图形复杂，一般用于前景。</li>
+<li>bg / background：背景，背景多用于View的background属性，9-patch格式的图比较常见，背景上方一般会有其他内容。</li>
+</ul>
+<h2 id="selector的命名">selector的命名</h2>
+<p>每种状态对应的资源文件加后缀，最终产生的selector文件不加后缀。</p>
+<h3 id="常用后缀">常用后缀</h3>
+<ul>
+<li>normal：常态（默认态）</li>
+<li>highlight：高亮，常包含pressed、focused、highlight等多种状态</li>
+<li>pressed：按下</li>
+<li>checked：勾选</li>
+<li>selected：选中</li>
+<li>unselected：未选中（selected=false）</li>
+<li>disable：不可用（enable=false）</li>
+</ul>
+<h3 id="举例：CheckBox的定义">举例：CheckBox的定义</h3>
+<p>selector文件名为<code>checkbox_green.xml</code>，并引用<code>checkbox_green_checked</code>和<code>checkbox_green_normal</code>两个drawable资源。</p>
+<p><strong>标准的写法：定义checked和normal</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">selector</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">&quot;@drawable/checkbox_green_checked&quot;</span> <span class="attr">android:state_checked</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">&quot;@drawable/checkbox_green_normal&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">selector</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>不合理的写法：定义checked和unchecked，unchecked含义不准确</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">selector</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">&quot;@drawable/checkbox_green_checked&quot;</span> <span class="attr">android:state_checked</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">&quot;@drawable/checkbox_green_unchecked&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">selector</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="color、dimen的命名">color、dimen的命名</h2>
+<p>color的名称，可以不再加color的表述，例如<code>color/app_theme</code>而不是<code>color/app_theme_color</code>。</p>
+<p>dimen的名称，根据需要会添加和尺寸相关的表述，例如<code>dimen/app_common_btn_width</code>，<code>dimen/app_common_btn_height</code>，<code>dimen/app_common_activity_margin</code></p>
+<h2 id="string的命名">string的命名</h2>
+<p>string的命名，描述部分可以是对字符串作用的描述，例如<code>app_common_share_tips</code>，有时也可以是字符串直接对应的英文翻译，例如<code>app_no_comment</code>。</p>
+<p>有时模块名和后续描述重复了，读起来会比较奇怪。例如评论页面的“没有评论”，命名为<code>app_comment_no_comment</code>，可以考虑改为<code>app_comment_no_content</code>。</p>
+<h2 id="id的命名">id的命名</h2>
+<p>由于只要保证BindView时控件的id名称不冲突（例如Adapter中的每个Item内的id不冲突即可，Item之间id相同也没有影响），因此id的命名要求可以相对宽松。一般以<code>控件类型_描述</code>的形式即可。</p>
+<p>常用控件类型例如：</p>
+<ul>
+<li>txt：文本</li>
+<li>img：图片</li>
+<li>btn：按钮</li>
+<li>view：不需要关心一个View的具体实现形式时，可以直接视为view。例如分割线，既可以用View实现，也可以用ImageView实现，代码中只关心分割线是否可见（同时在代码中也不指定具体变量类型，这样后续在xml中直接改view的类型时，不需要改id和Java代码）。</li>
+<li>layout：不需要关心Layout的具体类型，可直接视为layout，同上。</li>
+</ul>
+<h2 id="主题样式的命名">主题样式的命名</h2>
+<p>Application默认的style命名为<code>AppTheme</code>；用于Activity的style，统一命名为<code>AppTheme.XXX</code>；用于Dialog的style，统一命名为<code>Dialog.XXX</code>。</p>
+<p>示例：</p>
+<ul>
+<li>AppTheme：Application默认的主题</li>
+<li>AppTheme.NoActionBar：隐藏自带ActionBar的Activity</li>
+<li>AppTheme.NoActionBar.FullScreen：全屏Activity，隐藏了ActionBar和状态栏</li>
+<li>AppTheme.Transparent：透明的Activity</li>
+<li>AppTheme.NoActionBar.Login：登录页面</li>
+</ul>
+<p>Style默认会按照名称中的点号分隔自动继承Parent。例如名为<code>AppTheme.Login</code>的style会自动继承<code>AppTheme</code>中的属性。也可以自行指定Parent，示例如下。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 默认parent为AppTheme --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme.MyActivityName&quot;</span>&gt;</span><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowIsTranslucent&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 指定使用其他parent --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme.MyActivityName&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;AppCompat.Light&quot;</span>&gt;</span><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowIsTranslucent&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 不需要parent --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">&quot;AppTheme.MyActivityName&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;android:windowIsTranslucent&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="文件的组织">文件的组织</h2>
+<h3 id="res-value目录下的文件拆分">res/value目录下的文件拆分</h3>
+<p>value目录下按照资源类型拆分成不同的文件，例如<code>styles.xml</code>、<code>dimens.xml</code>、<code>colors.xml</code>。</p>
+<p>有时候项目会拆分出SDK，在公司内的多个App之间复用，例如用户账户SDK，接入到多个App时通过覆盖资源文件实现不同的主题色。如果需要覆盖SDK中的资源，可以单独建一个专用于覆写SDK的文件，并写好注释避免误删，例如<code>res/value/resourse_sdks.xml</code>。如果某个SDK需要覆盖很多资源时，可以进一步拆分到单独的文件中。例如<code>res/value/resourse_account_sdk.xml</code>。</p>
+<h3 id="Drawable存放目录">Drawable存放目录</h3>
+<p>由于开发成本、减少包大小等原因，一些实际项目中并没有对不同密度的屏幕分别提供png图片，而是使用同一套2x图片，因此统一放在<code>res/drawable-xhdpi</code>中，其density=2，即1dp=2px。</p>
+<p>而xml格式的Drawable应该统一放在<code>res/drawable</code>中。</p>
+<h3 id="容易放错目录的xml">容易放错目录的xml</h3>
+<p><code>&lt;animated-rotate/&gt;</code>、<code>&lt;animation-list/&gt;</code>是实现了Animatable接口的Drawable，不是Animation，应该放在drawable目录而不是anim目录。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/infer/" rel="bookmark">空指针静态代码检查工具Infer</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dynamic-proxy-java-bus/" rel="bookmark">一种基于动态代理实现的Android/Java总线通信组件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dont-make-me-think/" rel="bookmark">Don't make me think思想在代码设计中的应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gson-technic/" rel="bookmark">Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gson-study/" rel="bookmark">Gson源码设计学习</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag"># 软件工程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/social-media/" rel="prev" title="社交和相亲平台的研究：如何借助社交平台交朋友和找对象？">
+      <i class="fa fa-chevron-left"></i> 社交和相亲平台的研究：如何借助社交平台交朋友和找对象？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/android-build-error/" rel="next" title="Android常见编译问题与解决思路">
+      Android常见编译问题与解决思路 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%88%86%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">资源文件分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%B0%8F%E5%86%99%E9%A3%8E%E6%A0%BC"><span class="nav-number">2.</span> <span class="nav-text">大小写风格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E5%91%BD%E5%90%8D%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">完整命名格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E6%8B%86%E5%88%86%E4%B8%8E%E5%89%8D%E7%BC%80"><span class="nav-number">4.</span> <span class="nav-text">项目模块拆分与前缀</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">4.1.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E8%AF%8D%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83"><span class="nav-number">5.</span> <span class="nav-text">单词使用规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E5%90%8D%E7%A7%B0"><span class="nav-number">6.</span> <span class="nav-text">组件名称</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#layout%E8%B5%84%E6%BA%90%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6%E5%90%8D"><span class="nav-number">6.1.</span> <span class="nav-text">layout资源常用组件名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6%E5%90%8D"><span class="nav-number">6.2.</span> <span class="nav-text">其他常用组件名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#drawable%E7%9A%84%E5%91%BD%E5%90%8D"><span class="nav-number">7.</span> <span class="nav-text">drawable的命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#selector%E7%9A%84%E5%91%BD%E5%90%8D"><span class="nav-number">8.</span> <span class="nav-text">selector的命名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%90%8E%E7%BC%80"><span class="nav-number">8.1.</span> <span class="nav-text">常用后缀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B%EF%BC%9ACheckBox%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">8.2.</span> <span class="nav-text">举例：CheckBox的定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#color%E3%80%81dimen%E7%9A%84%E5%91%BD%E5%90%8D"><span class="nav-number">9.</span> <span class="nav-text">color、dimen的命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string%E7%9A%84%E5%91%BD%E5%90%8D"><span class="nav-number">10.</span> <span class="nav-text">string的命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#id%E7%9A%84%E5%91%BD%E5%90%8D"><span class="nav-number">11.</span> <span class="nav-text">id的命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E6%A0%B7%E5%BC%8F%E7%9A%84%E5%91%BD%E5%90%8D"><span class="nav-number">12.</span> <span class="nav-text">主题样式的命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%84%E7%BB%87"><span class="nav-number">13.</span> <span class="nav-text">文件的组织</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#res-value%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6%E6%8B%86%E5%88%86"><span class="nav-number">13.1.</span> <span class="nav-text">res&#x2F;value目录下的文件拆分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Drawable%E5%AD%98%E6%94%BE%E7%9B%AE%E5%BD%95"><span class="nav-number">13.2.</span> <span class="nav-text">Drawable存放目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E6%98%93%E6%94%BE%E9%94%99%E7%9B%AE%E5%BD%95%E7%9A%84xml"><span class="nav-number">13.3.</span> <span class="nav-text">容易放错目录的xml</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GN Basics Ninja and GN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GN Cheat Sheet for Chromium Android">
+<meta property="og:url" content="https://www.xiaoming.io/gn-chromium-android/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="GN Basics Ninja and GN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-30T04:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.566Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Chromium">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/gn-chromium-android/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>GN Cheat Sheet for Chromium Android | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/gn-chromium-android/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GN Cheat Sheet for Chromium Android
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-30 12:00:00" itemprop="dateCreated datePublished" datetime="2020-07-30T12:00:00+08:00">2020-07-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/gn-chromium-android/" class="post-meta-item leancloud_visitors" data-flag-title="GN Cheat Sheet for Chromium Android" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/gn-chromium-android/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/gn-chromium-android/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>29k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>26 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="GN-Basics">GN Basics</h2>
+<h3 id="Ninja-and-GN">Ninja and GN</h3>
+<p><a target="_blank" rel="noopener" href="https://ninja-build.org/">Ninja</a> is a build system focus on speed. It has very little options.</p>
+<p><a target="_blank" rel="noopener" href="https://gn.googlesource.com/gn">GN</a> is a meta-build system that generates build files for Ninja.</p>
+<h3 id="GN-Script">GN Script</h3>
+<p>GN script file usually has an extension of <code>gn</code> or <code>gni</code>.  <code>*.gni</code> are normally been imported by <code>BUILD.gn</code> scripts.</p>
+<p>Normally, we have some <code>BUILD.gn</code> file in project directories. In the script, we define rules, targets… for GN.</p>
+<h3 id="Rule">Rule</h3>
+<p>GN has some built-in rules which can do specified work, rule can be called with predefined variables.</p>
+<p>E.g. <code>copy</code>  rule can do some file copy works, and <code>shared_library</code> rule can build C++ code into a shared library.</p>
+<p>And we can define new rules or redefine built-in rules using <code>template</code> keywords.</p>
+<p>Examples in Chromium Project:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># build/config/android/rules.gni</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># define rule named `android_library`</span></span><br><span class="line">template(<span class="string">&quot;android_library&quot;</span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># call another rule named `java_library`</span></span><br><span class="line">  java_library(target_name) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># copy variables from android_library to java_library</span></span><br><span class="line">    forward_variables_from(invoker, <span class="string">&quot;*&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># set variables for java_library rule</span></span><br><span class="line">    supports_android = <span class="literal">true</span></span><br><span class="line">    requires_android = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!defined(jar_excluded_patterns)) &#123;</span><br><span class="line">      jar_excluded_patterns = []</span><br><span class="line">    &#125;</span><br><span class="line">    jar_excluded_patterns += [</span><br><span class="line">      <span class="string">&quot;*/R.class&quot;</span>,</span><br><span class="line">      <span class="string">&quot;*/R\$*.class&quot;</span>,</span><br><span class="line">      <span class="string">&quot;*/Manifest.class&quot;</span>,</span><br><span class="line">      <span class="string">&quot;*/Manifest\$*.class&quot;</span>,</span><br><span class="line">      <span class="string">&quot;*/GEN_JNI.class&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Target">Target</h3>
+<p>Target represents a build operation, and it can have dependencies of other targets. We can use a rule to define targets.</p>
+<p>For example, we have a GN file <code>chrome/android/BUILD.gn</code> and it defined a target with name <code>chrome_public_apk</code> using rule <code>chrome_public_apk_or_module_tmpl</code>. And this target can build an apk of Chromium. The full name of this target is <code>//chrome/android:chrome_public_apk</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">chrome_public_apk_or_module_tmpl(<span class="string">&quot;chrome_public_apk&quot;</span>) &#123;</span><br><span class="line">  <span class="comment"># ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When a target depends on other targets, we can use <code>deps</code> to define that. And we can use relative name or full name of other targets.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># somedir/BUILD.gn</span></span><br><span class="line">some_rule(<span class="string">&quot;target_a&quot;</span>) &#123;</span><br><span class="line">&#125;</span><br><span class="line">some_rule(<span class="string">&quot;target_b&quot;</span>) &#123;</span><br><span class="line">  deps = [</span><br><span class="line">    <span class="comment"># use relative name</span></span><br><span class="line">    <span class="string">&quot;:target_a&quot;</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># somedir/somesubdir/BUILD.gn</span></span><br><span class="line">some_rule(<span class="string">&quot;target_c&quot;</span>) &#123;</span><br><span class="line">  deps = [</span><br><span class="line">    <span class="comment"># use relative name</span></span><br><span class="line">    <span class="string">&quot;..:target_a&quot;</span></span><br><span class="line">    <span class="comment"># use full name</span></span><br><span class="line">    <span class="string">&quot;//somedir:target_b&quot;</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="GN-Grammar">GN Grammar</h3>
+<p>GN grammar is very simple, and can be found here.</p>
+<p><a target="_blank" rel="noopener" href="https://gn.googlesource.com/gn/+/master/docs/reference.md#grammar">https://gn.googlesource.com/gn/+/master/docs/reference.md#grammar</a></p>
+<h3 id="Frequently-Used-Commands">Frequently Used Commands</h3>
+<p>Here is some frequently used commands of GN and Ninja.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># configure args declared by the build (args.gn file)</span></span><br><span class="line">gn args out/debug</span><br><span class="line"></span><br><span class="line"><span class="comment"># show all args declared by the build</span></span><br><span class="line">gn args --list out/debug</span><br><span class="line"></span><br><span class="line"><span class="comment"># generate ninja files (build.ninja file)</span></span><br><span class="line">gn gen out/debug</span><br><span class="line"></span><br><span class="line"><span class="comment"># list all targets</span></span><br><span class="line">gn ls out/debug</span><br><span class="line"></span><br><span class="line"><span class="comment"># show dependencies of an target</span></span><br><span class="line"><span class="comment"># optional param all: including transitive dependencies</span></span><br><span class="line"><span class="comment"># optional param tree: show dependencies as a tree</span></span><br><span class="line"><span class="comment"># note: this command may stuck if target has too many dependencies</span></span><br><span class="line">gn desc out/debug &lt;target-name&gt; --all --tree</span><br><span class="line"></span><br><span class="line"><span class="comment"># show what targets are depend on the specified target</span></span><br><span class="line">gn refs out/debug &lt;target-name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># build target with ninja</span></span><br><span class="line">ninja -C out/debug &lt;target-name&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="GN-in-Chromium-Android">GN in Chromium Android</h2>
+<p>Chromium project has defined many platform specified rules for different platforms including Windows, Linux, Mac, Android, iOS. For Android, these rules are defined in <code>build/config/android/rules.gni</code> file. If you want to use these rules, import <code>rules.gni</code> file first.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BUILD.gn</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># import rules for android</span></span><br><span class="line">import(<span class="string">&quot;//build/config/android/rules.gni&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># if the gn script is used for multi platform, add if statement for the import</span></span><br><span class="line"><span class="keyword">if</span> (is_android) &#123;</span><br><span class="line">  import(<span class="string">&quot;//build/config/android/rules.gni&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Using-Config">Using Config</h2>
+<p><code>config</code> can define variables for other targets, and we can use <code>+=</code> <code>-=</code> for configs. For example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">config(<span class="string">&quot;cpp17&quot;</span>) &#123;</span><br><span class="line">  <span class="comment"># define veriables of cflags_cc</span></span><br><span class="line">  cflags_cc = [</span><br><span class="line">    <span class="string">&quot;-Xclang&quot;</span>,</span><br><span class="line">    <span class="string">&quot;-std=c++17&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">config(<span class="string">&quot;login_sdk_config&quot;</span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># include predefined cpp17 config</span></span><br><span class="line">  configs = [ <span class="string">&quot;:cpp17&quot;</span> ]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># enable C++ exceptions using predefined config in chromium</span></span><br><span class="line">  configs -= [ <span class="string">&quot;//build/config/compiler:no_exceptions&quot;</span> ]</span><br><span class="line">  configs += [ <span class="string">&quot;//build/config/compiler:exceptions&quot;</span> ]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># define include_dirs variable for C++ code</span></span><br><span class="line">  include_dirs = [</span><br><span class="line">    <span class="string">&quot;src&quot;</span>,</span><br><span class="line">    <span class="string">&quot;deps/somesdk/src&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">shared_library(<span class="string">&quot;login_sdk&quot;</span>) &#123;</span><br><span class="line">  <span class="comment"># use login_sdk_config</span></span><br><span class="line">  configs += [ <span class="string">&quot;:login_sdk_config&quot;</span> ]</span><br><span class="line">  <span class="comment"># set other variables</span></span><br><span class="line">  sources = [</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Integrate-Android-Library-from-Sources">Integrate Android Library from Sources</h2>
+<h3 id="Android-Resources-Manifest">Android Resources / Manifest</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># target name should ends with `_resources`</span></span><br><span class="line">android_resources(<span class="string">&quot;login_sdk_resources&quot;</span>) &#123;</span><br><span class="line">    sources = [</span><br><span class="line">        <span class="string">&quot;src/res/layout/xxx.xml&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">    android_manifest = <span class="string">&quot;src/AndroidManifest.xml&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Override-Manifest-minSdkVersion">Override Manifest minSdkVersion</h3>
+<p>If you need to override <code>minSdkVersion</code> of manifest in SDK, you can do it as follows.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- chrome/android/java/AndroidManifest.xml --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-sdk</span> <span class="attr">tools:overrideLibrary</span>=<span class="string">&quot;com.login.sdk&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="R-java">R.java</h3>
+<p><code>R.java</code> will be generated by the <code>android_resources</code> target.</p>
+<h3 id="BuildConfig-java">BuildConfig.java</h3>
+<p>Normally, BuildConfig File is generated by gradle task. If build with GN, we can simply write a <code>BuildConfig.java</code> file by hand and put it into some directory.</p>
+<h3 id="Java-code">Java code</h3>
+<p>we can use <code>android_library</code> to integrate Java source code of an Android Library.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># target name should ends with `_java`</span></span><br><span class="line">android_library(<span class="string">&quot;login_sdk_java&quot;</span>) &#123;</span><br><span class="line">    sources = [</span><br><span class="line">        <span class="string">&quot;src/java/com/login/Main.java&quot;</span>,</span><br><span class="line">        <span class="string">&quot;src/java/com/login/Login.java&quot;</span>,</span><br><span class="line">        <span class="comment"># java code depends on BuildConfig.java</span></span><br><span class="line">        <span class="string">&quot;src/build/BuildConfig.java&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="string">&quot;//third_party/android_deps:androidx_constraintlayout_constraintlayout_java&quot;</span>,</span><br><span class="line">        <span class="string">&quot;:login_sdk_resources&quot;</span>, <span class="comment"># java code depends on R.java</span></span><br><span class="line">    ]</span><br><span class="line">    <span class="comment"># compile time deps needs to be set here, these jar file will not be compiled into the apk</span></span><br><span class="line">    input_jars_paths = [</span><br><span class="line">        <span class="string">&quot;libs/compile_time_deps.jar&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">android_library(<span class="string">&quot;chrome_java&quot;</span>) &#123;</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="comment"># add deps into chrome project</span></span><br><span class="line">        <span class="string">&quot;//third-party/android-sdks/login:login_sdk_java&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="assets">assets</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android_assets(<span class="string">&quot;login_sdk_assets_java&quot;</span>) &#123;</span><br><span class="line">    sources = [</span><br><span class="line">        <span class="string">&quot;src/assets/login.json&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">android_library(<span class="string">&quot;chrome_java&quot;</span>) &#123;</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="comment"># add deps into chrome project</span></span><br><span class="line">        <span class="string">&quot;//third-party/android-sdks/login:login_sdk_assets_java&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AnnotationProcessor">AnnotationProcessor</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">java_annotation_processor(<span class="string">&quot;login_processor&quot;</span>) &#123;</span><br><span class="line">    sources = [</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">    ]</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">    ]</span><br><span class="line">    main_class = <span class="string">&quot;com.login.LoginProcessor&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android_library(<span class="string">&quot;login_sdk_java&quot;</span>) &#123;</span><br><span class="line">    annotation_processor_deps = [</span><br><span class="line">        <span class="string">&quot;:login_processor&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AIDL">AIDL</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">android_aidl(<span class="string">&quot;login_sdk_aidl&quot;</span>) &#123;</span><br><span class="line">    import_include = [ <span class="string">&quot;src/java&quot;</span> ]</span><br><span class="line">    sources = [</span><br><span class="line">        <span class="string">&quot;src/aidl/com/login/demo/LoginService.aidl&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># this target represent java files generated from aidl</span></span><br><span class="line"><span class="comment"># if java code needs to use them, should depends on this target</span></span><br><span class="line">android_library(<span class="string">&quot;login_sdk_aidl_java&quot;</span>) &#123;</span><br><span class="line">  srcjar_deps = [ <span class="string">&quot;:login_sdk_aidl&quot;</span> ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">android_library(<span class="string">&quot;chrome_java&quot;</span>) &#123;</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="comment"># add deps into chrome project</span></span><br><span class="line">        <span class="string">&quot;//third-party/android-sdks/login:login_sdk_asset_java&quot;</span>,</span><br><span class="line">        <span class="string">&quot;//third-party/android-sdks/login:login_sdk_aidl_java&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="CPP-Source-Code">CPP Source Code</h3>
+<p>If CPP code needs to be integrated as source code into main project, you can use <code>source_set</code> or <code>sources</code> to add then into main project.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/browser/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">static_library(<span class="string">&quot;browser&quot;</span>) &#123;</span><br><span class="line">    sources += [</span><br><span class="line">        <span class="comment"># add source file directly</span></span><br><span class="line">        <span class="string">&quot;xxx.cc&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">    deps += [</span><br><span class="line">        <span class="comment"># add deps of source_set</span></span><br><span class="line">        <span class="string">&quot;//third_party/android_sdk/login:login_src&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># third_party/android_sdk/login/BUILD.gn</span></span><br><span class="line">source_set(<span class="string">&quot;:login_src&quot;</span>) &#123;</span><br><span class="line">    sources = [</span><br><span class="line">        <span class="string">&quot;src/xxx.cc&quot;</span>,</span><br><span class="line">        <span class="string">&quot;src/xxx.h&quot;</span></span><br><span class="line">    ]</span><br><span class="line">    include_dirs = [</span><br><span class="line">        <span class="string">&quot;src&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="SO-File">SO File</h3>
+<p>If CPP code needs to be compiled into standalone shared library (<code>.so</code> file), then you need to see shared libary part for more details. Then use <code>loadable_modules</code> variable to integrate the so file into main project.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;chrome_public_apk_or_module_tmpl&quot;</span>) &#123;</span><br><span class="line">    chrome_public_common_apk_or_module_tmpl(target_name) &#123;</span><br><span class="line">        <span class="comment"># add loadable modules</span></span><br><span class="line">        loadable_modules += [</span><br><span class="line">            <span class="string">&quot;<span class="variable">$root_out_dir</span>/libLogin.so&quot;</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Proguard">Proguard</h2>
+<p>You can config proguard here: <code>chrome/android/proguard/main.flags</code></p>
+<h2 id="Integrate-Local-JAR-Files">Integrate Local JAR Files</h2>
+<p>If you have a local JAR file, you can use<code> java_prebuilt</code> rule to integrate it into project.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java_prebuilt(<span class="string">&quot;login_sdk_java&quot;</span>) &#123;</span><br><span class="line">    jar_path = <span class="string">&quot;libs/login-sdk.jar&quot;</span></span><br><span class="line">    output_name = <span class="string">&quot;login_sdk&quot;</span></span><br><span class="line">    supports_android = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">android_library(<span class="string">&quot;chrome_java&quot;</span>) &#123;</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="comment"># add deps into chrome project</span></span><br><span class="line">        <span class="string">&quot;//third-party/android-sdks/login:login_sdk_java&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Integrate-Local-AAR-Files">Integrate Local AAR Files</h2>
+<p>If you have a local AAR file, you can use <code>android_aar_prebuilt</code> rule to integrate it into project.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># target name must ends with &quot;_java&quot;</span></span><br><span class="line">android_aar_prebuilt(<span class="string">&quot;login_sdk_java&quot;</span>) &#123;</span><br><span class="line">    aar_path = <span class="string">&quot;libs/login-sdk.aar&quot;</span></span><br><span class="line">    <span class="comment"># info file can be generated with aar.py</span></span><br><span class="line">    info_path = <span class="string">&quot;libs/login-sdk.info&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># if aar depends on other libs, should be defined here</span></span><br><span class="line">    deps = [</span><br><span class="line">        <span class="string">&quot;//third_party/android_deps:androidx_annotation_annotation_java&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">android_library(<span class="string">&quot;chrome_java&quot;</span>) &#123;</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="comment"># add deps into chrome project</span></span><br><span class="line">        <span class="string">&quot;//third-party/android-sdks/login:login_sdk_java&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Info-File-for-AAR">Info File for AAR</h3>
+<p>AAR file needs an info file which describe the contents in the AAR and it is used for speeding up the build. Info file can be generated by <code>aar.py</code> as follows.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python ./build/android/gyp/aar.py list input.aar --output out/output.info</span><br></pre></td></tr></table></figure>
+<p>The info file content is like follows:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">aidl = []</span><br><span class="line">assets = []</span><br><span class="line">has_classes_jar = <span class="literal">true</span></span><br><span class="line">has_native_libraries = <span class="literal">true</span></span><br><span class="line">has_proguard_flags = <span class="literal">false</span></span><br><span class="line">has_r_text_file = <span class="literal">true</span></span><br><span class="line">is_manifest_empty = <span class="literal">false</span></span><br><span class="line">native_libraries = [</span><br><span class="line">  <span class="string">&quot;jni/arm64-v8a/libLogin.so&quot;</span>,</span><br><span class="line">  <span class="string">&quot;jni/armeabi-v7a/libLogin.so&quot;</span>,</span><br><span class="line">  <span class="string">&quot;jni/x86/libLogin.so&quot;</span>,</span><br><span class="line">]</span><br><span class="line">resources = [</span><br><span class="line">  <span class="string">&quot;res/drawable/logo.png&quot;</span>,</span><br><span class="line">  <span class="string">&quot;res/layout/some_layout.xml&quot;</span>,</span><br><span class="line">  <span class="string">&quot;res/values/values.xml&quot;</span>,</span><br><span class="line">]</span><br><span class="line">subjar_tuples = []</span><br><span class="line">subjars = []</span><br></pre></td></tr></table></figure>
+<h3 id="Native-Libraries-so-files">Native Libraries (.so files)</h3>
+<p>If AAR contains so files, you must set one of <code>ignore_native_libraries</code> to ignore the native libraries or <code>extract_native_libraries</code> to use the native libraries and then use loadable_modules to integrate.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">android_aar_prebuilt(<span class="string">&quot;login_sdk_java&quot;</span>) &#123;</span><br><span class="line">    <span class="comment"># ignore_native_libraries = true</span></span><br><span class="line">    extract_native_libraries = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;chrome_public_apk_or_module_tmpl&quot;</span>) &#123;</span><br><span class="line">    chrome_public_common_apk_or_module_tmpl(target_name) &#123;</span><br><span class="line">        <span class="comment"># add loadable modules</span></span><br><span class="line">        loadable_modules += [</span><br><span class="line">            <span class="string">&quot;<span class="variable">$root_out_dir</span>/obj/third_party/android_sdk/login_sdk_aar_java/jni/x86/libLogin.so&quot;</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AIDL-and-Assets">AIDL and Assets</h3>
+<p><code>android_aar_prebuilt</code> currently not supports aidl and assets. If AAR contains these files, you must configure <code>ignore_aidl = true</code> and <code>ignore_assets = true</code>. If you need to add these files into project, you can extract the files and add them by other rules. See integrate android library from sources part for more detail.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">android_aar_prebuilt(<span class="string">&quot;login_sdk_java&quot;</span>) &#123;</span><br><span class="line">    ignore_aidl = <span class="literal">true</span></span><br><span class="line">    ignore_assets = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android_assets(<span class="string">&quot;login_sdk_asset_java&quot;</span>) &#123;</span><br><span class="line">  sources = [</span><br><span class="line">    <span class="string">&quot;login.json&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">android_aidl(<span class="string">&quot;login_sdk_aidl&quot;</span>) &#123;</span><br><span class="line">    import_include = [ <span class="string">&quot;java/src&quot;</span> ]</span><br><span class="line">    sources = [</span><br><span class="line">        <span class="string">&quot;aidl/com/login/demo/LoginService.aidl&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># this target represent java files generated from aidl</span></span><br><span class="line"><span class="comment"># if java code needs to use them, should config deps on this target</span></span><br><span class="line">android_library(<span class="string">&quot;login_sdk_aidl_java&quot;</span>) &#123;</span><br><span class="line">  srcjar_deps = [ <span class="string">&quot;:login_sdk_aidl&quot;</span> ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">android_library(<span class="string">&quot;chrome_java&quot;</span>) &#123;</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="comment"># add deps into chrome project</span></span><br><span class="line">        <span class="string">&quot;//third-party/android-sdks/login:login_sdk_asset_java&quot;</span>,</span><br><span class="line">        <span class="string">&quot;//third-party/android-sdks/login:login_sdk_aidl_java&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Ignore-Replace-Manifest-in-AAR">Ignore/Replace Manifest in AAR</h3>
+<p>We can use ignore_manifest to exclude manifest from AAR. If you need to replace the manifest file, you need to create an <code>android_resources</code> target to specify the new manifest file and add it to the deps of <code>android_aar_prebuilt</code> target.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">android_aar_prebuilt(<span class="string">&quot;login_sdk&quot;</span>) &#123;</span><br><span class="line">    ignore_manifest = <span class="literal">true</span></span><br><span class="line">    deps = [</span><br><span class="line">        <span class="string">&quot;:login_sdk_manifest_resources&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># specify the new manifest resources target</span></span><br><span class="line">android_resources(<span class="string">&quot;login_sdk_manifest_resources&quot;</span>) &#123;</span><br><span class="line">    sources = [] <span class="comment"># sources remain empty</span></span><br><span class="line">    android_manifest = <span class="string">&quot;build/AndroidManifest.xml&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Integrate-Maven-Project-with-Gradle">Integrate Maven Project with Gradle</h2>
+<p>If you want to add maven dependencies for Android, a simple solution is to use <code>android_deps</code> module provided by Chromium instead of downloading AAR/JAR and writing GN manually. This tool can resolve all the transitive dependencies and download all the AAR/JAR, generate info file, generate GN script and integrate them into project.</p>
+<p>Here is the steps:</p>
+<ul>
+<li>Add your repositories and dependencies in <code>third_party/android_deps/build.gradle</code>, just like the normal Gradle project does. If your package is used for building, use <code>buildCompile</code>. If your package needs to be compiled into Android APK, use <code>compile</code>.</li>
+<li>Run <code>third_party/android_deps/fetch_all.py</code>, this script will run Gradle first to resolve dependencies and then do the remaining works.</li>
+<li>The script will create cpid package for each AAR/JAR file, and the packages will be managed by gclient. Run the commands printed by <code>fetch_all.py</code> to create new and updated packages via cpid.</li>
+<li>The generated GN targets is in <code>third_party/android_deps/BUILD.gn</code>. You can use them in other GN scripts.</li>
+</ul>
+<p>See more details here:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromium/src.git/+/master/third_party/android_deps/">https://chromium.googlesource.com/chromium/src.git/+/master/third_party/android_deps/</a></li>
+<li><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromium/src.git/+/master/docs/cipd.md">https://chromium.googlesource.com/chromium/src.git/+/master/docs/cipd.md</a></li>
+</ul>
+<h2 id="More-Details-of-Java-Related-Rules">More Details of Java Related Rules</h2>
+<p>The <code>java_library</code> rule is defined in <code>rules.gni</code> can it called <code>java_library_impl</code> defined in <code>internal_rules.gni</code>.</p>
+<p>The <code>java_prebuilt</code> rule called <code>java_library_impl</code>, too.</p>
+<p>The <code>android_library</code> rule called <code>java_library</code>, and the <code>android_aar_prebuilt</code> called <code>java_prebuilt</code>.</p>
+<p>We can see more details about the variables of these rules in the source code.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># build/config/android/rules.gni</span></span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;java_library&quot;</span>) &#123;</span><br><span class="line">    java_library_impl(target_name) &#123;</span><br><span class="line">        forward_variables_from(invoker, <span class="string">&quot;*&quot;</span>)</span><br><span class="line">        <span class="built_in">type</span> = <span class="string">&quot;java_library&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;java_prebuilt&quot;</span>) &#123;</span><br><span class="line">    java_library_impl(target_name) &#123;</span><br><span class="line">        forward_variables_from(invoker, <span class="string">&quot;*&quot;</span>)</span><br><span class="line">        <span class="built_in">type</span> = <span class="string">&quot;java_library&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;android_library&quot;</span>) &#123;</span><br><span class="line">    java_library(target_name) &#123;</span><br><span class="line">        forward_variables_from(invoker, <span class="string">&quot;*&quot;</span>)</span><br><span class="line"></span><br><span class="line">        supports_android = <span class="literal">true</span></span><br><span class="line">        requires_android = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!defined(jar_excluded_patterns)) &#123;</span><br><span class="line">            jar_excluded_patterns = []</span><br><span class="line">        &#125;</span><br><span class="line">        jar_excluded_patterns += [</span><br><span class="line">            <span class="string">&quot;*/R.class&quot;</span>,</span><br><span class="line">            <span class="string">&quot;*/R\$*.class&quot;</span>,</span><br><span class="line">            <span class="string">&quot;*/Manifest.class&quot;</span>,</span><br><span class="line">            <span class="string">&quot;*/Manifest\$*.class&quot;</span>,</span><br><span class="line">            <span class="string">&quot;*/GEN_JNI.class&quot;</span>,</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;android_aar_prebuilt&quot;</span>) &#123;</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    java_prebuilt(_jar_target_name) &#123;</span><br><span class="line">        forward_variables_from(invoker, _java_library_vars)</span><br><span class="line">        forward_variables_from(invoker, [</span><br><span class="line">            <span class="string">&quot;deps&quot;</span>,</span><br><span class="line">            <span class="string">&quot;input_jars_paths&quot;</span>,</span><br><span class="line">            <span class="string">&quot;proguard_configs&quot;</span>,</span><br><span class="line">        ])</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># build/config/android/internal_rules.gni</span></span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;java_library_impl&quot;</span>) &#123;</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Here is some common and useful variables:</p>
+<p><strong>supports_android</strong>: True if target can run on Android. This value is true by default in <code>android_library</code> rule. If an target supports Android, then all its deps need to support Android.</p>
+<p><strong>require_android</strong>: True if target can only run on Android. It also means the target will depends on Android Java SDK. This value is true by default in <code>android_library</code> rule.</p>
+<p><strong>jar_excluded_patterns</strong>: We can use this variable to exclude/replace some Java class from an JAR/AAR file. For example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jar_excluded_patterns = [</span><br><span class="line">    <span class="string">&quot;android/support/v4/graphics/drawable/IconCompat.class&quot;</span>,</span><br><span class="line">    <span class="string">&quot;androidx/*&quot;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>enable_bytecode_checks</strong>: By default, GN will run bytecode checks for prebuilt JAR/AAR to ensure Java class dependencies is OK. If class A in target T1 dependent on class B in target T2, then target T1 should dependent on T2. Sometimes we may want to disable bytecode checks. See trouble shotting part for more details.</p>
+<h2 id="Build-C-Code-into-Shared-Library">Build C++ Code into Shared Library</h2>
+<p>A shared library is a binary file (dll for windows, so for linux) which can be loaded in the runtime. The following demo is on linux platform.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">shared_library(<span class="string">&quot;login_sdk_so&quot;</span>) &#123;</span><br><span class="line">    <span class="comment"># output file will be libLogin.so</span></span><br><span class="line">    output_name = <span class="string">&quot;Login&quot;</span></span><br><span class="line">    sources = [</span><br><span class="line">        <span class="string">&quot;src/main.hpp&quot;</span>,</span><br><span class="line">        <span class="string">&quot;src/main.cpp&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">    include_dirs = [</span><br><span class="line">        <span class="string">&quot;src&quot;</span>,</span><br><span class="line">        <span class="string">&quot;deps/somesdk/src&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">    libs = [</span><br><span class="line">        <span class="string">&quot;android&quot;</span>,</span><br><span class="line">        <span class="string">&quot;log&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="string">&quot;:other_sdk&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Defines-for-C-code">Defines for C++ code</h3>
+<p>We can use <code>defines</code> to define some macro for C++ code.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">shared_library(<span class="string">&quot;login_sdk_so&quot;</span>) &#123;</span><br><span class="line">    defines = [</span><br><span class="line">        <span class="string">&quot;TARGET_IS_ANDROID&quot;</span>,</span><br><span class="line">        <span class="string">&quot;LOGIN_SDK_VERSION=\&quot;1.0.0\&quot;&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C++ code</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> TARGET_IS_ANDROID</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> LOGIN_SDK_VERSION</span></span><br><span class="line">std:cout &lt;&lt; <span class="string">&quot;Version = &quot;</span> &lt;&lt; LOGIN_SDK_VERSION &lt;&lt; std:endl;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="Define-exported-symbols">Define exported symbols</h3>
+<p>Shared library binary file needs to define what symbols to be exported. Only exported symbols can be accessed from outside.</p>
+<p>In linux, we can use an version script file to define exported C++ symbols for so file.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/gnulib/manual/html_node/Exported-Symbols-of-Shared-Libraries.html">https://www.gnu.org/software/gnulib/manual/html_node/Exported-Symbols-of-Shared-Libraries.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/gnulib/manual/html_node/LD-Version-Scripts.html">https://www.gnu.org/software/gnulib/manual/html_node/LD-Version-Scripts.html</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># version script file: login_so.lst</span></span><br><span class="line">&#123;</span><br><span class="line">  global:</span><br><span class="line">    <span class="comment"># exports some method</span></span><br><span class="line">    SomeStaticMethod;</span><br><span class="line">  <span class="built_in">local</span>:</span><br><span class="line">    *;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BUILD.gn</span></span><br><span class="line">shared_library(...) &#123;</span><br><span class="line">  <span class="comment"># flags for ld</span></span><br><span class="line">  ldflags = [</span><br><span class="line">    <span class="comment"># specify version script files</span></span><br><span class="line">    <span class="string">&quot;-Wl,--version-script=&quot;</span> + rebase_path(<span class="string">&quot;login_so.lst&quot;</span>, root_build_dir),</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C++ code</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXPORTS __attribute__((visibility(<span class="meta-string">&quot;default&quot;</span>)))</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// use extern C to prevent name mangling</span></span><br><span class="line"><span class="comment">// https://stackoverflow.com/questions/2587613/what-is-the-effect-of-declaring-extern-c-in-the-header-to-a-c-shared-libra</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">  <span class="function">EXPORTS <span class="keyword">void</span> <span class="title">SomeStaticMethod</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can use <code>nm</code> command to view exported symbols of so file.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># view exported symbols for so.</span></span><br><span class="line"><span class="comment"># U means the symbol should be loaded from outside.</span></span><br><span class="line"><span class="comment"># T means the symbol is in the so and can be accessed from outside.</span></span><br><span class="line">&gt; nm -CD somelib.so</span><br><span class="line">         U abort</span><br><span class="line">         U __android_log_write</span><br><span class="line">00318a40 T Java_com_demo_login_native_onFailure</span><br><span class="line">00318821 T Java_com_demo_login_native_onSuccess</span><br></pre></td></tr></table></figure>
+<h3 id="JNI-Config-for-so-File">JNI Config for so File</h3>
+<p>See JNI part for more details.</p>
+<h2 id="JNI">JNI</h2>
+<p>If a so file has JNI calls, JNI related symbols must be exported, and Java code should call loadLibrary to load the so. See Shared Library part to known more about export symbols for so file.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># login_so.lst</span></span><br><span class="line">&#123;</span><br><span class="line">  global:</span><br><span class="line">    <span class="comment"># export all jni related functions</span></span><br><span class="line">    JNI_OnLoad;</span><br><span class="line">    JNI_OnUnload;</span><br><span class="line">    Java_*;</span><br><span class="line">  <span class="built_in">local</span>:</span><br><span class="line">    *;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Main.java</span></span><br><span class="line"><span class="comment">// will load libLogin.so file</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">&quot;Login&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Java-Calls-C">Java Calls C++</h3>
+<p>You can use <code>native</code> keywords to call C++ code in Java.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.login.main;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">getUserId</span><span class="params">(String username)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When running to this native method call, JVM will find the corresponding symbols from the loaded so files. The C++ code is like follows. If the native method is non-static, the parameter of obj will be this object from Java. If the native method is static, then the parameter of obj will be a reference to containg class instead.</p>
+<p>Reference: <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/15253914/are-native-java-methods-equivalent-to-static-java-methods">https://stackoverflow.com/questions/15253914/are-native-java-methods-equivalent-to-static-java-methods</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span> <span class="comment">// jni.h is defined in android ndk</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">  <span class="function">JNIEXPORT jint <span class="title">com_login_main_Account_getUserId</span><span class="params">(JNIEnv* env, jobject obj, jstring username)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="C-Calls-Java">C++ Calls Java</h3>
+<p>C++ calls Java code is bit like using reflection to call Java code.</p>
+<p>When using JNI, most of the data type conversion job is done in the C++ code. <code>jni.h</code> file has provide many definition of Java basic data types and conversion functions.</p>
+<p>Here is a very simple demo of calling android log method from C++.</p>
+<ul>
+<li>Find the Java class with full class name.</li>
+<li>Get the static method with its name and class signature.</li>
+<li>Convert C++ string of <code>char*</code> type into <code>jstring</code> type as arguments.</li>
+<li>Call static Java method with arguments.</li>
+<li>Get <code>jint</code> result returned by Java code.</li>
+<li>Covert the result from Java type to C++ type and return the result.</li>
+</ul>
+<p>Notes: Don’t forget to <strong>config proguard</strong> to avoid code obfuscation of the Java class.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> android.util;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Log</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">i</span><span class="params">(String tag, String message)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// call static Java method of android.util.Log.i(String tag, String message)</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">log</span><span class="params">(JNIEnv* env, <span class="keyword">const</span> <span class="keyword">char</span>* message)</span> </span>&#123;</span><br><span class="line">    jclass cls = env-&gt;<span class="built_in">FindClass</span>(<span class="string">&quot;android/util/Log&quot;</span>);</span><br><span class="line">    jmethodID method = env-&gt;<span class="built_in">GetStaticMethodID</span>(cls, <span class="string">&quot;i&quot;</span>, <span class="string">&quot;(Ljava/lang/String;Ljava/lang/String;)I&quot;</span>);</span><br><span class="line">    jstring tag = env-&gt;<span class="built_in">NewStringUTF</span>(<span class="string">&quot;Login&quot;</span>);</span><br><span class="line">    jstring msg = env-&gt;<span class="built_in">NewStringUTF</span>(message);</span><br><span class="line">    jint result = env-&gt;<span class="built_in">CallStaticIntMethod</span>(cls, method, tag, msg);</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>) result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Reference:</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/9909228/what-does-v-mean-in-a-class-signature">https://stackoverflow.com/questions/9909228/what-does-v-mean-in-a-class-signature</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/6/docs/technotes/guides/jni/">https://docs.oracle.com/javase/6/docs/technotes/guides/jni/</a></p>
+<h3 id="JNIEnv">JNIEnv</h3>
+<p>You may noticed that a JNIEnv type of variable is always needed when C++ make any Java related operations. If C++ is called by Java, the method can receive this env arguments. But what if C++ code whats to call Java but no env arguments are passed here ?</p>
+<p>Here is a simple solution:</p>
+<ul>
+<li>When JNI_OnLoad is called, save the JavaVM reference, and clear it when JNI_OnUnload is called.</li>
+<li>When a env arguments is needed, call AttachCurrentThread to get it.</li>
+<li>In fact, this is already implemented in Chromium project in <code>base/android/jni_android.cc</code> file. But if you have an standalone so file, you cannot access the code from other so directly. So you can implement it for you own so.</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/prctl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// declare an anonymous namespace to avoid naming conflict</span></span><br><span class="line"><span class="keyword">namespace</span> &#123;</span><br><span class="line">    JavaVM *g_jvm = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">    <span class="function">JNIEXPORT jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span> </span>&#123;</span><br><span class="line">        g_jvm = vm;</span><br><span class="line">        <span class="keyword">return</span> JNI_VERSION_1_4;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">JNIEXPORT <span class="keyword">void</span> <span class="title">JNI_OnUnload</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span> </span>&#123;</span><br><span class="line">        g_jvm = <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> LoginJNI &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// copied from base/android/jni_android.cc</span></span><br><span class="line">  <span class="function">JNIEnv* <span class="title">AttachCurrentThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    JNIEnv* env = <span class="literal">nullptr</span>;</span><br><span class="line">    jint ret = g_jvm-&gt;<span class="built_in">GetEnv</span>(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">void</span>**&gt;(&amp;env), JNI_VERSION_1_4);</span><br><span class="line">    <span class="keyword">if</span> (ret == JNI_EDETACHED || !env) &#123;</span><br><span class="line">      JavaVMAttachArgs args;</span><br><span class="line">      args.version = JNI_VERSION_1_4;</span><br><span class="line">      args.group = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 16 is the maximum size for thread names on Android.</span></span><br><span class="line">      <span class="keyword">char</span> thread_name[<span class="number">16</span>];</span><br><span class="line">      <span class="keyword">int</span> err = <span class="built_in">prctl</span>(PR_GET_NAME, thread_name);</span><br><span class="line">      <span class="keyword">if</span> (err &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// DPLOG(ERROR) &lt;&lt; &quot;prctl(PR_GET_NAME)&quot;;</span></span><br><span class="line">        args.name = <span class="literal">nullptr</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        args.name = thread_name;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      ret = g_jvm-&gt;<span class="built_in">AttachCurrentThread</span>(&amp;env, &amp;args);</span><br><span class="line">      <span class="comment">// CHECK_EQ(JNI_OK, ret);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> env;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// namespace LoginJNI</span></span><br></pre></td></tr></table></figure>
+<h3 id="Djinni">Djinni</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/dropbox/djinni">Djinni</a> is a tool for generating cross-language type declarations and interface bindings. It’s designed to connect C++ with either Java or Objective-C.</p>
+<p>You may noticed that if you use JNI directly without any auxiliary tools, C++ code of data type conversion and method call will be very complicated. One option is to use Djinni to help us generate these code. Of course, Djinni is not designed only to solve this problem.</p>
+<p>Djinni’s support lib has many data type conversion utils, you can see it here:</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/dropbox/djinni/blob/master/support-lib/jni/Marshal.hpp">https://github.com/dropbox/djinni/blob/master/support-lib/jni/Marshal.hpp</a></p>
+<h3 id="JNI-in-Chromium">JNI in Chromium</h3>
+<p>In Chromium project, JNI binding can be generated automatically with <code>jni_generator.py</code> configured in GN.</p>
+<p>Here is a simple demo of using JNI in Chromium.</p>
+<p>Java Code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// chrome/android/java/src/com/login/LoginUtils.java</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.login;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">someMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// LoginUtilsJni.java will be generated automatically</span></span><br><span class="line">        LoginUtilsJni.get().load();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NativeMethods</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Natives</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">load</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>C++ Code:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// componets/login/android/login_utils.cc</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// LoginUtils_jni.h will be generated automatically</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;chrome/android/chrome_jni_headers/LoginUtils_jni.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">JNI_LoginUtils_Load</span><span class="params">(JNIEnv* env)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// implement native function here...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>GN Config:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">generate_jni(<span class="string">&quot;chrome_jni_headers&quot;</span>) &#123;</span><br><span class="line">    sources = [</span><br><span class="line">        <span class="string">&quot;java/src/com/login/LoginUtils.java&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/chrome_java_sources.gni</span></span><br><span class="line"></span><br><span class="line">chrome_java_sources = [</span><br><span class="line">    <span class="string">&quot;java/src/com/login/LoginUtils.java&quot;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>You can see some more details here.</p>
+<p><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromium/src/+/master/base/android/jni_generator/README.md">https://chromium.googlesource.com/chromium/src/+/master/base/android/jni_generator/README.md</a></p>
+<h2 id="Trouble-Shotting">Trouble Shotting</h2>
+<h3 id="Type-xxx-is-defined-multiple-times">Type xxx is defined multiple times</h3>
+<p>some Java class is duplicated, normally because some package is defined repeatedly through more than one targets.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Type android.support.customtabs.ICustomTabsCallback is defined multiple <span class="built_in">times</span></span><br></pre></td></tr></table></figure>
+<h3 id="Errors-from-jni-generator-py">Errors from jni_generator.py</h3>
+<p>Errors comes from <code>base/android/jni_generator/jni_generator.py</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Inner class (%s) can not be imported and used by JNI (%s). Please import the outer class and use Outer.Inner instead.</span><br><span class="line">Inner class (%s) can not be used directly by JNI. Please import the outer class, probably: import %s.%s;</span><br></pre></td></tr></table></figure>
+<p>By default, target of <code>chrome_public_apk</code> will generate JNI binding for all Java source code if found keywords <code>native</code>. But it has some issue currently. Some style of Java code is not supported.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use full class name as native method params or return type without import it,</span></span><br><span class="line"><span class="comment">// will recogonize it as an inner class com.xxx.java.util.UUID.</span></span><br><span class="line"><span class="comment">// SyntaxError: Inner class (java.util.UUID) can not be used directly by JNI.</span></span><br><span class="line"><span class="comment">// Please import the outer class, probably:</span></span><br><span class="line"><span class="comment">// import com.xxx.java.util.UUID</span></span><br><span class="line"><span class="keyword">package</span> com.xxx;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XXX</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">native</span> <span class="keyword">void</span> <span class="title">someMethod</span><span class="params">(java.util.UUID uuid)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use same name as the java.lang package,</span></span><br><span class="line"><span class="comment">// this type will be recognized as java.lang.InternalError.</span></span><br><span class="line"><span class="comment">// Ambiguous class (%s) can not be used directly by JNI.</span></span><br><span class="line"><span class="comment">// Please import it, probably:</span></span><br><span class="line"><span class="comment">// import java.lang.InternalError;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XXX</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">InternalError</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">native</span> <span class="keyword">void</span> <span class="title">someMethod</span><span class="params">(InternalError error)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If the code needs JNI binding generation, you can rewrite the code to make it works. If the code does not need JNI binding generation, you can exclude them from JNI sources.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">chrome_jni_sources_exclusions = []</span><br><span class="line">chrome_jni_sources_exclusions += [</span><br><span class="line">  <span class="string">&quot;//third_party/android_sdks/login/com/main/Main.java&quot;</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;chrome_public_apk_or_module_tmpl&quot;</span>) &#123;</span><br><span class="line">  chrome_public_common_apk_or_module_tmpl(target_name) &#123;</span><br><span class="line">    jni_sources_exclusions = chrome_jni_sources_exclusions</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="missing-and-no-known-rule-to-make-it">missing and no known rule to make it</h3>
+<p>You need to check if the missing files exists.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ninja: error: xxx.aar/java/cpp, needed by xxx, missing and no known rule to make it.</span><br></pre></td></tr></table></figure>
+<h3 id="Not-all-deps-support-the-Android-platform">Not all deps support the Android platform</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Exception: Not all deps support the Android platform: [u<span class="string">&#x27;com_xxx_java.build_config&#x27;</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">java_prebuilt(<span class="string">&quot;com_xxx_java&quot;</span>) &#123;</span><br><span class="line">  deps = [</span><br><span class="line">    <span class="string">&quot;:com_xxx_dep_java&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">java_prebuilt(<span class="string">&quot;com_xxx_dep_java&quot;</span>) &#123;</span><br><span class="line">  <span class="comment"># set supports_android as true</span></span><br><span class="line">  supports_android = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Dependency-Checks-Failed">Dependency Checks Failed</h3>
+<p>Normally, GN will run byte code checks for prebuilt jar/aar to ensure Java class dependencies is OK. If class A in target T1 dependent on class B in target T2, then target T1 should dependent on T2.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Target: //third_party/android_deps:com_google_zxing_android_core_java</span><br><span class="line">Class <span class="string">&quot;android/graphics/Point&quot;</span> not found on any classpath. Used by class <span class="string">&quot;com/google/zxing/client/android/camera/CameraConfigurationUtils&quot;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>If missing class is from Android SDK, you need to set <code>requires_android</code> to true for the target.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java_prebuilt(<span class="string">&quot;com_google_zxing_android_core_java&quot;</span>) &#123;</span><br><span class="line">  requires_android = <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If dependent class if from other target (maven package / local Java library / sources ), normally you need to add deps on the target.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java_prebuilt(<span class="string">&quot;target_a_java&quot;</span>) &#123;</span><br><span class="line">  deps = [</span><br><span class="line">    <span class="string">&quot;:target_b_java&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Sometimes a maven package can have optional dependencies of other packages, and code in these dependencies will only be called when running specified code logic. In this scenario, you may want to disable byte code checks. This can lead to risks of Runtime Error, so use this option only if you are pretty sure the class in the optional packages will not be called.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java_prebuilt(<span class="string">&quot;xxx_java&quot;</span>) &#123;</span><br><span class="line">  <span class="comment"># some deps are optional, skip bytecode checks</span></span><br><span class="line">  enable_bytecode_checks = <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="C-Build-Issue">C++ Build Issue</h3>
+<p>You may encounter some C++ build issue. For example, header file not found. Normally it is because of wrong <code>include_dirs</code> setting.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">../../third_party/xxx.h:7:10: fatal error: <span class="string">&#x27;xxx.hpp&#x27;</span> file not found</span><br><span class="line"><span class="comment">#include &quot;xxx.hpp&quot;</span></span><br></pre></td></tr></table></figure>
+<p>You can use <code>gn desc</code> to view all the variables for your target, including <code>sources</code>, <code>configs</code>, <code>include_dirs</code>, <code>cflags</code>, <code>defines</code>, <code>ldflags</code>, etc. Here is an incomplete output example.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">Target //third_party/xxx:xxx</span><br><span class="line"><span class="built_in">type</span>: source_set</span><br><span class="line">toolchain: //build/toolchain/android:android_clang_x86</span><br><span class="line"></span><br><span class="line">visibility</span><br><span class="line">  *</span><br><span class="line"></span><br><span class="line">metadata</span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">testonly</span><br><span class="line">  <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">check_includes</span><br><span class="line">  <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">allow_circular_includes_from</span><br><span class="line"></span><br><span class="line">sources</span><br><span class="line">  //third_party/xxx.h</span><br><span class="line">  //third_party/xxx.cpp</span><br><span class="line"></span><br><span class="line">configs (<span class="keyword">in</span> order applying, try also --tree)</span><br><span class="line">  //build/config:feature_flags</span><br><span class="line">  //build/config/compiler:afdo</span><br><span class="line">  //build/config/compiler:afdo_optimize_size</span><br><span class="line">  //build/config/compiler:compiler</span><br><span class="line">  //build/config/compiler:compiler_arm_fpu</span><br><span class="line">  //build/config/compiler:compiler_arm_thumb</span><br><span class="line">  //build/config/compiler:default_include_dirs</span><br><span class="line"></span><br><span class="line">arflags</span><br><span class="line">  -T</span><br><span class="line"></span><br><span class="line">asmflags</span><br><span class="line">  -fPIC</span><br><span class="line">  -fno-strict-aliasing</span><br><span class="line">  --param=ssp-buffer-size=4</span><br><span class="line">  -fno-stack-protector</span><br><span class="line">  -funwind-tables</span><br><span class="line">  -fPIC</span><br><span class="line"></span><br><span class="line">cflags</span><br><span class="line">  -fno-strict-aliasing</span><br><span class="line">  --param=ssp-buffer-size=4</span><br><span class="line">  -fno-stack-protector</span><br><span class="line">  -funwind-tables</span><br><span class="line">  -fPIC</span><br><span class="line">  -fcolor-diagnostics</span><br><span class="line">  -fmerge-all-constants</span><br><span class="line">  -fcrash-diagnostics-dir=../../tools/clang/crashreports</span><br><span class="line">  -Xclang</span><br><span class="line"></span><br><span class="line">cflags_c</span><br><span class="line">  -std=c11</span><br><span class="line">  --sysroot=../../third_party/android_ndk/toolchains/llvm/prebuilt/linux-x86_64/sysroot</span><br><span class="line">  -Wno-implicit-fallthrough</span><br><span class="line"></span><br><span class="line">cflags_cc</span><br><span class="line">  -isystem../../buildtools/third_party/libc++/trunk/include</span><br><span class="line">  -isystem../../buildtools/third_party/libc++abi/trunk/include</span><br><span class="line">  --sysroot=../../third_party/android_ndk/toolchains/llvm/prebuilt/linux-x86_64/sysroot</span><br><span class="line">  -fvisibility-inlines-hidden</span><br><span class="line">  -Xclang</span><br><span class="line">  -std=c++17</span><br><span class="line">  -fexceptions</span><br><span class="line">  -frtti</span><br><span class="line"></span><br><span class="line">defines</span><br><span class="line">  ANDROID</span><br><span class="line"></span><br><span class="line">include_dirs</span><br><span class="line">  //third_party/xxx</span><br><span class="line"></span><br><span class="line">ldflags</span><br><span class="line">  -Wl,--fatal-warnings</span><br><span class="line">  -Wl,--build-id</span><br><span class="line">  -fPIC</span><br><span class="line">  -Wl,-z,noexecstack</span><br><span class="line"></span><br><span class="line">Direct dependencies (try also <span class="string">&quot;--all&quot;</span>, <span class="string">&quot;--tree&quot;</span>, or even <span class="string">&quot;--all --tree&quot;</span>)</span><br><span class="line"></span><br><span class="line">libs</span><br><span class="line">  android_support</span><br><span class="line"></span><br><span class="line">externs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chromium-print-cpp-stack/" rel="bookmark">Chromium打印C++ Stack Trace</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/jni-in-chromium/" rel="bookmark">JNI Basics and Usage in Chromium</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-studio-projector/" rel="bookmark">Android Studio Projector远程开发的配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/redmi-flash/" rel="bookmark">红米Note 11 Pro 5G刷机救砖过程</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/adb-remote/" rel="bookmark">Use ADB in Remote Machine</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-performance/" rel="bookmark">Android性能优化流程与思路</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-scroll-velocity/" rel="bookmark">Android滚动组件图片加载优化与滚动速度的精确监听</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-crash-sdk/" rel="bookmark">Android Crash监控SDK设计思路</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/Chromium/" rel="tag"># Chromium</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/microsoft-interview/" rel="prev" title="微软面试经历和相关思考总结">
+      <i class="fa fa-chevron-left"></i> 微软面试经历和相关思考总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/large-project-build-speed-up/" rel="next" title="Speed up build in large project with right work flow">
+      Speed up build in large project with right work flow <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GN-Basics"><span class="nav-number">1.</span> <span class="nav-text">GN Basics</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ninja-and-GN"><span class="nav-number">1.1.</span> <span class="nav-text">Ninja and GN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GN-Script"><span class="nav-number">1.2.</span> <span class="nav-text">GN Script</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rule"><span class="nav-number">1.3.</span> <span class="nav-text">Rule</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Target"><span class="nav-number">1.4.</span> <span class="nav-text">Target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GN-Grammar"><span class="nav-number">1.5.</span> <span class="nav-text">GN Grammar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Frequently-Used-Commands"><span class="nav-number">1.6.</span> <span class="nav-text">Frequently Used Commands</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GN-in-Chromium-Android"><span class="nav-number">2.</span> <span class="nav-text">GN in Chromium Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-Config"><span class="nav-number">3.</span> <span class="nav-text">Using Config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Integrate-Android-Library-from-Sources"><span class="nav-number">4.</span> <span class="nav-text">Integrate Android Library from Sources</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-Resources-Manifest"><span class="nav-number">4.1.</span> <span class="nav-text">Android Resources &#x2F; Manifest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Override-Manifest-minSdkVersion"><span class="nav-number">4.2.</span> <span class="nav-text">Override Manifest minSdkVersion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-java"><span class="nav-number">4.3.</span> <span class="nav-text">R.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BuildConfig-java"><span class="nav-number">4.4.</span> <span class="nav-text">BuildConfig.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-code"><span class="nav-number">4.5.</span> <span class="nav-text">Java code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#assets"><span class="nav-number">4.6.</span> <span class="nav-text">assets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationProcessor"><span class="nav-number">4.7.</span> <span class="nav-text">AnnotationProcessor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDL"><span class="nav-number">4.8.</span> <span class="nav-text">AIDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPP-Source-Code"><span class="nav-number">4.9.</span> <span class="nav-text">CPP Source Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SO-File"><span class="nav-number">4.10.</span> <span class="nav-text">SO File</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Proguard"><span class="nav-number">5.</span> <span class="nav-text">Proguard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Integrate-Local-JAR-Files"><span class="nav-number">6.</span> <span class="nav-text">Integrate Local JAR Files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Integrate-Local-AAR-Files"><span class="nav-number">7.</span> <span class="nav-text">Integrate Local AAR Files</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Info-File-for-AAR"><span class="nav-number">7.1.</span> <span class="nav-text">Info File for AAR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Native-Libraries-so-files"><span class="nav-number">7.2.</span> <span class="nav-text">Native Libraries (.so files)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDL-and-Assets"><span class="nav-number">7.3.</span> <span class="nav-text">AIDL and Assets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ignore-Replace-Manifest-in-AAR"><span class="nav-number">7.4.</span> <span class="nav-text">Ignore&#x2F;Replace Manifest in AAR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Integrate-Maven-Project-with-Gradle"><span class="nav-number">8.</span> <span class="nav-text">Integrate Maven Project with Gradle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#More-Details-of-Java-Related-Rules"><span class="nav-number">9.</span> <span class="nav-text">More Details of Java Related Rules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-C-Code-into-Shared-Library"><span class="nav-number">10.</span> <span class="nav-text">Build C++ Code into Shared Library</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Defines-for-C-code"><span class="nav-number">10.1.</span> <span class="nav-text">Defines for C++ code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-exported-symbols"><span class="nav-number">10.2.</span> <span class="nav-text">Define exported symbols</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI-Config-for-so-File"><span class="nav-number">10.3.</span> <span class="nav-text">JNI Config for so File</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI"><span class="nav-number">11.</span> <span class="nav-text">JNI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-Calls-C"><span class="nav-number">11.1.</span> <span class="nav-text">Java Calls C++</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-Calls-Java"><span class="nav-number">11.2.</span> <span class="nav-text">C++ Calls Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNIEnv"><span class="nav-number">11.3.</span> <span class="nav-text">JNIEnv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Djinni"><span class="nav-number">11.4.</span> <span class="nav-text">Djinni</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI-in-Chromium"><span class="nav-number">11.5.</span> <span class="nav-text">JNI in Chromium</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Trouble-Shotting"><span class="nav-number">12.</span> <span class="nav-text">Trouble Shotting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Type-xxx-is-defined-multiple-times"><span class="nav-number">12.1.</span> <span class="nav-text">Type xxx is defined multiple times</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Errors-from-jni-generator-py"><span class="nav-number">12.2.</span> <span class="nav-text">Errors from jni_generator.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#missing-and-no-known-rule-to-make-it"><span class="nav-number">12.3.</span> <span class="nav-text">missing and no known rule to make it</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Not-all-deps-support-the-Android-platform"><span class="nav-number">12.4.</span> <span class="nav-text">Not all deps support the Android platform</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dependency-Checks-Failed"><span class="nav-number">12.5.</span> <span class="nav-text">Dependency Checks Failed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-Build-Issue"><span class="nav-number">12.6.</span> <span class="nav-text">C++ Build Issue</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

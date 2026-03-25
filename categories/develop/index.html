@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="搬砖的小明">
+<meta property="og:url" content="https://www.xiaoming.io/categories/develop/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="网站">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/categories/develop/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>分类: 开发技术 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content category">
+            
+
+  
+  
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">开发技术
+          <small>分类</small>
+        </h2>
+      </div>
+
+      
+    <div class="collection-year">
+      <span class="collection-header">2026</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2026-03-25T00:00:00+08:00"
+              content="2026-03-25">
+          03-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/openclaw-practice-week/" itemprop="url">
+            <span itemprop="name">使用OpenClaw一周后，我给自己建了个团队</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2026-03-19T00:00:00+08:00"
+              content="2026-03-19">
+          03-19
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/openclaw-control-ui-remote-access/" itemprop="url">
+            <span itemprop="name">远程访问 OpenClaw Control UI 的避坑指南与两种方案</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2024</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2024-11-22T22:00:00+08:00"
+              content="2024-11-22">
+          11-22
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-studio-projector/" itemprop="url">
+            <span itemprop="name">Android Studio Projector远程开发的配置</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2024-11-22T20:00:00+08:00"
+              content="2024-11-22">
+          11-22
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/redmi-flash/" itemprop="url">
+            <span itemprop="name">红米Note 11 Pro 5G刷机救砖过程</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2022</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2022-06-05T02:55:00+08:00"
+              content="2022-06-05">
+          06-05
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/optical-fiber-communication/" itemprop="url">
+            <span itemprop="name">光纤通信和家用万兆网络布线知识总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2021</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-10-01T12:00:00+08:00"
+              content="2021-10-01">
+          10-01
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/network-learning/" itemprop="url">
+            <span itemprop="name">计算机网络相关知识学习</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-08-12T12:00:00+08:00"
+              content="2021-08-12">
+          08-12
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/adb-remote/" itemprop="url">
+            <span itemprop="name">Use ADB in Remote Machine</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-07-01T12:00:00+08:00"
+              content="2021-07-01">
+          07-01
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/desktop-computer-knowledge/" itemprop="url">
+            <span itemprop="name">台式机组装知识系统梳理</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-06-07T12:00:00+08:00"
+              content="2021-06-07">
+          06-07
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/chromium-print-cpp-stack/" itemprop="url">
+            <span itemprop="name">Chromium打印C++ Stack Trace</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-05-02T12:00:00+08:00"
+              content="2021-05-02">
+          05-02
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/openwrt-godaddy-ddns/" itemprop="url">
+            <span itemprop="name">OpenWRT Godaddy DDNS设置</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-05-01T12:00:00+08:00"
+              content="2021-05-01">
+          05-01
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/pve-config-nic/" itemprop="url">
+            <span itemprop="name">PVE换网卡后重新设置网络</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-05-01T12:00:00+08:00"
+              content="2021-05-01">
+          05-01
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/pve-cannot-connect-network/" itemprop="url">
+            <span itemprop="name">PVE中虚拟机不能联网问题解决案例</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-01-14T12:00:00+08:00"
+              content="2021-01-14">
+          01-14
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/jni-in-chromium/" itemprop="url">
+            <span itemprop="name">JNI Basics and Usage in Chromium</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2020</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-11-25T12:00:00+08:00"
+              content="2020-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/large-project-build-speed-up/" itemprop="url">
+            <span itemprop="name">Speed up build in large project with right work flow</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-07-30T12:00:00+08:00"
+              content="2020-07-30">
+          07-30
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/gn-chromium-android/" itemprop="url">
+            <span itemprop="name">GN Cheat Sheet for Chromium Android</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-04-06T17:20:14+08:00"
+              content="2020-04-06">
+          04-06
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/graph-theory/" itemprop="url">
+            <span itemprop="name">图论基础知识、常用算法与LeetCode题解</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-04-04T16:08:39+08:00"
+              content="2020-04-04">
+          04-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/leetcode-intervals/" itemprop="url">
+            <span itemprop="name">LeetCode：区间类题目总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-04-04T16:08:07+08:00"
+              content="2020-04-04">
+          04-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/largest-bst-subtree/" itemprop="url">
+            <span itemprop="name">LeetCode：最大二叉搜索子树</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-04-04T16:07:45+08:00"
+              content="2020-04-04">
+          04-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/leetcode-next-permutation/" itemprop="url">
+            <span itemprop="name">LeetCode：下一个排列</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-04-04T16:06:48+08:00"
+              content="2020-04-04">
+          04-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/leetcode-integer-break/" itemprop="url">
+            <span itemprop="name">LeetCode：整数拆分问题</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-04T10:43:30+08:00"
+              content="2020-03-04">
+          03-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-performance/" itemprop="url">
+            <span itemprop="name">Android性能优化流程与思路</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-04T09:44:04+08:00"
+              content="2020-03-04">
+          03-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-scroll-velocity/" itemprop="url">
+            <span itemprop="name">Android滚动组件图片加载优化与滚动速度的精确监听</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-04T03:30:53+08:00"
+              content="2020-03-04">
+          03-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-crash-sdk/" itemprop="url">
+            <span itemprop="name">Android Crash监控SDK设计思路</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-04T00:58:24+08:00"
+              content="2020-03-04">
+          03-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/wx-mini-program-dev/" itemprop="url">
+            <span itemprop="name">微信小程序开发填坑指南</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T22:45:23+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/nginx-config/" itemprop="url">
+            <span itemprop="name">Nginx常用配置整理</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T22:44:28+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/supervisor-usage/" itemprop="url">
+            <span itemprop="name">Supervisor在Ubuntu中的使用总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T22:39:31+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/pm2-restart-process/" itemprop="url">
+            <span itemprop="name">PM2检查进程状态并重启</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T22:39:19+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/ubuntu-check-restart-service/" itemprop="url">
+            <span itemprop="name">Ubuntu检查服务状态并启动服务</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T20:26:42+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/shell-count-code-lines/" itemprop="url">
+            <span itemprop="name">find和grep命令统计代码行数及原理</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T20:11:02+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/linux-copy-many-files/" itemprop="url">
+            <span itemprop="name">Linux借助管道远程复制大量文件</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T19:39:59+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/leetcode-top-k/" itemprop="url">
+            <span itemprop="name">LeetCode：Top K问题</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T19:39:29+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/leetcode-word-ladder/" itemprop="url">
+            <span itemprop="name">LeetCode：单词接龙算法实现与优化</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T19:26:31+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/leetcode-place-flowers/" itemprop="url">
+            <span itemprop="name">LeetCode：种花问题实现与优化</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T19:22:08+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/quick-sort/" itemprop="url">
+            <span itemprop="name">快速排序算法分析与实现</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T19:11:23+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/java-reference/" itemprop="url">
+            <span itemprop="name">Java引用类型简介与应用</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T19:07:46+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/java-collections/" itemprop="url">
+            <span itemprop="name">Java数据结构与集合学习笔记</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T18:06:10+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/java-thread/" itemprop="url">
+            <span itemprop="name">Java线程相关基础知识梳理</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-03T18:01:33+08:00"
+              content="2020-03-03">
+          03-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/sparse-array/" itemprop="url">
+            <span itemprop="name">SparseArray源码分析与性能优化</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-26T15:54:39+08:00"
+              content="2020-02-26">
+          02-26
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/time-tracer/" itemprop="url">
+            <span itemprop="name">基于AOP思想的Android方法耗时开源分析工具TimeTracer</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-08T17:21:37+08:00"
+              content="2020-02-08">
+          02-08
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/dynamic-proxy-java-bus/" itemprop="url">
+            <span itemprop="name">一种基于动态代理实现的Android/Java总线通信组件</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-04T16:59:17+08:00"
+              content="2020-02-04">
+          02-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/publish-markdown-tech/" itemprop="url">
+            <span itemprop="name">PublishMarkdown技术实现</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-04T01:43:51+08:00"
+              content="2020-02-04">
+          02-04
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/publish-markdown/" itemprop="url">
+            <span itemprop="name">WordPress+PublishMarkdown快速构建个人博客</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-02T23:34:11+08:00"
+              content="2020-02-02">
+          02-02
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/constraint-layout/" itemprop="url">
+            <span itemprop="name">Android ConstraintLayout实例学习（含源码）</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-02T23:11:39+08:00"
+              content="2020-02-02">
+          02-02
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/npm-yarn-taobao-mirror/" itemprop="url">
+            <span itemprop="name">设置 npm 和 yarn 的镜像源为淘宝镜像源</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-01-17T16:53:46+08:00"
+              content="2020-01-17">
+          01-17
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/infer/" itemprop="url">
+            <span itemprop="name">空指针静态代码检查工具Infer</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-01-17T16:32:25+08:00"
+              content="2020-01-17">
+          01-17
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-motion-event/" itemprop="url">
+            <span itemprop="name">Android事件分发知识点整理</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-01-17T14:07:37+08:00"
+              content="2020-01-17">
+          01-17
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/jenkins-android-setup/" itemprop="url">
+            <span itemprop="name">Linux中配置Jenkins集成Android项目</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-01-12T18:14:19+08:00"
+              content="2020-01-12">
+          01-12
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-build-error/" itemprop="url">
+            <span itemprop="name">Android常见编译问题与解决思路</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-01-11T20:54:47+08:00"
+              content="2020-01-11">
+          01-11
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-resource-naming/" itemprop="url">
+            <span itemprop="name">Android项目资源文件命名规范参考</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2018</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-11-01T18:50:49+08:00"
+              content="2018-11-01">
+          11-01
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/node-sharp/" itemprop="url">
+            <span itemprop="name">sharp图片库用法总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2017</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-12-30T16:15:22+08:00"
+              content="2017-12-30">
+          12-30
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-lint-2-implements/" itemprop="url">
+            <span itemprop="name">Android Lint：自定义Lint调试与开发</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-12-30T16:14:43+08:00"
+              content="2017-12-30">
+          12-30
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-lint-1-usage/" itemprop="url">
+            <span itemprop="name">Android Lint：基本使用与配置</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-12-01T19:24:52+08:00"
+              content="2017-12-01">
+          12-01
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/gson-technic/" itemprop="url">
+            <span itemprop="name">Gson TypeAdapter使用技巧几例：数据免判空、解析后校验、预处理</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-12-01T19:24:26+08:00"
+              content="2017-12-01">
+          12-01
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/gson-study/" itemprop="url">
+            <span itemprop="name">Gson源码设计学习</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-10-15T20:48:27+08:00"
+              content="2017-10-15">
+          10-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/online-video-download/" itemprop="url">
+            <span itemprop="name">网页视频通用下载方法(支持网易云音乐MV、优酷等)</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-09-08T20:27:40+08:00"
+              content="2017-09-08">
+          09-08
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/gradle-develop-basics/" itemprop="url">
+            <span itemprop="name">Gradle开发快速入门——DSL语法原理与常用API介绍</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-09-08T20:17:22+08:00"
+              content="2017-09-08">
+          09-08
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-gradle-basics/" itemprop="url">
+            <span itemprop="name">Android Gradle配置快速入门</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-05-27T17:13:05+08:00"
+              content="2017-05-27">
+          05-27
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/nine-patch-usage/" itemprop="url">
+            <span itemprop="name">NinePatch图（9-Patch图，.9图）使用全面介绍</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-04-15T11:32:08+08:00"
+              content="2017-04-15">
+          04-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-bitmap/" itemprop="url">
+            <span itemprop="name">Android Bitmap操作内存问题总结(图片处理、截屏等)</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-04-15T10:53:25+08:00"
+              content="2017-04-15">
+          04-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/glide-study/" itemprop="url">
+            <span itemprop="name">Glide使用简介与源码分析</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-04-15T10:51:27+08:00"
+              content="2017-04-15">
+          04-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-7-ratingbar-bug/" itemprop="url">
+            <span itemprop="name">Android 7.0中RatingBar评星点击区域不准确的解决</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2017-04-15T10:39:58+08:00"
+              content="2017-04-15">
+          04-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-studio-skill/" itemprop="url">
+            <span itemprop="name">你可能不知道的Android Studio/IDEA使用技巧</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2016</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-26T01:49:51+08:00"
+              content="2016-11-26">
+          11-26
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/fragment-visibility/" itemprop="url">
+            <span itemprop="name">Android Fragment可见性的判断与监听完全实现</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-26T01:01:44+08:00"
+              content="2016-11-26">
+          11-26
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/gradle-plugin-and-principle/" itemprop="url">
+            <span itemprop="name">Gradle插件开发与执行原理浅析</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-26T00:24:59+08:00"
+              content="2016-11-26">
+          11-26
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-async-message/" itemprop="url">
+            <span itemprop="name">Android Asynchronous Message（异步消息）</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-26T00:08:24+08:00"
+              content="2016-11-26">
+          11-26
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/mysql-basic-usage/" itemprop="url">
+            <span itemprop="name">MySQL基本命令总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T23:47:36+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/mysql57-change-password/" itemprop="url">
+            <span itemprop="name">MySQL 5.7.16可登陆Shell但不能改root密码</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T23:25:18+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/mac-tomcat/" itemprop="url">
+            <span itemprop="name">MAC安装配置Tomcat</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T23:17:43+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/ubuntu-lnmp/" itemprop="url">
+            <span itemprop="name">Ubuntu搭建LNMP</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T22:49:12+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/volley-cancel-request/" itemprop="url">
+            <span itemprop="name">Volley网络请求取消的实现</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T22:37:29+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-scale-type/" itemprop="url">
+            <span itemprop="name">Android中ScaleType速查总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T22:24:12+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-9-patch/" itemprop="url">
+            <span itemprop="name">Android中的9-Patch（.9图）总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T22:17:02+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-media-player-codec/" itemprop="url">
+            <span itemprop="name">编码格式导致Android中MediaPlayer播放视频失败</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T22:12:40+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-device-connect-mac/" itemprop="url">
+            <span itemprop="name">Android手机无法连接Mac</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-11-25T22:11:19+08:00"
+              content="2016-11-25">
+          11-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/adb-usage/" itemprop="url">
+            <span itemprop="name">常用ADB指令</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-08-03T15:29:23+08:00"
+              content="2016-08-03">
+          08-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/observable-scroll-view/" itemprop="url">
+            <span itemprop="name">ScrollView滚动事件和滚动状态（开始、停止）的监听实现</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-06-16T18:31:15+08:00"
+              content="2016-06-16">
+          06-16
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/charles-charset-incorrect/" itemprop="url">
+            <span itemprop="name">Charles设置MapLocal乱码的解决</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-06-03T18:03:47+08:00"
+              content="2016-06-03">
+          06-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-3d-rotate-animation/" itemprop="url">
+            <span itemprop="name">Android利用ObjectAnimator实现3D翻转动画</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-06-03T17:59:25+08:00"
+              content="2016-06-03">
+          06-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-animation-4/" itemprop="url">
+            <span itemprop="name">Android Animation完全总结（四）其他</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-06-03T17:59:04+08:00"
+              content="2016-06-03">
+          06-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-animation-3/" itemprop="url">
+            <span itemprop="name">Android Animation完全总结（三）Animator与LayoutTransition</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-06-03T17:58:09+08:00"
+              content="2016-06-03">
+          06-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-animation-2/" itemprop="url">
+            <span itemprop="name">Android Animation完全总结（二）Animation动画与LayoutAnimation</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-06-03T17:57:25+08:00"
+              content="2016-06-03">
+          06-03
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-animation-1/" itemprop="url">
+            <span itemprop="name">Android Animation完全总结（一） Drawable动画</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-05-18T20:25:40+08:00"
+              content="2016-05-18">
+          05-18
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-enum-annotation/" itemprop="url">
+            <span itemprop="name">Android中用IntDef、StringDef注解代替Enum枚举类型</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-02-15T20:00:52+08:00"
+              content="2016-02-15">
+          02-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/gradle-dependencies/" itemprop="url">
+            <span itemprop="name">Gradle依赖项学习总结，dependencies、transitive、force、exclude的使用与依赖冲突解决</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-02-15T19:57:47+08:00"
+              content="2016-02-15">
+          02-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/gradle-download-jar-file/" itemprop="url">
+            <span itemprop="name">Gradle不能下载jar包的解决思路</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2016-02-15T19:31:50+08:00"
+              content="2016-02-15">
+          02-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-empty-test-suite/" itemprop="url">
+            <span itemprop="name">Android单元测试“Unable to find instrumentation info for: ComponentInfo{} Empty Test Suite”的解决思路</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <span class="collection-header">2015</span>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-11-19T14:17:27+08:00"
+              content="2015-11-19">
+          11-19
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-animation-crash/" itemprop="url">
+            <span itemprop="name">Android Animation实现元素在屏幕上按照指定轨迹运动，以及出现NullPointerException的解决方案</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-09-25T00:03:26+08:00"
+              content="2015-09-25">
+          09-25
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/wp-auto-postname/" itemprop="url">
+            <span itemprop="name">WordPress离线发表文章自动生成别名</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-09-20T23:30:29+08:00"
+              content="2015-09-20">
+          09-20
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/oscilloscope-digital-trigger/" itemprop="url">
+            <span itemprop="name">示波器的数字触发技术</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-09-20T23:01:09+08:00"
+              content="2015-09-20">
+          09-20
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/matlab-dec2bin/" itemprop="url">
+            <span itemprop="name">Matlab十进制整数转换成二级制补码</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-09-18T12:08:49+08:00"
+              content="2015-09-18">
+          09-18
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/android-popup-window/" itemprop="url">
+            <span itemprop="name">安卓PopupWindow使用详解与源码分析（附项目实例）</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-09-13T09:45:15+08:00"
+              content="2015-09-13">
+          09-13
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/wp-log/" itemprop="url">
+            <span itemprop="name">WordPress主题输出Log信息</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-09-13T09:27:58+08:00"
+              content="2015-09-13">
+          09-13
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/wp-custom-smiley/" itemprop="url">
+            <span itemprop="name">WordPress主题自定义表情及表情名称</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-08-23T20:20:17+08:00"
+              content="2015-08-23">
+          08-23
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/vivado-ram-ip-core/" itemprop="url">
+            <span itemprop="name">Vivado中ROM/RAM IP核的使用</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-04-24T13:22:37+08:00"
+              content="2015-04-24">
+          04-24
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/vivado-basic-usage-3/" itemprop="url">
+            <span itemprop="name">Xilinx Vivado的使用详细介绍（3）：使用IP核</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-04-24T13:19:16+08:00"
+              content="2015-04-24">
+          04-24
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/vivado-basic-usage-2/" itemprop="url">
+            <span itemprop="name">Xilinx Vivado的使用详细介绍（2）：综合、实现、管脚分配、时钟设置、烧写</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-04-23T21:00:25+08:00"
+              content="2015-04-23">
+          04-23
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/vivado-basic-usage-1/" itemprop="url">
+            <span itemprop="name">Xilinx Vivado的使用详细介绍（1）：创建工程、编写代码、行为仿真、Testbench</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-04-22T18:03:10+08:00"
+              content="2015-04-22">
+          04-22
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/verilog-sync-async/" itemprop="url">
+            <span itemprop="name">Verilog一例（同步与异步时序）</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-04-16T13:18:14+08:00"
+              content="2015-04-16">
+          04-16
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/vivado-crack/" itemprop="url">
+            <span itemprop="name">Xilinx Vivado软件破解方法（附License）</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2015-04-15T22:50:56+08:00"
+              content="2015-04-15">
+          04-15
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/quartus-basic-usage/" itemprop="url">
+            <span itemprop="name">Quartus基本操作学习总结</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+    </div>
+  </div>
+  
+  
+  
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/categories/develop/page/2/">2</a><a class="extend next" rel="next" href="/categories/develop/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

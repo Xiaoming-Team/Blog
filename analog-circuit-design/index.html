@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本篇结合我的亲身体会，通过简单的举例，来说明模拟电路设计的一些特点，希望对有意从事模拟电路设计相关方向的同学有所帮助。 理论知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模拟电路设计：理论的神话与残酷的现实">
+<meta property="og:url" content="https://www.xiaoming.io/analog-circuit-design/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本篇结合我的亲身体会，通过简单的举例，来说明模拟电路设计的一些特点，希望对有意从事模拟电路设计相关方向的同学有所帮助。 理论知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/07e323fade0faa43620c4e1d55ad38ac.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8c29beca819110a4a8ca2aa9ec88ad28.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8e5af687a2d6e141274ec6c10af64d2e.png">
+<meta property="article:published_time" content="2014-12-22T13:09:18.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.395Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="电路设计">
+<meta property="article:tag" content="硬件开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/07e323fade0faa43620c4e1d55ad38ac.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/analog-circuit-design/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>模拟电路设计：理论的神话与残酷的现实 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/analog-circuit-design/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          模拟电路设计：理论的神话与残酷的现实
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-12-22 21:09:18" itemprop="dateCreated datePublished" datetime="2014-12-22T21:09:18+08:00">2014-12-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/analog-circuit-design/" class="post-meta-item leancloud_visitors" data-flag-title="模拟电路设计：理论的神话与残酷的现实" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/analog-circuit-design/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/analog-circuit-design/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本篇结合我的亲身体会，通过简单的举例，来说明模拟电路设计的一些特点，希望对有意从事模拟电路设计相关方向的同学有所帮助。</p>
+<h2 id="理论知识">理论知识</h2>
+<p>模拟电路需要的理论知识比较多，需要用到不少数学计算，电路基础、信号与系统等学科，而这些学科又需要用到高等数学、线性代数、复变函数等数学基础。当然用到的数学知识不是很复杂，一般是比较基本的数学知识，高数中的微积分、线性代数中的矩阵、复变函数中的复数运算等。很多计算和物理电学中的计算有点像，数学上不是很复杂，但每个式子背后的原理很多，还要考虑很多现实因素。之所以模拟电路学起来难，有一个因素就是不少人大学期间的数学基础没学好，对理论计算有种恐惧心理（学的时候不知道干什么，用的时候才发现没学好）。</p>
+<h2 id="科学家与工程师">科学家与工程师</h2>
+<p>三极管是模拟电路当中非常基础和重要的知识。</p>
+<p>一方面，科学家（物理学家、化学家等）从微观角度进行理论分析、假设与实验，研制出了三极管这种器件，具有放大作用，但是放大效果并不理想。三极管的放大倍数，受到温度、电源电压、输入电压等因素的影响，实在是太不理想化了。科学家已经尽力了，或许有一天，能找到更加完美的放大器件，比三极管好用。</p>
+<p>另一方面，理想的放大器的放大倍数应该是恒定的，不然输出就会忽大忽小。我们生活中不能缺少比较理想的放大器，因为我们要用放大器制造电话、扩音喇叭等各种设备。</p>
+<p>协调这两方面的冲突，解决这种难题，就是工程师的任务了；模拟电路的核心正是工程思想。工程师不关注三极管怎么被发明的，只关注三极管有什么特性，关注人们实际生活中需要什么样的电路。然后设法用不完美的器件，制造出尽可能满足人们需要的设备。利用不完美的东西去创造完美，工程很多时候就是在做这件事。</p>
+<p>三极管的特性：学习三极管一般都从PN结基本原理开始，涉及一点化学分子方面的知识。在模拟电路中，主要关注PN结的特性，而不做进一步深入。</p>
+<p>解决难题的方法：三极管放大倍数不稳定，我们可以通过负反馈的形式，牺牲放大倍数，实现放大倍数的稳定。</p>
+<p><img data-src="/blog-imgs/tech/images/07e323fade0faa43620c4e1d55ad38ac.png" alt=""></p>
+<h2 id="信号与系统">信号与系统</h2>
+<p>信号与系统是一门很重要的基础理论课。信号系统这门课很抽象，基本上就是在学数学。而正是因为它的抽象，能应用到很多学科中来。信号系统不仅能用到电路中，也能用到力学系统中，还能用到声学系统中（例如音箱的声学设计）。信号系统这门理论课有点不好理解，因为不知道它如何应用。我们能做的就是不要过早的问为什么，先踏踏实实把那些理论知识记住，后面再去实践（理论与实践相结合的学习固然更好，但知识很难安排）。</p>
+<p>何为负反馈，以及如何实现了放大器放大倍数的稳定，可参考《我对模拟电路课程的理解》 <a href="http://www.xiaoming.io/analog-circuit">http://www.xiaoming.io/analog-circuit</a></p>
+<h2 id="理论的神话与残酷的现实">理论的神话与残酷的现实</h2>
+<p>模拟电路尤其是高频/射频，难度往往很大，除了需要较多理论知识，还需要大量经验积累。做电赛的时深有体会，模拟电路的设计不容易，即使是最简单的运放积分器。理想情况下，积分器电路如下图，理论分析也比较简单（学过信号系统和模电的人应该能理解，这里不做分析）。</p>
+<p><img data-src="/blog-imgs/tech/images/8c29beca819110a4a8ca2aa9ec88ad28.png" alt=""></p>
+<p>而实际上这样的电路往往不能工作，因为运放等器件的非理想特性使然。即便是最基本的导线都有电阻，理论分析很难考虑那么多非理想因素。实际上一般需要再添加一些器件，如下图。</p>
+<p><img data-src="/blog-imgs/tech/images/8e5af687a2d6e141274ec6c10af64d2e.png" alt=""></p>
+<p>即使完善了电路，每个器件参数也不能任意取值，甚至电源、布线也有讲究。特别是在高频/射频中，元器件之间会因为电磁波互相干扰，解决这些问题又需要用到一些类似信号系统的理论课程知识。最后才能实现设想的积分器效果，并且只能在给定的条件下正常工作（可以想象一下收音机，或者以前用天线的电视机，人靠近了都可能会影响电视机的工作）。</p>
+<h2 id="理论分析-软件仿真-实际电路">理论分析/软件仿真/实际电路</h2>
+<p>在模拟电路设计中，通常的设计流程是，先进行理论分析，设计出电路，然后通过仿真软件进行验证，最后制作实际电路，并进行修改和调试。对于简单和要求较低的电路，可以尝试先用面包板搭建，再进行焊接；对于一些要求较高的电路，例如要求大电流，高频率等，面包板就很难实现了；甚至万用焊板焊接的也不能使用，还得设计PCB进行尝试，过程就比较麻烦了。</p>
+<p>整体的情况是，理论分析和仿真电路差远了；而仿真电路和实际电路又差远了。像前面举的例子，不少看似简单的电路，完全按照最初设计的电路去搭建，很可能不工作。这个时候就需要通过仪器测试等辅助手段，进行分析和电路改进了。</p>
+<h2 id="芯片手册">芯片手册</h2>
+<p>芯片手册在电路设计的过程中是经常要用到的参考资料，特别是集成芯片的手册，当然很多基本元件包括三极管、MOS管等也有芯片手册。</p>
+<p>现代电路设计往往都会用芯片，而不是完全由分立元件搭建。芯片一旦设计出来，批量制造能大大节省成本，提高电路设计效率。很多时候用运算放大器来设计放大器，远比用分立的三极管等器件容易，并且反而节省了不小的成本。</p>
+<p>芯片手册中会有器件的封装、管脚等基本信息，还有使用电压、温度、湿度范围的要求，芯片往往还有内部构造的框图等内容，甚至有些芯片特别是高频和大功率的芯片，还会给出参考PCB设计图。</p>
+<p>学会阅读芯片手册，是模拟电路设计必不可少的基本技能。很多芯片手册都是英文版的，这时不得不去熟悉各种英文的专业名词术语。关于这个话题，在下文中有较为详细的讨论：</p>
+<p>《不要惧怕英文——英文的作用和重要性》 <a href="http://www.xiaoming.io/english">http://www.xiaoming.io/english</a></p>
+<h2 id="丰富的经验">丰富的经验</h2>
+<p>解决模拟电路中的很多问题，需要大量经验积累，很多时候很难用理论去解释一些问题，因为太复杂了。经验很丰富的硬件工程师非常难得（例如几十年经验），年薪百万都不成问题。所以如果对硬件很感兴趣，可以一直做下去，往往越老越吃香。</p>
+<p>这些知识很多很杂，很难被整理出来（潜心做技术的工程师很多都不太善于表达，也没有那么多精力）；即使整理出来成书，也很难快速的被别人学会；而且有些情况下，这些知识往往价值很高，不一定会随便公开（例如国外的很多保密的高科技）。从全人类的角度来看，这些知识的传播也是个亟待解决的难题。</p>
+<h2 id="学习条件">学习条件</h2>
+<p>学习硬件不仅是难度大，而且很烧钱。最好通过竞赛来学习，因为往往实验室才能提供各种价格高昂的仪器，竞赛则会有经费购买各种器件，从而能有充足的学习条件。电赛时很多学校条件不够，甚至没有几台示波器，只能做单片机控制类方向。但是在西电，高频、开关电源、仪器仪表等各种方向都有充足的条件（学校对电赛非常重视，提供的经费也比较多，但是想参与进来要求也比较高）。较好的学校资金比较充足，图书馆特别是实验室能提供更多难得的学习机会。</p>
+<p>西电的电赛过程可参考《2013电赛总结【西电专用】》 <a href="http://www.xiaoming.io/nuedc">http://www.xiaoming.io/nuedc</a></p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-16/" rel="bookmark">单片机小白学步(16) 单片机/计算机系统概述：模块化思想</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/embedded/" rel="prev" title="嵌入式科普：基本概念，设计流程，开发特点，如何学习">
+      <i class="fa fa-chevron-left"></i> 嵌入式科普：基本概念，设计流程，开发特点，如何学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/programmer-job-change/" rel="next" title="程序员转行一般做什么">
+      程序员转行一般做什么 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">理论知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%91%E5%AD%A6%E5%AE%B6%E4%B8%8E%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="nav-number">2.</span> <span class="nav-text">科学家与工程师</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text">信号与系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E7%9A%84%E7%A5%9E%E8%AF%9D%E4%B8%8E%E6%AE%8B%E9%85%B7%E7%9A%84%E7%8E%B0%E5%AE%9E"><span class="nav-number">4.</span> <span class="nav-text">理论的神话与残酷的现实</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%88%86%E6%9E%90-%E8%BD%AF%E4%BB%B6%E4%BB%BF%E7%9C%9F-%E5%AE%9E%E9%99%85%E7%94%B5%E8%B7%AF"><span class="nav-number">5.</span> <span class="nav-text">理论分析&#x2F;软件仿真&#x2F;实际电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8A%AF%E7%89%87%E6%89%8B%E5%86%8C"><span class="nav-number">6.</span> <span class="nav-text">芯片手册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B0%E5%AF%8C%E7%9A%84%E7%BB%8F%E9%AA%8C"><span class="nav-number">7.</span> <span class="nav-text">丰富的经验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E6%9D%A1%E4%BB%B6"><span class="nav-number">8.</span> <span class="nav-text">学习条件</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="这篇文章写的比较早，很多内容理解的不是很好，建议阅读本人最新文章Gradle开发快速入门——DSL语法原理与常用API介绍 环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle插件开发与执行原理浅析">
+<meta property="og:url" content="https://www.xiaoming.io/gradle-plugin-and-principle/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="这篇文章写的比较早，很多内容理解的不是很好，建议阅读本人最新文章Gradle开发快速入门——DSL语法原理与常用API介绍 环境">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-11-25T17:01:44.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.394Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="安卓">
+<meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="Gradle">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/gradle-plugin-and-principle/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Gradle插件开发与执行原理浅析 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/gradle-plugin-and-principle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gradle插件开发与执行原理浅析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-11-26 01:01:44" itemprop="dateCreated datePublished" datetime="2016-11-26T01:01:44+08:00">2016-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/gradle-plugin-and-principle/" class="post-meta-item leancloud_visitors" data-flag-title="Gradle插件开发与执行原理浅析" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/gradle-plugin-and-principle/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/gradle-plugin-and-principle/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>这篇文章写的比较早，很多内容理解的不是很好，建议阅读本人最新文章<a href="http://www.xiaoming.io/gradle-develop-basics">Gradle开发快速入门——DSL语法原理与常用API介绍</a></strong></p>
+<h2 id="环境">环境</h2>
+<p>配置gradle（加入环境变量）</p>
+<h2 id="简单插件开发">简单插件开发</h2>
+<p>新建一个gradle项目，在工程(主工程或子工程均可)根目录添加一个HelloPlugin.gradle文件</p>
+<ol>
+<li>
+<p><code>apply plugin: HelloPlugin</code></p>
+</li>
+<li>
+<p><code>class MyExtension &#123;</code></p>
+</li>
+<li>
+<p><code>Boolean enable = true</code></p>
+</li>
+<li>
+<p><code>String text = ''</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>class HelloPlugin implements Plugin&lt;Project&gt; &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>void apply(Project project) &#123;</code></p>
+</li>
+<li>
+<p><code>project.extensions.create('hello', MyExtension)</code></p>
+</li>
+<li>
+<p><code>project.task('hello') &lt;&lt; &#123;</code></p>
+</li>
+<li>
+<p><code>MyExtension ext = project.extensions.hello;</code></p>
+</li>
+<li>
+<p><code>if (ext.enable) &#123;</code></p>
+</li>
+<li>
+<p><code>println &quot;Hello $&#123;ext.text&#125;!&quot;</code></p>
+</li>
+<li>
+<p><code>&#125; else &#123;</code></p>
+</li>
+<li>
+<p><code>println 'HelloPlugin is disabled.'</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<p>在工程根目录对应的build.gradle中添加以下代码</p>
+<ol>
+<li>
+<p><code>// 调用HelloPlugin.gradle中的代码</code></p>
+</li>
+<li>
+<p><code>apply from: 'HelloPlugin.gradle'</code></p>
+</li>
+<li>
+<p><code>// 设置参数</code></p>
+</li>
+<li>
+<p><code>hello &#123;</code></p>
+</li>
+<li>
+<p><code>enable = true</code></p>
+</li>
+<li>
+<p><code>text = 'World'</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<p>在工程根目录执行命令行，即可看到插件中定义的Task(hello)被执行</p>
+<ol>
+<li>
+<p><code>➜ GradleStudy gradle hello</code></p>
+</li>
+<li>
+<p><code>:hello</code></p>
+</li>
+<li>
+<p><code>Hello World!</code></p>
+</li>
+<li>
+<p><code>BUILD SUCCESSFUL</code></p>
+</li>
+<li>
+<p><code>Total time: 0.675 secs</code></p>
+</li>
+</ol>
+<h2 id="独立工程中开发插件">独立工程中开发插件</h2>
+<h3 id="创建工程">创建工程</h3>
+<p>后面的示例用命令行直接开发，先创建一个文件夹(project-dir)用于存放工程。用命令行写Java比较麻烦，但是之所以用命令行，是为了更好的理解gradle。</p>
+<ol>
+<li><code>➜ ~ mkdir hello_proj</code></li>
+<li><code>➜ ~ cd hello_proj</code></li>
+<li><code>➜ hello_proj</code></li>
+</ol>
+<blockquote>
+<p>也可以使用AndroidStudio或IDEA创建一个空的gradle项目。直接使用RootProject开发，则project-dir就是根目录；如果新建子模块开发，则project-dir就是这个模块的目录。</p>
+</blockquote>
+<p>工程根目录下创建工程的gradle配置文件：<code>&lt;project-dir&gt;/build.gradle</code></p>
+<ol>
+<li>
+<p><code>➜ hello_proj vim build.gradle</code></p>
+</li>
+<li>
+<p><code>apply plugin: 'groovy'</code></p>
+</li>
+<li>
+<p><code>apply plugin: 'maven'</code></p>
+</li>
+<li>
+<p><code>repositories &#123;</code></p>
+</li>
+<li>
+<p><code>mavenCentral()</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>dependencies &#123;</code></p>
+</li>
+<li>
+<p><code>//    compile 'org.codehaus.groovy:groovy-all:2.3.11' // Groovy支持(远程)</code></p>
+</li>
+<li>
+<p><code>compile localGroovy() // Groovy支持(本地)</code></p>
+</li>
+<li>
+<p><code>compile gradleApi() // GradleAPI支持</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<p>根目录再创建一个settings.build文件配置工程（如果直接使用RootProject，也可以不创建这个文件）：<code>&lt;project-dir&gt;/settings.gradle</code></p>
+<ol>
+<li>
+<p><code>➜ hello_proj vim settings.gradle</code></p>
+</li>
+<li>
+<p><code>rootProject.name = 'HelloPlugin'</code></p>
+</li>
+</ol>
+<h3 id="创建源码">创建源码</h3>
+<p>源码放在groovy插件默认的SourceSet源码目录下：<code>&lt;project-dir&gt;/src/main/groovy/&lt;package&gt;/&lt;class&gt;.groovy</code></p>
+<blockquote>
+<p>也可以在build.gradle中通过SourceSet命令指定源码和资源所在目录。</p>
+</blockquote>
+<ol>
+<li>
+<p><code>➜ hello_proj mkdir -pv src/main/groovy/com/jzj/groovy/</code></p>
+</li>
+<li>
+<p><code>➜ hello_proj cd src/main/groovy/com/jzj/groovy</code></p>
+</li>
+<li>
+<p><code>➜ groovy vim MyExtension.groovy</code></p>
+</li>
+<li>
+<p><code>➜ groovy vim HelloPlugin.groovy</code></p>
+</li>
+<li>
+<p><code>package com.jzj.groovy</code></p>
+</li>
+<li>
+<p><code>class MyExtension &#123;</code></p>
+</li>
+<li>
+<p><code>Boolean enable = true</code></p>
+</li>
+<li>
+<p><code>String text = ''</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>package com.jzj.groovy</code></p>
+</li>
+<li>
+<p><code>import org.gradle.api.Plugin</code></p>
+</li>
+<li>
+<p><code>import org.gradle.api.Project</code></p>
+</li>
+<li>
+<p><code>class HelloPlugin implements Plugin&lt;Project&gt; &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>void apply(Project project) &#123;</code></p>
+</li>
+<li>
+<p><code>project.extensions.create('hello', MyExtension)</code></p>
+</li>
+<li>
+<p><code>project.task('hello') &lt;&lt; &#123;</code></p>
+</li>
+<li>
+<p><code>MyExtension ext = project.extensions.hello;</code></p>
+</li>
+<li>
+<p><code>if (ext.enable) &#123;</code></p>
+</li>
+<li>
+<p><code>println &quot;Hello $&#123;ext.text&#125;!&quot;</code></p>
+</li>
+<li>
+<p><code>&#125; else &#123;</code></p>
+</li>
+<li>
+<p><code>println 'HelloPlugin is disabled.'</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<h3 id="创建资源文件">创建资源文件</h3>
+<p>资源文件放在groovy插件默认的SourceSet资源目录下：<code>&lt;module-dir&gt;/src/main/resources/META-INF/gradle-plugins/&lt;plugin-name&gt;.properties</code></p>
+<p>示例中定义的plugin-name是HelloPlugin</p>
+<ol>
+<li>
+<p><code>➜ groovy cd ..</code></p>
+</li>
+<li>
+<p><code>➜ jzj cd ..</code></p>
+</li>
+<li>
+<p><code>➜ com cd ..</code></p>
+</li>
+<li>
+<p><code>➜ groovy cd ..</code></p>
+</li>
+<li>
+<p><code>➜ main mkdir -pv resources/META-INF/gradle-plugins</code></p>
+</li>
+<li>
+<p><code>➜ main ls</code></p>
+</li>
+<li>
+<p><code>groovy    resources</code></p>
+</li>
+<li>
+<p><code>➜ main cd resources/META-INF/gradle-plugins</code></p>
+</li>
+<li>
+<p><code>➜ gradle-plugins vim HelloPlugin.properties</code></p>
+</li>
+<li>
+<p><code>implementation-class=com.jzj.groovy.HelloPlugin</code></p>
+</li>
+</ol>
+<p>此时在命令行中查看文件结构如下。如果是IDEA或AndroidStudio，源码和资源文件的目录会被显示成对应的图标。</p>
+<ol>
+<li>
+<p><code>➜ hello_proj tree</code></p>
+</li>
+<li>
+<p><code>.</code></p>
+</li>
+<li>
+<p><code>├── build.gradle</code></p>
+</li>
+<li>
+<p><code>├── settings.gradle</code></p>
+</li>
+<li>
+<p><code>└── src</code></p>
+</li>
+<li>
+<p><code>└── main</code></p>
+</li>
+<li>
+<p><code>├── groovy</code></p>
+</li>
+<li>
+<p><code>│ └── com</code></p>
+</li>
+<li>
+<p><code>│ └── jzj</code></p>
+</li>
+<li>
+<p><code>│ └── groovy</code></p>
+</li>
+<li>
+<p><code>│ ├── HelloPlugin.groovy</code></p>
+</li>
+<li>
+<p><code>│ └── MyExtension.groovy</code></p>
+</li>
+<li>
+<p><code>└── resources</code></p>
+</li>
+<li>
+<p><code>└── META-INF</code></p>
+</li>
+<li>
+<p><code>└── gradle-plugins</code></p>
+</li>
+<li>
+<p><code>└── HelloPlugin.properties</code></p>
+</li>
+<li>
+<p><code>9 directories, 5 files</code></p>
+</li>
+</ol>
+<p>源码可在此下载</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/jzj1993/HelloGradlePlugin">https://github.com/jzj1993/HelloGradlePlugin</a></p>
+</blockquote>
+<h3 id="打包">打包</h3>
+<p>在命令行所在目录执行gradle build打包</p>
+<ol>
+<li>
+<p><code>➜ hello_proj gradle build</code></p>
+</li>
+<li>
+<p><code>:compileJava UP-TO-DATE</code></p>
+</li>
+<li>
+<p><code>:compileGroovy</code></p>
+</li>
+<li>
+<p><code>:processResources</code></p>
+</li>
+<li>
+<p><code>:classes</code></p>
+</li>
+<li>
+<p><code>:jar</code></p>
+</li>
+<li>
+<p><code>:assemble</code></p>
+</li>
+<li>
+<p><code>:compileTestJava UP-TO-DATE</code></p>
+</li>
+<li>
+<p><code>:compileTestGroovy UP-TO-DATE</code></p>
+</li>
+<li>
+<p><code>:processTestResources UP-TO-DATE</code></p>
+</li>
+<li>
+<p><code>:testClasses UP-TO-DATE</code></p>
+</li>
+<li>
+<p><code>:test UP-TO-DATE</code></p>
+</li>
+<li>
+<p><code>:check UP-TO-DATE</code></p>
+</li>
+<li>
+<p><code>:build</code></p>
+</li>
+<li>
+<p><code>BUILD SUCCESSFUL</code></p>
+</li>
+<li>
+<p><code>Total time: 1.714 secs</code></p>
+</li>
+</ol>
+<p>打包后目录结构如下，默认文件输出到build目录下，<code>build/libs/HelloPlugin.jar</code>就是最终生成的插件</p>
+<ol>
+<li>
+<p><code>➜ hello_proj tree</code></p>
+</li>
+<li>
+<p><code>.</code></p>
+</li>
+<li>
+<p><code>├── build</code></p>
+</li>
+<li>
+<p><code>│ ├── classes</code></p>
+</li>
+<li>
+<p><code>│ │ └── main</code></p>
+</li>
+<li>
+<p><code>│ │ └── com</code></p>
+</li>
+<li>
+<p><code>│ │ └── jzj</code></p>
+</li>
+<li>
+<p><code>│ │ └── groovy</code></p>
+</li>
+<li>
+<p><code>│ │ ├── HelloPlugin$_apply_closure1.class</code></p>
+</li>
+<li>
+<p><code>│ │ ├── HelloPlugin.class</code></p>
+</li>
+<li>
+<p><code>│ │ └── MyExtension.class</code></p>
+</li>
+<li>
+<p><code>│ ├── libs</code></p>
+</li>
+<li>
+<p><code>│ │ └── HelloPlugin.jar</code></p>
+</li>
+<li>
+<p><code>│ ├── resources</code></p>
+</li>
+<li>
+<p><code>│ │ └── main</code></p>
+</li>
+<li>
+<p><code>│ │ └── META-INF</code></p>
+</li>
+<li>
+<p><code>│ │ └── gradle-plugins</code></p>
+</li>
+<li>
+<p><code>│ │ └── HelloPlugin.properties</code></p>
+</li>
+<li>
+<p><code>│ └── tmp</code></p>
+</li>
+<li>
+<p><code>│ ├── compileGroovy</code></p>
+</li>
+<li>
+<p><code>│ │ └── groovy-java-stubs</code></p>
+</li>
+<li>
+<p><code>│ └── jar</code></p>
+</li>
+<li>
+<p><code>│ └── MANIFEST.MF</code></p>
+</li>
+<li>
+<p><code>├── build.gradle</code></p>
+</li>
+<li>
+<p><code>├── settings.gradle</code></p>
+</li>
+<li>
+<p><code>└── src</code></p>
+</li>
+<li>
+<p><code>└── main</code></p>
+</li>
+<li>
+<p><code>├── groovy</code></p>
+</li>
+<li>
+<p><code>│ └── com</code></p>
+</li>
+<li>
+<p><code>│ └── jzj</code></p>
+</li>
+<li>
+<p><code>│ └── groovy</code></p>
+</li>
+<li>
+<p><code>│ ├── HelloPlugin.groovy</code></p>
+</li>
+<li>
+<p><code>│ └── MyExtension.groovy</code></p>
+</li>
+<li>
+<p><code>└── resources</code></p>
+</li>
+<li>
+<p><code>└── META-INF</code></p>
+</li>
+<li>
+<p><code>└── gradle-plugins</code></p>
+</li>
+<li>
+<p><code>└── HelloPlugin.properties</code></p>
+</li>
+<li>
+<p><code>24 directories, 11 files</code></p>
+</li>
+</ol>
+<h2 id="插件使用">插件使用</h2>
+<p>在需要使用插件的工程<code>build.gradle</code>中配置如下</p>
+<h3 id="BuildScript配置">BuildScript配置</h3>
+<p>通常在RootProject中的build.gradle中配置buildscript。和项目中的dependencies不同，buildscript代码块中的dependencies是在编译阶段需要依赖的包，而不会被编译进工程中。</p>
+<p>在buildscript中添加对Gradle插件的依赖。</p>
+<ul>
+<li>对于已经发布到远程的插件，可以使用<code>classpath 'group:name:version'</code>的格式。</li>
+<li>也可以将插件发布到本地Maven仓库，在repositories中添加本地maven仓库。</li>
+<li>还可以直接用本地jar文件，使用<code>classpath files('xxx.jar')</code>的方式依赖。</li>
+</ul>
+<ol>
+<li><code>buildscript &#123;</code></li>
+<li><code>repositories &#123;</code></li>
+<li><code>jcenter()</code></li>
+<li><code>// maven &#123; url uri('../repo') &#125; // 指定本地maven仓库的路径</code></li>
+<li><code>// ...</code></li>
+<li><code>&#125;</code></li>
+<li><code>dependencies &#123;</code></li>
+<li><code>// classpath 'com.jzj.gradle:HelloPlugin:0.0.1' // 依赖远程插件</code></li>
+<li><code>classpath files('HelloPlugin.jar') // 依赖本地文件，需要将jar文件放到项目根目录</code></li>
+<li><code>&#125;</code></li>
+<li><code>&#125;</code></li>
+</ol>
+<h3 id="Project配置">Project配置</h3>
+<p>对于需要使用插件的Project，在其build.gradle中添加下面的脚本。</p>
+<ol>
+<li>
+<p><code>// 应用插件</code></p>
+</li>
+<li>
+<p><code>apply plugin: 'HelloPlugin'</code></p>
+</li>
+<li>
+<p><code>// 插件配置</code></p>
+</li>
+<li>
+<p><code>hello &#123;</code></p>
+</li>
+<li>
+<p><code>enable = true</code></p>
+</li>
+<li>
+<p><code>text = 'World'</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<h3 id="执行">执行</h3>
+<p>在Project根目录运行gradle指令即可看到效果。</p>
+<ol>
+<li>
+<p><code>➜ GradleStudy gradle hello</code></p>
+</li>
+<li>
+<p><code>:hello</code></p>
+</li>
+<li>
+<p><code>Hello World!</code></p>
+</li>
+<li>
+<p><code>BUILD SUCCESSFUL</code></p>
+</li>
+<li>
+<p><code>Total time: 0.675 secs</code></p>
+</li>
+</ol>
+<h2 id="执行原理浅析">执行原理浅析</h2>
+<h3 id="Groovy">Groovy</h3>
+<ol>
+<li>Groovy是一种脚本语言，在Java基础上进行了一些扩展，支持闭包、动态类型等特性，兼容Java代码。</li>
+<li>每个Groovy脚本文件会编译生成一个继承自<code>groovy.lang.Script</code>的Java class。</li>
+</ol>
+<h4 id="动态类型">动态类型</h4>
+<ol>
+<li>
+<p><code>def var = 'text'</code></p>
+</li>
+<li>
+<p><code>println var</code></p>
+</li>
+<li>
+<p><code>var = 5</code></p>
+</li>
+<li>
+<p><code>println var + 1</code></p>
+</li>
+<li>
+<p><code>Object var = &quot;text&quot;;</code></p>
+</li>
+<li>
+<p><code>System.out.println((String)o);</code></p>
+</li>
+<li>
+<p><code>var = 5;</code></p>
+</li>
+<li>
+<p><code>System.out.println(String.valueof((Integer)o + 1));</code></p>
+</li>
+</ol>
+<h4 id="闭包-Closure">闭包 Closure</h4>
+<ol>
+<li>
+<p><code>Closure c = &#123; a, b -&gt;</code></p>
+</li>
+<li>
+<p><code>println a</code></p>
+</li>
+<li>
+<p><code>println b</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>c.call('text1', 5)</code></p>
+</li>
+<li>
+<p><code>public static void main(String[] args) &#123;</code></p>
+</li>
+<li>
+<p><code>abstract class MyClosure &#123;</code></p>
+</li>
+<li>
+<p><code>abstract void call(Object a, Object b);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>MyClosure c = new MyClosure() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>void call(Object a, Object b) &#123;</code></p>
+</li>
+<li>
+<p><code>System.out.println(a);</code></p>
+</li>
+<li>
+<p><code>System.out.println(b);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>c.call(&quot;text1&quot;, 5);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<h4 id="代理对象-DelegateObject">代理对象 DelegateObject</h4>
+<ul>
+<li>每个闭包都有一个代理对象，在闭包上未找到的属性和方法都会转给代理对象。</li>
+</ul>
+<ol>
+<li>
+<p><code>class MyDelegate &#123;</code></p>
+</li>
+<li>
+<p><code>def func() &#123;</code></p>
+</li>
+<li>
+<p><code>println 'func'</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>Closure c = &#123;</code></p>
+</li>
+<li>
+<p><code>func();</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>c.delegate = new MyDelegate()</code></p>
+</li>
+<li>
+<p><code>c.call()</code></p>
+</li>
+<li>
+<p><code>public static void main(String[] args) &#123;</code></p>
+</li>
+<li>
+<p><code>class MyDelegate &#123;</code></p>
+</li>
+<li>
+<p><code>void func() &#123;</code></p>
+</li>
+<li>
+<p><code>System.out.println(&quot;func&quot;);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>abstract class MyClosure &#123;</code></p>
+</li>
+<li>
+<p><code>Object delegate;</code></p>
+</li>
+<li>
+<p><code>boolean callMethod(Object o, String method, Object... args) &#123;</code></p>
+</li>
+<li>
+<p><code>try &#123;</code></p>
+</li>
+<li>
+<p><code>Method func = o.getClass().getDeclaredMethod(method);</code></p>
+</li>
+<li>
+<p><code>if (func != null) &#123;</code></p>
+</li>
+<li>
+<p><code>func.invoke(o, args);</code></p>
+</li>
+<li>
+<p><code>return true;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125; catch (Exception e) &#123;</code></p>
+</li>
+<li>
+<p><code>// do nothing.</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>return false;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>abstract void call();</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>MyClosure c = new MyClosure() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>void call() &#123;</code></p>
+</li>
+<li>
+<p><code>if (!callMethod(this, &quot;func&quot;)) &#123;</code></p>
+</li>
+<li>
+<p><code>callMethod(delegate, &quot;func&quot;);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>c.delegate = new MyDelegate();</code></p>
+</li>
+<li>
+<p><code>c.call();</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<h4 id="this-owner-delegate">this, owner, delegate</h4>
+<ol>
+<li>
+<p><code>class Cls &#123;</code></p>
+</li>
+<li>
+<p><code>def mCls = this;</code></p>
+</li>
+<li>
+<p><code>def a, b, c;</code></p>
+</li>
+<li>
+<p><code>def static assertSameObj(x, y) &#123;</code></p>
+</li>
+<li>
+<p><code>assert x.is(y);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>def static assertSameObj(Closure x, y) &#123;</code></p>
+</li>
+<li>
+<p><code>assert x.is(y);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>def start() &#123;</code></p>
+</li>
+<li>
+<p><code>println 'this = ' + this</code></p>
+</li>
+<li>
+<p><code>a = &#123;</code></p>
+</li>
+<li>
+<p><code>println 'a.this = ' + this</code></p>
+</li>
+<li>
+<p><code>println 'a.owner = ' + owner</code></p>
+</li>
+<li>
+<p><code>println 'a.delegate = ' + delegate</code></p>
+</li>
+<li>
+<p><code>assertSameObj(this, mCls)</code></p>
+</li>
+<li>
+<p><code>assertSameObj(owner, mCls)</code></p>
+</li>
+<li>
+<p><code>assertSameObj(delegate, owner)</code></p>
+</li>
+<li>
+<p><code>b = &#123;</code></p>
+</li>
+<li>
+<p><code>println 'b.this = ' + this</code></p>
+</li>
+<li>
+<p><code>println 'b.owner = ' + owner</code></p>
+</li>
+<li>
+<p><code>println 'b.delegate = ' + delegate</code></p>
+</li>
+<li>
+<p><code>assertSameObj(this, mCls)</code></p>
+</li>
+<li>
+<p><code>assertSameObj(owner, a)</code></p>
+</li>
+<li>
+<p><code>assertSameObj(delegate, owner)</code></p>
+</li>
+<li>
+<p><code>c = &#123;</code></p>
+</li>
+<li>
+<p><code>println 'c.this = ' + this</code></p>
+</li>
+<li>
+<p><code>println 'c.owner = ' + owner</code></p>
+</li>
+<li>
+<p><code>println 'c.delegate = ' + delegate</code></p>
+</li>
+<li>
+<p><code>assertSameObj(this, mCls)</code></p>
+</li>
+<li>
+<p><code>assertSameObj(owner, b)</code></p>
+</li>
+<li>
+<p><code>assertSameObj(delegate, owner)</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>println('c = ' + c)</code></p>
+</li>
+<li>
+<p><code>c.call();</code></p>
+</li>
+<li>
+<p><code>// 修改c的delegate，并调用c没有但delegate有的方法</code></p>
+</li>
+<li>
+<p><code>c.delegate = new String('123');</code></p>
+</li>
+<li>
+<p><code>println('length = ' + c.length())</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>println('b = ' + b)</code></p>
+</li>
+<li>
+<p><code>b.call();</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>println('a = ' + a)</code></p>
+</li>
+<li>
+<p><code>a.call()</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>new Cls().start();</code></p>
+</li>
+<li>
+<p><code>this = Cls@33990a0c</code></p>
+</li>
+<li>
+<p><code>a = Cls$_start_closure1@50b5ac82</code></p>
+</li>
+<li>
+<p><code>a.this = Cls@33990a0c</code></p>
+</li>
+<li>
+<p><code>a.owner = Cls@33990a0c</code></p>
+</li>
+<li>
+<p><code>a.delegate = Cls@33990a0c</code></p>
+</li>
+<li>
+<p><code>b = Cls$_start_closure1$_closure2@6babf3bf</code></p>
+</li>
+<li>
+<p><code>b.this = Cls@33990a0c</code></p>
+</li>
+<li>
+<p><code>b.owner = Cls$_start_closure1@50b5ac82</code></p>
+</li>
+<li>
+<p><code>b.delegate = Cls$_start_closure1@50b5ac82</code></p>
+</li>
+<li>
+<p><code>c = Cls$_start_closure1$_closure2$_closure3@7ea9e1e2</code></p>
+</li>
+<li>
+<p><code>c.this = Cls@33990a0c</code></p>
+</li>
+<li>
+<p><code>c.owner = Cls$_start_closure1$_closure2@6babf3bf</code></p>
+</li>
+<li>
+<p><code>c.delegate = Cls$_start_closure1$_closure2@6babf3bf</code></p>
+</li>
+<li>
+<p><code>length = 3</code></p>
+</li>
+</ol>
+<p>结论：</p>
+<ul>
+<li>
+<p>语法上直接将Closure赋值给Object编译器会有警告，但不影响实际运行。闭包最终也是通过Object实现的。</p>
+</li>
+<li>
+<p>this指向其外部的Object对象，指定义闭包的类</p>
+</li>
+<li>
+<p>owner指向其外部的Object/Closure，指直接包含闭包的类或闭包</p>
+</li>
+<li>
+<p>delegate默认和owner一致，且可以修改，指用于解析闭包中属性和方法调用的第三方对象</p>
+</li>
+</ul>
+<h3 id="Gradle">Gradle</h3>
+<ol>
+<li>
+<p>Gradle为基于Groovy的一种领域专用语言(DSL/Domain Specific Language)</p>
+</li>
+<li>
+<p>每个Gradle脚本文件编译生成的类除了继承自<code>groovy.lang.Script</code>，同时还实现了接口<code>org.gradle.api.Script</code>。</p>
+</li>
+<li>
+<p>Gradle工程build时，会执行<code>settings.gradle</code>、<code>build.gradle</code>脚本；settings脚本的代理对象是Setting对象，build脚本的代理对象是Project对象。</p>
+</li>
+</ol>
+<h3 id="Gradle-Delegate">Gradle Delegate</h3>
+<p>Build脚本对应的Project对象从6个范围中查找方法：</p>
+<ol>
+<li>Project对象本身定义的方法</li>
+<li>脚本文件中定义的方法</li>
+<li>被插件添加的extension. extension的名字可以做为方法名</li>
+<li>被插件添加的convension方法。</li>
+<li>工程中的task。task的名字可以作为方法名</li>
+<li>父工程中的方法。</li>
+</ol>
+<p>例如在build.gradle中，常会使用dependencies语句块。</p>
+<ol>
+<li>
+<p><code>// build.gradle</code></p>
+</li>
+<li>
+<p><code>dependencies &#123;</code></p>
+</li>
+<li>
+<p><code>compile 'xxx:xxx:1.0'</code></p>
+</li>
+<li>
+<p><code>testCompile 'xxx:xxx:1.0'</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<ul>
+<li>
+<p>dependencies是Project对象中定义的DSL方法，后面的大括号是其接受的闭包参数；这里Groovy的括号可以省略；</p>
+</li>
+<li>
+<p>闭包的delegate是<code>DependencyHandler getDependencies()</code>，因此其内部可以直接调用DependencyHandler定义的compile/testCompile等方法；</p>
+</li>
+</ul>
+<p>下面的写法也是可以的。</p>
+<ol>
+<li>
+<p><code>// build.gradle</code></p>
+</li>
+<li>
+<p><code>dependencies &#123;</code></p>
+</li>
+<li>
+<p><code>compile 'xxx'</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>getProject().dependencies (&#123;</code></p>
+</li>
+<li>
+<p><code>compile('xxx')</code></p>
+</li>
+<li>
+<p><code>&#125;)</code></p>
+</li>
+<li>
+<p><code>getProject().getDependencies().compile('xxx')</code></p>
+</li>
+<li>
+<p><code>project.dependencies.compile('xxx')</code></p>
+</li>
+</ol>
+<h3 id="apply-plugin">apply plugin</h3>
+<p>如果分析gradle的源码可以知道，执行<code>apply plugin</code>时，会执行Plugin的apply方法，apply中<code>project.extensions.create('hello', MyExtension)</code>动态给Project对象创建了名为hello的extensions，因此在apply之后，可以使用<code>hello(Closure)</code>。</p>
+<p>如果把apply和MyExtention的位置调换，gradle编译时就会报错，提示找不到DSL。</p>
+<ol>
+<li><code>Error:(4, 0) Gradle DSL method not found: 'hello()'</code></li>
+<li><code>Possible causes:&lt;ul&gt;&lt;li&gt;The project 'Gradle' may be using a version of Gradle that does not contain the method.</code></li>
+<li><code>&lt;a href=&quot;open.wrapper.file&quot;&gt;Open Gradle wrapper file&lt;/a&gt;&lt;/li&gt;&lt;li&gt;The build file may be missing a Gradle plugin.</code></li>
+<li><code>&lt;a href=&quot;apply.gradle.plugin&quot;&gt;Apply Gradle plugin&lt;/a&gt;&lt;/li&gt;</code></li>
+</ol>
+<h3 id="Internal-Gradle-Plugins">Internal Gradle Plugins</h3>
+<ul>
+<li>
+<p>从Gradle源码可以看到其内部实现了<code>JavaPlugin</code>、<code>GroovyPlugin</code>、<code>WarPlugin</code>(JavaWebApplication)等基础插件。</p>
+</li>
+<li>
+<p>实际上dependencies中的compile就是由<code>JavaBasePlugin</code>动态创建的一个Configuration DSL。</p>
+</li>
+<li>
+<p>groovy、android等插件在apply时也会先apply JavaBasePlugin，所以就有了compile、sourceSet等DSL。</p>
+</li>
+</ul>
+<ol>
+<li>
+<p><code>// org.gradle.api.plugins.JavaBasePlugin.java</code></p>
+</li>
+<li>
+<p><code>private void defineConfigurationsForSourceSet(SourceSet sourceSet, ConfigurationContainer configurations) &#123;</code></p>
+</li>
+<li>
+<p><code>Configuration compileConfiguration = configurations.maybeCreate(sourceSet.getCompileConfigurationName());</code></p>
+</li>
+<li>
+<p><code>compileConfiguration.setVisible(false);</code></p>
+</li>
+<li>
+<p><code>compileConfiguration.setDescription(String.format(&quot;Dependencies for %s.&quot;, sourceSet));</code></p>
+</li>
+<li>
+<p><code>// ...</code></p>
+</li>
+<li>
+<p><code>sourceSet.setCompileClasspath(compileClasspathConfiguration);</code></p>
+</li>
+<li>
+<p><code>sourceSet.setRuntimeClasspath(sourceSet.getOutput().plus(runtimeConfiguration));</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>// groovy plugin</code></p>
+</li>
+<li>
+<p><code>public void apply(ProjectInternal project) &#123;</code></p>
+</li>
+<li>
+<p><code>project.getPluginManager().apply(JavaBasePlugin.class);</code></p>
+</li>
+<li>
+<p><code>// ...</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<h3 id="build流程">build流程</h3>
+<p>Gradle脚本的build流程分为3个阶段：</p>
+<ol>
+<li>
+<p>初始化阶段<br>
+执行Settings脚本。Gradle支持单个和多个工程的编译。在初始化阶段，Gradle判断需要参与编译的工程，为每个工程创建一个Project对象，并建立工程之间的层次关系。</p>
+</li>
+<li>
+<p>配置阶段<br>
+执行Build脚本。Gradle对上一步创建的Project对象进行配置。</p>
+</li>
+<li>
+<p>执行阶段<br>
+执行选中的task，例如build，assembleDebug等。</p>
+</li>
+</ol>
+<h2 id="参考资料与扩展阅读">参考资料与扩展阅读</h2>
+<ol>
+<li>
+<p>《Gradle脚本基础全攻略》 <a target="_blank" rel="noopener" href="http://blog.csdn.net/yanbober/article/details/49314255">http://blog.csdn.net/yanbober/article/details/49314255</a></p>
+</li>
+<li>
+<p>《Groovy脚本基础全攻略》 <a target="_blank" rel="noopener" href="http://blog.csdn.net/yanbober/article/details/49047515">http://blog.csdn.net/yanbober/article/details/49047515</a></p>
+</li>
+<li>
+<p>《Chapter 40. Writing Custom Plugins》 <a target="_blank" rel="noopener" href="https://docs.gradle.org/current/userguide/custom_plugins.html">https://docs.gradle.org/current/userguide/custom_plugins.html</a></p>
+</li>
+<li>
+<p>《GRADLE脚本的语法和BUILD流程》 <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/20f6695a9bd5">http://www.jianshu.com/p/20f6695a9bd5</a></p>
+</li>
+<li>
+<p>《深入理解Android（一）：Gradle详解》 <a target="_blank" rel="noopener" href="http://www.infoq.com/cn/articles/android-in-depth-gradle/">http://www.infoq.com/cn/articles/android-in-depth-gradle/</a></p>
+</li>
+</ol>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-dependencies/" rel="bookmark">Gradle依赖项学习总结，dependencies、transitive、force、exclude的使用与依赖冲突解决</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-download-jar-file/" rel="bookmark">Gradle不能下载jar包的解决思路</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-bitmap/" rel="bookmark">Android Bitmap操作内存问题总结(图片处理、截屏等)</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"># 安卓</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+              <a href="/tags/Gradle/" rel="tag"># Gradle</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/android-async-message/" rel="prev" title="Android Asynchronous Message（异步消息）">
+      <i class="fa fa-chevron-left"></i> Android Asynchronous Message（异步消息）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/fragment-visibility/" rel="next" title="Android Fragment可见性的判断与监听完全实现">
+      Android Fragment可见性的判断与监听完全实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">简单插件开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8B%AC%E7%AB%8B%E5%B7%A5%E7%A8%8B%E4%B8%AD%E5%BC%80%E5%8F%91%E6%8F%92%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">独立工程中开发插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B7%A5%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">创建工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%BA%90%E7%A0%81"><span class="nav-number">3.2.</span> <span class="nav-text">创建源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text">创建资源文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%8C%85"><span class="nav-number">3.4.</span> <span class="nav-text">打包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">插件使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BuildScript%E9%85%8D%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text">BuildScript配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Project%E9%85%8D%E7%BD%AE"><span class="nav-number">4.2.</span> <span class="nav-text">Project配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C"><span class="nav-number">4.3.</span> <span class="nav-text">执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">执行原理浅析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Groovy"><span class="nav-number">5.1.</span> <span class="nav-text">Groovy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B"><span class="nav-number">5.1.1.</span> <span class="nav-text">动态类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AD%E5%8C%85-Closure"><span class="nav-number">5.1.2.</span> <span class="nav-text">闭包 Closure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E5%AF%B9%E8%B1%A1-DelegateObject"><span class="nav-number">5.1.3.</span> <span class="nav-text">代理对象 DelegateObject</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this-owner-delegate"><span class="nav-number">5.1.4.</span> <span class="nav-text">this, owner, delegate</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradle"><span class="nav-number">5.2.</span> <span class="nav-text">Gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradle-Delegate"><span class="nav-number">5.3.</span> <span class="nav-text">Gradle Delegate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apply-plugin"><span class="nav-number">5.4.</span> <span class="nav-text">apply plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Internal-Gradle-Plugins"><span class="nav-number">5.5.</span> <span class="nav-text">Internal Gradle Plugins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build%E6%B5%81%E7%A8%8B"><span class="nav-number">5.6.</span> <span class="nav-text">build流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E4%B8%8E%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="nav-number">6.</span> <span class="nav-text">参考资料与扩展阅读</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

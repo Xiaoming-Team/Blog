@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1、新建工程 菜单File-New，新建工程。新建的工程最好放在一个独立的文件夹中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Quartus基本操作学习总结">
+<meta property="og:url" content="https://www.xiaoming.io/quartus-basic-usage/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="1、新建工程 菜单File-New，新建工程。新建的工程最好放在一个独立的文件夹中。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ec2071d37b53b7104b21bd560dc9a7ce.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/2f8b60d8176a7ea0b0e56981b26cbe7a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e45620bcd2c86faf7f11b40c85f6ce62.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0d7c86f6cd6a896fd5b8f32737679b9e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/59737635e8d7a2f5b08e92df6b6de110.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/04411cafb6ff0ca352b29b0ae33420eb.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/cc1cf12c18cdb4ee11dd2d0928a27b86.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/15c258135f1408db1ac1a21720a60704.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0dd512314d571e5cb8a650feb9105628.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/83bd909e1ec32d8fcbea85c17fdf87cd.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/23989edc1f5ddbe4e4f88e6662cd7192.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/d48d8fec5ed1694b5ae55a28cc8e9245.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/429567e26a976fbf62b6adc7e8c4079c.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9ee554d59db136b366b3a074f2a374b4.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0429e984dbe23e5b3d728f094c66b076.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/dac1483218f27e1da93eb8c9986d089a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/24e263b1b85aecfae665edefc2281eea.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1121b6341d4996a9cbf128adb159db48.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/70de36ea4fbdd3e6a1df9a13d0827912.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/10c3b45e60c8073a331859f412f46dc2.png">
+<meta property="article:published_time" content="2015-04-15T14:50:56.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.662Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="硬件开发">
+<meta property="article:tag" content="FPGA">
+<meta property="article:tag" content="可编程逻辑">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ec2071d37b53b7104b21bd560dc9a7ce.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/quartus-basic-usage/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Quartus基本操作学习总结 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/quartus-basic-usage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Quartus基本操作学习总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-15 22:50:56" itemprop="dateCreated datePublished" datetime="2015-04-15T22:50:56+08:00">2015-04-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/quartus-basic-usage/" class="post-meta-item leancloud_visitors" data-flag-title="Quartus基本操作学习总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/quartus-basic-usage/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/quartus-basic-usage/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>707</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1、新建工程">1、新建工程</h2>
+<p>菜单File-New，新建工程。新建的工程最好放在一个独立的文件夹中。</p>
+<p><img data-src="/blog-imgs/tech/images/ec2071d37b53b7104b21bd560dc9a7ce.png" alt=""></p>
+<p>添加已有文件至工程，可不选择</p>
+<p><img data-src="/blog-imgs/tech/images/2f8b60d8176a7ea0b0e56981b26cbe7a.png" alt=""></p>
+<p>选择芯片型号</p>
+<p><img data-src="/blog-imgs/tech/images/e45620bcd2c86faf7f11b40c85f6ce62.png" alt=""></p>
+<h2 id="2、新建文件">2、新建文件</h2>
+<p>菜单File-New，可选择设计文件：Block Diagram/Schematic File（框图/电路图） / VHDL File / Verilog HDL File …，仿真文件：Vector Waveform File 等。</p>
+<p><img data-src="/blog-imgs/tech/images/0d7c86f6cd6a896fd5b8f32737679b9e.png" alt=""></p>
+<h2 id="3、设计">3、设计</h2>
+<p>电路设计：插入器件，连接电路</p>
+<p><img data-src="/blog-imgs/tech/images/59737635e8d7a2f5b08e92df6b6de110.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/04411cafb6ff0ca352b29b0ae33420eb.png" alt=""></p>
+<p>电路设计，给每个管脚取名（非门，输入管脚，输出管脚）</p>
+<p><img data-src="/blog-imgs/tech/images/cc1cf12c18cdb4ee11dd2d0928a27b86.png" alt=""></p>
+<p>紫色三角按钮用于综合（编译），蓝色三角按钮用于仿真</p>
+<p><img data-src="/blog-imgs/tech/images/15c258135f1408db1ac1a21720a60704.png" alt=""></p>
+<h2 id="4、管脚分配">4、管脚分配</h2>
+<p><img data-src="/blog-imgs/tech/images/0dd512314d571e5cb8a650feb9105628.png" alt=""></p>
+<p>在Location中选择管脚即可，IOBank为管脚的分组编号</p>
+<p><img data-src="/blog-imgs/tech/images/83bd909e1ec32d8fcbea85c17fdf87cd.png" alt=""></p>
+<p>分配好管脚就会显示在电路图中（分配完管脚需要重新综合，才可以下载到板子中）</p>
+<p><img data-src="/blog-imgs/tech/images/23989edc1f5ddbe4e4f88e6662cd7192.png" alt=""></p>
+<h2 id="5、软件仿真">5、软件仿真</h2>
+<p>新建仿真文件：Vector Waveform File</p>
+<p>双击左侧空白处添加节点，输入节点名，会自动识别节点类型。点击OK添加。</p>
+<p><img data-src="/blog-imgs/tech/images/d48d8fec5ed1694b5ae55a28cc8e9245.png" alt=""></p>
+<p>选择菜单Edit–End Time可以设置仿真时间长度</p>
+<p><img data-src="/blog-imgs/tech/images/429567e26a976fbf62b6adc7e8c4079c.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/9ee554d59db136b366b3a074f2a374b4.png" alt=""></p>
+<p>选中某个节点，或在右边的波形图上选中节点的某个时间段，点击左侧按钮可以设置输入的信号，例如时钟信号、高低电平等。</p>
+<p><img data-src="/blog-imgs/tech/images/0429e984dbe23e5b3d728f094c66b076.png" alt=""></p>
+<p>保存好仿真文件，就可以点蓝色三角按钮仿真。仿真结果如下，电路中的非门有10ns左右的延迟。</p>
+<p><img data-src="/blog-imgs/tech/images/dac1483218f27e1da93eb8c9986d089a.png" alt=""></p>
+<h2 id="6、下载至板子">6、下载至板子</h2>
+<p>点击按钮<br>
+<img data-src="/blog-imgs/tech/images/24e263b1b85aecfae665edefc2281eea.png" alt=""></p>
+<p>点击Hardware Setup选择USB-Blaster，并添加</p>
+<p><img data-src="/blog-imgs/tech/images/1121b6341d4996a9cbf128adb159db48.png" alt=""></p>
+<p>勾选前两项，然后点击Start下载，进度条至100%即下载成功。</p>
+<p><img data-src="/blog-imgs/tech/images/70de36ea4fbdd3e6a1df9a13d0827912.png" alt=""></p>
+<h2 id="7、导出模块">7、导出模块</h2>
+<p>可选择菜单File --&gt; Create/Update --&gt; Create Symbol Files for Current File，将设计文件导出为模块。在设计文件Block Diagram（框图）中，可以像插入元件一样，插入设计好的模块。</p>
+<p><img data-src="/blog-imgs/tech/images/10c3b45e60c8073a331859f412f46dc2.png" alt=""></p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/vivado-ram-ip-core/" rel="bookmark">Vivado中ROM/RAM IP核的使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/vivado-basic-usage-3/" rel="bookmark">Xilinx Vivado的使用详细介绍（3）：使用IP核</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/vivado-basic-usage-2/" rel="bookmark">Xilinx Vivado的使用详细介绍（2）：综合、实现、管脚分配、时钟设置、烧写</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/vivado-basic-usage-1/" rel="bookmark">Xilinx Vivado的使用详细介绍（1）：创建工程、编写代码、行为仿真、Testbench</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/verilog-sync-async/" rel="bookmark">Verilog一例（同步与异步时序）</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/vivado-crack/" rel="bookmark">Xilinx Vivado软件破解方法（附License）</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/analog-circuit-design/" rel="bookmark">模拟电路设计：理论的神话与残酷的现实</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/embedded/" rel="bookmark">嵌入式科普：基本概念，设计流程，开发特点，如何学习</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/FPGA/" rel="tag"># FPGA</a>
+              <a href="/tags/%E5%8F%AF%E7%BC%96%E7%A8%8B%E9%80%BB%E8%BE%91/" rel="tag"># 可编程逻辑</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/xampp-mysql-password/" rel="prev" title="XAMPP中MySQL密码的修改">
+      <i class="fa fa-chevron-left"></i> XAMPP中MySQL密码的修改
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/vivado-crack/" rel="next" title="Xilinx Vivado软件破解方法（附License）">
+      Xilinx Vivado软件破解方法（附License） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">1、新建工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">2、新建文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">3、设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E7%AE%A1%E8%84%9A%E5%88%86%E9%85%8D"><span class="nav-number">4.</span> <span class="nav-text">4、管脚分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E8%BD%AF%E4%BB%B6%E4%BB%BF%E7%9C%9F"><span class="nav-number">5.</span> <span class="nav-text">5、软件仿真</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81%E4%B8%8B%E8%BD%BD%E8%87%B3%E6%9D%BF%E5%AD%90"><span class="nav-number">6.</span> <span class="nav-text">6、下载至板子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%E3%80%81%E5%AF%BC%E5%87%BA%E6%A8%A1%E5%9D%97"><span class="nav-number">7.</span> <span class="nav-text">7、导出模块</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

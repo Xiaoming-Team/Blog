@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="背景 需要对APP的运行速度进行性能优化，在可能有性能问题的地方手工埋点的做法非常繁琐、效率低下，希望能有一个可以直观易用、自动化、精细化的分析代码耗时的工具。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于AOP思想的Android方法耗时开源分析工具TimeTracer">
+<meta property="og:url" content="https://www.xiaoming.io/time-tracer/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="背景 需要对APP的运行速度进行性能优化，在可能有性能问题的地方手工埋点的做法非常繁琐、效率低下，希望能有一个可以直观易用、自动化、精细化的分析代码耗时的工具。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/a73e9bc1dbcffc9cfbef931b42156a73.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/8fd4b509ab76c45b528021e2a2e1dc0c.png">
+<meta property="article:published_time" content="2020-02-26T07:54:39.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.587Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="性能">
+<meta property="article:tag" content="Gradle">
+<meta property="article:tag" content="AOP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/a73e9bc1dbcffc9cfbef931b42156a73.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/time-tracer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>基于AOP思想的Android方法耗时开源分析工具TimeTracer | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/time-tracer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于AOP思想的Android方法耗时开源分析工具TimeTracer
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-26 15:54:39" itemprop="dateCreated datePublished" datetime="2020-02-26T15:54:39+08:00">2020-02-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/time-tracer/" class="post-meta-item leancloud_visitors" data-flag-title="基于AOP思想的Android方法耗时开源分析工具TimeTracer" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/time-tracer/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/time-tracer/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="背景">背景</h2>
+<p>需要对APP的运行速度进行性能优化，在可能有性能问题的地方手工埋点的做法非常繁琐、效率低下，希望能有一个可以直观易用、自动化、精细化的分析代码耗时的工具。</p>
+<p>Android Studio 提供了Profiler工具，其中 <a target="_blank" rel="noopener" href="https://developer.android.com/studio/profile/cpu-profiler">CPU Profiler</a>（Instrument模式）可以实现方法耗时的精确追踪并生成火焰图，但是开启后对App的运行性能影响很大，会导致严重的卡顿，影响性能分析。特别是分析滚动卡顿的时候，页面滚动受到了很大影响，几乎没法正常操作App和分析问题。</p>
+<blockquote>
+<p>备注：CPU Profiler有两种模式：</p>
+<ul>
+<li>Sample模式，每隔一段指定的时长采样堆栈，然后利用堆栈推断方法调用（不保证完全准确）。采样间隔如果设置太大，则不能分析到耗时短但连续多次调用的方法；如果间隔设置太小，会影响性能。</li>
+<li>Instrument模式，在方法起始和终止时记录时间，精确度高但是对性能影响较大。</li>
+</ul>
+</blockquote>
+<p>另一个可用的方案就是Uber提供的 <a target="_blank" rel="noopener" href="https://github.com/uber/nanoscope">nanoscope</a> 工具，对性能影响比较小，但是只能在模拟器或者Nexus 6P手机（需要刷机）中使用。</p>
+<p>本文介绍一种基于AOP思想实现的分析工具TimeTracer，通过Javassist修改class字节码，对代码进行插桩，再配合一些Java代码，实现精确的方法级耗时分析，并且实测对性能影响很小。</p>
+<p>AOP = Aspect Oriented Programming，意为面向切面编程，相关介绍可以网上找到，这里不细说。</p>
+<h2 id="整体思路">整体思路</h2>
+<p>TimeTracer的源码和Demo工程可在GitHub获取：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/jzj1993/TimeTracer">https://github.com/jzj1993/TimeTracer</a></p>
+</blockquote>
+<p>TimeTracer由Gradle插件和Java代码两部分组成。</p>
+<p>Gradle插件在每个方法（包括构造函数）的起始和结束处插入一段特定的耗时统计代码。</p>
+<p>Java耗时统计代码在方法的起始和结束时获取时间戳，并按照代码调用层级保存到栈中，然后按层级直接输出方法运行耗时。当然也可以进一步开发完善，输出更详细的结果。</p>
+<p>TimeTracer可以：</p>
+<ul>
+<li>分析指定包 / 类 / 方法中的耗时</li>
+<li>分析主线程或指定线程</li>
+</ul>
+<h2 id="实现细节">实现细节</h2>
+<h3 id="Gradle插件实现">Gradle插件实现</h3>
+<p>Gradle插件使用Google提供的Transform API，将源码和AAR包中的class取出来，用javassist库修改字节码。为了加速编译过程，用ForkJoinPool并行处理任务。</p>
+<p>Gradle插件在每个方法的起始和结束处插入对TimeTracer的调用。</p>
+<p>例如原始代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        method2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过插件处理后，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        TimeTracer.methodStart(<span class="string">&quot;MainActivity.method1&quot;</span>);</span><br><span class="line">        method2();</span><br><span class="line">        TimeTracer.methodEnd(<span class="string">&quot;MainActivity.method1&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        TimeTracer.methodStart(<span class="string">&quot;MainActivity.method2&quot;</span>);</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        TimeTracer.methodEnd(<span class="string">&quot;MainActivity.method2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Java耗时统计实现">Java耗时统计实现</h3>
+<p>被统计方法的开头和结尾，都会调用TimeTracer的methodStart和methodEnd，TimeTracer中再调用ITracer实例的相应方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ITracer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">traceStart</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">traceEnd</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">methodStart</span><span class="params">(String method)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">methodEnd</span><span class="params">(String method)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TimeTracer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ITracer TRACER = ITracer.EMPTY_TRACER;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">methodStart</span><span class="params">(String method)</span> </span>&#123;</span><br><span class="line">        TRACER.methodStart(method);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">methodEnd</span><span class="params">(String method)</span> </span>&#123;</span><br><span class="line">        TRACER.methodEnd(method);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BaseTimeTracer是ITracer的抽象实现，用于实现通用的分析逻辑。</p>
+<p>BaseTimeTracer中用数组实现了一个栈结构，栈指针为level变量，该变量同时也代表方法调用层级。当一个方法调用开始时，将level加一，时间戳入栈。当一个方法调用结束时，将level减一，再次读取时间戳，并从栈中取出一个时间戳。对于同一个线程，方法调用的start和end是对称的，因此这个时间戳就是该方法调用开始时的时间戳，将这两个时间戳相减，即可算出方法耗时。</p>
+<p>由于每个方法执行前后都会调用methodStart和methodEnd方法，因此为了减少统计方法自身对性能的影响，这两个方法中应避免耗时操作。</p>
+<p>下面给出BaseTimeTracer中的关键代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseTimeTracer</span> <span class="keyword">implements</span> <span class="title">ITracer</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 调用时间。直接用数组实现栈，减小对方法调用耗时的影响。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">long</span>[] mTimes;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法名。直接用数组实现栈，减小对方法调用耗时的影响。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> String[] mNames;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 最大调用嵌套层级，也就是栈的容量。调用嵌套深度不能超过此数值，否则可能导致统计出错</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mMaxLevel;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当前Level，相当于栈的指针</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> mLevel = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseTimeTracer</span><span class="params">(<span class="keyword">int</span> maxLevel)</span> </span>&#123;</span><br><span class="line">        mMaxLevel = maxLevel;</span><br><span class="line">        mTimes = <span class="keyword">new</span> <span class="keyword">long</span>[mMaxLevel];</span><br><span class="line">        mNames = <span class="keyword">new</span> String[mMaxLevel];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检查是否满足要求，包括线程的检查。只有在同一个线程，start和end的调用才是对称的。</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">checkMatchStart</span><span class="params">(String method)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">checkMatchEnd</span><span class="params">(String method)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">long</span> <span class="title">timestamp</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodStart</span><span class="params">(String method)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mEnable  !checkMatchStart(method)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mLevel &gt;= mMaxLevel) &#123;</span><br><span class="line">            err(<span class="string">&quot;max level exceeded, maxLevel = &quot;</span> + mMaxLevel);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mTimes[mLevel] = timestamp(); <span class="comment">// push</span></span><br><span class="line">        mNames[mLevel] = method;</span><br><span class="line">        ++mLevel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodEnd</span><span class="params">(String method)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mEnable  mLevel &lt;= <span class="number">0</span>  !checkMatchEnd(method)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String name = mNames[mLevel - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (!methodEquals(name, method)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        --mLevel;</span><br><span class="line">        <span class="keyword">long</span> time = timestamp() - mTimes[mLevel]; <span class="comment">// pop</span></span><br><span class="line">        output(method, mLevel, time);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法耗时输出，可根据需要过滤。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">output</span><span class="params">(String method, <span class="keyword">int</span> level, <span class="keyword">long</span> time)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        log(<span class="string">&quot;%s%s: %d ms&quot;</span>, space(level), method, time);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(String msg, Object... args)</span> </span>&#123;</span><br><span class="line">        Log.w(TAG, String.format(msg, args));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">err</span><span class="params">(String msg, Object... args)</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, String.format(msg, args));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">space</span><span class="params">(<span class="keyword">int</span> level)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (level &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">char</span>[] chars = <span class="keyword">new</span> <span class="keyword">char</span>[level];</span><br><span class="line">        Arrays.fill(chars, <span class="string">&#x27;\t&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String(chars);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ThreadTimeTracer继承自BaseTimeTracer，用于统计指定线程中的耗时操作，其时间戳为当前线程执行时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadTimeTracer</span> <span class="keyword">extends</span> <span class="title">BaseTimeTracer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Looper mLooper;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadTimeTracer</span><span class="params">(Looper looper)</span> </span>&#123;</span><br><span class="line">        mLooper = looper;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">checkMatchStart</span><span class="params">(String method)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Looper.myLooper() == mLooper;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">checkMatchEnd</span><span class="params">(String method)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Looper.myLooper() == mLooper;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">long</span> <span class="title">timestamp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SystemClock.currentThreadTimeMillis();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Gradle插件配置">Gradle插件配置</h3>
+<p>在工程中的配置：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        <span class="comment">// 简单起见，这里直接引用plugin模块编译生成的jar文件，不发布maven</span></span><br><span class="line">        classpath files(<span class="string">&#x27;plugin/output/plugin.jar&#x27;</span>)</span><br><span class="line">        classpath <span class="string">&#x27;org.javassist:javassist:3.20.0-GA&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="attr">plugin:</span> <span class="string">&#x27;TimeTracer&#x27;</span></span><br><span class="line">TimeTracer &#123;</span><br><span class="line">    <span class="comment">// 指定要处理的完整类名，正则表达式匹配，可以过滤特定的包，</span></span><br><span class="line">    <span class="comment">// 不指定则默认处理所有类（TimeTracer自身的实现除外）</span></span><br><span class="line">    <span class="comment">// processClassesRegex &#x27;com\\.paincker\\.timetracer\\.demo.*&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定插入到方法开头和结束处的代码，</span></span><br><span class="line">    <span class="comment">// 支持简单变量，包括&lt;class-name&gt;，&lt;simple-class-name&gt;，&lt;method-name&gt;</span></span><br><span class="line">    codeBeforeMethod <span class="string">&quot;com.paincker.timetracer.tracer.TimeTracer.methodStart(\&quot;&lt;simple-class-name&gt;.&lt;method-name&gt;\&quot;);&quot;</span>;</span><br><span class="line">    codeAfterMethod <span class="string">&quot;com.paincker.timetracer.tracer.TimeTracer.methodEnd(\&quot;&lt;simple-class-name&gt;.&lt;method-name&gt;\&quot;);&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用示例">使用示例</h2>
+<p>Demo工程中写了一个简单的RecyclerView，其中onBindView中进行了一些耗时代码调用，导致RecyclerView的滑动卡顿。</p>
+<p>为了定位滑动卡顿的具体代码，在Demo工程中配置使用TimeTracer，追踪方法调用。在Demo工程中执行10s，期间滑动RecyclerView，得出Log信息如图，可以看出方法调用层级和耗时。</p>
+<p>很容易看出来耗时的方法，<code>stringOperation</code>占用了较多时间，是造成滑动卡顿的主要原因。</p>
+<p>备注：</p>
+<ul>
+<li>这里只是一个简单示例，onBindView中代码不多，因此直接人工也能定位到问题，代码调用层级复杂的时候，工具才能更充分的发挥优势。</li>
+<li>统计插件自身也有性能消耗，调用层级越深，消耗越多。不过由于其中的代码较简单，每次执行时间都是微秒级别的，而且所有方法都有相似的逻辑，因此采集到数据的参考价值仍然较高。</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/android/images/a73e9bc1dbcffc9cfbef931b42156a73.png" alt=""></p>
+<p>下图为使用Android Studio自带CPU Profiler生成的结果（Trace模式）。</p>
+<p><img data-src="/blog-imgs/tech/android/images/8fd4b509ab76c45b528021e2a2e1dc0c.png" alt=""></p>
+<h2 id="CPU-Profiler和TimeTracer对比">CPU Profiler和TimeTracer对比</h2>
+<p>CPU Profiler</p>
+<p>TimeTracer</p>
+<p>使用方法</p>
+<p>AndroidStudio在Debug环境下直接按钮启动、停止分析，并查看数据</p>
+<p>先写代码，编译打包后测试，通过代码控制启动时机</p>
+<p>测试范围</p>
+<p>APP范围内所有线程所有方法，包括系统API的调用</p>
+<p>工程中的所有方法，可根据需要写代码进行过滤，重点分析某个包、某个线程、特定条件下的代码</p>
+<p>数据查看</p>
+<p>支持火焰图等形式</p>
+<p>使用Log输出，能满足最简单基本的需要，也可以自行开发扩展</p>
+<p>优点</p>
+<p>图形化界面比较直观</p>
+<p>运行速度快，不影响App操作；可定制性强（例如分析指定条件下的数据，结合自动化工具实现数据收集等）</p>
+<p>缺点</p>
+<p>容易导致电脑和手机卡死，特别是影响手机App正常操作；功能灵活度有限</p>
+<p>不能查看APP以外的代码耗时，不过问题不大，因为一般都是优化项目本身的代码；Log输出的方式比较简陋</p>
+<h2 id="总结">总结</h2>
+<p>由于TimeTracer需要对大量方法插入代码，进行精确耗时分析，数据量较大，本身对性能有一定的影响。因此主要用于开发和测试阶段分析性能，不宜用于线上环境。</p>
+<p>从进一步优化的角度来看，可以将统计信息输出成可视化的HTML，使用不同的颜色和尺寸，直观的展示每个耗时方法；还可以对结果进行排序，显示最耗时的方法等。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-performance/" rel="bookmark">Android性能优化流程与思路</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-scroll-velocity/" rel="bookmark">Android滚动组件图片加载优化与滚动速度的精确监听</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-crash-sdk/" rel="bookmark">Android Crash监控SDK设计思路</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/java-reference/" rel="bookmark">Java引用类型简介与应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sparse-array/" rel="bookmark">SparseArray源码分析与性能优化</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-plugin-and-principle/" rel="bookmark">Gradle插件开发与执行原理浅析</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD/" rel="tag"># 性能</a>
+              <a href="/tags/Gradle/" rel="tag"># Gradle</a>
+              <a href="/tags/AOP/" rel="tag"># AOP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/dynamic-proxy-java-bus/" rel="prev" title="一种基于动态代理实现的Android/Java总线通信组件">
+      <i class="fa fa-chevron-left"></i> 一种基于动态代理实现的Android/Java总线通信组件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sparse-array/" rel="next" title="SparseArray源码分析与性能优化">
+      SparseArray源码分析与性能优化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">整体思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="nav-number">3.</span> <span class="nav-text">实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradle%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.1.</span> <span class="nav-text">Gradle插件实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E8%80%97%E6%97%B6%E7%BB%9F%E8%AE%A1%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.2.</span> <span class="nav-text">Java耗时统计实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradle%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-number">3.3.</span> <span class="nav-text">Gradle插件配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">使用示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU-Profiler%E5%92%8CTimeTracer%E5%AF%B9%E6%AF%94"><span class="nav-number">5.</span> <span class="nav-text">CPU Profiler和TimeTracer对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

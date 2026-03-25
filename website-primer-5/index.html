@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="系列博客说明  《网站搭建从零开始》系列博客 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;tag&#x2F;website-primer 对于完整的学习，强烈建议先阅读《网站搭建从零开始（〇） 内容概要与学习方法》 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;website-primer-0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网站搭建从零开始（五） WordPress的安装">
+<meta property="og:url" content="https://www.xiaoming.io/website-primer-5/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="系列博客说明  《网站搭建从零开始》系列博客 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;tag&#x2F;website-primer 对于完整的学习，强烈建议先阅读《网站搭建从零开始（〇） 内容概要与学习方法》 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;website-primer-0">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/0b70e34c88460e6f3a404ebfcccdec24.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/5ef3389e97b2a090777230805a9ce4a6.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/d807400b5fb5862f065d6743ba79ecae.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/65340bac4494e10946b76ca65f2071c2.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/b4e27f37d3f87b82cff6619312939875.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/828c0e0de62b2991bbd3aed869ca3622.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/67b5ebf1f4c252ec9b0030a730019303.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/b4bb04bbc7530812d23ef10e01e0f264.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/3688ce79268d617f419056f390a179cb.png">
+<meta property="article:published_time" content="2014-10-18T09:32:09.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.405Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="WordPress">
+<meta property="article:tag" content="网站">
+<meta property="article:tag" content="#网站搭建从零开始#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/0b70e34c88460e6f3a404ebfcccdec24.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/website-primer-5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网站搭建从零开始（五） WordPress的安装 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/website-primer-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网站搭建从零开始（五） WordPress的安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-18 17:32:09" itemprop="dateCreated datePublished" datetime="2014-10-18T17:32:09+08:00">2014-10-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/website-primer/" itemprop="url" rel="index"><span itemprop="name">网站搭建从零开始</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/website-primer-5/" class="post-meta-item leancloud_visitors" data-flag-title="网站搭建从零开始（五） WordPress的安装" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/website-primer-5/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/website-primer-5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="系列博客说明">系列博客说明</h2>
+<blockquote>
+<p>《网站搭建从零开始》系列博客 <a href="http://www.xiaoming.io/tag/website-primer">http://www.xiaoming.io/tag/website-primer</a></p>
+<p>对于完整的学习，强烈建议先阅读《网站搭建从零开始（〇） 内容概要与学习方法》 <a href="http://www.xiaoming.io/website-primer-0">http://www.xiaoming.io/website-primer-0</a></p>
+</blockquote>
+<hr>
+<p>前面已经完成了网站搭建的两大要素，即域名和空间，本篇开始介绍第三个要素，也是网站中最核心的内容，即网站内容的建设。这里以开源博客网站框架WordPress的安装为例说明。</p>
+<h2 id="WordPress安装很简单">WordPress安装很简单</h2>
+<p>如果你的服务器能通过应用中心一键安装WordPress，就省去了很多步骤，可以跳过这一节前半部分的内容，直接跳到“网站初始化”部分。如果没有一键安装，操作也不会太复杂（相比网站搭建这么庞大的工程，安装WordPress简直不值一提）。</p>
+<p>前面我们设置了MySQL数据库和FTP的账号，并且做了域名解析，输入网址能打开index.html的网站首页。只要服务器支持php并且配置了数据库和FTP，安装WordPress是很简单的。</p>
+<h2 id="新建数据库">新建数据库</h2>
+<p>从服务器空间控制面板登录phpMyAdmin，在首页选择新建数据库，数据库名称可以随便取，例如<code>wordpress</code>，编码选择UTF8格式如图。</p>
+<p><img data-src="/blog-imgs/tech/website-primer/images/0b70e34c88460e6f3a404ebfcccdec24.jpg" alt=""></p>
+<h2 id="上传WordPress文件">上传WordPress文件</h2>
+<p>从网上下载最新的WordPress安装包，是一个压缩包。要把这个压缩包中的文件通过FTP或其他方式上传到服务器。如果我们的服务器支持在线解压，可以直接上传压缩包然后再解压，这样会快很多。要不然就只有在本地先解压了再上传了。</p>
+<ul>
+<li>注意要把WordPress解压到网站的根目录，也就是<strong>让WordPress的index.php文件恰好位于网站根目录</strong>。</li>
+<li>如果站点根目录有<code>index.html</code>，将其重命名或删除，以免默认打开此文件而不是WordPress的<code>index.php</code>文件。</li>
+</ul>
+<blockquote>
+<p>对于一个站点来说，根目录是很重要的。尤其是当你的站点后来变大了，访问人数变多了，如果随便的改动根目录中的文件，后果可能会很严重，轻则导致站点访问不了，重则可能泄露一些重要数据、或者让网站暴漏出漏洞让非法分子有机可趁等等。所以对网站中文件的改动一定要慎重。当然，对于一个不涉及太多金钱、用户重要数据、网站形象等的小站点来说，还不至于那么严重。</p>
+<p>由于你有服务器空间的账号，作为服务器管理员，比网站管理员的权限显然要大一些。万一出了问题你可以直接修改甚至删除网站的文件和数据库。但是如果你的网站已经做得很大了，网站的数据库和文件就不能随便乱动了。</p>
+</blockquote>
+<h2 id="初始化WordPress配置：设置数据库">初始化WordPress配置：设置数据库</h2>
+<p>WordPress文件上传完成后，浏览器打开你的网站，就会进入WordPress配置界面如下图，点击现在就开始。</p>
+<p><img data-src="/blog-imgs/tech/website-primer/images/5ef3389e97b2a090777230805a9ce4a6.jpg" alt=""></p>
+<p>填写数据库相关信息。</p>
+<ul>
+<li>数据库名是前面新建的数据库名字</li>
+<li>用户名、密码是之前的MySQL账号，也即phpMyAdmin登录账号</li>
+<li>通常数据库保存在服务器空间所在的同一台服务器上，所以数据库主机就是<code>localhost</code>（因为WordPress运行在服务器上，这个是对于服务器而言的<code>localhost</code>）</li>
+<li>表前缀一般不用修改</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/website-primer/images/d807400b5fb5862f065d6743ba79ecae.jpg" alt=""></p>
+<p>如果你的数据库设置不对，就会提醒重新设置。例如下图是数据库名设置错的情况。</p>
+<p><img data-src="/blog-imgs/tech/website-primer/images/65340bac4494e10946b76ca65f2071c2.png" alt=""></p>
+<p>如果设置正确，就会跳转到如下界面。</p>
+<p><img data-src="/blog-imgs/tech/website-primer/images/b4e27f37d3f87b82cff6619312939875.png" alt=""></p>
+<p>如果你用的一键安装WordPress应用，就不会有以上的数据库设置的界面，而是直接跳转到后面的网站设置的界面（实际上数据库配置保存在wp-config.php文件中，人家已经给你配置好那个文件所以不用设置数据库）。</p>
+<h2 id="网站初始化">网站初始化</h2>
+<p>在网站设置界面，输入站点标题即网站名，然后输入网站管理账号和邮件，即可安装。网站名和密码、邮件之后都可以进行修改。</p>
+<p><img data-src="/blog-imgs/tech/website-primer/images/828c0e0de62b2991bbd3aed869ca3622.png" alt=""></p>
+<p>稍后即安装完成，可用刚刚输入的网站管理员账号登录到WordPress后台。</p>
+<p><img data-src="/blog-imgs/tech/website-primer/images/67b5ebf1f4c252ec9b0030a730019303.png" alt=""></p>
+<h2 id="建站成功">建站成功</h2>
+<p>用你的账号登录后，即可进入网站后台管理界面，如图。</p>
+<p><img data-src="/blog-imgs/tech/website-primer/images/b4bb04bbc7530812d23ef10e01e0f264.png" alt=""></p>
+<p>而此时，直接访问网址，则会进入默认的网站前台页面，如下图：</p>
+<p><img data-src="/blog-imgs/tech/website-primer/images/3688ce79268d617f419056f390a179cb.png" alt=""></p>
+<p>至此，个人网站就已经基本搭建完成，由于直接使用了WordPress框架，不需要编写代码，简单的几步操作，就可以搭建一个看上去很不错的网站。之后的文章，将继续对站点进行完善。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-8/" rel="bookmark">网站搭建从零开始（八） 网站加速技术</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-7/" rel="bookmark">网站搭建从零开始（七） WordPress站点的完善</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-6/" rel="bookmark">网站搭建从零开始（六） WordPress快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wordpress-user-module/" rel="bookmark">WordPress的用户系统总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wordpress-send-email-via-plugins/" rel="bookmark">WordPress通过插件发送邮件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-4/" rel="bookmark">网站搭建从零开始（四）域名解析设置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-3/" rel="bookmark">网站搭建从零开始（三） 服务器空间的配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-2/" rel="bookmark">网站搭建从零开始（二）服务器空间的选择</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WordPress/" rel="tag"># WordPress</a>
+              <a href="/tags/%E7%BD%91%E7%AB%99/" rel="tag"># 网站</a>
+              <a href="/tags/%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/" rel="tag"># #网站搭建从零开始#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/website-primer-4/" rel="prev" title="网站搭建从零开始（四）域名解析设置">
+      <i class="fa fa-chevron-left"></i> 网站搭建从零开始（四）域名解析设置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/android-screen/" rel="next" title="安卓屏幕尺寸相关知识总结">
+      安卓屏幕尺寸相关知识总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E5%88%97%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">系列博客说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WordPress%E5%AE%89%E8%A3%85%E5%BE%88%E7%AE%80%E5%8D%95"><span class="nav-number">2.</span> <span class="nav-text">WordPress安装很简单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">新建数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0WordPress%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">上传WordPress文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96WordPress%E9%85%8D%E7%BD%AE%EF%BC%9A%E8%AE%BE%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.</span> <span class="nav-text">初始化WordPress配置：设置数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%AB%99%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">6.</span> <span class="nav-text">网站初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%99%E6%88%90%E5%8A%9F"><span class="nav-number">7.</span> <span class="nav-text">建站成功</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Android Lint实现简介 Android SDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Lint：自定义Lint调试与开发">
+<meta property="og:url" content="https://www.xiaoming.io/android-lint-2-implements/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="Android Lint实现简介 Android SDK">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/android-lint-2-implements/img/https://www.xiaoming.io/wp-content/uploads/2020/04/psi-viewer.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-lint-2-implements/img/https://www.xiaoming.io/wp-content/uploads/2020/04/run-config-remote.png">
+<meta property="article:published_time" content="2017-12-30T08:15:22.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.393Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="安卓">
+<meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="Lint">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/android-lint-2-implements/img/https://www.xiaoming.io/wp-content/uploads/2020/04/psi-viewer.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/android-lint-2-implements/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android Lint：自定义Lint调试与开发 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/android-lint-2-implements/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android Lint：自定义Lint调试与开发
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-30 16:15:22" itemprop="dateCreated datePublished" datetime="2017-12-30T16:15:22+08:00">2017-12-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/android-lint-2-implements/" class="post-meta-item leancloud_visitors" data-flag-title="Android Lint：自定义Lint调试与开发" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/android-lint-2-implements/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/android-lint-2-implements/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Android-Lint实现简介">Android Lint实现简介</h2>
+<h3 id="Android-SDK">Android SDK</h3>
+<p>Android SDK中涉及Lint的主要有下面几个包，均包含在Android Gradle插件<code>com.android.tools.build:gradle</code>中。</p>
+<ol>
+<li>
+<p><code>com.android.tools.lint:lint-api</code>，这个包提供了Lint的API，包括Context、Project、Detector、Issue、IssueRegistry等。</p>
+</li>
+<li>
+<p><code>com.android.tools.lint:lint-checks</code>，这个包实现了Android原生Lint规则。在25.2.3版本中，<code>BuiltinIssueRegistry</code>中共包含263条Lint规则。</p>
+</li>
+<li>
+<p><code>com.android.tools.lint:lint</code>，这个包用于运行Lint检查，提供：</p>
+<ul>
+<li>
+<p><code>com.android.tools.lint.XxxReporter</code>：检查结果报告，包括纯文本、XML、HTML格式等</p>
+</li>
+<li>
+<p><code>com.android.tools.lint.LintCliClient</code>：用于在命令行中执行Lint</p>
+</li>
+<li>
+<p><code>com.android.tools.lint.Main</code>：这个类是命令行版本Lint的Java入口（Command line driver），主要是解析参数、输出结果</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>com.android.tools.build:gradle-core</code>，这个包提供Gradle插件核心功能，其中与Lint相关的主要有：</p>
+<ul>
+<li>
+<p><code>com.android.build.gradle.internal.LintGradleProject</code>：继承自<code>lint-api</code>中的Project类。Gradle执行Lint检查时使用的Project对象，可获取Manifest、依赖等信息。其中又包含了<code>AppGradleProject</code>和<code>LibraryProject</code>两个内部类。</p>
+</li>
+<li>
+<p><code>com.android.build.gradle.internal.LintGradleClient</code>：用于在Gradle中执行Lint，继承自LintCliClient</p>
+</li>
+<li>
+<p><code>com.android.build.gradle.tasks.Lint</code>，Gradle中Lint任务的实现</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="Lint命令行实现">Lint命令行实现</h3>
+<p>Lint可执行文件位于<code>&lt;android-home&gt;/tools/lint</code>，是一个Shell脚本，配置相关参数并执行Java调用<code>com.android.tools.lint.Main</code>进行检查。</p>
+<h3 id="Android-Studio、IDEA中的实现">Android Studio、IDEA中的实现</h3>
+<p>在Android Studio或装有Android插件的IDEA环境下，Inspections中的Lint检查是通过Android插件实现的，代码实现主要在<code>org.jetbrains.android.inspections.lint</code>包中。</p>
+<blockquote>
+<p>IDEA Android插件中Lint部分的实现<br>
+<a target="_blank" rel="noopener" href="https://github.com/JetBrains/android/blob/master/android/src/org/jetbrains/android/inspections/lint">https://github.com/JetBrains/android/blob/master/android/src/org/jetbrains/android/inspections/lint</a></p>
+</blockquote>
+<h2 id="自定义Lint开发基础">自定义Lint开发基础</h2>
+<h3 id="主要API">主要API</h3>
+<p>自定义Lint开发需要调用Lint提供的API，最主要的几个API如下。</p>
+<ul>
+<li>
+<p>Issue：表示一个Lint规则。例如调用<code>Toast.makeText()</code>方法后，没有调用<code>Toast.show()</code>方法将其显示。</p>
+</li>
+<li>
+<p>IssueRegistry：用于注册要检查的Issue列表。自定义Lint需要生成一个jar文件，其Manifest指向IssueRegistry类。</p>
+</li>
+<li>
+<p>Detector：用于检测并报告代码中的Issue。每个Issue包含一个Detector。</p>
+</li>
+<li>
+<p>Scope：声明Detector要扫描的代码范围，例如Java源文件、XML资源文件、Gradle文件等。每个Issue可包含多个Scope。</p>
+</li>
+<li>
+<p>Scanner：用于扫描并发现代码中的Issue。每个Detector可以实现一到多个Scanner。自定义Lint开发过程中最主要的工作就是实现Scanner。</p>
+</li>
+</ul>
+<p>简易示例如下。</p>
+<p>Manifest文件（<code>META-INF/MANIFEST.MF</code>）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Manifest-Version: 1.0</span><br><span class="line">Lint-Registry: com.paincker.lint.core.MyIssueRegistry</span><br></pre></td></tr></table></figure>
+<p>Java代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyIssueRegistry</span> <span class="keyword">extends</span> <span class="title">IssueRegistry</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> List&lt;Issue&gt; <span class="title">getIssues</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Arrays.asList(LogDetector.ISSUE, NewThreadDetector.ISSUE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogDetector</span> <span class="keyword">extends</span> <span class="title">Detector</span> <span class="keyword">implements</span> <span class="title">Detector</span>.<span class="title">JavaPsiScanner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Issue ISSUE = Issue.create(</span><br><span class="line">            <span class="string">&quot;LogUsage&quot;</span>,</span><br><span class="line">            <span class="string">&quot;避免调用android.util.Log&quot;</span>,</span><br><span class="line">            <span class="string">&quot;请勿直接调用android.util.Log，应该使用统一工具类&quot;</span>,</span><br><span class="line">            Category.SECURITY, <span class="number">5</span>, Severity.ERROR,</span><br><span class="line">            <span class="keyword">new</span> Implementation(LogDetector.class, Scope.JAVA_FILE_SCOPE));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Detector的实现...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Scanner">Scanner</h3>
+<p>Lint中包括多种类型的Scanner如下，其中最常用的是扫描Java源文件和XML文件的Scanner。</p>
+<ul>
+<li>JavaScanner / JavaPsiScanner / UastScanner：扫描Java源文件</li>
+<li>XmlScanner：扫描XML文件</li>
+<li>ClassScanner：扫描class文件</li>
+<li>BinaryResourceScanner：扫描二进制资源文件</li>
+<li>ResourceFolderScanner：扫描资源文件夹</li>
+<li>GradleScanner：扫描Gradle脚本</li>
+<li>OtherFileScanner：扫描其他类型文件</li>
+</ul>
+<p>值得注意的是，扫描Java源文件的Scanner先后经历了三个版本。</p>
+<ol>
+<li>
+<p>最开始使用的是JavaScanner，Lint通过Lombok库将Java源码解析成AST(抽象语法树)，然后由JavaScanner扫描。</p>
+</li>
+<li>
+<p>在Android Studio 2.2和lint-api 25.2.0版本中，Lint工具将Lombok AST替换为PSI，同时弃用JavaScanner，推荐使用JavaPsiScanner。</p>
+<p>PSI是JetBrains在IDEA中解析Java源码生成语法树后提供的API。相比之前的Lombok AST，可以支持Java 1.8、类型解析等。使用JavaPsiScanner实现的自定义Lint规则，可以被加载到Android Studio 2.2+版本中，在编写Android代码时实时执行。</p>
+</li>
+<li>
+<p>在Android Studio 3.0和lint-api 25.4.0版本中，Lint工具将PSI替换为UAST，同时推荐使用新的UastScanner。</p>
+<p>UAST是JetBrains在IDEA新版本中用于替换PSI的API。UAST更加语言无关，除了支持Java，还可以支持Kotlin。</p>
+</li>
+</ol>
+<p>本文目前仍然基于PsiJavaScanner做介绍。根据UastScanner源码中的注释，可以很容易的从PsiJavaScanner迁移到UastScanner。</p>
+<h3 id="PSI介绍">PSI介绍</h3>
+<p>PSI(Program Structure Interface)是IDEA中用于解析代码的一套API，可将文件的内容表示为特定编程语言中的元素的层级结构。</p>
+<blockquote>
+<p>A PSI (Program Structure Interface) file is the root of a structure representing the contents of a file as a hierarchy of elements in a particular programming language.</p>
+</blockquote>
+<p>每种Psi元素对应一个类，均继承自<code>com.intellij.psi.PsiElement</code>。例如PsiMethodCallExpression表示方法调用语句，PsiNewExpression表示对象实例化语句等。</p>
+<p>官方文档</p>
+<blockquote>
+<p>IntelliJ Platform SDK DevGuide<br>
+<a target="_blank" rel="noopener" href="http://www.jetbrains.org/intellij/sdk/docs/basics/architectural_overview/psi_files.html">http://www.jetbrains.org/intellij/sdk/docs/basics/architectural_overview/psi_files.html</a></p>
+</blockquote>
+<h3 id="PSI-Viewer">PSI Viewer</h3>
+<p>可以在IDEA / Android Studio中安装PSI Viewer插件，查看代码解析后的PSI元素及其属性值，例如下图中的<code>new Thread(...)</code>语句，就是一个PsiNewExpression元素。</p>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/psi-viewer.png" alt=""></p>
+<h3 id="JavaPsiScanner介绍">JavaPsiScanner介绍</h3>
+<p>JavaPsiScanner中包含6组、12个回调方法，如下。</p>
+<ol>
+<li>
+<p>当<code>getApplicablePsiTypes</code>返回了需要检查的Psi元素类型列表时，类型匹配的Psi元素(<code>PsiElement</code>)就会被<code>createPsiVisitor</code>返回的<code>JavaElementVisitor</code>检查。</p>
+</li>
+<li>
+<p>当<code>getApplicableMethodNames</code>返回方法名的列表时，名称匹配的方法调用(<code>PsiMethodCallExpression</code>)就会被<code>visitMethod</code>检查。</p>
+</li>
+<li>
+<p>当<code>getApplicableConstructorTypes</code>返回类名的列表时，类名匹配的构造语句(<code>PsiNewExpression</code>)就会被<code>visitConstructor</code>检查。</p>
+</li>
+<li>
+<p>当<code>getApplicableReferenceNames</code>返回引用名的列表时，名称匹配的引用语句(<code>PsiJavaCodeReferenceElement</code>)就会被<code>visitReference</code>检查。</p>
+</li>
+<li>
+<p>当<code>appliesToResourceRefs</code>返回true时，Java代码中的资源引用（例如<code>R.layout.main</code>）就会被<code>visitResourceReference</code>检查。</p>
+</li>
+<li>
+<p>当<code>applicableSuperClasses</code>返回父类名的列表时，父类名匹配的类声明(<code>PsiClass</code>)就会被<code>checkClass</code>检查。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">JavaPsiScanner</span>  </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    List&lt;Class&lt;? extends PsiElement&gt;&gt; getApplicablePsiTypes();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="function">JavaElementVisitor <span class="title">createPsiVisitor</span><span class="params">(<span class="meta">@NonNull</span> JavaContext context)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="function">List&lt;String&gt; <span class="title">getApplicableMethodNames</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visitMethod</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> JavaContext context,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@Nullable</span> JavaElementVisitor visitor,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> PsiMethodCallExpression call,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> PsiMethod method)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="function">List&lt;String&gt; <span class="title">getApplicableConstructorTypes</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visitConstructor</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> JavaContext context,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@Nullable</span> JavaElementVisitor visitor,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> PsiNewExpression node,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> PsiMethod constructor)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="function">List&lt;String&gt; <span class="title">getApplicableReferenceNames</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visitReference</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> JavaContext context,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@Nullable</span> JavaElementVisitor visitor,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> PsiJavaCodeReferenceElement reference,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> PsiElement referenced)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">appliesToResourceRefs</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">visitResourceReference</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> JavaContext context,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@Nullable</span> JavaElementVisitor visitor,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> PsiElement node,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> ResourceType type,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="meta">@NonNull</span> String name,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">boolean</span> isFramework)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="function">List&lt;String&gt; <span class="title">applicableSuperClasses</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">checkClass</span><span class="params">(<span class="meta">@NonNull</span> JavaContext context, <span class="meta">@NonNull</span> PsiClass declaration)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="自定义Lint开发过程">自定义Lint开发过程</h2>
+<blockquote>
+<p>示例工程可在此下载<br>
+<a target="_blank" rel="noopener" href="https://github.com/jzj1993/AndroidLint">https://github.com/jzj1993/AndroidLint</a></p>
+</blockquote>
+<h3 id="创建Lint-jar">创建Lint.jar</h3>
+<p>创建基于Gradle的Java工程/模块，编写代码，使用<code>gradle assemble</code>指令打包成jar。具体可参考示例工程。</p>
+<p>其中build.gradle文件如下。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="attr">plugin:</span> <span class="string">&#x27;java&#x27;</span></span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile <span class="string">&#x27;com.android.tools.lint:lint-api:25.3.0&#x27;</span></span><br><span class="line">    compile <span class="string">&#x27;com.android.tools.lint:lint-checks:25.3.0&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">jar &#123;</span><br><span class="line">    manifest &#123;</span><br><span class="line">        attributes(<span class="string">&quot;Lint-Registry&quot;</span>: <span class="string">&quot;com.paincker.lint.core.MyIssueRegistry&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">configurations &#123;</span><br><span class="line">    lintChecks</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    lintChecks files(jar)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Java源码如下。在这个例子里，创建了两条Lint规则：</p>
+<ul>
+<li>LogDetector：检查是否使用了Android系统的Log工具类，并要求使用统一封装的工具类。</li>
+<li>NewThreadDetector：检查是否直接创建了新线程，并要求使用AsyncTask或统一工具类。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.paincker.lint.core;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.client.api.IssueRegistry;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Issue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyIssueRegistry</span> <span class="keyword">extends</span> <span class="title">IssueRegistry</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> List&lt;Issue&gt; <span class="title">getIssues</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;==== my lint start ====&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> Arrays.asList(LogDetector.ISSUE, NewThreadDetector.ISSUE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.paincker.lint.core;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Category;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Detector;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Implementation;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Issue;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.JavaContext;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Scope;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Severity;</span><br><span class="line"><span class="keyword">import</span> com.intellij.psi.JavaElementVisitor;</span><br><span class="line"><span class="keyword">import</span> com.intellij.psi.PsiMethod;</span><br><span class="line"><span class="keyword">import</span> com.intellij.psi.PsiMethodCallExpression;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogDetector</span> <span class="keyword">extends</span> <span class="title">Detector</span> <span class="keyword">implements</span> <span class="title">Detector</span>.<span class="title">JavaPsiScanner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Issue ISSUE = Issue.create(</span><br><span class="line">            <span class="string">&quot;LogUsage&quot;</span>,</span><br><span class="line">            <span class="string">&quot;避免调用android.util.Log&quot;</span>,</span><br><span class="line">            <span class="string">&quot;请勿直接调用android.util.Log，应该使用统一工具类&quot;</span>,</span><br><span class="line">            Category.SECURITY, <span class="number">5</span>, Severity.ERROR,</span><br><span class="line">            <span class="keyword">new</span> Implementation(LogDetector.class, Scope.JAVA_FILE_SCOPE));</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getApplicableMethodNames</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Arrays.asList(<span class="string">&quot;v&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;i&quot;</span>, <span class="string">&quot;w&quot;</span>, <span class="string">&quot;e&quot;</span>, <span class="string">&quot;wtf&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitMethod</span><span class="params">(JavaContext context, JavaElementVisitor visitor, PsiMethodCallExpression call, PsiMethod method)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (context.getEvaluator().isMemberInClass(method, <span class="string">&quot;android.util.Log&quot;</span>)) &#123;</span><br><span class="line">            context.report(ISSUE, call, context.getLocation(call.getMethodExpression()), <span class="string">&quot;请勿直接调用android.util.Log，应该使用统一工具类&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.paincker.lint.core;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.android.annotations.NonNull;</span><br><span class="line"><span class="keyword">import</span> com.android.annotations.Nullable;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Category;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Detector;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Implementation;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Issue;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.JavaContext;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Location;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Scope;</span><br><span class="line"><span class="keyword">import</span> com.android.tools.lint.detector.api.Severity;</span><br><span class="line"><span class="keyword">import</span> com.intellij.psi.JavaElementVisitor;</span><br><span class="line"><span class="keyword">import</span> com.intellij.psi.PsiMethod;</span><br><span class="line"><span class="keyword">import</span> com.intellij.psi.PsiNewExpression;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadDetector</span> <span class="keyword">extends</span> <span class="title">Detector</span> <span class="keyword">implements</span> <span class="title">Detector</span>.<span class="title">JavaPsiScanner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Issue ISSUE = Issue.create(</span><br><span class="line">            <span class="string">&quot;NewThread&quot;</span>,</span><br><span class="line">            <span class="string">&quot;避免自己创建Thread&quot;</span>,</span><br><span class="line">            <span class="string">&quot;请勿直接调用new Thread()，建议使用AsyncTask或统一的线程管理工具类&quot;</span>,</span><br><span class="line">            Category.PERFORMANCE, <span class="number">5</span>, Severity.ERROR,</span><br><span class="line">            <span class="keyword">new</span> Implementation(NewThreadDetector.class, Scope.JAVA_FILE_SCOPE));</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getApplicableConstructorTypes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Collections.singletonList(<span class="string">&quot;java.lang.Thread&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitConstructor</span><span class="params">(<span class="meta">@NonNull</span> JavaContext context, <span class="meta">@Nullable</span> JavaElementVisitor visitor,</span></span></span><br><span class="line"><span class="params"><span class="function">                                 <span class="meta">@NonNull</span> PsiNewExpression node, <span class="meta">@NonNull</span> PsiMethod constructor)</span> </span>&#123;</span><br><span class="line">        context.report(ISSUE, node, context.getLocation(node), <span class="string">&quot;请勿直接调用new Thread()，建议使用AsyncTask或统一的线程管理工具类&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="验证Lint-jar文件可用">验证Lint.jar文件可用</h3>
+<p>复制上一步生成的<code>lint.jar</code>文件到<code>~/.android/lint/</code>目录下，在Android工程中写一些不符合自定义Lint规则的代码如下。在工程根目录下调用<code>./gradlew lint</code>执行Lint检查，即可看到Lint输出结果。</p>
+<p>验证完成后删掉jar文件，防止和后续步骤冲突。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        Log.d(<span class="string">&quot;tag&quot;</span>, <span class="string">&quot;msg&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建Lint-aar">创建Lint.aar</h3>
+<p>前面的使用方式，自定义Lint必须保存在电脑中的特定文件夹。实际应用时，往往希望自定义Lint和工程关联，而不是和电脑关联，因此需要创建<code>lint.aar</code>包，并在需要执行自定义Lint检查的工程中依赖这个AAR。</p>
+<p>依赖关系：Java模块 --&gt; 包含<code>lint.jar</code>的<code>lint.aar</code>模块 --&gt; 实际Android项目</p>
+<p>具体步骤如下（完整的工程见示例代码）。</p>
+<ol>
+<li>
+<p>在Android Studio中创建一个空的Java模块<code>lintjar</code>，和一个空的Android Library模块<code>lintaar</code>。</p>
+</li>
+<li>
+<p><code>lintjar</code>模块中的配置和前面相同，用于编写实际的Lint规则。</p>
+</li>
+<li>
+<p><code>lintaar</code>模块依赖<code>lintjar</code>模块，<code>build.gradle</code>如下，主要是把jar文件改成了<code>lint.jar</code>并打包到AAR里。<code>lintaar</code>模块编译生成的AAR即为需要的<code>lint.aar</code>。</p>
+</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="attr">plugin:</span> <span class="string">&#x27;com.android.library&#x27;</span></span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion <span class="number">24</span></span><br><span class="line">    buildToolsVersion <span class="string">&#x27;25.0.2&#x27;</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        minSdkVersion <span class="number">15</span></span><br><span class="line">        targetSdkVersion <span class="number">25</span></span><br><span class="line">        versionCode <span class="number">1</span></span><br><span class="line">        versionName <span class="string">&quot;1.0&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="literal">false</span></span><br><span class="line">            proguardFiles getDefaultProguardFile(<span class="string">&#x27;proguard-android.txt&#x27;</span>), <span class="string">&#x27;proguard-rules.pro&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">configurations &#123;</span><br><span class="line">    lintLibrary</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    lintLibrary project(<span class="attr">path:</span> <span class="string">&quot;:lintjar&quot;</span>, <span class="attr">configuration:</span> <span class="string">&quot;lintChecks&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task copyLintJar(<span class="attr">type:</span> Copy) &#123;</span><br><span class="line">    from(configurations.lintLibrary) &#123;</span><br><span class="line">        rename &#123;</span><br><span class="line">            String fileName -&gt;</span><br><span class="line">                <span class="string">&#x27;lint.jar&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    into <span class="string">&#x27;build/intermediates/lint/&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">project.afterEvaluate &#123;</span><br><span class="line">    <span class="keyword">def</span> compileLintTask = project.tasks.find &#123; it.name == <span class="string">&#x27;compileLint&#x27;</span> &#125;</span><br><span class="line">    compileLintTask.dependsOn(copyLintJar)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="运行自定义Lint">运行自定义Lint</h3>
+<p>在Android工程中依赖<code>lint.aar</code>，或者直接依赖前面的<code>lintaar</code>工程，在执行Lint任务时，就会同时执行自定义的Lint规则（完整工程见示例代码）。</p>
+<h2 id="自定义Lint调试">自定义Lint调试</h2>
+<p>开发过程中，可能需要对自定义Lint进行调试。在电脑上编译Android工程时，自定义Lint是以jar文件的形式被加载并运行的。实际试验发现，其调试过程和Gradle插件开发的调试过程相似。</p>
+<ol>
+<li>
+<p>在Android项目中，以源码形式依赖自定义Lint代码（和示例代码一致）。</p>
+</li>
+<li>
+<p>提前在自定义Lint代码中打好断点。</p>
+</li>
+<li>
+<p>在Android Application模块的build.gradle中关闭Lint的abortOnError选项，以免还没到断点时build就中止了。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lintOptions &#123;</span><br><span class="line">    abortOnError <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在Android Studio的运行参数(Run Configurations)中添加一个Remote类型，都取默认值即可。</p>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/run-config-remote.png" alt=""></p>
+</li>
+<li>
+<p>打开一个命令行窗口，执行下面命令设置临时环境变量，从而开启Gradle调试。端口号为默认的5005，和前面在Android Studio中新增的Run Configuration端口号一致。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> GRADLE_OPTS=<span class="string">&quot;-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>还是在这个命令行窗口，执行Gradle任务，并设置参数关闭Gradle Deamon。执行后Gradle会等待Android Studio调试器连接。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew clean lintDebug -Dorg.gradle.daemon=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Android Studio使用刚配置的Remote运行参数，点击调试箭头按钮，连接到Gradle就会开始执行，执行到Lint任务时就会在断点处中断，可以正常调试Java源码。</p>
+</li>
+<li>
+<p>命令行执行下面代码，可关闭Gradle调试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unset</span> GRADLE_OPTS</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="参考资料与扩展阅读">参考资料与扩展阅读</h2>
+<ul>
+<li>
+<p>使用 Lint 改进您的代码<br>
+<a target="_blank" rel="noopener" href="https://developer.android.com/studio/write/lint.html">https://developer.android.com/studio/write/lint.html</a></p>
+</li>
+<li>
+<p>AndAndroid Plugin DSL Reference：LintOptions<br>
+<a target="_blank" rel="noopener" href="http://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.LintOptions.html">http://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.LintOptions.html</a></p>
+</li>
+<li>
+<p>How Do We Configure Android Studio to Run Its Lint on Every Build?<br>
+<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/32631131/how-do-we-configure-android-studio-to-run-its-lint-on-every-build">http://stackoverflow.com/questions/32631131/how-do-we-configure-android-studio-to-run-its-lint-on-every-build</a></p>
+</li>
+<li>
+<p>Writing custom lint rules and integrating them with Android Studio inspections<br>
+<a target="_blank" rel="noopener" href="https://android.jlelse.eu/writing-custom-lint-rules-and-integrating-them-with-android-studio-inspections-or-carefulnow-c54d72f00d30">https://android.jlelse.eu/writing-custom-lint-rules-and-integrating-them-with-android-studio-inspections-or-carefulnow-c54d72f00d30</a></p>
+</li>
+<li>
+<p>你可能不知道的Android Studio/IDEA使用技巧<br>
+<a href="http://www.xiaoming.io/android-studio-skill">http://www.xiaoming.io/android-studio-skill</a></p>
+</li>
+<li>
+<p>Android自定义Lint实践<br>
+<a target="_blank" rel="noopener" href="http://tech.meituan.com/android_custom_lint.html">http://tech.meituan.com/android_custom_lint.html</a></p>
+</li>
+<li>
+<p>Android Gradle配置快速入门<br>
+<a href="http://www.xiaoming.io/android-gradle-basics">http://www.xiaoming.io/android-gradle-basics</a></p>
+</li>
+<li>
+<p>Gradle开发快速入门——DSL语法原理与常用API介绍<br>
+<a href="http://www.xiaoming.io/gradle-develop-basics">http://www.xiaoming.io/gradle-develop-basics</a></p>
+</li>
+<li>
+<p>Viewing PSI Structure<br>
+<a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/idea/viewing-psi-structure.html">https://www.jetbrains.com/help/idea/viewing-psi-structure.html</a></p>
+</li>
+<li>
+<p>Git - Documentation<br>
+<a target="_blank" rel="noopener" href="https://git-scm.com/documentation">https://git-scm.com/documentation</a></p>
+</li>
+</ul>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-bitmap/" rel="bookmark">Android Bitmap操作内存问题总结(图片处理、截屏等)</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/glide-study/" rel="bookmark">Glide使用简介与源码分析</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-7-ratingbar-bug/" rel="bookmark">Android 7.0中RatingBar评星点击区域不准确的解决</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-studio-skill/" rel="bookmark">你可能不知道的Android Studio/IDEA使用技巧</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"># 安卓</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+              <a href="/tags/Lint/" rel="tag"># Lint</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/android-lint-1-usage/" rel="prev" title="Android Lint：基本使用与配置">
+      <i class="fa fa-chevron-left"></i> Android Lint：基本使用与配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/economic-machine/" rel="next" title="30分钟极简经济学：经济机器是如何运转的（中英文版视频与图文学习笔记）">
+      30分钟极简经济学：经济机器是如何运转的（中英文版视频与图文学习笔记） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Lint%E5%AE%9E%E7%8E%B0%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Android Lint实现简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-SDK"><span class="nav-number">1.1.</span> <span class="nav-text">Android SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lint%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">Lint命令行实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-Studio%E3%80%81IDEA%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">Android Studio、IDEA中的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Lint%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">自定义Lint开发基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81API"><span class="nav-number">2.1.</span> <span class="nav-text">主要API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scanner"><span class="nav-number">2.2.</span> <span class="nav-text">Scanner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PSI%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.3.</span> <span class="nav-text">PSI介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PSI-Viewer"><span class="nav-number">2.4.</span> <span class="nav-text">PSI Viewer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JavaPsiScanner%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.5.</span> <span class="nav-text">JavaPsiScanner介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Lint%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">自定义Lint开发过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BALint-jar"><span class="nav-number">3.1.</span> <span class="nav-text">创建Lint.jar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81Lint-jar%E6%96%87%E4%BB%B6%E5%8F%AF%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text">验证Lint.jar文件可用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BALint-aar"><span class="nav-number">3.3.</span> <span class="nav-text">创建Lint.aar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E8%87%AA%E5%AE%9A%E4%B9%89Lint"><span class="nav-number">3.4.</span> <span class="nav-text">运行自定义Lint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Lint%E8%B0%83%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">自定义Lint调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E4%B8%8E%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="nav-number">5.</span> <span class="nav-text">参考资料与扩展阅读</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="装系统的三层境界 装系统很简单，各种傻瓜式教程轻松搞定。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装系统不求人——概述">
+<meta property="og:url" content="https://www.xiaoming.io/sysinst-summary/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="装系统的三层境界 装系统很简单，各种傻瓜式教程轻松搞定。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-04-02T08:58:56.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.404Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="#装系统不求人#">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/sysinst-summary/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>装系统不求人——概述 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/sysinst-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          装系统不求人——概述
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-02 16:58:56" itemprop="dateCreated datePublished" datetime="2015-04-02T16:58:56+08:00">2015-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sysinst/" itemprop="url" rel="index"><span itemprop="name">装系统不求人</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sysinst-summary/" class="post-meta-item leancloud_visitors" data-flag-title="装系统不求人——概述" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sysinst-summary/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sysinst-summary/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="装系统的三层境界">装系统的三层境界</h2>
+<p>装系统很简单，各种傻瓜式教程轻松搞定。</p>
+<p>装系统很困难，突发情况手足无措，复杂的背景知识无从学习。</p>
+<p>装系统很简单，《装系统不求人》系列帮你解析。</p>
+<h2 id="古老而神秘的法术">古老而神秘的法术</h2>
+<p>作为一项古老而又神秘的法术，装系统一直被很多电脑入门者视为神术。</p>
+<p>我从高中开始接触电脑，对装系统有比较多的接触，也帮不少人装过系统（例如帮女生装系统收获“好人卡”的光荣事迹）。记得以前把电脑装坏了很多次，把分区甚至整个硬盘给弄没了等等情况，历经千难万苦，终于修成正果。再也不会因为电脑不开机急得想哭了（特别是怕我妈说我玩坏了电脑，又要花钱找人修）。</p>
+<h2 id="我们都怕装系统">我们都怕装系统</h2>
+<p>为什么装系统那么难学，那么让人畏惧呢？大概有这些原因。</p>
+<ul>
+<li>
+<p>装系统真的很麻烦，动不动一个操作就要等上几十分钟乃至更久。</p>
+</li>
+<li>
+<p>动不动就得重启电脑，如果只有一台电脑被装坏了，都没法上网找攻略了，更不用说什么远程协助了。好在近几年手机发展迅速，紧急时刻还能当个备用小电脑。我刚开始学装系统的那个年代，可是用不上智能手机和GPRS的。</p>
+</li>
+<li>
+<p>没有中文输入法可以接受，没有声音可以接受，但是不开机是绝对不能忍的。</p>
+</li>
+<li>
+<p>最可怕的不是电脑不开机，而是珍藏多年的好友照片、文章等内容不翼而飞，简直欲哭无泪。装系统就经常面对硬盘分区、格式化等操作，如果基本知识不足、不够谨慎、大脑抽风、手贱，误删文件这种事太正常了。</p>
+</li>
+<li>
+<p>面对只支持键盘、英文、命令行的接近裸机环境，只有专业人员才能保持淡定。</p>
+</li>
+<li>
+<p>各种常人无法理解的专用名词，需要很深厚的功底和很强的思维才能弄明白。</p>
+</li>
+<li>
+<p><strong>装系统顺利的时候会很顺利，不顺利的时候会哭死</strong>。每个人的电脑、硬件、硬盘分区、要装的系统都不一样，一旦出现一点兼容性等问题，经验少的人根本无从解决。</p>
+</li>
+<li>
+<p>担心电脑会爆炸，伤及无辜。以及彻底搞坏电脑，需要求别人或者花钱才能修好，甚至维修人员摇摇头说“你干脆买个新电脑吧”。</p>
+</li>
+</ul>
+<h2 id="本系列文章内容">本系列文章内容</h2>
+<p>本系列文章尝试尽量通俗的讲解装系统及大量周边问题、解释各种名词等，目标是教会具有基本电脑操作技巧的人学会装系统，晋升成为万能的<strong>运维工程师</strong>（开个玩笑，运维工程师可不只是装系统的）~</p>
+<p>由于各种新技术、新事物层出不穷，例如UEFI BIOS、GPT硬盘分区、Windows 10等，<strong>由于个人水平、时间精力、手头资源等各种原因，没办法将这些新东西都进行详细介绍</strong>……</p>
+<p>根据个人心情和时间、手头可获取的资源等因素，本系列文章<strong>可能</strong>包含以下内容：</p>
+<ul>
+<li>各种叼炸天的名词：BIOS、BootLoader、MBR、DPT……</li>
+<li>通吃一切的万能启动盘的制作</li>
+<li>神秘的BIOS设置</li>
+<li>实用的XP / Win7 / Win8 / Ubuntu（Linux）系统安装</li>
+<li>系统/数据/分区表备份还原</li>
+<li>硬盘分区等操作</li>
+<li>系统激活、驱动安装、系统优化等</li>
+<li>诡异的数据恢复</li>
+<li>罪恶的开机密码破解</li>
+<li>奇迹般的引导记录修复</li>
+<li>各种神器的使用</li>
+</ul>
+<h2 id="建议阅读顺序">建议阅读顺序</h2>
+<p>本系列文章建议阅读顺序如下，如果有文章点不开的，说明我还没写~<code>｡◕‿◕｡</code></p>
+<ol>
+<li>
+<p>《装系统不求人——概述》<br>
+<a href="http://www.xiaoming.io/sysinst-summary">http://www.xiaoming.io/sysinst-summary</a></p>
+</li>
+<li>
+<p>《装系统不求人——利用Grub4dos打造万能启动盘》<br>
+<a href="http://www.xiaoming.io/sysinst-create-bootable-disk">http://www.xiaoming.io/sysinst-create-bootable-disk</a></p>
+</li>
+<li>
+<p>《装系统不求人——BIOS设置》<br>
+<a href="http://www.xiaoming.io/sysinst-bios">http://www.xiaoming.io/sysinst-bios</a></p>
+</li>
+<li>
+<p>《装系统不求人——BIOS启动项设置实例》<br>
+<a href="http://www.xiaoming.io/sysinst-bios-example">http://www.xiaoming.io/sysinst-bios-example</a></p>
+</li>
+<li>
+<p>《装系统不求人——万能启动盘使用简介》<br>
+<a href="http://www.xiaoming.io/sysinst-bootable-disk-manual">http://www.xiaoming.io/sysinst-bootable-disk-manual</a></p>
+</li>
+<li>
+<p>《装系统不求人——硬盘的秘密》<br>
+<a href="http://www.xiaoming.io/sysinst-harddisk">http://www.xiaoming.io/sysinst-harddisk</a></p>
+</li>
+<li>
+<p>《装系统不求人——硬盘的秘密深入》<br>
+<a href="http://www.xiaoming.io/sysinst-harddisk-details">http://www.xiaoming.io/sysinst-harddisk-details</a></p>
+</li>
+<li>
+<p>《装系统不求人——硬盘折腾大全与数据恢复》<br>
+<a href="http://www.xiaoming.io/sysinst-harddisk-op">http://www.xiaoming.io/sysinst-harddisk-op</a></p>
+</li>
+<li>
+<p>《装系统不求人——Windows7/8系统的安装（利用Win$Man）》<br>
+<a href="http://www.xiaoming.io/sysinst-win-nt6">http://www.xiaoming.io/sysinst-win-nt6</a></p>
+</li>
+<li>
+<p>《装系统不求人——系统安装准备工作》<br>
+<a href="http://www.xiaoming.io/sysinst-prepare">http://www.xiaoming.io/sysinst-prepare</a></p>
+</li>
+<li>
+<p>《装系统不求人——系统安装后续工作》<br>
+<a href="http://www.xiaoming.io/sysinst-follow-up">http://www.xiaoming.io/sysinst-follow-up</a></p>
+</li>
+<li>
+<p>《装系统不求人——用Ghost备份还原系统》<br>
+<a href="http://www.xiaoming.io/sysinst-ghost">http://www.xiaoming.io/sysinst-ghost</a></p>
+</li>
+<li>
+<p>《装系统不求人——BootLoader与引导修复》<br>
+<a href="http://www.xiaoming.io/sysinst-boot">http://www.xiaoming.io/sysinst-boot</a></p>
+</li>
+<li>
+<p>《装系统不求人——Win XP安装》<br>
+<a href="http://www.xiaoming.io/sysinst-xp">http://www.xiaoming.io/sysinst-xp</a></p>
+</li>
+<li>
+<p>《装系统不求人——量身定制自己的万能启动盘》<br>
+<a href="http://www.xiaoming.io/sysinst-customize-bootable-disk">http://www.xiaoming.io/sysinst-customize-bootable-disk</a></p>
+</li>
+<li>
+<p>《装系统不求人——安装Ubuntu》<br>
+<a href="http://www.xiaoming.io/sysinst-ubuntu">http://www.xiaoming.io/sysinst-ubuntu</a></p>
+</li>
+<li>
+<p>《装系统不求人——开机密码破解》<br>
+<a href="http://www.xiaoming.io/sysinst-pwd-crack">http://www.xiaoming.io/sysinst-pwd-crack</a></p>
+</li>
+</ol>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-pwd-crack/" rel="bookmark">装系统不求人——开机密码破解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ubuntu/" rel="bookmark">装系统不求人——安装Ubuntu</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-customize-bootable-disk/" rel="bookmark">装系统不求人——量身定制自己的万能启动盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-xp/" rel="bookmark">装系统不求人——Win XP安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-boot/" rel="bookmark">装系统不求人——BootLoader与引导修复</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-prepare/" rel="bookmark">装系统不求人——系统安装准备工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ghost/" rel="bookmark">装系统不求人——用Ghost备份还原系统</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-follow-up/" rel="bookmark">装系统不求人——系统安装后续工作</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B8%8D%E6%B1%82%E4%BA%BA/" rel="tag"># #装系统不求人#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/github-download-single-file/" rel="prev" title="如何从GitHub项目中下载单个文件（不需要使用命令行、SVN等工具）">
+      <i class="fa fa-chevron-left"></i> 如何从GitHub项目中下载单个文件（不需要使用命令行、SVN等工具）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sysinst-create-bootable-disk/" rel="next" title="装系统不求人——利用Grub4dos打造万能启动盘">
+      装系统不求人——利用Grub4dos打造万能启动盘 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%85%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%B8%89%E5%B1%82%E5%A2%83%E7%95%8C"><span class="nav-number">1.</span> <span class="nav-text">装系统的三层境界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%A4%E8%80%81%E8%80%8C%E7%A5%9E%E7%A7%98%E7%9A%84%E6%B3%95%E6%9C%AF"><span class="nav-number">2.</span> <span class="nav-text">古老而神秘的法术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%BB%AC%E9%83%BD%E6%80%95%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text">我们都怕装系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0%E5%86%85%E5%AE%B9"><span class="nav-number">4.</span> <span class="nav-text">本系列文章内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E8%AE%AE%E9%98%85%E8%AF%BB%E9%A1%BA%E5%BA%8F"><span class="nav-number">5.</span> <span class="nav-text">建议阅读顺序</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

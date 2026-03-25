@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Glide是谷歌官方推荐的一个Android图片库，既然如此，肯定有一些比较特别的地方。总得来看，Glide是我所了解的Android图片库中，功能最强大的一个了。从代码复杂度来看，估计也就Fresco能与其相比了。 关于Glide的用法，本文只是简单梳理了下。你也可以参考这个系列文章，写的比较全面详细 https:&#x2F;&#x2F;mrfu.me&#x2F;2016&#x2F;02&#x2F;27&#x2F;Glide_Getting_Starte">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Glide使用简介与源码分析">
+<meta property="og:url" content="https://www.xiaoming.io/glide-study/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="Glide是谷歌官方推荐的一个Android图片库，既然如此，肯定有一些比较特别的地方。总得来看，Glide是我所了解的Android图片库中，功能最强大的一个了。从代码复杂度来看，估计也就Fresco能与其相比了。 关于Glide的用法，本文只是简单梳理了下。你也可以参考这个系列文章，写的比较全面详细 https:&#x2F;&#x2F;mrfu.me&#x2F;2016&#x2F;02&#x2F;27&#x2F;Glide_Getting_Starte">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-04-15T02:53:25.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.574Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="安卓">
+<meta property="article:tag" content="移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/glide-study/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Glide使用简介与源码分析 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">290</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">135</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/glide-study/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Glide使用简介与源码分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-04-15 10:53:25" itemprop="dateCreated datePublished" datetime="2017-04-15T10:53:25+08:00">2017-04-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/glide-study/" class="post-meta-item leancloud_visitors" data-flag-title="Glide使用简介与源码分析" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/glide-study/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/glide-study/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>18k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>16 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Glide是谷歌官方推荐的一个Android图片库，既然如此，肯定有一些比较特别的地方。总得来看，Glide是我所了解的Android图片库中，功能最强大的一个了。从代码复杂度来看，估计也就Fresco能与其相比了。</p>
+<p>关于Glide的用法，本文只是简单梳理了下。你也可以参考这个系列文章，写的比较全面详细<br>
+<a target="_blank" rel="noopener" href="https://mrfu.me/2016/02/27/Glide_Getting_Started/">https://mrfu.me/2016/02/27/Glide_Getting_Started/</a></p>
+<p>源码方面，本文基于3.7做了一些关键点的分析。代码里各种泛型看的眼花缭乱……</p>
+<h2 id="Glide特点">Glide特点</h2>
+<ol>
+<li>
+<p>**生命周期：**图片的加载、GIF图片的播放，可和页面的生命周期一致。可接受Activity、Fragment、FragmentActivity、ApplicationContext。</p>
+<p>实现原理：</p>
+<p>Glide对每个页面维护了一个单独的RequestManager。</p>
+<p>对于每一个Activity或Fragment，在其中添加一个RequestManagerFragment作为子Fragment，其生命周期和父组件Activity或Fragment的生命周期一致，在RequestManagerFragment中onStart、onStop、onDestroy中调用相应方法。</p>
+<p>对于ApplicationContext，只调用了onStart方法。</p>
+<p><strong>优点：</strong> 可自动根据页面生命周期，开始/暂停加载图片、展示动态图片。</p>
+<p><strong>缺点：</strong> 会消耗更多资源。使用时如果不了解相关特性，容易出错。</p>
+</li>
+<li>
+<p>相比Fresco，没有使用JNI</p>
+<p><strong>优点：</strong> 不容易出现JNI相关的错误，配置更容易</p>
+<p><strong>缺点：</strong> 相比Fresco，性能可能稍差，OOM的概率可能多一点</p>
+</li>
+<li>
+<p>**Bitmap解码格式：**默认优先使用RGB_565，比ARGB_8888内存占用减少一半，性能好。可全局配置优先使用RGB_565或ARGB_8888，也可对某个请求单独配置。Fresco也可以支持两种编码，而Picasso只支持ARGB_8888。</p>
+</li>
+<li>
+<p>**磁盘缓存策略：**默认使用了内存LRU缓存和磁盘LRU缓存。磁盘缓存支持配置缓存全尺寸、转换过的尺寸、两者都保存。可全局配置，或对某个请求单独配置。</p>
+<p>Picasso内部只实现了内存LRU缓存，磁盘缓存直接使用了OKHTTP的缓存，只能缓存下载的原始图片，每次从磁盘加载都要转换。</p>
+</li>
+<li>
+<p>**内存缓存策略：**使用了两级内存缓存，MemoryCache和ActiveResource，前者默认为一个LruResourceCache，后者是一个Map弱引用，引用了从MemoryCache中读取过的资源和从网络、硬盘下载和转换出的资源。</p>
+<p>加载图片时先使用MemoryCache，如果没有找到则尝试从ActiveResource中获取资源。如果还是没有再从磁盘、网络获取资源。</p>
+</li>
+<li>
+<p>**BitmapPool：**进行Bitmap相关的操作时，对Bitmap进行缓存和复用。默认实现的是LruBitmapPool(仅支持Android 3.0及以上版本)。</p>
+</li>
+<li>
+<p>**网络图片下载：**网络图片默认使用HttpURLConnection加载（HttpUrlFetcher），可以通过注册模块的形式，设置成Volley或OkHttp等。</p>
+</li>
+<li>
+<p>相比Fresco，不需要特定的View，直接使用ImageView即可，通用性好</p>
+</li>
+<li>
+<p>可以暂停、继续、清除某个页面的RequestManager中所有请求。和Picasso相似（Picasso通过Tag来对Request分组进行操作）。</p>
+</li>
+<li>
+<p>**尺寸适配：**默认自动根据图片尺寸加载对应的图片。Picasso则需要显示调用fit()方法。</p>
+</li>
+<li>
+<p>**图片转换：**配合glide-transformations，可对图片实现裁剪，着色，模糊，滤镜等效果。</p>
+</li>
+<li>
+<p>**预加载：**提供了一个ListPreloader类，可用于AbsListView的预加载</p>
+</li>
+</ol>
+<pre><code>原理：ListPreloader中实现了OnScrollListener，滚动时自动计算并预加载，所加载的Target为PreloadTarget。
+</code></pre>
+<ol start="13">
+<li>
+<p>**加载动态图：**支持GIF和本地视频加载，并根据页面生命周期播放/暂停</p>
+</li>
+<li>
+<p>可自定义ModelLoader，从而指定网络加载库、实现指定格式的文件加载（例如SVG）、实现CDN图片根据URL参数缩放等。</p>
+</li>
+<li>
+<p>功能强大，因此配置和使用相对复杂，需要先进行充分了解，进行封装。每次发送请求时的流程比较多，性能上有少量损失。</p>
+</li>
+<li>
+<p>网上资料相对较少</p>
+</li>
+<li>
+<p>相对Picasso，方法数较多，包的尺寸较大，应使用Proguard进行优化</p>
+</li>
+</ol>
+<h2 id="项目配置">项目配置</h2>
+<p>当前正式版本 3.7</p>
+<p>alpha版本 4.0a</p>
+<p>build.gradle</p>
+<ol>
+<li><code>dependencies &#123;</code></li>
+<li><code>compile 'com.android.support:support-v4:22.2.1'</code></li>
+<li><code>compile 'com.github.bumptech.glide:glide:3.7.0'</code></li>
+<li><code>&#125;</code></li>
+</ol>
+<p>Proguard</p>
+<ol>
+<li><code>-keep public class * implements com.bumptech.glide.module.GlideModule</code></li>
+<li><code>-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** &#123;</code></li>
+<li><code>**[] $VALUES;</code></li>
+<li><code>public *;</code></li>
+<li><code>&#125;</code></li>
+</ol>
+<p>Manifest</p>
+<ol>
+<li><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</code></li>
+<li><code>&lt;!-- ... --&gt;</code></li>
+</ol>
+<h2 id="基本用法">基本用法</h2>
+<ol start="2">
+<li>
+<p><code>ImageView imageView = (ImageView) findViewById(R.id.image);</code></p>
+</li>
+<li>
+<p><code>Glide.with(this).load(url).into(imageView);</code></p>
+</li>
+</ol>
+<ul>
+<li>
+<p>应该在UI线程调用with方法，可传入Activity、Context、FragmentActivity、Fragment（包括v4包和android库中的Fragment），调用后内部会对其类型进行判断，自动根据其生命周期，实现加载的暂停、继续等操作。</p>
+</li>
+<li>
+<p>如果在非UI线程加载图片，with方法应传入ApplicationContext。</p>
+</li>
+<li>
+<p>load方法支持多种类型，包括Uri、ResourceId、File、String ( url ) 等</p>
+</li>
+</ul>
+<h2 id="异步线程直接获取Bitmap">异步线程直接获取Bitmap</h2>
+<ol>
+<li><code>Bitmap bitmap = Glide.with(context.getApplicationContext())</code></li>
+<li><code>.load(url)</code></li>
+<li><code>.asBitmap()</code></li>
+<li><code>.into(100, 100). // Width and height</code></li>
+<li><code>.get();</code></li>
+</ol>
+<h2 id="placeHolder">placeHolder</h2>
+<ol start="2">
+<li>
+<p><code>placeholder(int resourceId) // loading图</code></p>
+</li>
+<li>
+<p><code>error(int resourceId) // 加载失败默认图</code></p>
+</li>
+</ol>
+<h2 id="trasform-and-resize">trasform and resize</h2>
+<ol start="2">
+<li>
+<p><code>centerCrop() // 完全填充满ImageView，裁减掉图片多余区域</code></p>
+</li>
+<li>
+<p><code>fitCenter() // 完整展示图片，ImageView多余区域留白</code></p>
+</li>
+<li>
+<p><code>transform(BitmapTransformation... transformations) // 自定义变换</code></p>
+</li>
+<li>
+<p><code>// Glide会根据ImageView的尺寸自动缓存对应尺寸的图片（Picasso则需要显示调用fit()来实现），可强制指定要加载的尺寸</code></p>
+</li>
+<li>
+<p><code>override(int width, int height)</code></p>
+</li>
+</ol>
+<p>自定义变换，例如图片模糊、裁剪等</p>
+<ol>
+<li>
+<p><code>public class BlurTransformation extends BitmapTransformation &#123;</code></p>
+</li>
+<li>
+<p><code>public BlurTransformation(Context context) &#123;</code></p>
+</li>
+<li>
+<p><code>super( context );</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) &#123;</code></p>
+</li>
+<li>
+<p><code>return transform(toTransform); // 图片转换代码</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public String getId() &#123;</code></p>
+</li>
+<li>
+<p><code>return &quot;blur&quot;; // 确保键值唯一</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<p>开源库 glide-transformations，可配合Glide对图片实现裁剪，着色，模糊，滤镜等效果。配置如下。</p>
+<ol>
+<li>
+<p><code>repositories &#123;</code></p>
+</li>
+<li>
+<p><code>jcenter()</code></p>
+</li>
+<li>
+<p><code>mavenCentral() // GPUImage for Android</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>dependencies &#123;</code></p>
+</li>
+<li>
+<p><code>compile 'jp.wasabeef:glide-transformations:2.0.1'</code></p>
+</li>
+<li>
+<p><code>// If you want to use the GPU Filters</code></p>
+</li>
+<li>
+<p><code>compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.3.0'</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<p>项目主页：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wasabeef/glide-transformations">https://github.com/wasabeef/glide-transformations</a></p>
+<h2 id="animate">animate</h2>
+<p>指定placeHolder和实际图片之间切换时展示的动画</p>
+<ol>
+<li><code>crossFade()</code></li>
+<li><code>crossFade(int duration)</code></li>
+<li><code>crossFade(int animationId, int duration)</code></li>
+<li><code>animate(ViewPropertyAnimation.Animator animator)</code></li>
+<li><code>animate(int animationId)</code></li>
+<li><code>animate(Animation animation)</code></li>
+<li><code>dontAnimate() // 不使用动画</code></li>
+</ol>
+<h2 id="gif动画和本地视频文件">gif动画和本地视频文件</h2>
+<ul>
+<li>
+<p>如果url字符串的扩展名是gif，Glide会自动加载播放动画</p>
+</li>
+<li>
+<p>如果url扩展名不是gif，可以用asGif()强制检测是否可播放</p>
+</li>
+<li>
+<p>调用asBitmap()可以强制把gif也当做静态图片加载成Bitmap（取第一帧）</p>
+</li>
+</ul>
+<p>加载视频（只支持本地视频）</p>
+<ol>
+<li><code>String filePath = &quot;/storage/emulated/0/Pictures/example_video.mp4&quot;;</code></li>
+<li><code>Glide.with(context)</code></li>
+<li><code>.load(Uri.fromFile(new File(filePath)))</code></li>
+<li><code>.into(imageView);</code></li>
+</ol>
+<h2 id="缓存">缓存</h2>
+<p>默认的图片读取顺序是 内存 --&gt; 磁盘 --&gt; 网络，对于某个请求，可单独设置缓存策略</p>
+<ol>
+<li><code>skipMemoryCache(true) // 跳过内存缓存</code></li>
+<li><code>diskCacheStrategy(DiskCacheStrategy.NONE) // 跳过硬盘缓存</code></li>
+<li><code>.diskCacheStrategy( DiskCacheStrategy.NONE ).skipMemoryCache( true ) // 跳过内存和硬盘缓存</code></li>
+</ol>
+<p>硬盘缓存策略：</p>
+<p>Picasso会缓存全尺寸的图片，加载时再根据需要转换</p>
+<p>Glide根据配置，则可能同时缓存全尺寸和转换后的尺寸</p>
+<p>因此从磁盘加载已有图片时，Picasso每次都需要转换从而出现延迟，而Glide可以直接加载已转换图片</p>
+<p>配置：</p>
+<ul>
+<li>DiskCacheStrategy.NONE 不缓存</li>
+<li>DiskCacheStrategy.SOURCE 仅缓存原图</li>
+<li>DiskCacheStrategy.RESULT 仅缓存转换后的图像</li>
+<li>DiskCacheStrategy.ALL 缓存所有版本的图像（默认值）</li>
+</ul>
+<h2 id="优先级">优先级</h2>
+<ol>
+<li><code>priority(Priority priority)</code></li>
+</ol>
+<p>有四个取值</p>
+<ul>
+<li>Priority.LOW</li>
+<li>Priority.NORMAL</li>
+<li>Priority.HIGH</li>
+<li>Priority.IMMEDIATE</li>
+</ul>
+<h2 id="缩略图">缩略图</h2>
+<p>先加载缩略图，再加载大图</p>
+<p>简单做法。如果缩略图和原图都是网络上的同一张图，这种方式效果不明显。</p>
+<ol>
+<li><code>Glide</code></li>
+<li><code>.with( context )</code></li>
+<li><code>.load( url )</code></li>
+<li><code>.thumbnail( 0.1f ) // 缩略图长宽相对于原始图片的比例</code></li>
+<li><code>.into( imageView );</code></li>
+</ol>
+<p>用两个独立的请求实现。</p>
+<ol>
+<li>
+<p><code>// setup Glide request without the into() method</code></p>
+</li>
+<li>
+<p><code>DrawableRequestBuilder&lt;String&gt; thumbnailRequest = Glide</code></p>
+</li>
+<li>
+<p><code>.with( context )</code></p>
+</li>
+<li>
+<p><code>.load( thumb_url );</code></p>
+</li>
+<li>
+<p><code>// pass the request as a a parameter to the thumbnail request</code></p>
+</li>
+<li>
+<p><code>Glide</code></p>
+</li>
+<li>
+<p><code>.with( context )</code></p>
+</li>
+<li>
+<p><code>.load( url )</code></p>
+</li>
+<li>
+<p><code>.thumbnail( thumbnailRequest )</code></p>
+</li>
+<li>
+<p><code>.into( imageView );</code></p>
+</li>
+</ol>
+<h2 id="自定义Target回调">自定义Target回调</h2>
+<ol>
+<li>
+<p><code>private SimpleTarget target = new SimpleTarget&lt;Bitmap&gt;() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) &#123;</code></p>
+</li>
+<li>
+<p><code>imageView1.setImageBitmap( bitmap );</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>// 指定尺寸的SimpleTarget</code></p>
+</li>
+<li>
+<p><code>private SimpleTarget target2 = new SimpleTarget&lt;Bitmap&gt;( 250, 250 ) &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) &#123;</code></p>
+</li>
+<li>
+<p><code>imageView2.setImageBitmap( bitmap );</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>// ViewTarget</code></p>
+</li>
+<li>
+<p><code>viewTarget = new ViewTarget&lt;FutureStudioView,GlideDrawable&gt;( customView ) &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void onResourceReady(GlideDrawable resource, GlideAnimation&lt;? super GlideDrawable&gt; glideAnimation) &#123;</code></p>
+</li>
+<li>
+<p><code>this.view.setImage( resource.getCurrent() );</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>private void loadImageSimpleTarget() &#123;</code></p>
+</li>
+<li>
+<p><code>Glide</code></p>
+</li>
+<li>
+<p><code>.with( context )</code></p>
+</li>
+<li>
+<p><code>.load( url )</code></p>
+</li>
+<li>
+<p><code>.asBitmap()</code></p>
+</li>
+<li>
+<p><code>.into( target );</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<p>需要注意两点：</p>
+<ul>
+<li>
+<p>需要保持一个对target的强引用，而不使用直接实例化匿名内部类的方式，以免target被提前回收</p>
+</li>
+<li>
+<p>Glide请求的执行会和context的生命周期关联起来，如果希望target数据的加载独立于context（Activity、Fragment）的生命周期，可以传入application context。</p>
+</li>
+</ul>
+<h2 id="监听器、错误日志记录">监听器、错误日志记录</h2>
+<ol>
+<li>
+<p><code>private RequestListener&lt;String, GlideDrawable&gt; requestListener = new RequestListener&lt;String, GlideDrawable&gt;() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public boolean onException(Exception e, String model, Target&lt;GlideDrawable&gt; target, boolean isFirstResource) &#123;</code></p>
+</li>
+<li>
+<p><code>// 可记录日志</code></p>
+</li>
+<li>
+<p><code>// 返回false则还会进一步处理，例如展示error placeholder</code></p>
+</li>
+<li>
+<p><code>return false;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public boolean onResourceReady(GlideDrawable resource, String model, Target&lt;GlideDrawable&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</code></p>
+</li>
+<li>
+<p><code>return false;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+</ol>
+<h2 id="请求">请求</h2>
+<ol>
+<li><code>Glide.with(context).pauseRequests() // 暂停所有请求，可以用在列表滚动时</code></li>
+<li><code>Glide.with(context).resumeRequests() // 恢复所有请求，可以用在列表停止滚动时</code></li>
+<li><code>Glide.clear() // 清除所有请求</code></li>
+</ol>
+<p>由于Glide为每个页面创建了一个RequestManager，所以这里的请求操作是针对当前页面的。不需要像Picasso一样使用Tag。</p>
+<h2 id="ListPreloader实现AbsListView预加载">ListPreloader实现AbsListView预加载</h2>
+<p>原理：ListPreloader实现了OnScrollListener，滚动时自动计算并预加载，所加载的Target为PreloadTarget。</p>
+<ol>
+<li>
+<p><code>final ListPreloader.PreloadModelProvider&lt;String&gt; modelProvider = new ListPreloader.PreloadModelProvider&lt;String&gt;() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public List&lt;String&gt; getPreloadItems(int position) &#123;</code></p>
+</li>
+<li>
+<p><code>Log.d(&quot;engine&quot;, &quot;getPreloadItems &quot; + position);</code></p>
+</li>
+<li>
+<p><code>// 对于position位置，要加载的图片数组。因为这里每条只有一张图要加载，所以返回的list只有一个元素。</code></p>
+</li>
+<li>
+<p><code>return urls.subList(position, position + 1);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public GenericRequestBuilder getPreloadRequestBuilder(String item) &#123;</code></p>
+</li>
+<li>
+<p><code>// 这里的配置，和Adapter中的加载代码一致，但没有调用into()</code></p>
+</li>
+<li>
+<p><code>return Glide.with(mContext).load(item).override(200, 200).centerCrop();</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>final ListPreloader.PreloadSizeProvider&lt;String&gt; sizeProvider = new ListPreloader.PreloadSizeProvider&lt;String&gt;() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public int[] getPreloadSize(String item, int adapterPosition, int perItemPosition) &#123;</code></p>
+</li>
+<li>
+<p><code>Log.d(&quot;engine&quot;, &quot;getPreloadSize &quot; + adapterPosition);</code></p>
+</li>
+<li>
+<p><code>return new int[]&#123;200, 200&#125;; // 相当于into(200, 200)</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;;</code></p>
+</li>
+<li>
+<p><code>final int preloadCount = 5; // 预加载项的数量</code></p>
+</li>
+<li>
+<p><code>list.setOnScrollListener(new ListPreloader&lt;String&gt;(modelProvider, sizeProvider, preloadCount) &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void onScroll(AbsListView absListView, int firstVisible, int visibleCount, int totalCount) &#123;</code></p>
+</li>
+<li>
+<p><code>super.onScroll(absListView, firstVisible, visibleCount, totalCount);</code></p>
+</li>
+<li>
+<p><code>// 这里可以写其他滚动事件监听代码</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;);</code></p>
+</li>
+<li>
+<p><code>// Adapter.getView()中的加载代码:</code></p>
+</li>
+<li>
+<p><code>Glide.with(mContext).load(url).override(200, 200).centerCrop().into(mImageView);</code></p>
+</li>
+</ol>
+<h2 id="全局自定义Glide">全局自定义Glide</h2>
+<p>可以指定多个GlideModule（注意避免冲突）</p>
+<ol>
+<li>
+<p><code>public class CustomGlideModule implements GlideModule &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void applyOptions(Context context, GlideBuilder builder) &#123;</code></p>
+</li>
+<li>
+<p><code>// 可在此处配置全局属性，包括图片格式、缓存机制等</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void registerComponents(Context context, Glide glide) &#123;</code></p>
+</li>
+<li>
+<p><code>// 可以在此处注册一些组件，例如指定OkHttp、Volley为网络库，CDN图片按URL参数缩放</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&lt;manifest&gt;</code></p>
+</li>
+<li>
+<p><code>&lt;application&gt;</code></p>
+</li>
+<li>
+<p><code>&lt;meta-data</code></p>
+</li>
+<li>
+<p><code>android:name=&quot;com.demo.package.CustomGlideModule&quot;</code></p>
+</li>
+<li>
+<p><code>android:value=&quot;GlideModule&quot; /&gt;</code></p>
+</li>
+<li>
+<p><code>&lt;!-- ... --&gt;</code></p>
+</li>
+<li>
+<p><code>&lt;/application&gt;</code></p>
+</li>
+<li>
+<p><code>&lt;/manifest&gt;</code></p>
+</li>
+</ol>
+<p>可能需要配置Proguard // TODO</p>
+<ol>
+<li><code>-keepnames class * com.demo.package.CustomGlideModule</code></li>
+</ol>
+<h2 id="全局配置-GlideModule-applyOptions">全局配置 GlideModule.applyOptions</h2>
+<ol>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void applyOptions(Context context, GlideBuilder builder) &#123;</code></p>
+</li>
+<li>
+<p><code>// 一些可调用的方法：</code></p>
+</li>
+<li>
+<p><code>// builder.setMemoryCache(MemoryCache memoryCache)</code></p>
+</li>
+<li>
+<p><code>// builder.setBitmapPool(BitmapPool bitmapPool)</code></p>
+</li>
+<li>
+<p><code>// builder.setDiskCache(DiskCache.Factory diskCacheFactory)</code></p>
+</li>
+<li>
+<p><code>// builder.setDiskCacheService(ExecutorService service)</code></p>
+</li>
+<li>
+<p><code>// builder.setResizeService(ExecutorService service)</code></p>
+</li>
+<li>
+<p><code>// builder.setDecodeFormat(DecodeFormat decodeFormat)</code></p>
+</li>
+<li>
+<p><code>// 指定图片格式：优先使用ARGB_8888（含透明度，图片质量较高，占用内存较多）。默认优先使用RGB_565。</code></p>
+</li>
+<li>
+<p><code>builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);</code></p>
+</li>
+<li>
+<p><code>// 设置内存缓存容量</code></p>
+</li>
+<li>
+<p><code>MemorySizeCalculator calculator = new MemorySizeCalculator(context);</code></p>
+</li>
+<li>
+<p><code>int defaultMemoryCacheSize = calculator.getMemoryCacheSize();</code></p>
+</li>
+<li>
+<p><code>int defaultBitmapPoolSize = calculator.getBitmapPoolSize();</code></p>
+</li>
+<li>
+<p><code>int customMemoryCacheSize = (int) (1.2 * defaultMemoryCacheSize);</code></p>
+</li>
+<li>
+<p><code>int customBitmapPoolSize = (int) (1.2 * defaultBitmapPoolSize);</code></p>
+</li>
+<li>
+<p><code>builder.setMemoryCache( new LruResourceCache( customMemoryCacheSize );</code></p>
+</li>
+<li>
+<p><code>builder.setBitmapPool( new LruBitmapPool( customBitmapPoolSize );</code></p>
+</li>
+<li>
+<p><code>// 设置磁盘缓存</code></p>
+</li>
+<li>
+<p><code>int cacheSize100MegaBytes = 104857600;</code></p>
+</li>
+<li>
+<p><code>// 使用内部私有目录</code></p>
+</li>
+<li>
+<p><code>builder.setDiskCache(new InternalCacheDiskCacheFactory(context, cacheSize100MegaBytes));</code></p>
+</li>
+<li>
+<p><code>// 使用外部公共目录</code></p>
+</li>
+<li>
+<p><code>// builder.setDiskCache(new ExternalCacheDiskCacheFactory(context, cacheSize100MegaBytes));</code></p>
+</li>
+<li>
+<p><code>// 设置磁盘缓存路径</code></p>
+</li>
+<li>
+<p><code>builder.setDiskCache(new DiskCache.Factory() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public DiskCache build() &#123;</code></p>
+</li>
+<li>
+<p><code>File cacheLocation = new File(context.getExternalCacheDir(), &quot;cache_dir_name&quot;);</code></p>
+</li>
+<li>
+<p><code>cacheLocation.mkdirs();</code></p>
+</li>
+<li>
+<p><code>return DiskLruCacheWrapper.get(cacheLocation, yourSizeInBytes);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<h2 id="解决ImageView的setTag被占用问题">解决ImageView的setTag被占用问题</h2>
+<p>在GlideModule.applyOptions中配置</p>
+<ol>
+<li><code>ViewTarget.setTagId(R.id.glide_tag_id);</code></li>
+</ol>
+<p>ids.xml</p>
+<ol>
+<li><code>&lt;item name=&quot;glide_tag_id&quot; type=&quot;id&quot;/&gt;</code></li>
+</ol>
+<h2 id="指定网络库">指定网络库</h2>
+<p>原理：</p>
+<p>集成库内部实现了GlideModule，并在registerComponents中注册了相应的网络加载框架，同时在aar包的Manifest中声明了这个GlideModule。</p>
+<p>使用OkHTTP</p>
+<ol>
+<li><code>// Glide</code></li>
+<li><code>compile 'com.github.bumptech.glide:glide:3.6.1'</code></li>
+<li><code>// Glide's OkHttp Integration</code></li>
+<li><code>compile 'com.github.bumptech.glide:okhttp-integration:1.3.1@aar'</code></li>
+<li><code>compile 'com.squareup.okhttp:okhttp:2.5.0'</code></li>
+</ol>
+<p>可能需要配置Proguard // TODO</p>
+<ol>
+<li><code>-keep class com.bumptech.glide.integration.okhttp.OkHttpGlideModule</code></li>
+<li><code>#or</code></li>
+<li><code>-keep public class * implements com.bumptech.glide.module.GlideModule</code></li>
+</ol>
+<p>使用Volley</p>
+<ol>
+<li><code>// Glide</code></li>
+<li><code>compile 'com.github.bumptech.glide:glide:3.6.1'</code></li>
+<li><code>// Glide's Volley Integration</code></li>
+<li><code>compile 'com.github.bumptech.glide:volley-integration:1.3.1@aar'</code></li>
+<li><code>compile 'com.mcxiaoke.volley:library:1.0.8'</code></li>
+</ol>
+<p>可能需要配置Proguard // TODO</p>
+<ol>
+<li><code>-keep class com.bumptech.glide.integration.volley.VolleyGlideModule</code></li>
+<li><code># or</code></li>
+<li><code>-keep public class * implements com.bumptech.glide.module.GlideModule</code></li>
+</ol>
+<p>注：不应同时指定多个网络库，否则可能发生冲突。</p>
+<h2 id="使用ModelLoader">使用ModelLoader</h2>
+<ol start="2">
+<li>
+<p><code>// 自定义Model</code></p>
+</li>
+<li>
+<p><code>public interface MyModel &#123;</code></p>
+</li>
+<li>
+<p><code>String getUrl(int width, int height);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>public class MyModelImpl implements MyModel &#123;</code></p>
+</li>
+<li>
+<p><code>String baseImageUrl;</code></p>
+</li>
+<li>
+<p><code>public MyModelImpl(String baseImageUrl) &#123;</code></p>
+</li>
+<li>
+<p><code>this.baseImageUrl = baseImageUrl;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public String getUrl(int width, int height) &#123;</code></p>
+</li>
+<li>
+<p><code>return baseImageUrl + &quot;?w=&quot; + width + &quot;&amp;h=&quot; + height;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>// 自定义Loader</code></p>
+</li>
+<li>
+<p><code>public class MyLoader extends BaseGlideUrlLoader&lt;MyModel&gt; &#123;</code></p>
+</li>
+<li>
+<p><code>public MyLoader(Context context) &#123;</code></p>
+</li>
+<li>
+<p><code>super( context );</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>protected String getUrl(MyModel model, int width, int height) &#123;</code></p>
+</li>
+<li>
+<p><code>return model.getUrl( width, height );</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>// 自定义Factory</code></p>
+</li>
+<li>
+<p><code>private class MyFactory implements ModelLoaderFactory&lt;MyModel, InputStream&gt; &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public ModelLoader&lt;MyModel, InputStream&gt; build(Context context, GenericLoaderFactory factories) &#123;</code></p>
+</li>
+<li>
+<p><code>return new MyLoader( context );</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void teardown() &#123;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<p>全局注册ModelLoader</p>
+<ol>
+<li>
+<p><code>public class CustomGlideModule implements GlideModule &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void applyOptions(Context context, GlideBuilder builder) &#123;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void registerComponents(Context context, Glide glide) &#123;</code></p>
+</li>
+<li>
+<p><code>glide.register(MyModel.class, InputStream.class, new MyFactory());</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>String baseImageUrl = &quot;https://futurestud.io/images/example.png&quot;;</code></p>
+</li>
+<li>
+<p><code>MyModel request = new MyModelImpl( baseImageUrl );</code></p>
+</li>
+<li>
+<p><code>Glide</code></p>
+</li>
+<li>
+<p><code>.with( context )</code></p>
+</li>
+<li>
+<p><code>.load( request )</code></p>
+</li>
+<li>
+<p><code>.into( imageView );</code></p>
+</li>
+</ol>
+<p>单个request指定ModelLoader</p>
+<ol>
+<li><code>String baseImageUrl = &quot;https://futurestud.io/images/example.png&quot;;</code></li>
+<li><code>MyModel request = new MyModelImpl( baseImageUrl );</code></li>
+<li><code>Glide</code></li>
+<li><code>.with( context )</code></li>
+<li><code>.using( new MyLoader( context ) )</code></li>
+<li><code>.load( request )</code></li>
+<li><code>.into( imageView );</code></li>
+</ol>
+<h2 id="V3-7源码学习">V3.7源码学习</h2>
+<h3 id="代码特点">代码特点</h3>
+<ul>
+<li>
+<p>大量使用泛型，以及子类继承的形式，根据不同的数据类型，调用不同的模块处理数据</p>
+</li>
+<li>
+<p>用注册模块的方式，根据不同的class，使用不同的ModelLoader加载数据。可扩展性强，但代码复杂、性能稍差</p>
+</li>
+</ul>
+<h3 id="Glide单例">Glide单例</h3>
+<p>Glide为单例，由GlideBuilder创建。包含了缓存策略、线程池等各项参数。</p>
+<p>Glide中有两个线程池service，sourceService用于从数据源读取并缓存数据，diskCacheService用于从磁盘读取数据。默认的创建如下，其中FifoPriorityThreadPoolExecutor继承自ThreadPoolExecutor。</p>
+<ol start="2">
+<li>
+<p><code>final int cores = Math.max(1, Runtime.getRuntime().availableProcessors());</code></p>
+</li>
+<li>
+<p><code>sourceService = new FifoPriorityThreadPoolExecutor(cores);</code></p>
+</li>
+<li>
+<p><code>diskCacheService = new FifoPriorityThreadPoolExecutor(1);</code></p>
+</li>
+</ol>
+<h3 id="GlideModule">GlideModule</h3>
+<p>创建Glide单例时，从Manifest读取GlideModule相关标签，通过反射实例化每个模块，并依次调用每个模块的applyOptions和registerComponents，实现全局参数配置和模块注册。</p>
+<h3 id="ModelLoader，DataFetcher">ModelLoader，DataFetcher</h3>
+<p>Glide(单例) =包含=&gt; GenericLoaderFactory(单例) =管理=&gt; ModelLoaderFactory(每种类型只有一个实例) =创建=&gt; ModelLoader。</p>
+<p>在GlideModule.registerComponents中，通过Glide.register()可以注册自定义的ModelLoader及其Factory。</p>
+<p>ModelLoader关联两个class，一个是Model，另一个是Data。例如OkHttp集成库中的OkHttpUrlLoader：</p>
+<ol start="2">
+<li><code>public class OkHttpUrlLoader implements ModelLoader&lt;GlideUrl,InputStream&gt; &#123;&#125;</code></li>
+</ol>
+<p>ModelLoader用于创建DataFetcher，DataFetcher用于从源加载数据，例如从URL得到InputStream。</p>
+<h3 id="RequestManager">RequestManager</h3>
+<p>Glide.with(context)，调用单例RequestManagerRetriever.get()创建一个RequestManager。</p>
+<p>Glide对每个Activity / Fragment / Application Context维护了一个RequestManager。</p>
+<p>对于Activity或Fragment，在其中添加一个RequestManagerFragment作为子Fragment，其生命周期和父组件一致，在onStart、onStop、onDestroy中可回调注册过的LifecycleListener。</p>
+<p>对于Application Context，只会调用LifecycleListener.onStart方法。</p>
+<h3 id="RequestBuilder">RequestBuilder</h3>
+<ul>
+<li>
+<p>调用Glide.with(context).load() / download()返回一个RequestBuilder。根据load中的Model参数类型，自动创建对应的ModelLoader并设置给RequestBuilder。</p>
+</li>
+<li>
+<p>调用Glide.with(context).using()，可以对请求单独指定ModelLoader。</p>
+</li>
+<li>
+<p>RequestBuilder中可以配置各项参数，包括尺寸、变换、动画效果等。</p>
+</li>
+</ul>
+<h3 id="编-解-转码器，LoadProvider">编/解/转码器，LoadProvider</h3>
+<p>Glide =包含=&gt; DataLoadProviderRegistry =管理=&gt; DataLoadProvider</p>
+<p>Glide =包含=&gt; TranscoderRegistry =管理=&gt; ResourceTranscoder</p>
+<p>DataLoadProvider用于提供编解码器</p>
+<p>LoadProvider继承自DataLoadProvider，还提供ModelLoader，ResourceTranscoder转码器</p>
+<p>GenericRequestBuilder及其子类中，会创建LoadProvider。并设置其</p>
+<ul>
+<li>
+<p>ModelLoader（从RequestManager传递过来）</p>
+</li>
+<li>
+<p>ResourceTranscoder（从Glide的TranscoderRegistry获取。如果ResourceTranscoder转换前后的Type相同，则使用UnitTranscoder，直接返回原数据）</p>
+</li>
+<li>
+<p>编/解码器（直接根据类型创建）。</p>
+</li>
+</ul>
+<p>不同的RequestBuilder，会创建不同的LoadProvider。</p>
+<p>有些LoadProvider子类自己创建了默认的编解码器。</p>
+<p>也可通过RequestBuilder的transcode、encoder、sourceEncoder、cacheDecoder、decoder方法，自行设置相关参数。</p>
+<ol start="2">
+<li>
+<p><code>public interface DataLoadProvider&lt;T,Z&gt; &#123;</code></p>
+</li>
+<li>
+<p><code>// 从磁盘缓存文件读资源</code></p>
+</li>
+<li>
+<p><code>ResourceDecoder&lt;File,Z&gt; getCacheDecoder();</code></p>
+</li>
+<li>
+<p><code>// 从源读取资源</code></p>
+</li>
+<li>
+<p><code>ResourceDecoder&lt;T,Z&gt; getSourceDecoder();</code></p>
+</li>
+<li>
+<p><code>// 编码源数据，从而进行缓存</code></p>
+</li>
+<li>
+<p><code>Encoder&lt;T&gt; getSourceEncoder();</code></p>
+</li>
+<li>
+<p><code>// 编码变换后的数据，从而进行缓存</code></p>
+</li>
+<li>
+<p><code>ResourceEncoder&lt;Z&gt; getEncoder();</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<h3 id="Target">Target</h3>
+<p>RequestBuilder.into(Target)将图片加载到一个Target中。Target可以是ImageViewTarget，也可以是其他各种Target。</p>
+<h3 id="Request">Request</h3>
+<p>调用了into后，会从Target创建Request，添加到RequestTracker中，并启动。</p>
+<p>**Request生命周期管理：**RequestManager实现了LifecycleListener，在页面生命周期变化时被RequestManagerFragment回调，从而通过RequestTracker暂停/继续Request。</p>
+<h3 id="Request-begin">Request.begin</h3>
+<p>**获取Size：**默认的GenericRequest中，调用begin方法启动request，先获取到target的size，然后在onSizeReady回调中开始加载数据。</p>
+<p>从LoadProvider获取ModelLoader，再从ModelLoader获取DataFetcher，传递到Engine.load中。</p>
+<h3 id="加载数据">加载数据</h3>
+<p>调用Engine.load方法，开始加载数据。</p>
+<ol>
+<li>
+<p>**创建EngineKey：**先根据DataFetcher的id、Target的宽高等参数，创建EngineKey</p>
+</li>
+<li>
+<p>**MemoryCache：**根据EngineKey，先从MemoryCache读取资源，读取到则返回</p>
+</li>
+<li>
+<p>**ActiveResources：**再从Map弱引用的activeResources读取资源，读取到则返回</p>
+</li>
+<li>
+<p>**创建执行EngineJob：**判断当前是否有EngineJob正在执行，有则返回，没有则创建执行</p>
+</li>
+<li>
+<p>**从磁盘缓存读取数据：**先向diskCacheService提交EngineRunnable，从磁盘缓存读取数据，读取到则返回</p>
+<ul>
+<li>
+<p>先尝试直接读取转换后的缓存<code>File</code> --&gt; <code>Resource&lt;T&gt;</code>：<code>DecodeJob.decodeResultFromCache</code>，<code>ResourceDecoder&lt;File,T&gt; decoder = loadProvider.getCacheDecoder()</code></p>
+</li>
+<li>
+<p>再尝试读取源文件的缓存<code>File</code> --&gt; <code>Resource&lt;T&gt;</code>：<code>DecodeJob.decodeSourceFromCache</code>，<code>ResourceDecoder&lt;File,T&gt; decoder = loadProvider.getCacheDecoder()</code></p>
+</li>
+<li>
+<p>读取到后进行转码<code>Resource&lt;T&gt;</code> --&gt; <code>Resource&lt;Z&gt;</code>：<code>ResourceTranscoder&lt;T,Z&gt; transcoder</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>**从源读取数据并缓存：**没有缓存，则向sourceService提交EngineRunnable，从数据源读取数据 <code>DecodeJob.decodeFromSource</code></p>
+<ol>
+<li>
+<p>加载数据<code>A</code>：<code>DataFetcher&lt;A&gt; fetcher.loadData()</code></p>
+</li>
+<li>
+<p>解码源数据<code>A</code>–&gt;<code>Resource&lt;T&gt;</code>：<code>ResourceDecoder&lt;A,T&gt; decoder = loadProvider.getSourceDecoder()</code></p>
+</li>
+<li>
+<p>缓存源数据到磁盘<code>A</code> --&gt; <code>OutputStream</code>：cacheAndDecodeSourceData()，<code>Encoder&lt;T&gt; encoder = loadProvider.getSourceEncoder()</code></p>
+</li>
+<li>
+<p>执行变换<code>Resource&lt;T&gt;</code>–&gt;<code>Resource&lt;T&gt;</code>：transform()</p>
+</li>
+<li>
+<p>缓存变换后数据到磁盘<code>Resource&lt;T&gt;</code> --&gt; <code>OutputStream</code>：writeTransformedToCache()，<code>Encoder&lt;T&gt; encoder = loadProvider.getEncoder()</code></p>
+</li>
+<li>
+<p>转码<code>Resource&lt;T&gt;</code> --&gt; <code>Resource&lt;Z&gt;</code>：transcode()，<code>ResourceTranscoder&lt;T,Z&gt; transcoder</code></p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="编-解-转码器使用举例">编/解/转码器使用举例</h3>
+<ol start="2">
+<li>
+<p><code>Glide.with(mContext).load(url).asBitmap().override(200, 200).centerCrop().into(mImageView);</code></p>
+</li>
+<li>
+<p><code>A = ImageVideoWrapper</code></p>
+</li>
+<li>
+<p><code>T = Bitmap</code></p>
+</li>
+<li>
+<p><code>Z = Bitmap</code></p>
+</li>
+<li>
+<p><code>File --&gt; Resource&lt;T&gt;: FileToStreamDecoder&lt;Bitmap&gt; // loadProvider.getCacheDecoder()</code></p>
+</li>
+<li>
+<p><code>A --&gt; Resource&lt;T&gt;: ImageVideoBitmapDecoder // loadProvider.getSourceDecoder()</code></p>
+</li>
+<li>
+<p><code>A --&gt; OutputStream: ImageVideoWrapperEncoder // loadProvider.getSourceEncoder()</code></p>
+</li>
+<li>
+<p><code>Resource&lt;T&gt; --&gt; OutputStream: BitmapEncoder // loadProvider.getEncoder()</code></p>
+</li>
+<li>
+<p><code>Resource&lt;T&gt; --&gt; Resource&lt;Z&gt;: UnitTranscoder&lt;Bitmap&gt; // loadProvider.getTranscoder()</code></p>
+</li>
+</ol>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-bitmap/" rel="bookmark">Android Bitmap操作内存问题总结(图片处理、截屏等)</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-7-ratingbar-bug/" rel="bookmark">Android 7.0中RatingBar评星点击区域不准确的解决</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-studio-skill/" rel="bookmark">你可能不知道的Android Studio/IDEA使用技巧</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"># 安卓</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/android-7-ratingbar-bug/" rel="prev" title="Android 7.0中RatingBar评星点击区域不准确的解决">
+      <i class="fa fa-chevron-left"></i> Android 7.0中RatingBar评星点击区域不准确的解决
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/android-bitmap/" rel="next" title="Android Bitmap操作内存问题总结(图片处理、截屏等)">
+      Android Bitmap操作内存问题总结(图片处理、截屏等) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Glide%E7%89%B9%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">Glide特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">项目配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E7%BA%BF%E7%A8%8B%E7%9B%B4%E6%8E%A5%E8%8E%B7%E5%8F%96Bitmap"><span class="nav-number">4.</span> <span class="nav-text">异步线程直接获取Bitmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#placeHolder"><span class="nav-number">5.</span> <span class="nav-text">placeHolder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trasform-and-resize"><span class="nav-number">6.</span> <span class="nav-text">trasform and resize</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#animate"><span class="nav-number">7.</span> <span class="nav-text">animate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gif%E5%8A%A8%E7%94%BB%E5%92%8C%E6%9C%AC%E5%9C%B0%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6"><span class="nav-number">8.</span> <span class="nav-text">gif动画和本地视频文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98"><span class="nav-number">9.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">10.</span> <span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%A9%E7%95%A5%E5%9B%BE"><span class="nav-number">11.</span> <span class="nav-text">缩略图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Target%E5%9B%9E%E8%B0%83"><span class="nav-number">12.</span> <span class="nav-text">自定义Target回调</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E5%99%A8%E3%80%81%E9%94%99%E8%AF%AF%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95"><span class="nav-number">13.</span> <span class="nav-text">监听器、错误日志记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82"><span class="nav-number">14.</span> <span class="nav-text">请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ListPreloader%E5%AE%9E%E7%8E%B0AbsListView%E9%A2%84%E5%8A%A0%E8%BD%BD"><span class="nav-number">15.</span> <span class="nav-text">ListPreloader实现AbsListView预加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E8%87%AA%E5%AE%9A%E4%B9%89Glide"><span class="nav-number">16.</span> <span class="nav-text">全局自定义Glide</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE-GlideModule-applyOptions"><span class="nav-number">17.</span> <span class="nav-text">全局配置 GlideModule.applyOptions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3ImageView%E7%9A%84setTag%E8%A2%AB%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98"><span class="nav-number">18.</span> <span class="nav-text">解决ImageView的setTag被占用问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E7%BD%91%E7%BB%9C%E5%BA%93"><span class="nav-number">19.</span> <span class="nav-text">指定网络库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ModelLoader"><span class="nav-number">20.</span> <span class="nav-text">使用ModelLoader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#V3-7%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0"><span class="nav-number">21.</span> <span class="nav-text">V3.7源码学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%89%B9%E7%82%B9"><span class="nav-number">21.1.</span> <span class="nav-text">代码特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Glide%E5%8D%95%E4%BE%8B"><span class="nav-number">21.2.</span> <span class="nav-text">Glide单例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GlideModule"><span class="nav-number">21.3.</span> <span class="nav-text">GlideModule</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ModelLoader%EF%BC%8CDataFetcher"><span class="nav-number">21.4.</span> <span class="nav-text">ModelLoader，DataFetcher</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestManager"><span class="nav-number">21.5.</span> <span class="nav-text">RequestManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestBuilder"><span class="nav-number">21.6.</span> <span class="nav-text">RequestBuilder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96-%E8%A7%A3-%E8%BD%AC%E7%A0%81%E5%99%A8%EF%BC%8CLoadProvider"><span class="nav-number">21.7.</span> <span class="nav-text">编&#x2F;解&#x2F;转码器，LoadProvider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Target"><span class="nav-number">21.8.</span> <span class="nav-text">Target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Request"><span class="nav-number">21.9.</span> <span class="nav-text">Request</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Request-begin"><span class="nav-number">21.10.</span> <span class="nav-text">Request.begin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="nav-number">21.11.</span> <span class="nav-text">加载数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96-%E8%A7%A3-%E8%BD%AC%E7%A0%81%E5%99%A8%E4%BD%BF%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="nav-number">21.12.</span> <span class="nav-text">编&#x2F;解&#x2F;转码器使用举例</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">290</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">135</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
