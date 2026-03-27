@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="最近一段时间 OpenClaw 非常火，“AI 要取代人类”的言论再次涌现。回看历史，每逢 AI 的重大突破，取代恐慌就会出现，但迄今 AI 仍未完全取代人类。AGI 或许终会到来，但没那么容易。 尽管如此，这一轮大模型发展仍令人震撼：虽未全面超越人类，却已在越来越多领域替代或增强人类。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 能帮我自动赚钱吗？它能做什么，不能做什么？">
+<meta property="og:url" content="https://www.xiaoming.io/ai-capabilities/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="最近一段时间 OpenClaw 非常火，“AI 要取代人类”的言论再次涌现。回看历史，每逢 AI 的重大突破，取代恐慌就会出现，但迄今 AI 仍未完全取代人类。AGI 或许终会到来，但没那么容易。 尽管如此，这一轮大模型发展仍令人震撼：虽未全面超越人类，却已在越来越多领域替代或增强人类。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/6b3392e8732798081e4372fffda7d99a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/e4d4fcef8ded2bac0d776d0d28878f53.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/de0dbdd93202953c3c0c085d1472968d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/abcdf4985a53d474d77aec987b5c3e1d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/f322aefc1a873dcba564ce8c0fff6b5c.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/e1d6b294c186460e9ceb74f15cd91805.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/f01a889db3dc72bd981ecfaa6cc2e1a9.png">
+<meta property="article:published_time" content="2026-03-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-27T08:27:18.817Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="大语言模型">
+<meta property="article:tag" content="赚钱">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/6b3392e8732798081e4372fffda7d99a.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/ai-capabilities/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>AI 能帮我自动赚钱吗？它能做什么，不能做什么？ | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">292</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">137</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/ai-capabilities/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AI 能帮我自动赚钱吗？它能做什么，不能做什么？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-03-27 00:00:00" itemprop="dateCreated datePublished" datetime="2026-03-27T00:00:00+08:00">2026-03-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">学习思考</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/ai-capabilities/" class="post-meta-item leancloud_visitors" data-flag-title="AI 能帮我自动赚钱吗？它能做什么，不能做什么？" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/ai-capabilities/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/ai-capabilities/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近一段时间 OpenClaw 非常火，“AI 要取代人类”的言论再次涌现。回看历史，<strong>每逢 AI 的重大突破，取代恐慌就会出现</strong>，但迄今 AI 仍未完全取代人类。AGI 或许终会到来，但没那么容易。</p>
+<p>尽管如此，这一轮大模型发展仍令人震撼：虽未全面超越人类，却已在越来越多领域替代或增强人类。</p>
+<p>这篇文章想探讨一下 AI 的能力和局限性，它能做什么，不能做什么？</p>
+<h2 id="挖掘机的例子">挖掘机的例子</h2>
+<p>我觉得目前的 AI 大模型可以类比成挖掘机。</p>
+<p><strong>挖掘机大大增强了工人的力量</strong>。原先拆房子可能需要很多工人耗费体力，用很原始的工具去拆除。有了挖掘机以后，只需要一个工人开着挖掘机就可以很快拆掉一个房子。</p>
+<p>但是<strong>挖掘机自身并不能自动去拆房子</strong>，因为他不知道房子在哪里，还是需要有一个人去控制挖掘机如何运动，从而把房子拆掉。</p>
+<p>挖掘机也有各种局限性，有驾驶技巧，有时候还会出现故障需要处理，这些都是需要人来解决的。</p>
+<h2 id="自动赚钱的悖论">自动赚钱的悖论</h2>
+<p>很多打工人会想：AI 既然能做很多人能做的事，是不是可以自动帮我赚钱？</p>
+<p>媒体和名人过度鼓吹 AI 工具的能力，让普通人陷入焦虑。不少人每天折腾各种 AI 工具，生怕错过新功能，希望 AI 能全自动赚钱。</p>
+<p>这似乎是个悖论：<strong>如果 AI 强大到人人可轻松让它赚钱，那到底赚谁的钱呢</strong>？</p>
+<p><img data-src="/blog-imgs/2026/ai/images/6b3392e8732798081e4372fffda7d99a.png" alt=""></p>
+<h2 id="关于思考和执行力">关于思考和执行力</h2>
+<p>有些人学习 AI 的过程中，以多消耗 Token 为目的，觉得 Token 消耗够多就能学到更多，做出有用的东西。</p>
+<p>但是我想泼一盆冷水。</p>
+<p>我认为这个世界上有很多不同类型的人。其中一种人是想法很多，但是执行力很差，很多东西都是停留在想，没有真的去做。还有一种人是想法有限，但是执行力很强，不管是什么东西，还没好好思考就开始冲。</p>
+<p>这两种人都很难把事情做好，<strong>要想成功，充分的思考和强大的执行力缺一不可</strong>。</p>
+<p>我自己比较接近第一种人，想法不少但是都只停留在想法层面，执行力太差实践太少，这也是我想改善的问题。</p>
+<p>AI 让一些人感到焦虑，他们忙着搭建流程、折腾工具，但部分人虽执行力强，却缺乏好的使用场景——<strong>思考太少，提不出问题，却希望 AI 解决问题</strong>。</p>
+<p>实际上<strong>AI 目前更主要的是加速想法的执行，而不能代替真正的思考</strong>。</p>
+<p>比如有人想用 AI 做自媒体，批量注册账号、生成内容、自动发布，期待总有内容能火。但他们可能对自媒体的核心问题缺乏思考：写什么内容受欢迎？目标客户是谁？这些人是否愿意付费？</p>
+<p>AI 无法完全取代这类思考，其回答多是网上现有内容的集合，质量和真实性无法保证。</p>
+<p>我还发现，当你去问 AI 一个想法是否值得做，AI 常会给出正面肯定的回答。这让我想到网上看到的，<strong>由于训练机制的原因，AI常常会倾向于说出迎合人类的话</strong>。</p>
+<h2 id="赚钱还是套路？">赚钱还是套路？</h2>
+<p>我确实看到过一些 AI 生成内容的自媒体账号，其中有少量质量不错、流量也很好。但这些号的成功并非全靠 AI。要么对工具理解远超普通人，要么加入大量人工思考和流程，背后都需付出相当努力。</p>
+<p>还有很多账号会说自己靠 AI 挣到了多少钱，但是说着说着就开始卖自己的付费课程了。</p>
+<p>这些人没有展示自己的实际收入证明，真实性无从得知。但是，如果已经用 AI 轻松挣到了很多钱，那有必要费劲做自媒体卖付费课程挣钱，还给自己增加竞争对手吗？</p>
+<p>总之，如果你买了这种付费课程，<strong>你不一定能跟着赚到钱，但是卖课给你的人一定赚到钱了</strong>。</p>
+<p>目前我还没看到几个 AI 参与度高、人工成本低且能赚钱的案例，其中有不少只是娱乐目的，收益可能不够 Token 成本。</p>
+<p>当然，我也一直在努力发掘。如果大家有看到比较好的案例，也可以分享一下。</p>
+<h2 id="语言理解">语言理解</h2>
+<p>大模型在正确理解语言文字上仍不完善。</p>
+<p>例如之前的文章我提到，在 OpenClaw 中配置规则后，实际执行时并不总会遵守，经常会像失忆了一样丢掉一些东西，有时候又仿佛没明白我说的意思。</p>
+<p>国产模型这方面更严重，Claude 等顶级模型相对好一些，但也时不时会犯错。</p>
+<p>这个问题仍在解决中，还需要时间。</p>
+<h2 id="创新的局限">创新的局限</h2>
+<p>现在公认的一个观点就是，<strong>现在的大模型它更多的是快速搜集网上现有的知识，把它们聚集起来，但大模型本身很难创造新的知识。</strong></p>
+<p>这从大模型的原理也可以解释，大模型只是输入了大量知识进行训练，通过概率来预测接下来的每个 Token，大模型的工作机制像是从训练素材里找规律。</p>
+<p>除了不能创造新知识以外，大模型即使只是转写已经有的文章，也很容易出现AI味很浓的情况。</p>
+<p>有些人甚至意识不到自己用AI生成的文章、图片内容，AI味很浓。而读者并不是很喜欢这类文章。平台也有可能会对这类内容进行一定的限流。</p>
+<h2 id="缺乏真实世界的感知和交互">缺乏真实世界的感知和交互</h2>
+<p>人看到食物图片说好吃，是因为能联想到自己吃过的味道；但AI只会靠语言文字推测，没有真实感知，只是单纯模仿人类。</p>
+<p>很多事需要复杂的现实交互，没法用语言说清楚，人类却天生就会，比如走路、骑自行车。</p>
+<p>机器人学走路，得在真实世界反复练，或靠物理模拟，绝对不可能靠看“走路教程”学会，就像俗语所说：站在岸上学不会游泳。</p>
+<p>要让AI感知物理世界，得给它装传感器，比如用陀螺仪测加速度。但目前技术很难让AI像人一样感受完整的现实世界，就算有了传感器，怎么训练也是难题。</p>
+<p>我想到一个相关的问题，一些做硬件研发的朋友觉得，AI对于他们工作的促进作用很有限。</p>
+<p>因为硬件电路都需要实际去调试，有很多动手搭建电路的工作，但是至少目前为止，AI很难做到这一点，就必须人工完成。即使给AI装了机械臂，它也没办法从图像分辨自己要做什么，没有正确和及时的反馈，就无法准确的和现实世界交互。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/e4d4fcef8ded2bac0d776d0d28878f53.jpg" alt=""></p>
+<h2 id="情绪逻辑">情绪逻辑</h2>
+<p>人类的情绪和现实世界关系很大，比如大多数人下雨天会心情低落，这种生物性的逻辑AI没有。</p>
+<p>如果网上有关于雨天情绪的研究，AI会模仿，看到天气是雨天，也会模仿人类表现出低落的情绪。</p>
+<p>但情绪本身太复杂，语言很难完全表达，尽管人们已经努力发明了很多语言文字来表达情绪，但还是经常会感觉不够用。</p>
+<p>而 AI 本就不具备情绪，想要搞懂这里面的玄机就更难了。</p>
+<p>我的实际体验是，豆包在理解情绪上做得还不错，但分析复杂逻辑时，它可能更倾向于照顾感受，给出的建议相对缺乏专业性，这倒是和人类的表现有点像。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/de0dbdd93202953c3c0c085d1472968d.png" alt=""></p>
+<h2 id="信息壁垒和人为障碍">信息壁垒和人为障碍</h2>
+<h3 id="AI学不到的公开秘密">AI学不到的公开秘密</h3>
+<p>每个行业都有一些秘密，这些秘密只有行业内的人知道，网上也查不到。正因为如此，AI很难学到这些东西，也就很难取代这些行业。</p>
+<p>比如说川剧变脸，前几年这还是个秘密。但这两年抖音上经常有人在评论区揭秘。再比如春晚刘谦的魔术，以前大家都觉得特别神奇，可现在网上有好多专门讲解魔术揭秘的短视频，看多了以后，大部分魔术基本都能猜到是怎么变的。</p>
+<p>你可能会说，现在问AI这些问题，它也能告诉你答案啊。但这是因为这些秘密已经公开了，AI才学到的。如果这些秘密一直没有公开，AI就不知道了。</p>
+<p>现在网上流行一种说法，把自己擅长的东西分享出去，就能获得流量和收益。于是越来越多人开始在网上分享知识，很多原本小众的秘密也逐渐被大众知晓。而这些公开的知识，恰恰成了AI的训练材料。</p>
+<h3 id="AI看不见的知识">AI看不见的知识</h3>
+<p>我们平时在微信上聊的东西，AI是看不到的，这本身就形成了一道信息屏障。比如各种熟人的小群里，经常会讨论一些真正有价值的消息，这些AI都看不到。</p>
+<p>很多公司内部都有自己的文档库，里面放着各种内部信息。这些东西企业不会公开发布到网上，也不太可能让AI去抓取用来训练。</p>
+<h3 id="平台限制">平台限制</h3>
+<p>各个互联网平台都在想办法，不让AI程序自动抓取平台里的内容。</p>
+<p>就说微信和小红书吧，我想让OpenClaw自动抓取这两个平台上的文章做分析。但这两个平台必须登录才能访问，微信还特别麻烦，必须用微信自己的客户端。</p>
+<p>理论上说，可以通过一些自动化工具直接操控软件界面来获取信息。但实际操作中，因为平台的各种限制，可能会面临很大的封号风险，而且抓取效率很低。实际上这类信息大模型基本上看不到，自然也学不到。</p>
+<p>从内容发布的角度看，用AI做自媒体也面临人为阻碍。个人无法注册大量账号，平台有AI内容检测机制，可能会对这类内容限流，个人公众号也很难让AI自动发布文章，因为登录和发布都得用微信扫码。</p>
+<p>这里顺便分享一个我的AI使用技巧：当我想了解抖音相关的问题，就会用豆包；想了解微信公众号相关的问题，就会用腾讯元宝。因为这些厂商会用自己独有的数据来训练模型。</p>
+<p>下面的截图分别是我用腾讯元宝和豆包询问我的公众号的结果。</p>
+<p>腾讯元宝能直接看到公众号里的内容。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/abcdf4985a53d474d77aec987b5c3e1d.png" alt=""></p>
+<p>豆包却提示找不到这个号。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/f322aefc1a873dcba564ce8c0fff6b5c.png" alt=""></p>
+<h3 id="付费知识">付费知识</h3>
+<p>很多知识是需要付费的，比如我们看的各种书，想看正版都得花钱买。再比如科研人员需要看的各种论文，一般也有专门的网站，需要付费才能查看。</p>
+<p>虽然大模型厂商可能会花钱购买这些付费知识来训练，但显然不可能把所有人类创造的知识都买下来。</p>
+<p>特别是现在互联网时代，信息爆炸，每天都有大量新的有价值的知识被创造出来。这些知识既不在公开网络上，也不可能全部被AI学到。</p>
+<p>知识星球就是知识付费的一个常见形式。我也给几个知识星球充过钱，发现确实有些博主会在里面分享一些更有价值或更激进的观点，而不会在公开场合说。</p>
+<p>这是因为付费空间用户相对少，博主说话没有那么多顾虑，不用担心争议、不够成熟或者言论太激进。而且愿意付费的人本身就是铁粉，问题少，平台审核也相对宽松。</p>
+<p>还有些知识是别人花很长时间研究出来的，不想轻易公开，只在知识星球里分享，这也完全可以理解。这些知识AI就很难学到。</p>
+<h2 id="模糊的现实">模糊的现实</h2>
+<p>有些东西本来可以用语言描述清楚，但现实世界是人类建的，不是机器建的，很多文档都不完整。可能没人能及时更新这么多文档，也可能有些东西本身就是故意模糊的。</p>
+<p>拿律师行业来说，有人觉得AI很容易取代律师，因为律师需要记忆大量信息，这恰好是AI的强项。但我觉得没那么简单。</p>
+<p>前阵子我有个经历：想把老家生产的食品放到淘宝、抖音、微信小店上卖，但我们只有小作坊证，没有正式的食品生产许可证。</p>
+<p>小作坊证是地方政府给规模小的食品厂家发的&quot;简化版&quot;生产许可证，也是合规的。但各地要求不同，没有全国统一标准。</p>
+<p>我问AI这个问题时，它很肯定地说可以上网店。但下次再问同一个AI或问另一个AI时，答案就完全相反了。</p>
+<p>后来我用“传统古法”人工在搜索引擎上查找，发现我所在地方政府的文件里没有明确限制，按&quot;法无禁止即可为&quot;的原则应该没问题。但进一步搜索后发现，不同地区情况差异很大，少数地区很严格，直接规定小作坊证不能生产和销售某些食品。</p>
+<p>这才明白AI为什么自相矛盾。虽然我一开始就告诉了AI所在地区，但它并没有真正理解这个逻辑——有时刚好搜到明确禁止的地区的文档就说不行，有时没搜到就说可以。</p>
+<p>虽然小作坊证在地方法规上合规，但电商平台可能觉得质量参差不齐，宁可一刀切限制上架。实际上淘宝是允许小作坊制售的，上架没问题，但微信小店一直审核不通过。</p>
+<p>官方文档明明说可以提供小作坊证上架食品，也能搜到有商家成功上架。但联系微信客服后，人类客服说不支持，理由是平台会定期检查，发现不合规会下架罚款，还让我举报那些商家。这听起来像是模板回复，可能早期平台不完善时商家已经上架了，之后平台才改了规定。</p>
+<p>总的来说微信小店的管理很混乱，远不如淘宝成熟，手机客户端还经常出Bug。</p>
+<p>这类模糊的问题人类研究起来都很花时间，要去不断查证和权衡，AI又怎么可能轻松解决并取代律师的工作呢？</p>
+<h2 id="AI带来的颠覆性冲击">AI带来的颠覆性冲击</h2>
+<p>虽然前面讲了很多AI的局限性，但接下来要说说AI带来的冲击。</p>
+<p><strong>与其讨论某个行业会不会被AI取代，不如说AI能取代这个行业多少占比的工作</strong>。</p>
+<p>还是拿文章开头的挖掘机例子来说，以前拆房子可能需要10个工人用原始工具砸墙，现在有了挖掘机，只需要1个会开挖掘机的工人就能完成。于是剩下9个人就开不了挖掘机了，但他们可以转行去做新的工作，例如挖掘机的制造和维修。</p>
+<h3 id="语言文字中的信息">语言文字中的信息</h3>
+<p>在《三体》里，三体人能把所有知识共享，这点很让人羡慕。人类从出生就得开始漫长的学习，很多行业的人甚至要做好终身学习的准备，否则就容易被淘汰。</p>
+<p>更难的是人的寿命有限。我发现每天思考的各种想法中，很多通用观点其实古人早就用谚语诗词总结过了。花了三十多年学习成长，却很难跳出古人早就思考过的问题范围，同样的问题不知道被多少人重复学习过，从全人类角度看真是浪费。</p>
+<p>人类之所以聪明，语言文字的发明功不可没。它让不同时代、不同地区、不同种族的人能交流思想。书籍作为语言文字的沉淀，记录了各种人类知识，对社会发展很重要。我们常说&quot;书中自有黄金屋&quot;，就是在强调这一点。</p>
+<p>一个人通过语言文字获得的知识占了智力的很大一部分。虽然AI很难进行深度思考和创造，但它能用比人类快得多的速度查阅这些知识并进行整合。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/e1d6b294c186460e9ceb74f15cd91805.png" alt=""></p>
+<h3 id="人与机器、人与人的沟通桥梁">人与机器、人与人的沟通桥梁</h3>
+<p>这一轮AI发展最让人震惊的是，它似乎真的在理解人类用来交流的语言了。这给机器和人类之间创造了新的沟通桥梁，人类多了种和机器交流的方式，而且这种方式比过去更通用、更简单。</p>
+<p>不仅如此，AI还能加速人与人之间的沟通。</p>
+<p>比如我想做个产品演示给别人看，以前我不会画图，只能用文字或简单的方块去描述，别人很难理解。现在可以让AI生成大概的图片样子，反复沟通调整，直到能清晰表达想法，别人看到图片就能更好地理解。这大大加速了人与人之间的沟通效率。</p>
+<h3 id="大量脑力劳动会被取代">大量脑力劳动会被取代</h3>
+<p>虽然很多人觉得自己的工作不可能完全被AI取代，因为里面有很多AI难以搞定的问题。但仔细想想，大多数脑力劳动者的工作内容中，同样也包含了很多AI可以轻松搞定的部分，那些根本不需要创造力的内容。</p>
+<p>换句话说，<strong>不是因为现在的AI有多聪明，而是因为人们做的很多事情本来也就不需要多聪明</strong>。</p>
+<p>拿律师来说，虽然要解决人类社会很多复杂问题，但查阅已有资料的过程对人类很繁琐耗时，交给AI就很合适。</p>
+<p>在写文章这件事情上，虽然有人已经实现了自动让AI写文章排版的流程，但是我还是<strong>想再坚持一下传统古法手写为主</strong>，一是因为我还没来得及去研究，二是感觉 AI 处理的效果和我想要的还是有差距。</p>
+<p>但是AI在写文章这件事情上的帮助确实是会越来越大了，至少我可以让他帮我调研知识，找找错别字什么的。</p>
+<p>在我写这篇文章的时候，我想给文章多插入一些图片，提高阅读体验。我之前一直从 Pixabay 网站获取人类创造的无版权图片，但是最近发现这个网站已经逐渐被AI生成的图片给占满了。</p>
+<p>目前我还是对这些AI生成的图片不太满意，AI 味太浓了，或许是现在的AI技术还不够，也或许是需要对 AI 工具的使用有更深入的研究。但总的来说，AI取代已经是一个无法逆转的趋势了。</p>
+<p>之前我了解过同声翻译，在联合国大会这类跨国会议上，由于参会者语言不同，需要同声翻译，一边听一种语言一边同步翻译成另一种语言，还得保证延迟小让大家交流顺畅。第一次知道这个职业时我很震惊，就算给我充分思考时间翻译中英文都很累，还必须在高压环境下持续翻译。人类做同声翻译确实很困难，长的会议一般得多名翻译轮流工作休息，收入很高。</p>
+<p>但前阵子看到罗永浩讲豆包的同声翻译，试用后发现豆包已经能做到延迟只有几秒的双向同时翻译，还会模仿发言者声音。虽然延迟方面略逊于最厉害的人类同声翻译，但已经非常好了。普通人能直接免费使用，在出国旅游这类场景就能派上用场。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/f01a889db3dc72bd981ecfaa6cc2e1a9.png" alt=""></p>
+<h2 id="如何避免被淘汰">如何避免被淘汰</h2>
+<p>经过这么多分析，相信大家对AI的能力已经有了更多认识。</p>
+<p>如何避免被淘汰？其实很简单，就是多做AI还做不了的事。</p>
+<p>在这一轮AI冲击下，体力劳动者相对安全，更危险的是脑力劳动者，特别是知识性内容占比高的脑力劳动者。过去积累知识对人类很难，所以这类人比较稀缺，收入也高。但现在AI最擅长的恰恰就是这些。</p>
+<p>对我们普通人来说，要想不被社会淘汰，需要 <strong>尽可能多接触学习现实世界的东西，而不能局限于网络上的知识</strong>，因为AI最擅长从网上学。要充分理解AI的局限性，发挥它的优势为自己所用，要么多学习AI很难学会的技能，要么确保自己的学习速度能比AI进化的速度快，才有意义。</p>
+<p>下一篇文章，我会分析为什么我觉得程序员一定是 AI 取代程度最高的行业，感兴趣可以保持关注。</p>
+<p>原创不易，如果你觉得这篇文章有帮助，欢迎分享转发。</p>
+
+            
+
+<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
+</p>
+<p style="text-align: center;">搬砖的小明</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-why-and-future/" rel="bookmark">为什么是 OpenClaw？AI对软件行业的影响和未来趋势</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-practice/" rel="bookmark">使用OpenClaw一周后，我给自己建了个团队</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chinese-input-methods/" rel="bookmark">从仓颉到 Typeless：AI 时代的中文输入法简史</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" rel="tag"># 大语言模型</a>
+              <a href="/tags/%E8%B5%9A%E9%92%B1/" rel="tag"># 赚钱</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/openclaw-why-and-future/" rel="prev" title="为什么是 OpenClaw？AI对软件行业的影响和未来趋势">
+      <i class="fa fa-chevron-left"></i> 为什么是 OpenClaw？AI对软件行业的影响和未来趋势
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%96%E6%8E%98%E6%9C%BA%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">1.</span> <span class="nav-text">挖掘机的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%B5%9A%E9%92%B1%E7%9A%84%E6%82%96%E8%AE%BA"><span class="nav-number">2.</span> <span class="nav-text">自动赚钱的悖论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%80%9D%E8%80%83%E5%92%8C%E6%89%A7%E8%A1%8C%E5%8A%9B"><span class="nav-number">3.</span> <span class="nav-text">关于思考和执行力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9A%E9%92%B1%E8%BF%98%E6%98%AF%E5%A5%97%E8%B7%AF%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">赚钱还是套路？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E7%90%86%E8%A7%A3"><span class="nav-number">5.</span> <span class="nav-text">语言理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E6%96%B0%E7%9A%84%E5%B1%80%E9%99%90"><span class="nav-number">6.</span> <span class="nav-text">创新的局限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E4%B9%8F%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E6%84%9F%E7%9F%A5%E5%92%8C%E4%BA%A4%E4%BA%92"><span class="nav-number">7.</span> <span class="nav-text">缺乏真实世界的感知和交互</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%83%85%E7%BB%AA%E9%80%BB%E8%BE%91"><span class="nav-number">8.</span> <span class="nav-text">情绪逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E5%A3%81%E5%9E%92%E5%92%8C%E4%BA%BA%E4%B8%BA%E9%9A%9C%E7%A2%8D"><span class="nav-number">9.</span> <span class="nav-text">信息壁垒和人为障碍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AI%E5%AD%A6%E4%B8%8D%E5%88%B0%E7%9A%84%E5%85%AC%E5%BC%80%E7%A7%98%E5%AF%86"><span class="nav-number">9.1.</span> <span class="nav-text">AI学不到的公开秘密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AI%E7%9C%8B%E4%B8%8D%E8%A7%81%E7%9A%84%E7%9F%A5%E8%AF%86"><span class="nav-number">9.2.</span> <span class="nav-text">AI看不见的知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E5%8F%B0%E9%99%90%E5%88%B6"><span class="nav-number">9.3.</span> <span class="nav-text">平台限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%98%E8%B4%B9%E7%9F%A5%E8%AF%86"><span class="nav-number">9.4.</span> <span class="nav-text">付费知识</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E7%B3%8A%E7%9A%84%E7%8E%B0%E5%AE%9E"><span class="nav-number">10.</span> <span class="nav-text">模糊的现实</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AI%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%A2%A0%E8%A6%86%E6%80%A7%E5%86%B2%E5%87%BB"><span class="nav-number">11.</span> <span class="nav-text">AI带来的颠覆性冲击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E6%96%87%E5%AD%97%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="nav-number">11.1.</span> <span class="nav-text">语言文字中的信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%BA%E4%B8%8E%E6%9C%BA%E5%99%A8%E3%80%81%E4%BA%BA%E4%B8%8E%E4%BA%BA%E7%9A%84%E6%B2%9F%E9%80%9A%E6%A1%A5%E6%A2%81"><span class="nav-number">11.2.</span> <span class="nav-text">人与机器、人与人的沟通桥梁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E9%87%8F%E8%84%91%E5%8A%9B%E5%8A%B3%E5%8A%A8%E4%BC%9A%E8%A2%AB%E5%8F%96%E4%BB%A3"><span class="nav-number">11.3.</span> <span class="nav-text">大量脑力劳动会被取代</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E8%A2%AB%E6%B7%98%E6%B1%B0"><span class="nav-number">12.</span> <span class="nav-text">如何避免被淘汰</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">292</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">137</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
