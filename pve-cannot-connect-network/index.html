@@ -113,6 +113,7 @@
       <h1 class="site-title">搬砖的小明</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">90后程序员的技术博客</p>
   </div>
 
   <div class="site-nav-right">
@@ -203,6 +204,32 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "PVE中虚拟机不能联网问题解决案例",
+      "description": "PVE自身可以联网，LXC容器也可以联网，但是VM虚拟机不能联网。反复尝试修改Ubuntu的网络配置始终没效果，怀疑是路由器问题，但是其他设备都能正常上网。 最后突然想到改硬件，把VirtIO改成Intel E1000，结果没想到网马上就好了。之后重新改回VirtIO也没问题。记录一下供有需要的人参考。",
+      "datePublished": "2021-05-01T04:00:00.000Z",
+      "dateModified": "2025-06-17T13:33:21.851Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/pve-cannot-connect-network/"
+      }
+    }
+    </script>
     <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/pve-cannot-connect-network/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">

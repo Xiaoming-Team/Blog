@@ -115,6 +115,7 @@
       <h1 class="site-title">搬砖的小明</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">90后程序员的技术博客</p>
   </div>
 
   <div class="site-nav-right">
@@ -205,6 +206,32 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Verilog一例（同步与异步时序）",
+      "description": "问题 顶层模块有一个50MHz时钟输入（使用testbench实现）；一个8位信号输出。 有一个容量为90的8位RAM子模块，每个时钟上升沿，RAM根据8位地址线，输出对应的数据。 顶层模块在每100个时钟周期里，前10个时钟周期信号无效，输出为0；后面90个时钟周期，输出值分别为RAM中地址0~89的数据。",
+      "datePublished": "2015-04-22T10:03:10.000Z",
+      "dateModified": "2025-06-17T13:33:21.663Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/verilog-sync-async/"
+      }
+    }
+    </script>
     <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/verilog-sync-async/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">

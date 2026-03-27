@@ -112,6 +112,7 @@
       <h1 class="site-title">搬砖的小明</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">90后程序员的技术博客</p>
   </div>
 
   <div class="site-nav-right">
@@ -202,6 +203,32 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Notepad++中用正则表达式匹配中文",
+      "description": "通常正则表达式匹配中文可以利用Unicode的特点，使用[\u4e00-\u9fa5]匹配。但在Notepad++中不能正常使用。 解决方法是，首先将编码转换成Unicode（菜单-&gt;格式-&gt;转换为UTF-8，如果不转换可能匹配出错），然后使用[\x{4e00}-\x{9fa5}]就可以实现匹配中文了。",
+      "datePublished": "2014-10-08T07:23:27.000Z",
+      "dateModified": "2025-06-17T13:33:21.661Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/notepad-regexp/"
+      }
+    }
+    </script>
     <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/notepad-regexp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
