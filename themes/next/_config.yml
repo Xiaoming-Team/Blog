@@ -94,16 +94,6 @@ creative_commons:
   language:
 
 
-# ---------------------------------------------------------------
-# Scheme Settings
-# ---------------------------------------------------------------
-
-# Schemes
-# scheme: Muse
-# scheme: Mist
-scheme: Pisces
-# scheme: Gemini
-
 # Dark Mode
 darkmode: false
 
@@ -144,11 +134,10 @@ sidebar:
   position: right
 
   # Manual define the sidebar width. If commented, will be default for:
-  # Muse | Mist: 320
-  # Pisces | Gemini: 240
+  # Pisces: 240
   #width: 300
 
-  # Sidebar Display (only for Muse | Mist), available values:
+  # Sidebar Display, available values:
   #  - post    expand on posts automatically. Default.
   #  - always  expand for all pages automatically.
   #  - hide    expand only when click on the sidebar toggle icon.
@@ -157,9 +146,9 @@ sidebar:
 
   # Sidebar padding in pixels.
   padding: 18
-  # Sidebar offset from top menubar in pixels (only for Pisces | Gemini).
+  # Sidebar offset from top menubar in pixels.
   offset: 12
-  # Enable sidebar on narrow view (only for Muse | Mist).
+  # Enable sidebar on narrow view.
   onmobile: false
 
 # Sidebar Avatar
@@ -361,7 +350,7 @@ mobile_layout_economy: false
 # Android Chrome header panel color ($brand-bg / $headband-bg => $black-deep).
 android_chrome_color: "#222"
 
-# Custom Logo (Do not support scheme Mist)
+# Custom Logo
 custom_logo: #/uploads/custom-logo.jpg
 
 codeblock:
@@ -417,7 +406,7 @@ github_banner:
 #   light | light italic | normal | normal italic | bold | bold italic
 # Be aware that setting too much fonts will cause site running slowly
 # ---------------------------------------------------------------
-# To avoid space between header and sidebar in scheme Pisces / Gemini, Web Safe fonts are recommended for `global` (and `title`):
+# To avoid space between header and sidebar, Web Safe fonts are recommended for `global` (and `title`):
 # Arial | Tahoma | Helvetica | Times New Roman | Courier New | Verdana | Georgia | Palatino | Garamond | Comic Sans MS | Trebuchet MS
 # ---------------------------------------------------------------
 
@@ -851,7 +840,6 @@ motion:
     post_header: slideDownIn
     post_body: slideDownIn
     coll_header: slideLeftIn
-    # Only for Pisces | Gemini.
     sidebar: slideUpIn
 
 # Progress bar in the top during page loading.

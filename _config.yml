@@ -4,9 +4,8 @@
 
 # Site
 title: 搬砖的小明
-subtitle: 90后程序员的技术博客
 overview_title: '小明的个人博客'
-description: '小明，90后理工男，先后就职于美团、微软。在这里，我以程序员的视角记录成长、认知和生活方式，持续迭代对世界的理解，希望这些内容能为你带来新的视角与启发。'
+description: '90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。'
 keywords: ['计算机','开发','编程','网站','博客','技术','学习']
 author: 小明
 language: zh-CN
@@ -63,7 +62,7 @@ prismjs:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 10
+  per_page: 20
   order_by: -date
 
 # Category & Tag

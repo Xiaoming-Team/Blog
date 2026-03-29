@@ -5,9 +5,6 @@
   {{- next_js('motion.js') }}
 {%- endif %}
 
-{%- set scheme_script = 'schemes/' + theme.scheme | lower + '.swig' %}
-{% include scheme_script %}
-
 {{- next_js('next-boot.js') }}
 {%- if theme.bookmark.enable %}
   {{- next_js('bookmark.js') }}

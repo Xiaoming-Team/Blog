@@ -33,8 +33,6 @@ NexT.motion.middleWares = {
     var image = document.querySelector('.custom-logo-image');
     var title = document.querySelector('.site-title');
     var subtitle = document.querySelector('.site-subtitle');
-    var logoLineTop = document.querySelector('.logo-line-before i');
-    var logoLineBottom = document.querySelector('.logo-line-after i');
 
     brand && sequence.push({
       e: brand,
@@ -42,32 +40,11 @@ NexT.motion.middleWares = {
       o: {duration: 200}
     });
 
-    function getMistLineSettings(element, translateX) {
-      return {
-        e: element,
-        p: {translateX},
-        o: {
-          duration     : 500,
-          sequenceQueue: false
-        }
-      };
-    }
-
-    function pushImageToSequence() {
-      sequence.push({
-        e: image,
-        p: {opacity: 1, top: 0},
-        o: {duration: 200}
-      });
-    }
-
-    CONFIG.scheme === 'Mist' && logoLineTop && logoLineBottom
-    && sequence.push(
-      getMistLineSettings(logoLineTop, '100%'),
-      getMistLineSettings(logoLineBottom, '-100%')
-    );
-
-    CONFIG.scheme === 'Muse' && image && pushImageToSequence();
+    image && sequence.push({
+      e: image,
+      p: {opacity: 1, top: 0},
+      o: {duration: 200}
+    });
 
     title && sequence.push({
       e: title,
@@ -80,8 +57,6 @@ NexT.motion.middleWares = {
       p: {opacity: 1, top: 0},
       o: {duration: 200}
     });
-
-    (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') && image && pushImageToSequence();
 
     if (sequence.length > 0) {
       sequence[sequence.length - 1].o.complete = function() {
@@ -153,21 +128,17 @@ NexT.motion.middleWares = {
         Velocity(collHeader, 'transition.' + collHeaderTransition, postMotionOptions);
       }
     }
-    if (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') {
-      integrator.next();
-    }
+    integrator.next();
   },
 
   sidebar: function(integrator) {
     var sidebarAffix = document.querySelector('.sidebar-inner');
     var sidebarAffixTransition = CONFIG.motion.transition.sidebar;
-    // Only for Pisces | Gemini.
-    if (sidebarAffixTransition && (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini')) {
+    if (sidebarAffixTransition) {
       Velocity(sidebarAffix, 'transition.' + sidebarAffixTransition, {
         display : null,
         duration: 200,
         complete: function() {
-          // After motion complete need to remove transform from sidebar to let affix work on Pisces | Gemini.
           sidebarAffix.style.transform = 'initial';
         }
       });
