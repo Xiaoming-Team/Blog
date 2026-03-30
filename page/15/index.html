@@ -134,17 +134,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">292</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">293</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">137</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">139</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -198,6 +198,145 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "热转印法手工自制单面PCB流程和技巧总结",
+      "description": "电赛期间做高频题，需要用到自制PCB，以提高电路的抗干扰能力。于是研究了很久的PCB热转印技术。根据这套近一个月来反复尝试总结出来的流程，能在较短时间内，制作出线宽10mil，间距8mil的可焊接64脚贴片封装MSP430芯片的高精度PCB，且断线的几率很小。 〇、使用的工具和材料",
+      "datePublished": "2014-10-08T06:08:09.000Z",
+      "dateModified": "2025-06-17T13:33:21.662Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/self-made-pcb/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/self-made-pcb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/self-made-pcb/" class="post-title-link" itemprop="url">热转印法手工自制单面PCB流程和技巧总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-08 14:08:09" itemprop="dateCreated datePublished" datetime="2014-10-08T14:08:09+08:00">2014-10-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/self-made-pcb/" class="post-meta-item leancloud_visitors" data-flag-title="热转印法手工自制单面PCB流程和技巧总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/self-made-pcb/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/self-made-pcb/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>电赛期间做高频题，需要用到自制PCB，以提高电路的抗干扰能力。于是研究了很久的PCB热转印技术。根据这套近一个月来反复尝试总结出来的流程，能在较短时间内，制作出线宽10mil，间距8mil的可焊接64脚贴片封装MSP430芯片的高精度PCB，且断线的几率很小。</p>
+<h2 id="〇、使用的工具和材料">〇、使用的工具和材料</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/self-made-pcb/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+
+    </div>
+
+    
+    
+    
+      
+
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1939,20 +2078,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">292</span>
+          <span class="site-state-item-count">293</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">137</span>
+        <span class="site-state-item-count">139</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
