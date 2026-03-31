@@ -29,7 +29,7 @@
 <meta property="og:description" content="今天在尝试用我的本机设备访问局域网内另一个设备上 OpenClaw 的 Control UI，但是发现这个东西没那么好设置。 说明：Control UI 可以控制 OpenClaw 的各种设置，暴露在网上是比较危险的。我是让它只在局域网里面可用，所以问题不大。对于不懂网络的人，不建议随便改这些东西。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-03-19T11:02:15.731Z">
+<meta property="article:modified_time" content="2026-03-31T09:29:03.682Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="OpenClaw">
 <meta property="article:tag" content="局域网">
@@ -210,7 +210,7 @@
       "headline": "远程访问 OpenClaw Control UI 的避坑指南与两种方案",
       "description": "今天在尝试用我的本机设备访问局域网内另一个设备上 OpenClaw 的 Control UI，但是发现这个东西没那么好设置。 说明：Control UI 可以控制 OpenClaw 的各种设置，暴露在网上是比较危险的。我是让它只在局域网里面可用，所以问题不大。对于不懂网络的人，不建议随便改这些东西。",
       "datePublished": "2026-03-18T16:00:00.000Z",
-      "dateModified": "2026-03-19T11:02:15.731Z",
+      "dateModified": "2026-03-31T09:29:03.682Z",
       "author": {
         "@type": "Person",
         "name": "小明"
@@ -340,11 +340,10 @@
 <p>过了几分钟，它就在自己的设备上用 Node.js 写了一个反向代理。我实际去看了代码也不复杂，没多少行。</p>
 <p>然后我在局域网里其他设备上，通过浏览器HTTPS访问这个设备的 IP 地址，加 9000 端口，就可以看到这个 dashboard 了。同样也要输入 password / token。</p>
 <p>快速记录一下这个问题，希望对有需要的人有帮助。</p>
-<p>原创不易，如果你觉得这篇文章对你有帮助，欢迎分享转发。</p>
 
             
 
-<p>如果觉得文章对你有帮助，欢迎关注我的微信公众号：</p>
+<p>原创不易，如果觉得这篇文章有帮助，欢迎分享转发，也欢迎关注我的微信公众号：</p>
 <p style="text-align: center;">
 <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码">
 </p>
