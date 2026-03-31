@@ -134,12 +134,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">293</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">294</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">139</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">140</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -198,6 +198,183 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Java数据结构与集合学习笔记",
+      "description": "常用集合与分类 Collection List：按顺序保存元素。 ArrayList：数组实现，随机访问性能好。 LinkedList：双向链表实现，插入删除性能好。 Set：不添加重复元素。 HashSet：快速查找元素，由HashMap实现。元素须定义 hashCode() 和 equals() 方法。...",
+      "datePublished": "2020-03-03T11:07:46.000Z",
+      "dateModified": "2026-01-09T08:19:11.396Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/java-collections/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/java-collections/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/java-collections/" class="post-title-link" itemprop="url">Java数据结构与集合学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-03 19:07:46" itemprop="dateCreated datePublished" datetime="2020-03-03T19:07:46+08:00">2020-03-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/java-collections/" class="post-meta-item leancloud_visitors" data-flag-title="Java数据结构与集合学习笔记" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/java-collections/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/java-collections/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="常用集合与分类">常用集合与分类</h2>
+<ul>
+<li>
+<p>Collection</p>
+<ul>
+<li>List：按顺序保存元素。
+<ul>
+<li>ArrayList：数组实现，随机访问性能好。</li>
+<li>LinkedList：双向链表实现，插入删除性能好。</li>
+</ul>
+</li>
+<li>Set：不添加重复元素。
+<ul>
+<li>HashSet：快速查找元素，由HashMap实现。元素须定义 <code>hashCode()</code> 和 <code>equals()</code> 方法。</li>
+<li>LinkedHashSet：快速查找元素+链表维护读写顺序，由LinkedHashMap实现。元素须定义 <code>hashCode()</code> 和 <code>equals()</code> 方法。</li>
+<li>TreeSet：有序Set，由TreeMap实现。元素须实现 <code>Comparable</code> 接口。</li>
+</ul>
+</li>
+<li>Queue：队列，先进先出。
+<ul>
+<li>Deque：双端队列 (double-ended queue)。
+<ul>
+<li>ArrayDeque：数组实现，头尾指针在数组中循环移动，性能好。</li>
+<li>LinkedList：双向链表实现。</li>
+</ul>
+</li>
+<li>PriorityQueue：插入后排序元素，使用堆实现，队列头部默认为最小的元素（自然顺序）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Map</p>
+<ul>
+<li>HashMap：散列表实现，根据Key存取关联的Value。</li>
+<li>LinkedHashMap：HashMap+双向链表维护读写顺序。默认是维护最后写入的顺序，也可以指定为读取排序 (accessOrder)，使用LRU算法实现。</li>
+<li>TreeMap：根据key进行排序，使用红黑树实现。插入时找到key对应的节点并替换value，没找到则生成新节点。</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/java-collections/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+
+    </div>
+
+    
+    
+    
+      
+
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -2852,145 +3029,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "30分钟极简经济学：经济机器是如何运转的（中英文版视频与图文学习笔记）",
-      "description": "这是2008年美国金融危机之后，Ray Dalio在Youtube上分享的30分钟视频《How The Economic Machine Works》（《经济机器是如何运转的》），目前已经播放了五百多万次。 比尔盖茨对这个视频的推荐语是这样的：",
-      "datePublished": "2018-02-25T13:42:38.000Z",
-      "dateModified": "2025-06-17T13:33:21.732Z",
-      "author": {
-        "@type": "Person",
-        "name": "小明"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "搬砖的小明",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "/images/logo-32.png"
-        }
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://www.xiaoming.io/economic-machine/"
-      }
-    }
-    </script>
-    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/economic-machine/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="小明">
-      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="搬砖的小明">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/economic-machine/" class="post-title-link" itemprop="url">30分钟极简经济学：经济机器是如何运转的（中英文版视频与图文学习笔记）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-02-25 21:42:38" itemprop="dateCreated datePublished" datetime="2018-02-25T21:42:38+08:00">2018-02-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">学习思考</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/economic-machine/" class="post-meta-item leancloud_visitors" data-flag-title="30分钟极简经济学：经济机器是如何运转的（中英文版视频与图文学习笔记）" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/economic-machine/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/economic-machine/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>这是2008年美国金融危机之后，Ray Dalio在Youtube上分享的30分钟视频《How The Economic Machine Works》（《经济机器是如何运转的》），目前已经播放了五百多万次。</p>
-<p>比尔盖茨对这个视频的推荐语是这样的：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/economic-machine/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-
-    </div>
-
-    
-    
-    
-      
-
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -3064,7 +3102,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">293</span>
+          <span class="site-state-item-count">294</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -3077,7 +3115,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">139</span>
+        <span class="site-state-item-count">140</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
