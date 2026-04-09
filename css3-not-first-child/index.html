@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="有时候我们需要用CSS选择非第一个子元素，例如下面这样的HTML，希望让两个span之间间隔一定的距离，但又不希望简单的给每个span设置margin-right（会导致最后一个span也有margin-right，可能影响之后元素的排版）。  &lt;div&gt; &lt;span&gt;&lt;&#x2F;span&gt; &lt;span&gt;&lt;&#x2F;span&gt; &lt;span&gt;&amp;">
@@ -287,7 +287,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>646</span>
+              <span>616</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -318,15 +318,15 @@
 <p>这时如果能排除第一个元素，并给其他元素设置<code>margin-left</code>属性，就能实现比较好的效果了。</p>
 <p>可以利用<code>not</code>和<code>first-child</code>，通过下面的CSS实现。</p>
 <ol>
-<li><code>div &gt; span :not(:first-child) &#123;</code></li>
+<li><code>div &gt; span :not(:first-child) {</code></li>
 <li><code>margin-left:10px</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 <p>还可以利用兄弟元素选择器<code>+</code>，像这样：</p>
 <ol>
-<li><code>div &gt; span + span &#123;</code></li>
+<li><code>div &gt; span + span {</code></li>
 <li><code>margin-left:10px</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 <p>如果HTML是这样的，应该怎么做呢？</p>
 <ol>
@@ -339,9 +339,9 @@
 </ol>
 <p>其实也很简单，用通配符就可以了：</p>
 <ol>
-<li><code>div &gt; * :not(:first-child) &#123;</code></li>
+<li><code>div &gt; * :not(:first-child) {</code></li>
 <li><code>margin-left:10px</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 
             

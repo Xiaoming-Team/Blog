@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="自己编写WordPress主题，经常会有需要调试的时候，或是主题正常运行，想知道其运行情况。这个时候可以给主题添加log日志功能，在需要记录相关信息想地方输出日志并保存到文件中。下面是log函数的一种简单实现。   &#x2F;&#x2F; 定义公共常量：主题文件夹   define( &#39;TPL_DIR&#39;, get_template_directory() );   &#x2F;&#x2F; Log信息输出   function wpl">
@@ -287,7 +287,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>331</span>
+              <span>321</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -318,7 +318,7 @@
 <p><code>// Log信息输出</code></p>
 </li>
 <li>
-<p><code>function wplog( $str = '', $tag = '' ) &#123;</code></p>
+<p><code>function wplog( $str = '', $tag = '' ) {</code></p>
 </li>
 <li>
 <p><code>$split = ( $tag=='' ) ? '' : &quot;:\t&quot;;</code></p>
@@ -327,7 +327,7 @@
 <p><code>file_put_contents( TPL_DIR.'/wp.log', $tag . $split . $str . &quot;\n&quot;, FILE_APPEND );</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 

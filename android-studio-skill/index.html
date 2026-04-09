@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="工欲善其事，必先利其器 俗话说，“工欲善其事，必先利其器”，对致力于让计算机解决人类问题的程序员来说，更应该如此（打字慢还找什么借口……）">
@@ -51,11 +51,11 @@
 <meta property="article:published_time" content="2017-04-15T02:39:58.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.573Z">
 <meta property="article:author" content="小明">
-<meta property="article:tag" content="编程">
 <meta property="article:tag" content="Android">
-<meta property="article:tag" content="安卓">
 <meta property="article:tag" content="AndroidStudio">
+<meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/427ab0b02d831a355e36d2ff469cd084.png">
 
@@ -312,7 +312,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.7k</span>
+              <span>8.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -560,10 +560,10 @@
 <h2 id="Code-Generation">Code Generation</h2>
 <ul>
 <li>
-<p>Prefrence - Editor - General - Postfix Completion：一些常用快捷输入，例如<code>fori</code>可直接输入循环<code>for (int i = 0; i &lt; foo; i++) &#123;&#125;</code></p>
+<p>Prefrence - Editor - General - Postfix Completion：一些常用快捷输入，例如<code>fori</code>可直接输入循环<code>for (int i = 0; i &lt; foo; i++) {}</code></p>
 </li>
 <li>
-<p>Prefrence - Editor - Live Templates：快捷输入，例如<code>psvm</code>输入<code>public static void main(String[] args)&#123;&#125;</code>，也可以自己定义</p>
+<p>Prefrence - Editor - Live Templates：快捷输入，例如<code>psvm</code>输入<code>public static void main(String[] args){}</code>，也可以自己定义</p>
 </li>
 <li>
 <p>Main Menu - Code - Generate</p>
@@ -595,7 +595,7 @@
 <li>添加变量声明</li>
 <li>添加try-catch或方法增加throw…</li>
 <li>创建调用super的构造函数</li>
-<li>逻辑表达式化简、无用逻辑删除（例如<code>if(true)&#123; ... &#125;</code>）</li>
+<li>逻辑表达式化简、无用逻辑删除（例如<code>if(true){ ... }</code>）</li>
 </ul>
 </li>
 <li>
@@ -717,16 +717,16 @@
 <li>
 <p>想抽取一个LogUtil方法，用于输出Log。</p>
 <ol>
-<li><code>void func() &#123;</code></li>
+<li><code>void func() {</code></li>
 <li><code>Log.d(&quot;tag&quot;, System.currentTimeMillis() + &quot;&quot;);</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 </li>
 <li>
 <p>选中<code>System.currentTimeMillis() + &quot;&quot;</code>，Extrac Variable。</p>
 </li>
 <li>
-<p><code>void func() &#123;</code></p>
+<p><code>void func() {</code></p>
 </li>
 <li>
 <p><code>String msg = System.currentTimeMillis() + &quot;&quot;;</code></p>
@@ -735,7 +735,7 @@
 <p><code>Log.d(&quot;tag&quot;, msg);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p>选中代码块<code>Log.d(&quot;tag&quot;, msg);</code>，Extrac Method。</p>
@@ -747,22 +747,22 @@
 <p>Refactor-Move，移动到工具类。如果输入的工具类没建，还会提示并自动创建。</p>
 </li>
 <li>
-<p><code>public class LogUtils &#123;</code></p>
+<p><code>public class LogUtils {</code></p>
 </li>
 <li>
-<p><code>public static void log(String msg) &#123;</code></p>
+<p><code>public static void log(String msg) {</code></p>
 </li>
 <li>
 <p><code>Log.d(&quot;tag&quot;, msg);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>void func() &#123;</code></p>
+<p><code>void func() {</code></p>
 </li>
 <li>
 <p><code>String msg = System.currentTimeMillis() + &quot;&quot;;</code></p>
@@ -771,7 +771,7 @@
 <p><code>LogUtils.log(msg);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h4 id="举例：内联接口和父类">举例：内联接口和父类</h4>
@@ -787,48 +787,48 @@
 <li>
 <p>要将直接实例化的匿名类移到成员变量中，原代码如下。</p>
 <ol>
-<li><code>void f() &#123;</code></li>
-<li><code>setRunnable(new Runnable() &#123;</code></li>
+<li><code>void f() {</code></li>
+<li><code>setRunnable(new Runnable() {</code></li>
 <li><code>@Override</code></li>
-<li><code>public void run() &#123;</code></li>
+<li><code>public void run() {</code></li>
 <li><code>// ...</code></li>
-<li><code>&#125;</code></li>
-<li><code>&#125;);</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
+<li><code>});</code></li>
+<li><code>}</code></li>
 </ol>
 </li>
 <li>
-<p>选中<code>new Runnable()&#123;&#125;</code>代码块，Refactor，Extract Field。</p>
+<p>选中<code>new Runnable(){}</code>代码块，Refactor，Extract Field。</p>
 <ol>
 <li>
 <p><code>private Runnable mRunnable;</code></p>
 </li>
 <li>
-<p><code>void f() &#123;</code></p>
+<p><code>void f() {</code></p>
 </li>
 <li>
-<p><code>mRunnable = new Runnable() &#123;</code></p>
+<p><code>mRunnable = new Runnable() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void run() &#123;</code></p>
+<p><code>public void run() {</code></p>
 </li>
 <li>
 <p><code>// ...</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;;</code></p>
+<p><code>};</code></p>
 </li>
 <li>
 <p><code>setRunnable(mRunnable);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 </li>
@@ -836,31 +836,31 @@
 <p>Extract默认不会改变代码逻辑，Runnable的实例化和赋值还是在方法中，可以选择Intentions，<code>Move assignment to field declaration</code>，将赋值移到Field声明的地方。</p>
 <ol>
 <li>
-<p><code>private Runnable mRunnable = new Runnable() &#123;</code></p>
+<p><code>private Runnable mRunnable = new Runnable() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void run() &#123;</code></p>
+<p><code>public void run() {</code></p>
 </li>
 <li>
 <p><code>// ...</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;;</code></p>
+<p><code>};</code></p>
 </li>
 <li>
-<p><code>void f() &#123;</code></p>
+<p><code>void f() {</code></p>
 </li>
 <li>
 <p><code>setRunnable(mRunnable);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 </li>
@@ -874,22 +874,22 @@
 <p>之后发现老的工具类定义不合理，打Log时不能指定Tag，于是新实现了一个Log工具类，并将原有的方法标记为Deprecated。</p>
 <ol>
 <li>
-<p><code>void f1() &#123;</code></p>
+<p><code>void f1() {</code></p>
 </li>
 <li>
 <p><code>deprecated_log(&quot;my_msg_1&quot;);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>void f2() &#123;</code></p>
+<p><code>void f2() {</code></p>
 </li>
 <li>
 <p><code>deprecated_log(&quot;my_msg_2&quot;);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>// ...</code></p>
@@ -898,22 +898,22 @@
 <p><code>@Deprecated</code></p>
 </li>
 <li>
-<p><code>void deprecated_log(String msg) &#123;</code></p>
+<p><code>void deprecated_log(String msg) {</code></p>
 </li>
 <li>
 <p><code>Log.d(&quot;old_tag&quot;, msg);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>void log(String tag, String msg) &#123;</code></p>
+<p><code>void log(String tag, String msg) {</code></p>
 </li>
 <li>
 <p><code>Log.d(tag, msg);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 </li>
@@ -924,9 +924,9 @@
 <p>步骤一：修改deprecated方法，让其调用新的工具类。</p>
 <ol>
 <li><code>@Deprecated</code></li>
-<li><code>void deprecated_log(String msg) &#123;</code></li>
+<li><code>void deprecated_log(String msg) {</code></li>
 <li><code>log(&quot;old_tag&quot;, msg);</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 </li>
 <li>

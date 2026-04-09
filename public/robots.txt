@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://www.xiaoming.io/sitemap.xml
-Sitemap: https://www.xiaoming.io/baidusitemap.xml

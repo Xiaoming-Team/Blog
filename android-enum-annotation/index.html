@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="写代码时，常用到Java中的枚举类型，枚举可以对常量进行限制，有效避免代码出错。但是在Android中，枚举类型的性能较差。 可以利用Android的IntDef、StringDef注解（Annotation），用int、String实现类似枚举的效果。">
@@ -32,10 +32,10 @@
 <meta property="article:published_time" content="2016-05-18T12:25:40.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.572Z">
 <meta property="article:author" content="小明">
-<meta property="article:tag" content="编程">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/a2400549dd6fdddbfda3b4add2d2def1.png">
 
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>957</span>
+              <span>887</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -320,7 +320,7 @@
 <p>IntDef的使用示例如下，StringDef的用法类似。调用错误时，AndroidStudio会报错如下。这里注解起到的只是检查代码的作用，对实际编译并没有什么影响。</p>
 <ol>
 <li>
-<p><code>public class ImagePreviewActivity &#123;</code></p>
+<p><code>public class ImagePreviewActivity {</code></p>
 </li>
 <li>
 <p><code>public static final int VIEW = 1;</code></p>
@@ -335,46 +335,46 @@
 <p><code>// 定义Type类型</code></p>
 </li>
 <li>
-<p><code>@IntDef(&#123;VIEW, SELECT, DELETE&#125;)</code></p>
+<p><code>@IntDef({VIEW, SELECT, DELETE})</code></p>
 </li>
 <li>
-<p><code>public @interface Type &#123;</code></p>
+<p><code>public @interface Type {</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>// 参数使用Type类型</code></p>
 </li>
 <li>
-<p><code>public static void show(@Type int type) &#123;</code></p>
+<p><code>public static void show(@Type int type) {</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>// 正确的调用</code></p>
 </li>
 <li>
-<p><code>public static void show1() &#123;</code></p>
+<p><code>public static void show1() {</code></p>
 </li>
 <li>
 <p><code>show(ImagePreviewActivity.VIEW);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>// 错误的调用</code></p>
 </li>
 <li>
-<p><code>public static void show2() &#123;</code></p>
+<p><code>public static void show2() {</code></p>
 </li>
 <li>
 <p><code>show(2);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>// 定义Type类型的变量</code></p>
@@ -383,7 +383,7 @@
 <p><code>@Type int mType;</code></p>
 </li>
 <li>
-<p><code>public void f() &#123;</code></p>
+<p><code>public void f() {</code></p>
 </li>
 <li>
 <p><code>// 正确的赋值操作</code></p>
@@ -398,10 +398,10 @@
 <p><code>mType = 0;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <p><img data-src="/blog-imgs/tech/android/images/a2400549dd6fdddbfda3b4add2d2def1.png" alt=""></p>

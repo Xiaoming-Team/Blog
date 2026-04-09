@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="OSI七层模型">
@@ -35,8 +35,8 @@
 <meta property="article:modified_time" content="2025-06-17T13:33:21.774Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="学习">
-<meta property="article:tag" content="计算机">
 <meta property="article:tag" content="网络">
+<meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/2018041112053246.png">
 
@@ -661,7 +661,7 @@
 <p>备注：两个xxxx是相同的，被替换掉了，避免公开IP地址</p>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">inet6 240e:3a1:xxxx:911::8a2/64 scope global</span><br><span class="line">    valid_lft forever preferred_lft forever</span><br><span class="line">inet6 240e:3a1:xxxx:911:211:32ff:fe95:d49e/64 scope global mngtmpaddr dynamic</span><br><span class="line">    valid_lft 5823sec preferred_lft 2222sec</span><br><span class="line">inet6 fe80::211:32ff:fe95:d49e/64 scope link</span><br><span class="line">    valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">inet6 240e:3a1:xxxx:911::8a2/64 scope global</span><br><span class="line">    valid_lft forever preferred_lft forever</span><br><span class="line">inet6 240e:3a1:xxxx:911:211:32ff:fe95:d49e/64 scope global mngtmpaddr dynamic</span><br><span class="line">    valid_lft 5823sec preferred_lft 2222sec</span><br><span class="line">inet6 fe80::211:32ff:fe95:d49e/64 scope <span class="built_in">link</span></span><br><span class="line">    valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
 <p>展开观察，地址1和2都是全局IP，前缀相同，地址2和3用了EUI-64</p>
 <ul>
 <li><code>240e:03a1:xxxx:0911:0000:0000:0000:08a2/64</code></li>

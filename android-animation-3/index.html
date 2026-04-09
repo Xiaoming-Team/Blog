@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="示例代码、思维导图可在此下载 https:&#x2F;&#x2F;github.com&#x2F;jzj1993&#x2F;AndroidAnimation  Animator (属性动画 &#x2F; Property Animation) (Android 3.0+)">
@@ -33,10 +33,10 @@
 <meta property="article:published_time" content="2016-06-03T09:59:04.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.572Z">
 <meta property="article:author" content="小明">
-<meta property="article:tag" content="编程">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/f1982677c57bc6b32dc0ae2119ddfd04.png">
 
@@ -293,7 +293,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.8k</span>
+              <span>9.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -342,13 +342,13 @@
 <p><code>anim.setDuration(3000);</code></p>
 </li>
 <li>
-<p><code>anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</code></p>
+<p><code>anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAnimationUpdate(ValueAnimator animation) &#123;</code></p>
+<p><code>public void onAnimationUpdate(ValueAnimator animation) {</code></p>
 </li>
 <li>
 <p><code>Integer val = (Integer) animation.getAnimatedValue();</code></p>
@@ -357,82 +357,82 @@
 <p><code>mTextView.setText(String.valueOf(val));</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
-<p><code>anim.addListener(new Animator.AnimatorListener() &#123;</code></p>
-</li>
-<li>
-<p><code>@Override</code></p>
-</li>
-<li>
-<p><code>public void onAnimationStart(Animator animation) &#123;</code></p>
-</li>
-<li>
-<p><code>&#125;</code></p>
+<p><code>anim.addListener(new Animator.AnimatorListener() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAnimationEnd(Animator animation) &#123;</code></p>
+<p><code>public void onAnimationStart(Animator animation) {</code></p>
+</li>
+<li>
+<p><code>}</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void onAnimationEnd(Animator animation) {</code></p>
 </li>
 <li>
 <p><code>mTextView.setText(&quot;HelloWorld&quot;);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAnimationCancel(Animator animation) &#123;</code></p>
+<p><code>public void onAnimationCancel(Animator animation) {</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAnimationRepeat(Animator animation) &#123;</code></p>
+<p><code>public void onAnimationRepeat(Animator animation) {</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
 <p><code>// API Level 19 (Android 4.4) 才可以使用</code></p>
 </li>
 <li>
-<p><code>anim.addPauseListener(new Animator.AnimatorPauseListener() &#123;</code></p>
+<p><code>anim.addPauseListener(new Animator.AnimatorPauseListener() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAnimationPause(Animator animation) &#123;</code></p>
+<p><code>public void onAnimationPause(Animator animation) {</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAnimationResume(Animator animation) &#123;</code></p>
+<p><code>public void onAnimationResume(Animator animation) {</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
 <p><code>anim.start();</code></p>
@@ -463,7 +463,7 @@
 <p>ValueAnimator默认只能产生int和float型数据动画序列。而使用自定义TypeEvaluator可以创建任意类型的动画序列。</p>
 <ol>
 <li>
-<p><code>class MyTypeEvaluator implements TypeEvaluator&lt;PointF&gt; &#123;</code></p>
+<p><code>class MyTypeEvaluator implements TypeEvaluator&lt;PointF&gt; {</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -487,7 +487,7 @@
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public PointF evaluate(float fraction, PointF startValue, PointF endValue) &#123;</code></p>
+<p><code>public PointF evaluate(float fraction, PointF startValue, PointF endValue) {</code></p>
 </li>
 <li>
 <p><code>return new PointF(</code></p>
@@ -502,10 +502,10 @@
 <p><code>);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>PointF start = new PointF(0, 0);</code></p>
@@ -520,13 +520,13 @@
 <p><code>anim.setDuration(2000);</code></p>
 </li>
 <li>
-<p><code>anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</code></p>
+<p><code>anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAnimationUpdate(ValueAnimator animation) &#123;</code></p>
+<p><code>public void onAnimationUpdate(ValueAnimator animation) {</code></p>
 </li>
 <li>
 <p><code>PointF val = (PointF) animation.getAnimatedValue();</code></p>
@@ -538,10 +538,10 @@
 <p><code>mTextView.setY(val.y);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
 <p><code>anim.start();</code></p>
@@ -565,13 +565,13 @@
 <p><code>anim[2] = ObjectAnimator.ofFloat(mTextView, &quot;translationY&quot;, -300, 0);</code></p>
 </li>
 <li>
-<p><code>for (Animator a : anim) &#123;</code></p>
+<p><code>for (Animator a : anim) {</code></p>
 </li>
 <li>
 <p><code>a.setDuration(1000);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>AnimatorSet set = new AnimatorSet();</code></p>
@@ -609,13 +609,13 @@
 <p><code>anim[3] = ObjectAnimator.ofFloat(mTextView, &quot;translationY&quot;, 100, 0);</code></p>
 </li>
 <li>
-<p><code>for (Animator a : anim) &#123;</code></p>
+<p><code>for (Animator a : anim) {</code></p>
 </li>
 <li>
 <p><code>a.setDuration(600);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>AnimatorSet set = new AnimatorSet();</code></p>
@@ -645,13 +645,13 @@
 <p><code>anim[3] = ObjectAnimator.ofFloat(mTextView, &quot;translationY&quot;, 100, 0);</code></p>
 </li>
 <li>
-<p><code>for (Animator a : anim) &#123;</code></p>
+<p><code>for (Animator a : anim) {</code></p>
 </li>
 <li>
 <p><code>a.setDuration(600);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>AnimatorSet set1 = new AnimatorSet();</code></p>
@@ -727,7 +727,7 @@
 <p><code>// fraction, value</code></p>
 </li>
 <li>
-<p><code>Keyframe kf[] = new Keyframe[]&#123;</code></p>
+<p><code>Keyframe kf[] = new Keyframe[]{</code></p>
 </li>
 <li>
 <p><code>Keyframe.ofFloat(0f, 0),</code></p>
@@ -745,7 +745,7 @@
 <p><code>Keyframe.ofFloat(1f, y)</code></p>
 </li>
 <li>
-<p><code>&#125;;</code></p>
+<p><code>};</code></p>
 </li>
 <li>
 <p><code>PropertyValuesHolder pvhK = PropertyValuesHolder.ofKeyframe(&quot;y&quot;, kf);</code></p>
@@ -784,7 +784,7 @@
 <p><code>anim.start();</code></p>
 </li>
 <li>
-<p><code>class CustomTarget &#123;</code></p>
+<p><code>class CustomTarget {</code></p>
 </li>
 <li>
 <p><code>private View mView;</code></p>
@@ -796,7 +796,7 @@
 <p><code>private final float y;</code></p>
 </li>
 <li>
-<p><code>public CustomTarget(View view) &#123;</code></p>
+<p><code>public CustomTarget(View view) {</code></p>
 </li>
 <li>
 <p><code>mView = view;</code></p>
@@ -808,10 +808,10 @@
 <p><code>y = view.getY();</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>public void setTranslation(float translation) &#123;</code></p>
+<p><code>public void setTranslation(float translation) {</code></p>
 </li>
 <li>
 <p><code>mView.setX(translation * x);</code></p>
@@ -820,10 +820,10 @@
 <p><code>mView.setY(translation * y);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h2 id="CustomProperty">CustomProperty</h2>
@@ -843,43 +843,43 @@
 <p><code>anim.start();</code></p>
 </li>
 <li>
-<p><code>class CustomProperty extends Property&lt;TextView, Integer&gt; &#123;</code></p>
+<p><code>class CustomProperty extends Property&lt;TextView, Integer&gt; {</code></p>
 </li>
 <li>
-<p><code>public CustomProperty(Class&lt;Integer&gt; type, String name) &#123;</code></p>
+<p><code>public CustomProperty(Class&lt;Integer&gt; type, String name) {</code></p>
 </li>
 <li>
 <p><code>super(type, name);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void set(TextView tv, Integer alpha) &#123;</code></p>
+<p><code>public void set(TextView tv, Integer alpha) {</code></p>
 </li>
 <li>
 <p><code>tv.setAlpha((float) alpha / 256);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public Integer get(TextView tv) &#123;</code></p>
+<p><code>public Integer get(TextView tv) {</code></p>
 </li>
 <li>
 <p><code>return (int) (tv.getAlpha() * 256);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h2 id="ViewPropertyAnimator">ViewPropertyAnimator</h2>
@@ -983,22 +983,22 @@
 <p><code>bn.setText(&quot;-&quot;);</code></p>
 </li>
 <li>
-<p><code>bn.setOnClickListener(new View.OnClickListener() &#123;</code></p>
+<p><code>bn.setOnClickListener(new View.OnClickListener() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onClick(View v) &#123;</code></p>
+<p><code>public void onClick(View v) {</code></p>
 </li>
 <li>
 <p><code>mContainer.removeView(v);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
 <p><code>mContainer.addView(bn, index);</code></p>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="UI Automator 在较早版本的Android系统中，Instrumentation必须在系统权限下，才能操作整个手机；否则只能操作自身或与其签名一致的APP。而由于Instrumentation通常不能获取系统权限（需要系统签名，而系统签名文件在编译系统时已经被编译进去，不能获取到），于是基于Instrumentation的很多框架只能进行单个APP的测试，不能跨应用测试。">
@@ -31,10 +31,10 @@
 <meta property="article:published_time" content="2016-02-15T11:53:49.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.567Z">
 <meta property="article:author" content="小明">
+<meta property="article:tag" content="#Android测试初探#">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
-<meta property="article:tag" content="#Android测试初探#">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://www.xiaoming.io/android-test-6/">
@@ -315,14 +315,14 @@
 <p>UI Automator是谷歌在Android 4.3引入的测试框架，最重要的特点就是支持跨应用测试，缺点是必须在Android 4.3及以上设备中才能使用。UI Automator基于Android 4.3中Instrumentation新引入的API，直接可以操作手机，而不局限于某个应用。</p>
 <p>UI Automator使用默认的Instrumentation Test Runner即可，配置只需要添加一个依赖项如下。</p>
 <ol>
-<li><code>dependencies &#123;</code></li>
+<li><code>dependencies {</code></li>
 <li><code>androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 <p>示例代码先进行了按键操作（HOME键、音量键），并先后启动桌面的Settings和UnitTest应用。注意，如果桌面没有这个名称的应用，会抛出UiObjectNotFoundException，从而测试失败。</p>
 <ol>
 <li>
-<p><code>public class UiAutomatorTest extends InstrumentationTestCase &#123;</code></p>
+<p><code>public class UiAutomatorTest extends InstrumentationTestCase {</code></p>
 </li>
 <li>
 <p><code>private UiDevice mDevice;</code></p>
@@ -331,7 +331,7 @@
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>protected void setUp() throws Exception &#123;</code></p>
+<p><code>protected void setUp() throws Exception {</code></p>
 </li>
 <li>
 <p><code>super.setUp();</code></p>
@@ -340,10 +340,10 @@
 <p><code>mDevice = UiDevice.getInstance(getInstrumentation());</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>public void testDemo() throws UiObjectNotFoundException &#123;</code></p>
+<p><code>public void testDemo() throws UiObjectNotFoundException {</code></p>
 </li>
 <li>
 <p><code>mDevice.pressHome();</code></p>
@@ -364,10 +364,10 @@
 <p><code>mDevice.findObject(new UiSelector().text(&quot;UnitTest&quot;)).clickAndWaitForNewWindow();</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h2 id="参考资料与扩展阅读">参考资料与扩展阅读</h2>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="本文用到的Shell命令：  grep find wc xargs sort">
@@ -318,9 +318,9 @@
 <h2 id="用grep匹配文件内容">用grep匹配文件内容</h2>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这条命令会把index.js内容全部输出来，因为每行都匹配</span></span><br><span class="line">grep <span class="string">&quot;&quot;</span> index.js</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这条命令会把index.js非空行的内容输出来，&quot;^$&quot;匹配所有空行，-v表示翻转匹配，所以每个非空行被匹配并输出</span></span><br><span class="line">grep -v <span class="string">&quot;^$&quot;</span> index.js</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这条命令会把当前目录和子目录下所有js文件非空行的内容输出来，-R表示递归子目录</span></span><br><span class="line">grep -R -v <span class="string">&quot;^$&quot;</span> **/*.js</span><br></pre></td></tr></table></figure>
 <h2 id="用wc统计行数">用wc统计行数</h2>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过管道将内容传递给wc，统计js代码行数</span></span><br><span class="line">grep -R -v <span class="string">&quot;^$&quot;</span> **/*.js  wc -l</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过管道将内容传递给wc，统计js代码行数</span></span><br><span class="line">grep -R -v <span class="string">&quot;^$&quot;</span> **/*.js  <span class="built_in">wc</span> -l</span><br></pre></td></tr></table></figure>
 <h2 id="使用find过滤文件">使用find过滤文件</h2>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用find列出所有扩展名为m和h的文件，通过管道和xargs传递给grep，然后统计代码行数</span></span><br><span class="line">find . -name <span class="string">&quot;*.m&quot;</span> -or -name <span class="string">&quot;*.h&quot;</span>  xargs grep -v <span class="string">&quot;^$&quot;</span>  wc -l</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用find列出所有扩展名为m和h的文件，通过管道和xargs传递给grep，然后统计代码行数</span></span><br><span class="line">find . -name <span class="string">&quot;*.m&quot;</span> -or -name <span class="string">&quot;*.h&quot;</span>  xargs grep -v <span class="string">&quot;^$&quot;</span>  <span class="built_in">wc</span> -l</span><br></pre></td></tr></table></figure>
 <p>xargs的作用：</p>
 <ul>
 <li>xargs把find输出的内容转换为<strong>命令行参数</strong>传递给grep。例如find输出的内容是<code>main.js \n test.js</code>，则find输出的每一行（即每个文件）都会调用一次grep，也就是<code>grep main.js</code>, <code>grep test.js</code>，输出每个文件中匹配的内容，最后由wc计算总行数。</li>
@@ -328,7 +328,7 @@
 </ul>
 <h2 id="直接用find统计行数">直接用find统计行数</h2>
 <p>直接用find也可以统计行数，但是只能统计文件中所有内容（包括空行）的行数，没有用grep那么灵活。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 统计每个文件的行数和总行数，包含空行</span></span><br><span class="line">find . -name <span class="string">&quot;*.js&quot;</span>  xargs wc -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计每个文件的行数和总行数，包含空行，最后按行数排序</span></span><br><span class="line">find . -name <span class="string">&quot;*.js&quot;</span>  xargs wc -l  sort -n</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 统计每个文件的行数和总行数，包含空行</span></span><br><span class="line">find . -name <span class="string">&quot;*.js&quot;</span>  xargs <span class="built_in">wc</span> -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计每个文件的行数和总行数，包含空行，最后按行数排序</span></span><br><span class="line">find . -name <span class="string">&quot;*.js&quot;</span>  xargs <span class="built_in">wc</span> -l  <span class="built_in">sort</span> -n</span><br></pre></td></tr></table></figure>
 
             
 

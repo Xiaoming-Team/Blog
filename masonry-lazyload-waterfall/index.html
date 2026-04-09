@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="瀑布流布局 我们常能在网上看到很多瀑布流布局的页面，尤其是很多图片网站，例如百度图片。这种最典型的瀑布流布局，每个元素的宽度是固定的，但图片长度各不相同，于是通过下图这种样子竖着排列了下来，达到了最大的页面空间利用率。">
@@ -372,13 +372,13 @@
 <p><code>&lt;script&gt;</code></p>
 </li>
 <li>
-<p><code>$(function() &#123;</code></p>
+<p><code>$(function() {</code></p>
 </li>
 <li>
 <p><code>f_masonry();</code></p>
 </li>
 <li>
-<p><code>$(&quot;img&quot;).lazyload(&#123;</code></p>
+<p><code>$(&quot;img&quot;).lazyload({</code></p>
 </li>
 <li>
 <p><code>effect:&quot;fadeIn&quot;,</code></p>
@@ -390,16 +390,16 @@
 <p><code>load:f_masonry,</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
-<p><code>function f_masonry() &#123;</code></p>
+<p><code>function f_masonry() {</code></p>
 </li>
 <li>
-<p><code>$('.masonry').masonry(&#123;</code></p>
+<p><code>$('.masonry').masonry({</code></p>
 </li>
 <li>
 <p><code>gutterWidth: 20,</code></p>
@@ -411,10 +411,10 @@
 <p><code>isAnimated: true,</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>&lt;/script&gt;</code></p>

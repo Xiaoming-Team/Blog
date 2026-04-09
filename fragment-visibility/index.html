@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="本文仅适用于support包中的Fragment，没有对Android新的接口android.app.Fragment做测试。 实际开发时，常需要在Fragment可见时，做重新加载数据等操作，但系统没有提供可以直接使用的方法。这里通过改造BaseFragment实现Fragment可见性变化的监听。">
@@ -31,10 +31,10 @@
 <meta property="article:published_time" content="2016-11-25T17:49:51.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.573Z">
 <meta property="article:author" content="小明">
-<meta property="article:tag" content="编程">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://www.xiaoming.io/fragment-visibility/">
@@ -290,14 +290,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.6k</span>
+              <span>8.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -326,7 +326,7 @@
 </ul>
 <ol>
 <li>
-<p><code>public class BaseVisibilityFragment extends Fragment &#123;</code></p>
+<p><code>public class BaseVisibilityFragment extends Fragment {</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -344,7 +344,7 @@
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onStart() &#123;</code></p>
+<p><code>public void onStart() {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onStart&quot;);</code></p>
@@ -356,13 +356,13 @@
 <p><code>onActivityVisibilityChanged(true);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onStop() &#123;</code></p>
+<p><code>public void onStop() {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onStop&quot;);</code></p>
@@ -374,7 +374,7 @@
 <p><code>onActivityVisibilityChanged(false);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -386,16 +386,16 @@
 <p><code>*/</code></p>
 </li>
 <li>
-<p><code>protected void onActivityVisibilityChanged(boolean visible) &#123;</code></p>
+<p><code>protected void onActivityVisibilityChanged(boolean visible) {</code></p>
 </li>
 <li>
 <p><code>mParentActivityVisible = visible;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h3 id="2、如果Fragment在ViewPager中，所在Tab被选中">2、如果Fragment在ViewPager中，所在Tab被选中</h3>
@@ -405,16 +405,16 @@
 <li>对于没有Tab的页面，getUserVisibleHint()默认为true。</li>
 </ul>
 <ol>
-<li><code>public class BaseVisibilityFragment extends Fragment &#123;</code></li>
+<li><code>public class BaseVisibilityFragment extends Fragment {</code></li>
 <li><code>/**</code></li>
-<li><code>* Tab切换时会回调此方法。对于没有Tab的页面，&#123;@link Fragment#getUserVisibleHint()&#125;默认为true。</code></li>
+<li><code>* Tab切换时会回调此方法。对于没有Tab的页面，{@link Fragment#getUserVisibleHint()}默认为true。</code></li>
 <li><code>*/</code></li>
 <li><code>@Override</code></li>
-<li><code>public void setUserVisibleHint(boolean isVisibleToUser) &#123;</code></li>
+<li><code>public void setUserVisibleHint(boolean isVisibleToUser) {</code></li>
 <li><code>info(&quot;setUserVisibleHint = &quot; + isVisibleToUser);</code></li>
 <li><code>super.setUserVisibleHint(isVisibleToUser);</code></li>
-<li><code>&#125;</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
+<li><code>}</code></li>
 </ol>
 <h3 id="3、Fragment被添加、Fragment没有隐藏">3、Fragment被添加、Fragment没有隐藏</h3>
 <ul>
@@ -431,46 +431,46 @@
 <p>监听事件：</p>
 <ol>
 <li>
-<p><code>public class BaseVisibilityFragment extends Fragment &#123;</code></p>
+<p><code>public class BaseVisibilityFragment extends Fragment {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAttach(Activity activity) &#123;</code></p>
+<p><code>public void onAttach(Activity activity) {</code></p>
 </li>
 <li>
 <p><code>super.onAttach(activity);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onDetach() &#123;</code></p>
+<p><code>public void onDetach() {</code></p>
 </li>
 <li>
 <p><code>super.onDetach();</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onHiddenChanged(boolean hidden) &#123;</code></p>
+<p><code>public void onHiddenChanged(boolean hidden) {</code></p>
 </li>
 <li>
 <p><code>super.onHiddenChanged(hidden);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h3 id="4-Fragment-View已经AttachToWindow，且View可见">4. Fragment.View已经AttachToWindow，且View可见</h3>
@@ -486,13 +486,13 @@
 <p>监听事件：</p>
 <ol>
 <li>
-<p><code>public class BaseVisibilityFragment extends Fragment implements View.OnAttachStateChangeListener &#123;</code></p>
+<p><code>public class BaseVisibilityFragment extends Fragment implements View.OnAttachStateChangeListener {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onViewCreated(View view, @Nullable Bundle savedInstanceState) &#123;</code></p>
+<p><code>public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {</code></p>
 </li>
 <li>
 <p><code>super.onViewCreated(view, savedInstanceState);</code></p>
@@ -501,25 +501,25 @@
 <p><code>view.addOnAttachStateChangeListener(this);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onViewAttachedToWindow(View v) &#123;</code></p>
+<p><code>public void onViewAttachedToWindow(View v) {</code></p>
 </li>
 <li>
 <p><code>LogUtils.i(getClass().getSimpleName(), &quot;onViewAttachedToWindow&quot;);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onViewDetachedFromWindow(View v) &#123;</code></p>
+<p><code>public void onViewDetachedFromWindow(View v) {</code></p>
 </li>
 <li>
 <p><code>LogUtils.i(getClass().getSimpleName(), &quot;onViewDetachedFromWindow&quot;);</code></p>
@@ -528,10 +528,10 @@
 <p><code>v.removeOnAttachStateChangeListener(this);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h3 id="5、ParentFragment可见">5、ParentFragment可见</h3>
@@ -541,34 +541,34 @@
 </ul>
 <ol>
 <li>
-<p><code>public interface OnFragmentVisibilityChangedListener &#123;</code></p>
+<p><code>public interface OnFragmentVisibilityChangedListener {</code></p>
 </li>
 <li>
 <p><code>void onFragmentVisibilityChanged(boolean visible);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>public class BaseVisibilityFragment extends Fragment &#123;</code></p>
+<p><code>public class BaseVisibilityFragment extends Fragment {</code></p>
 </li>
 <li>
 <p><code>private OnFragmentVisibilityChangedListener mListener;</code></p>
 </li>
 <li>
-<p><code>public void setOnVisibilityChangedListener(OnFragmentVisibilityChangedListener listener) &#123;</code></p>
+<p><code>public void setOnVisibilityChangedListener(OnFragmentVisibilityChangedListener listener) {</code></p>
 </li>
 <li>
 <p><code>mListener = listener;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAttach(Context context) &#123;</code></p>
+<p><code>public void onAttach(Context context) {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onAttach&quot;);</code></p>
@@ -580,7 +580,7 @@
 <p><code>final Fragment parentFragment = getParentFragment();</code></p>
 </li>
 <li>
-<p><code>if (parentFragment != null &amp;&amp; parentFragment instanceof BaseVisibilityFragment) &#123;</code></p>
+<p><code>if (parentFragment != null &amp;&amp; parentFragment instanceof BaseVisibilityFragment) {</code></p>
 </li>
 <li>
 <p><code>mParentFragment = ((BaseVisibilityFragment) parentFragment);</code></p>
@@ -589,10 +589,10 @@
 <p><code>mParentFragment.setOnVisibilityChangedListener(this);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -604,25 +604,25 @@
 <p><code>*/</code></p>
 </li>
 <li>
-<p><code>protected void onVisibilityChanged(boolean visible) &#123;</code></p>
+<p><code>protected void onVisibilityChanged(boolean visible) {</code></p>
 </li>
 <li>
 <p><code>info(&quot;==&gt; onFragmentVisibilityChanged = &quot; + visible);</code></p>
 </li>
 <li>
-<p><code>if (mListener != null) &#123;</code></p>
+<p><code>if (mListener != null) {</code></p>
 </li>
 <li>
 <p><code>mListener.onFragmentVisibilityChanged(visible);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h2 id="完整方案">完整方案</h2>
@@ -633,22 +633,22 @@
 <li><code>* it: (1) has been added, (2) has its view attached to the window, and</code></li>
 <li><code>* (3) is not hidden.</code></li>
 <li><code>*/</code></li>
-<li><code>final public boolean isVisible() &#123;</code></li>
+<li><code>final public boolean isVisible() {</code></li>
 <li><code>return isAdded() &amp;&amp; !isHidden() &amp;&amp; mView != null</code></li>
 <li><code>&amp;&amp; mView.getWindowToken() != null &amp;&amp; mView.getVisibility() == View.VISIBLE;</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 <p>下面是判断和监听Fragment可见性完整的代码（不考虑直接调用<code>Fragment.getView().setVisibility</code>时的监听，因为不容易实现且必要性不大）。要求所有Fragment继承BaseVisibilityFragment基类。</p>
 <p>完整的Demo可在此下载 <a target="_blank" rel="noopener" href="https://github.com/jzj1993/FragmentLifeCycle">https://github.com/jzj1993/FragmentLifeCycle</a></p>
 <ol>
 <li>
-<p><code>public interface OnFragmentVisibilityChangedListener &#123;</code></p>
+<p><code>public interface OnFragmentVisibilityChangedListener {</code></p>
 </li>
 <li>
 <p><code>void onFragmentVisibilityChanged(boolean visible);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>import android.content.Context;</code></p>
@@ -678,7 +678,7 @@
 <p><code>*/</code></p>
 </li>
 <li>
-<p><code>public class BaseVisibilityFragment extends Fragment implements View.OnAttachStateChangeListener, OnFragmentVisibilityChangedListener &#123;</code></p>
+<p><code>public class BaseVisibilityFragment extends Fragment implements View.OnAttachStateChangeListener, OnFragmentVisibilityChangedListener {</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -711,19 +711,19 @@
 <p><code>private OnFragmentVisibilityChangedListener mListener;</code></p>
 </li>
 <li>
-<p><code>public void setOnVisibilityChangedListener(OnFragmentVisibilityChangedListener listener) &#123;</code></p>
+<p><code>public void setOnVisibilityChangedListener(OnFragmentVisibilityChangedListener listener) {</code></p>
 </li>
 <li>
 <p><code>mListener = listener;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onAttach(Context context) &#123;</code></p>
+<p><code>public void onAttach(Context context) {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onAttach&quot;);</code></p>
@@ -735,7 +735,7 @@
 <p><code>final Fragment parentFragment = getParentFragment();</code></p>
 </li>
 <li>
-<p><code>if (parentFragment != null &amp;&amp; parentFragment instanceof BaseVisibilityFragment) &#123;</code></p>
+<p><code>if (parentFragment != null &amp;&amp; parentFragment instanceof BaseVisibilityFragment) {</code></p>
 </li>
 <li>
 <p><code>mParentFragment = ((BaseVisibilityFragment) parentFragment);</code></p>
@@ -744,31 +744,31 @@
 <p><code>mParentFragment.setOnVisibilityChangedListener(this);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>checkVisibility(true);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onDetach() &#123;</code></p>
+<p><code>public void onDetach() {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onDetach&quot;);</code></p>
 </li>
 <li>
-<p><code>if (mParentFragment != null) &#123;</code></p>
+<p><code>if (mParentFragment != null) {</code></p>
 </li>
 <li>
 <p><code>mParentFragment.setOnVisibilityChangedListener(null);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>super.onDetach();</code></p>
@@ -780,13 +780,13 @@
 <p><code>mParentFragment = null;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onStart() &#123;</code></p>
+<p><code>public void onStart() {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onStart&quot;);</code></p>
@@ -798,13 +798,13 @@
 <p><code>onActivityVisibilityChanged(true);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onStop() &#123;</code></p>
+<p><code>public void onStop() {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onStop&quot;);</code></p>
@@ -816,7 +816,7 @@
 <p><code>onActivityVisibilityChanged(false);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -828,7 +828,7 @@
 <p><code>*/</code></p>
 </li>
 <li>
-<p><code>protected void onActivityVisibilityChanged(boolean visible) &#123;</code></p>
+<p><code>protected void onActivityVisibilityChanged(boolean visible) {</code></p>
 </li>
 <li>
 <p><code>mParentActivityVisible = visible;</code></p>
@@ -837,7 +837,7 @@
 <p><code>checkVisibility(visible);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -852,19 +852,19 @@
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onFragmentVisibilityChanged(boolean visible) &#123;</code></p>
+<p><code>public void onFragmentVisibilityChanged(boolean visible) {</code></p>
 </li>
 <li>
 <p><code>checkVisibility(visible);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onCreate(@Nullable Bundle savedInstanceState) &#123;</code></p>
+<p><code>public void onCreate(@Nullable Bundle savedInstanceState) {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onCreate&quot;);</code></p>
@@ -873,13 +873,13 @@
 <p><code>super.onCreate(savedInstanceState);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onViewCreated(View view, @Nullable Bundle savedInstanceState) &#123;</code></p>
+<p><code>public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {</code></p>
 </li>
 <li>
 <p><code>super.onViewCreated(view, savedInstanceState);</code></p>
@@ -888,13 +888,13 @@
 <p><code>view.addOnAttachStateChangeListener(this);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onHiddenChanged(boolean hidden) &#123;</code></p>
+<p><code>public void onHiddenChanged(boolean hidden) {</code></p>
 </li>
 <li>
 <p><code>super.onHiddenChanged(hidden);</code></p>
@@ -903,13 +903,13 @@
 <p><code>checkVisibility(hidden);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
 </li>
 <li>
-<p><code>* Tab切换时会回调此方法。对于没有Tab的页面，&#123;@link Fragment#getUserVisibleHint()&#125;默认为true。</code></p>
+<p><code>* Tab切换时会回调此方法。对于没有Tab的页面，{@link Fragment#getUserVisibleHint()}默认为true。</code></p>
 </li>
 <li>
 <p><code>*/</code></p>
@@ -918,7 +918,7 @@
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void setUserVisibleHint(boolean isVisibleToUser) &#123;</code></p>
+<p><code>public void setUserVisibleHint(boolean isVisibleToUser) {</code></p>
 </li>
 <li>
 <p><code>info(&quot;setUserVisibleHint = &quot; + isVisibleToUser);</code></p>
@@ -930,13 +930,13 @@
 <p><code>checkVisibility(isVisibleToUser);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onViewAttachedToWindow(View v) &#123;</code></p>
+<p><code>public void onViewAttachedToWindow(View v) {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onViewAttachedToWindow&quot;);</code></p>
@@ -945,13 +945,13 @@
 <p><code>checkVisibility(true);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void onViewDetachedFromWindow(View v) &#123;</code></p>
+<p><code>public void onViewDetachedFromWindow(View v) {</code></p>
 </li>
 <li>
 <p><code>info(&quot;onViewDetachedFromWindow&quot;);</code></p>
@@ -963,7 +963,7 @@
 <p><code>checkVisibility(false);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -981,7 +981,7 @@
 <p><code>*/</code></p>
 </li>
 <li>
-<p><code>private void checkVisibility(boolean expected) &#123;</code></p>
+<p><code>private void checkVisibility(boolean expected) {</code></p>
 </li>
 <li>
 <p><code>if (expected == mVisible) return;</code></p>
@@ -1005,7 +1005,7 @@
 <p><code>visible, parentVisible, superVisible, hintVisible));</code></p>
 </li>
 <li>
-<p><code>if (visible != mVisible) &#123;</code></p>
+<p><code>if (visible != mVisible) {</code></p>
 </li>
 <li>
 <p><code>mVisible = visible;</code></p>
@@ -1014,10 +1014,10 @@
 <p><code>onVisibilityChanged(mVisible);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -1029,22 +1029,22 @@
 <p><code>*/</code></p>
 </li>
 <li>
-<p><code>protected void onVisibilityChanged(boolean visible) &#123;</code></p>
+<p><code>protected void onVisibilityChanged(boolean visible) {</code></p>
 </li>
 <li>
 <p><code>info(&quot;==&gt; onFragmentVisibilityChanged = &quot; + visible);</code></p>
 </li>
 <li>
-<p><code>if (mListener != null) &#123;</code></p>
+<p><code>if (mListener != null) {</code></p>
 </li>
 <li>
 <p><code>mListener.onFragmentVisibilityChanged(visible);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>/**</code></p>
@@ -1056,31 +1056,31 @@
 <p><code>*/</code></p>
 </li>
 <li>
-<p><code>public boolean isFragmentVisible() &#123;</code></p>
+<p><code>public boolean isFragmentVisible() {</code></p>
 </li>
 <li>
 <p><code>return mVisible;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>private void info(String s) &#123;</code></p>
+<p><code>private void info(String s) {</code></p>
 </li>
 <li>
-<p><code>if (BuildConfig.DEBUG) &#123;</code></p>
+<p><code>if (BuildConfig.DEBUG) {</code></p>
 </li>
 <li>
 <p><code>Log.i(getClass().getSimpleName() + &quot; (&quot; + hashCode() + &quot;)&quot;, s);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="很多人会把WordPress文章的固定链接设置为postname，也就是自己对每篇文章定义一个别名，作为文章的固定链接。这样使得文章链接更有意义，也有利于SEO优化。 而如果使用离线发布WordPress博客的时候，往往不能直接设置postname，不得不发表到博客后自行修改。例如在我的这篇文章中，使用为知笔记作为离线编辑器，就会有这样的烦恼。">
@@ -289,14 +289,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -325,7 +325,7 @@
 <p><code>// 文章自动别名</code></p>
 </li>
 <li>
-<p><code>function post_auto_slug( $postid ) &#123;</code></p>
+<p><code>function post_auto_slug( $postid ) {</code></p>
 </li>
 <li>
 <p><code>global $wpdb;</code></p>
@@ -337,13 +337,13 @@
 <p><code>$results = $wpdb-&gt;get_results($sql);</code></p>
 </li>
 <li>
-<p><code>if( empty($results) ) &#123;</code></p>
+<p><code>if( empty($results) ) {</code></p>
 </li>
 <li>
 <p><code>return false;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>$post_title = $results[0]-&gt;post_title;</code></p>
@@ -355,13 +355,13 @@
 <p><code>$pos = strrpos( $post_title , '@@' );</code></p>
 </li>
 <li>
-<p><code>if( $pos &gt; 0 ) &#123;</code></p>
+<p><code>if( $pos &gt; 0 ) {</code></p>
 </li>
 <li>
 <p><code>$slug = substr( $post_title, $pos + 2 );</code></p>
 </li>
 <li>
-<p><code>if( ! empty( $slug ) ) &#123;</code></p>
+<p><code>if( ! empty( $slug ) ) {</code></p>
 </li>
 <li>
 <p><code>// 创建唯一的postname</code></p>
@@ -379,16 +379,16 @@
 <p><code>$check_sql = &quot;SELECT post_name FROM $wpdb-&gt;posts WHERE post_name = %s AND ID != '$postid' LIMIT 1&quot;;</code></p>
 </li>
 <li>
-<p><code>while ( $post_name_check ) &#123;</code></p>
+<p><code>while ( $post_name_check ) {</code></p>
 </li>
 <li>
-<p><code>if ( $suffix &gt; 1 ) &#123;</code></p>
+<p><code>if ( $suffix &gt; 1 ) {</code></p>
 </li>
 <li>
 <p><code>$after = '-' . $suffix;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>$post_name_check = $wpdb-&gt;get_var( $wpdb-&gt;prepare( $check_sql, $slug . $after ) );</code></p>
@@ -397,13 +397,13 @@
 <p><code>$suffix++;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>$post_name = $slug . $after;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>$post_title = substr( $post_title, 0, $pos );</code></p>
@@ -415,10 +415,10 @@
 <p><code>$wpdb-&gt;query($sql);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>add_action( 'publish_post', 'post_auto_slug' );</code></p>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="这篇文章写的比较早，很多内容理解的不是很好，建议阅读本人最新文章Gradle开发快速入门——DSL语法原理与常用API介绍 环境">
@@ -31,11 +31,11 @@
 <meta property="article:published_time" content="2016-11-25T17:01:44.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.394Z">
 <meta property="article:author" content="小明">
-<meta property="article:tag" content="编程">
 <meta property="article:tag" content="Android">
+<meta property="article:tag" content="Gradle">
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
-<meta property="article:tag" content="Gradle">
+<meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://www.xiaoming.io/gradle-plugin-and-principle/">
@@ -291,14 +291,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
+              <span>10k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
+              <span>9 分钟</span>
             </span>
 
         </div>
@@ -320,7 +320,7 @@
 <p><code>apply plugin: HelloPlugin</code></p>
 </li>
 <li>
-<p><code>class MyExtension &#123;</code></p>
+<p><code>class MyExtension {</code></p>
 </li>
 <li>
 <p><code>Boolean enable = true</code></p>
@@ -329,49 +329,49 @@
 <p><code>String text = ''</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>class HelloPlugin implements Plugin&lt;Project&gt; &#123;</code></p>
+<p><code>class HelloPlugin implements Plugin&lt;Project&gt; {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>void apply(Project project) &#123;</code></p>
+<p><code>void apply(Project project) {</code></p>
 </li>
 <li>
 <p><code>project.extensions.create('hello', MyExtension)</code></p>
 </li>
 <li>
-<p><code>project.task('hello') &lt;&lt; &#123;</code></p>
+<p><code>project.task('hello') &lt;&lt; {</code></p>
 </li>
 <li>
 <p><code>MyExtension ext = project.extensions.hello;</code></p>
 </li>
 <li>
-<p><code>if (ext.enable) &#123;</code></p>
+<p><code>if (ext.enable) {</code></p>
 </li>
 <li>
-<p><code>println &quot;Hello $&#123;ext.text&#125;!&quot;</code></p>
+<p><code>println &quot;Hello ${ext.text}!&quot;</code></p>
 </li>
 <li>
-<p><code>&#125; else &#123;</code></p>
+<p><code>} else {</code></p>
 </li>
 <li>
 <p><code>println 'HelloPlugin is disabled.'</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <p>在工程根目录对应的build.gradle中添加以下代码</p>
@@ -386,7 +386,7 @@
 <p><code>// 设置参数</code></p>
 </li>
 <li>
-<p><code>hello &#123;</code></p>
+<p><code>hello {</code></p>
 </li>
 <li>
 <p><code>enable = true</code></p>
@@ -395,7 +395,7 @@
 <p><code>text = 'World'</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <p>在工程根目录执行命令行，即可看到插件中定义的Task(hello)被执行</p>
@@ -439,16 +439,16 @@
 <p><code>apply plugin: 'maven'</code></p>
 </li>
 <li>
-<p><code>repositories &#123;</code></p>
+<p><code>repositories {</code></p>
 </li>
 <li>
 <p><code>mavenCentral()</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>dependencies &#123;</code></p>
+<p><code>dependencies {</code></p>
 </li>
 <li>
 <p><code>//    compile 'org.codehaus.groovy:groovy-all:2.3.11' // Groovy支持(远程)</code></p>
@@ -460,7 +460,7 @@
 <p><code>compile gradleApi() // GradleAPI支持</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <p>根目录再创建一个settings.build文件配置工程（如果直接使用RootProject，也可以不创建这个文件）：<code>&lt;project-dir&gt;/settings.gradle</code></p>
@@ -494,7 +494,7 @@
 <p><code>package com.jzj.groovy</code></p>
 </li>
 <li>
-<p><code>class MyExtension &#123;</code></p>
+<p><code>class MyExtension {</code></p>
 </li>
 <li>
 <p><code>Boolean enable = true</code></p>
@@ -503,7 +503,7 @@
 <p><code>String text = ''</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>package com.jzj.groovy</code></p>
@@ -515,46 +515,46 @@
 <p><code>import org.gradle.api.Project</code></p>
 </li>
 <li>
-<p><code>class HelloPlugin implements Plugin&lt;Project&gt; &#123;</code></p>
+<p><code>class HelloPlugin implements Plugin&lt;Project&gt; {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>void apply(Project project) &#123;</code></p>
+<p><code>void apply(Project project) {</code></p>
 </li>
 <li>
 <p><code>project.extensions.create('hello', MyExtension)</code></p>
 </li>
 <li>
-<p><code>project.task('hello') &lt;&lt; &#123;</code></p>
+<p><code>project.task('hello') &lt;&lt; {</code></p>
 </li>
 <li>
 <p><code>MyExtension ext = project.extensions.hello;</code></p>
 </li>
 <li>
-<p><code>if (ext.enable) &#123;</code></p>
+<p><code>if (ext.enable) {</code></p>
 </li>
 <li>
-<p><code>println &quot;Hello $&#123;ext.text&#125;!&quot;</code></p>
+<p><code>println &quot;Hello ${ext.text}!&quot;</code></p>
 </li>
 <li>
-<p><code>&#125; else &#123;</code></p>
+<p><code>} else {</code></p>
 </li>
 <li>
 <p><code>println 'HelloPlugin is disabled.'</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h3 id="创建资源文件">创建资源文件</h3>
@@ -830,17 +830,17 @@
 <li>还可以直接用本地jar文件，使用<code>classpath files('xxx.jar')</code>的方式依赖。</li>
 </ul>
 <ol>
-<li><code>buildscript &#123;</code></li>
-<li><code>repositories &#123;</code></li>
+<li><code>buildscript {</code></li>
+<li><code>repositories {</code></li>
 <li><code>jcenter()</code></li>
-<li><code>// maven &#123; url uri('../repo') &#125; // 指定本地maven仓库的路径</code></li>
+<li><code>// maven { url uri('../repo') } // 指定本地maven仓库的路径</code></li>
 <li><code>// ...</code></li>
-<li><code>&#125;</code></li>
-<li><code>dependencies &#123;</code></li>
+<li><code>}</code></li>
+<li><code>dependencies {</code></li>
 <li><code>// classpath 'com.jzj.gradle:HelloPlugin:0.0.1' // 依赖远程插件</code></li>
 <li><code>classpath files('HelloPlugin.jar') // 依赖本地文件，需要将jar文件放到项目根目录</code></li>
-<li><code>&#125;</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
+<li><code>}</code></li>
 </ol>
 <h3 id="Project配置">Project配置</h3>
 <p>对于需要使用插件的Project，在其build.gradle中添加下面的脚本。</p>
@@ -855,7 +855,7 @@
 <p><code>// 插件配置</code></p>
 </li>
 <li>
-<p><code>hello &#123;</code></p>
+<p><code>hello {</code></p>
 </li>
 <li>
 <p><code>enable = true</code></p>
@@ -864,7 +864,7 @@
 <p><code>text = 'World'</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h3 id="执行">执行</h3>
@@ -922,7 +922,7 @@
 <h4 id="闭包-Closure">闭包 Closure</h4>
 <ol>
 <li>
-<p><code>Closure c = &#123; a, b -&gt;</code></p>
+<p><code>Closure c = { a, b -&gt;</code></p>
 </li>
 <li>
 <p><code>println a</code></p>
@@ -931,31 +931,31 @@
 <p><code>println b</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>c.call('text1', 5)</code></p>
 </li>
 <li>
-<p><code>public static void main(String[] args) &#123;</code></p>
+<p><code>public static void main(String[] args) {</code></p>
 </li>
 <li>
-<p><code>abstract class MyClosure &#123;</code></p>
+<p><code>abstract class MyClosure {</code></p>
 </li>
 <li>
 <p><code>abstract void call(Object a, Object b);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>MyClosure c = new MyClosure() &#123;</code></p>
+<p><code>MyClosure c = new MyClosure() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>void call(Object a, Object b) &#123;</code></p>
+<p><code>void call(Object a, Object b) {</code></p>
 </li>
 <li>
 <p><code>System.out.println(a);</code></p>
@@ -964,16 +964,16 @@
 <p><code>System.out.println(b);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;;</code></p>
+<p><code>};</code></p>
 </li>
 <li>
 <p><code>c.call(&quot;text1&quot;, 5);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h4 id="代理对象-DelegateObject">代理对象 DelegateObject</h4>
@@ -982,28 +982,28 @@
 </ul>
 <ol>
 <li>
-<p><code>class MyDelegate &#123;</code></p>
+<p><code>class MyDelegate {</code></p>
 </li>
 <li>
-<p><code>def func() &#123;</code></p>
+<p><code>def func() {</code></p>
 </li>
 <li>
 <p><code>println 'func'</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>Closure c = &#123;</code></p>
+<p><code>Closure c = {</code></p>
 </li>
 <li>
 <p><code>func();</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>c.delegate = new MyDelegate()</code></p>
@@ -1012,40 +1012,40 @@
 <p><code>c.call()</code></p>
 </li>
 <li>
-<p><code>public static void main(String[] args) &#123;</code></p>
+<p><code>public static void main(String[] args) {</code></p>
 </li>
 <li>
-<p><code>class MyDelegate &#123;</code></p>
+<p><code>class MyDelegate {</code></p>
 </li>
 <li>
-<p><code>void func() &#123;</code></p>
+<p><code>void func() {</code></p>
 </li>
 <li>
 <p><code>System.out.println(&quot;func&quot;);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>abstract class MyClosure &#123;</code></p>
+<p><code>abstract class MyClosure {</code></p>
 </li>
 <li>
 <p><code>Object delegate;</code></p>
 </li>
 <li>
-<p><code>boolean callMethod(Object o, String method, Object... args) &#123;</code></p>
+<p><code>boolean callMethod(Object o, String method, Object... args) {</code></p>
 </li>
 <li>
-<p><code>try &#123;</code></p>
+<p><code>try {</code></p>
 </li>
 <li>
 <p><code>Method func = o.getClass().getDeclaredMethod(method);</code></p>
 </li>
 <li>
-<p><code>if (func != null) &#123;</code></p>
+<p><code>if (func != null) {</code></p>
 </li>
 <li>
 <p><code>func.invoke(o, args);</code></p>
@@ -1054,52 +1054,52 @@
 <p><code>return true;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125; catch (Exception e) &#123;</code></p>
+<p><code>} catch (Exception e) {</code></p>
 </li>
 <li>
 <p><code>// do nothing.</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>return false;</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>abstract void call();</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>MyClosure c = new MyClosure() &#123;</code></p>
+<p><code>MyClosure c = new MyClosure() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>void call() &#123;</code></p>
+<p><code>void call() {</code></p>
 </li>
 <li>
-<p><code>if (!callMethod(this, &quot;func&quot;)) &#123;</code></p>
+<p><code>if (!callMethod(this, &quot;func&quot;)) {</code></p>
 </li>
 <li>
 <p><code>callMethod(delegate, &quot;func&quot;);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;;</code></p>
+<p><code>};</code></p>
 </li>
 <li>
 <p><code>c.delegate = new MyDelegate();</code></p>
@@ -1108,13 +1108,13 @@
 <p><code>c.call();</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h4 id="this-owner-delegate">this, owner, delegate</h4>
 <ol>
 <li>
-<p><code>class Cls &#123;</code></p>
+<p><code>class Cls {</code></p>
 </li>
 <li>
 <p><code>def mCls = this;</code></p>
@@ -1123,31 +1123,31 @@
 <p><code>def a, b, c;</code></p>
 </li>
 <li>
-<p><code>def static assertSameObj(x, y) &#123;</code></p>
+<p><code>def static assertSameObj(x, y) {</code></p>
 </li>
 <li>
 <p><code>assert x.is(y);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>def static assertSameObj(Closure x, y) &#123;</code></p>
+<p><code>def static assertSameObj(Closure x, y) {</code></p>
 </li>
 <li>
 <p><code>assert x.is(y);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>def start() &#123;</code></p>
+<p><code>def start() {</code></p>
 </li>
 <li>
 <p><code>println 'this = ' + this</code></p>
 </li>
 <li>
-<p><code>a = &#123;</code></p>
+<p><code>a = {</code></p>
 </li>
 <li>
 <p><code>println 'a.this = ' + this</code></p>
@@ -1168,7 +1168,7 @@
 <p><code>assertSameObj(delegate, owner)</code></p>
 </li>
 <li>
-<p><code>b = &#123;</code></p>
+<p><code>b = {</code></p>
 </li>
 <li>
 <p><code>println 'b.this = ' + this</code></p>
@@ -1189,7 +1189,7 @@
 <p><code>assertSameObj(delegate, owner)</code></p>
 </li>
 <li>
-<p><code>c = &#123;</code></p>
+<p><code>c = {</code></p>
 </li>
 <li>
 <p><code>println 'c.this = ' + this</code></p>
@@ -1210,7 +1210,7 @@
 <p><code>assertSameObj(delegate, owner)</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>println('c = ' + c)</code></p>
@@ -1228,7 +1228,7 @@
 <p><code>println('length = ' + c.length())</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>println('b = ' + b)</code></p>
@@ -1237,7 +1237,7 @@
 <p><code>b.call();</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>println('a = ' + a)</code></p>
@@ -1246,10 +1246,10 @@
 <p><code>a.call()</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>new Cls().start();</code></p>
@@ -1340,7 +1340,7 @@
 <p><code>// build.gradle</code></p>
 </li>
 <li>
-<p><code>dependencies &#123;</code></p>
+<p><code>dependencies {</code></p>
 </li>
 <li>
 <p><code>compile 'xxx:xxx:1.0'</code></p>
@@ -1349,7 +1349,7 @@
 <p><code>testCompile 'xxx:xxx:1.0'</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <ul>
@@ -1366,22 +1366,22 @@
 <p><code>// build.gradle</code></p>
 </li>
 <li>
-<p><code>dependencies &#123;</code></p>
+<p><code>dependencies {</code></p>
 </li>
 <li>
 <p><code>compile 'xxx'</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>getProject().dependencies (&#123;</code></p>
+<p><code>getProject().dependencies ({</code></p>
 </li>
 <li>
 <p><code>compile('xxx')</code></p>
 </li>
 <li>
-<p><code>&#125;)</code></p>
+<p><code>})</code></p>
 </li>
 <li>
 <p><code>getProject().getDependencies().compile('xxx')</code></p>
@@ -1416,7 +1416,7 @@
 <p><code>// org.gradle.api.plugins.JavaBasePlugin.java</code></p>
 </li>
 <li>
-<p><code>private void defineConfigurationsForSourceSet(SourceSet sourceSet, ConfigurationContainer configurations) &#123;</code></p>
+<p><code>private void defineConfigurationsForSourceSet(SourceSet sourceSet, ConfigurationContainer configurations) {</code></p>
 </li>
 <li>
 <p><code>Configuration compileConfiguration = configurations.maybeCreate(sourceSet.getCompileConfigurationName());</code></p>
@@ -1437,13 +1437,13 @@
 <p><code>sourceSet.setRuntimeClasspath(sourceSet.getOutput().plus(runtimeConfiguration));</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
 <p><code>// groovy plugin</code></p>
 </li>
 <li>
-<p><code>public void apply(ProjectInternal project) &#123;</code></p>
+<p><code>public void apply(ProjectInternal project) {</code></p>
 </li>
 <li>
 <p><code>project.getPluginManager().apply(JavaBasePlugin.class);</code></p>
@@ -1452,7 +1452,7 @@
 <p><code>// ...</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <h3 id="build流程">build流程</h3>

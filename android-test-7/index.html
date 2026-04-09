@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="前面对单元测试进行了一些比较全的入门学习，都是通过Android Studio直接编译并自动运行测试的。 因为实际需要，希望在Android Studio中配置Robotium进行黑盒测试，之前知道原理，但一直没配置成功，网上也没找到相关的资料，所以自己进行了研究，终于成功了。在Android Studio中进行黑盒测试，需要用命令行编译、安装和运行TestRunner。">
@@ -32,10 +32,10 @@
 <meta property="article:published_time" content="2016-05-11T07:41:32.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.567Z">
 <meta property="article:author" content="小明">
+<meta property="article:tag" content="#Android测试初探#">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
-<meta property="article:tag" content="#Android测试初探#">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/9437dc083615c7422e104e50ce41c5b3.png">
 
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
+              <span>9.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -318,52 +318,52 @@
 <p>为了明确测试的执行流程，创建了一个白盒测试项目（参考本系列文章的第三篇），将其中的代码改为黑盒形式，如下。主要的变化就是不再直接引用被测试代码中的类和方法，而采用反射的形式获取。</p>
 <ol>
 <li>
-<p><code>public class ToastTest extends ActivityInstrumentationTestCase2 &#123;</code></p>
+<p><code>public class ToastTest extends ActivityInstrumentationTestCase2 {</code></p>
 </li>
 <li>
 <p><code>private Activity mActivity;</code></p>
 </li>
 <li>
-<p><code>public ToastTest() throws ClassNotFoundException &#123;</code></p>
+<p><code>public ToastTest() throws ClassNotFoundException {</code></p>
 </li>
 <li>
 <p><code>super(&quot;com.jzj1993.test_instrumentation&quot;, Class.forName(&quot;com.jzj1993.test_instrumentation.MainActivity&quot;));</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>public void testToast() throws Throwable &#123;</code></p>
+<p><code>public void testToast() throws Throwable {</code></p>
 </li>
 <li>
 <p><code>mActivity = getActivity();</code></p>
 </li>
 <li>
-<p><code>runTestOnUiThread(new Runnable() &#123;</code></p>
+<p><code>runTestOnUiThread(new Runnable() {</code></p>
 </li>
 <li>
 <p><code>@Override</code></p>
 </li>
 <li>
-<p><code>public void run() &#123;</code></p>
+<p><code>public void run() {</code></p>
 </li>
 <li>
 <p><code>Toast.makeText(mActivity, &quot;test&quot;, Toast.LENGTH_LONG).show();</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;);</code></p>
+<p><code>});</code></p>
 </li>
 <li>
 <p><code>Thread.sleep(5000);</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 <li>
-<p><code>&#125;</code></p>
+<p><code>}</code></p>
 </li>
 </ol>
 <p>仍然使用Android Studio进行编译和运行测试，执行成功。</p>
@@ -401,16 +401,16 @@
 <p><code>Running activities (most recent first):</code></p>
 </li>
 <li>
-<p><code>TaskRecord&#123;5323d558 #32 A com.jzj1993.unittest U 0&#125;</code></p>
+<p><code>TaskRecord{5323d558 #32 A com.jzj1993.unittest U 0}</code></p>
 </li>
 <li>
-<p><code>Run #1: ActivityRecord&#123;5311cd60 u0 com.jzj1993.unittest/.MainActivity&#125;</code></p>
+<p><code>Run #1: ActivityRecord{5311cd60 u0 com.jzj1993.unittest/.MainActivity}</code></p>
 </li>
 <li>
-<p><code>TaskRecord&#123;5309f8c8 #2 A com.android.launcher U 0&#125;</code></p>
+<p><code>TaskRecord{5309f8c8 #2 A com.android.launcher U 0}</code></p>
 </li>
 <li>
-<p><code>Run #0: ActivityRecord&#123;52fc9ac0 u0 com.android.launcher/com.android.launcher2.Launcher&#125;</code></p>
+<p><code>Run #0: ActivityRecord{52fc9ac0 u0 com.android.launcher/com.android.launcher2.Launcher}</code></p>
 </li>
 </ol>
 <p>Device Monitor获取控件id<br>
@@ -476,7 +476,7 @@
 <p><code>INSTRUMENTATION_STATUS: id=ActivityManagerService</code></p>
 </li>
 <li>
-<p><code>INSTRUMENTATION_STATUS: Error=Unable to find instrumentation info for: ComponentInfo&#123;com.jzj1993.black.test/android.test.InstrumentationTestRunner&#125;</code></p>
+<p><code>INSTRUMENTATION_STATUS: Error=Unable to find instrumentation info for: ComponentInfo{com.jzj1993.black.test/android.test.InstrumentationTestRunner}</code></p>
 </li>
 <li>
 <p><code>INSTRUMENTATION_STATUS_CODE: -1</code></p>
@@ -676,13 +676,13 @@
 <p><code>INSTRUMENTATION_STATUS: id=ActivityManagerService</code></p>
 </li>
 <li>
-<p><code>INSTRUMENTATION_STATUS: Error=Permission Denial: starting instrumentation ComponentInfo&#123;com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner&#125; from pid=9230, uid=9230 not allowed because package com.jzj1993.test_instrumentation.test does not have a signature matching the target com.jzj1993.test_instrumentation</code></p>
+<p><code>INSTRUMENTATION_STATUS: Error=Permission Denial: starting instrumentation ComponentInfo{com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner} from pid=9230, uid=9230 not allowed because package com.jzj1993.test_instrumentation.test does not have a signature matching the target com.jzj1993.test_instrumentation</code></p>
 </li>
 <li>
 <p><code>INSTRUMENTATION_STATUS_CODE: -1</code></p>
 </li>
 <li>
-<p><code>java.lang.SecurityException: Permission Denial: starting instrumentation ComponentInfo&#123;com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner&#125; from pid=9230, uid=9230 not allowed because package com.jzj1993.test_instrumentation.test does not have a signature matching the target com.jzj1993.test_instrumentation</code></p>
+<p><code>java.lang.SecurityException: Permission Denial: starting instrumentation ComponentInfo{com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner} from pid=9230, uid=9230 not allowed because package com.jzj1993.test_instrumentation.test does not have a signature matching the target com.jzj1993.test_instrumentation</code></p>
 </li>
 <li>
 <p><code>at android.os.Parcel.readException(Parcel.java:1431)</code></p>

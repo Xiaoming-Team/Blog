@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.0.0">
+<meta name="generator" content="Hexo 8.1.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
   <meta name="description" content="一个表单中有时可能会有多个Submit元素，如何在后台区分哪个按钮被点击呢？ 网上很多人说用javascript，写一个长长的函数，点击不同的按钮提交不同的数据；还有的说用多个表单；其实完全不需要这么麻烦。">
@@ -287,7 +287,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>964</span>
+              <span>924</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -318,11 +318,11 @@
 </ol>
 <p>后台PHP的处理：</p>
 <ol>
-<li><code>if ( $_REQUEST['save'] ) &#123;</code></li>
+<li><code>if ( $_REQUEST['save'] ) {</code></li>
 <li><code>// ...</code></li>
-<li><code>&#125; elseif ( $_REQUEST['reset'] ) &#123;</code></li>
+<li><code>} elseif ( $_REQUEST['reset'] ) {</code></li>
 <li><code>// ...</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 <p>原因是<strong>只有被点击的submit按钮数据才会被提交</strong>。</p>
 <h2 id="方法二、使用相同的name，不同的value">方法二、使用相同的name，不同的value</h2>
@@ -334,11 +334,11 @@
 </ol>
 <p>后台PHP的处理：</p>
 <ol>
-<li><code>if ( $_REQUEST['action']=='保存设置' ) &#123;</code></li>
+<li><code>if ( $_REQUEST['action']=='保存设置' ) {</code></li>
 <li><code>// ...</code></li>
-<li><code>&#125; elseif ( $_REQUEST['action']=='复位设置' ) &#123;</code></li>
+<li><code>} elseif ( $_REQUEST['action']=='复位设置' ) {</code></li>
 <li><code>// ...</code></li>
-<li><code>&#125;</code></li>
+<li><code>}</code></li>
 </ol>
 <p>要注意的是方法二中，由于用到了中文，前后台编码要保持一致，否则会导致判断失败。</p>
 <p>由于对于<code>&lt;input type=&quot;submit&quot;/&gt;</code>元素，<code>value</code>属性就是要显示到按钮上的文字，很可能用到中文，而且可能会因前端需要被修改，这时后台代码也得跟着改，<strong>所以不推荐第二种方法，建议用方法一</strong>。</p>
