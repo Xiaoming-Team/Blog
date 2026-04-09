@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GSM&#x2F;GPRS芯片是手机中负责收发短信、拨打电话以及访问GPRS网络的核心器件。有方M660+为深圳有方公司生产的一款超小封装的GSM&#x2F;GPRS工业无线模块，可以提供高品质的语音、短信、数据业务等功能，在各种工业和民用领域得到广泛的应用。 有方M660+ GPRS模块的硬件设计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈GSM&#x2F;GPRS模块软硬件设计（基于有方M660+模块和单片机）">
+<meta property="og:url" content="https://www.xiaoming.io/gprs-design/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="GSM&#x2F;GPRS芯片是手机中负责收发短信、拨打电话以及访问GPRS网络的核心器件。有方M660+为深圳有方公司生产的一款超小封装的GSM&#x2F;GPRS工业无线模块，可以提供高品质的语音、短信、数据业务等功能，在各种工业和民用领域得到广泛的应用。 有方M660+ GPRS模块的硬件设计">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/93e93cb415f8ab8b95248237e785d6f2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/79b327e758fea5944c4b9a98b07180fb.jpg">
+<meta property="article:published_time" content="2014-10-07T14:29:45.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.608Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="GPRS">
+<meta property="article:tag" content="GSM">
+<meta property="article:tag" content="MSP430">
+<meta property="article:tag" content="有方">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/93e93cb415f8ab8b95248237e785d6f2.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/gprs-design/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>浅谈GSM/GPRS模块软硬件设计（基于有方M660+模块和单片机） | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "浅谈GSM/GPRS模块软硬件设计（基于有方M660+模块和单片机）",
+      "description": "GSM/GPRS芯片是手机中负责收发短信、拨打电话以及访问GPRS网络的核心器件。有方M660+为深圳有方公司生产的一款超小封装的GSM/GPRS工业无线模块，可以提供高品质的语音、短信、数据业务等功能，在各种工业和民用领域得到广泛的应用。 有方M660+ GPRS模块的硬件设计",
+      "datePublished": "2014-10-07T14:29:45.000Z",
+      "dateModified": "2025-06-17T13:33:21.608Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/gprs-design/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/gprs-design/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浅谈GSM/GPRS模块软硬件设计（基于有方M660+模块和单片机）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-07 22:29:45" itemprop="dateCreated datePublished" datetime="2014-10-07T22:29:45+08:00">2014-10-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/gprs-design/" class="post-meta-item leancloud_visitors" data-flag-title="浅谈GSM/GPRS模块软硬件设计（基于有方M660+模块和单片机）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/gprs-design/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/gprs-design/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>GSM/GPRS芯片是手机中负责收发短信、拨打电话以及访问GPRS网络的核心器件。有方M660+为深圳有方公司生产的一款超小封装的GSM/GPRS工业无线模块，可以提供高品质的语音、短信、数据业务等功能，在各种工业和民用领域得到广泛的应用。</p>
+<h2 id="有方M660-GPRS模块的硬件设计">有方M660+ GPRS模块的硬件设计</h2>
+<p>硬件设计参考附件《M660+ 硬件设计指南》。</p>
+<p>需要注意的几点：</p>
+<ol>
+<li>
+<p>模块工作电压为3.5V～4.3V（推荐值3.9V），不是5V。</p>
+</li>
+<li>
+<p>模块平时工作电流较小，但是在模块注册网络或者其他一些特殊情况下，电流可能瞬间达到1.8A，如果电源供电能力不足，电压瞬间下降严重，将可能导致模块工作异常，没有信号，无法收发短信等情况。建议采用大电流的开关电源芯片供电，如LM2596 DC-DC转换模块；对于移动式设备，采用一块3.7V锂离子电池则刚好可以满足要求；另外应在GPRS模块供电端附近增加大电容滤波，滤波电容大小见硬件设计指南。</p>
+<ul>
+<li>瞬间电流Max 1.8A</li>
+<li>平均工作电流 ＜300mA</li>
+<li>待机电流1.5mA typ</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/images/93e93cb415f8ab8b95248237e785d6f2.jpg" alt=""></p>
+</li>
+<li>
+<p>该模块使用3.3V 电平串口，即高电平为3.3V，不是5V，对于5V电平的单片机或TTL串口，为保证工作可靠，不至于烧坏芯片，最好按照硬件设计指南中电路图搭建电平转换电路。</p>
+<p><img data-src="/blog-imgs/tech/images/79b327e758fea5944c4b9a98b07180fb.jpg" alt=""></p>
+</li>
+</ol>
+<h2 id="单片机系统的硬件设计">单片机系统的硬件设计</h2>
+<p>通常使用较多的单片机有51、AVR、MSP430、STM32等。需要根据系统功能，考虑选择合适的单片机。</p>
+<p>51单片机使用5V电平，且多数型号RAM、ROM较小，运行速度较慢，适合做一些较简单的应用，优点是简便易学，且焊接容易（很容易买到使用DIP(直插式)封装的51单片机）。</p>
+<p>430单片机使用3.3V电平，与GPRS模块能很好的兼容，且配置相比51更好，最大的特点是低功耗，且性价比较高，适合做不需要处理大量数据（如多媒体信息处理，复杂的人机交互）的多数应用。缺点是大部分430采用贴片封装，不易于焊接，且使用不当容易烧坏芯片。</p>
+<p>STM32单片机基于ARM7内核，功能强大，功耗较低，性价比很高，但对于只接触过51一类单片机的人来说，不一定能很好的掌握，因为正是由于功能强大，导致其程序庞大，一些比较简单的应用不需要使用STM32。STM32适合开发一些需要处理一些图片、音频，以及用户可视化交互的系统。</p>
+<p>总体来说，推荐优先选用MSP430；如果应用比较简单，可使用51；如果需要一些较为复杂的数据处理，尤其是多媒体信息，可考虑使用STM32、ARM9及以上处理器，或者结合FPFA、DSP来实现。</p>
+<h2 id="有方M660-GPRS模块的软件设计">有方M660+ GPRS模块的软件设计</h2>
+<p>从硬件层面来说，有方GPRS模块仅仅涉及了串口通信，硬件层的编程比较容易。初次接触GPRS模块编程时，比较难的是面向AT指令集协议编程（尤其是字符串处理很麻烦），以及如何编写高效，而又可靠健壮的程序。</p>
+<p><strong>AT指令集</strong>是一种可用于GSM/GPRS模块的通信协议。何谓协议？举个简单的例子，我们说话过程中使用的语言，作为大家共同接受的标准，可以在我们之间传递信息，这就叫做协议。而串口则是一种接口，接口又是什么呢？接口就是收发信息的实现，我们的嘴巴和耳朵就相当于接口。</p>
+<p>**接口和协议又有什么关系呢？**串口作为接口，只能一个字节一个字节的传输字符，类似的，我们的嘴巴和耳朵原本也只能收发不同的声音。接口是具体实现，而协议则规定了接口传输的信息代表什么含义。如果没有接口，协议肯定没法实现，人没有嘴巴和耳朵是没法用声音交流的。另一方面，如果没有协议，或者协议不兼容，接口的实现也并不能代表什么含义。没有语言的话，两个人只是乱叫完全没法交流；如果两个人使用不同的语言，而且听不懂彼此的语言（相当于协议不兼容），也是同样不能交流的。</p>
+<p>在GPRS模块软件的开发中，接口的实现远比协议实现要简单。接口的实现在这里就不做介绍，这里主要探讨如何编写高效可靠的程序来实现GPRS模块的协议即AT指令集。</p>
+<p>完整的AT指令集请参考附件《AT命令手册》，这里只介绍一些基本用法。</p>
+<h2 id="AT指令集的学习">AT指令集的学习</h2>
+<p>要想编写程序实现AT指令集的功能，就应该先学习AT指令集。如何学习AT指令集呢？一些人会直接给单片机写程序去控制GPRS模块的方式学习。事实上，这样很难学好AT指令集，往往会出现各种错误。当你对AT指令集不了解的情况下，盲目的去写程序，而又并不能保证程序没有错误按设想运行（如果你能保证这一点，那么你就是编程经验非常丰富的高手了，反正我是做不到这一点），这样的情况下，实验失败时，你根本没法确定是程序的问题还是AT指令集的问题，甚至有可能是硬件问题等等。</p>
+<p>于是，一般我们将GPRS模块连接到计算机上来学习AT指令集。对于大多数没有串口的计算机，你需要有个USB转TTL串口的转接线，即使有RS232串口，也需要通过一些转接芯片进行电平转换，转换成TTL串口。注意GPRS模块TTL串口的电平为3.3V，尽量使用电平转换电路以免电平不兼容烧坏GPRS模块。同时，你需要设计好GPRS模块的供电电路，给其提供一个稳定可靠的电压。然后插上一张可用的手机SIM卡，连接好电源和串口，GPRS模块上电后会和手机开机一样，需要数分钟的时间搜索信号，然后就可以正常工作。</p>
+<p>电脑端我们使用串口超级终端软件来调试GPRS模块。</p>
+<p>当我们从超级终端给GPRS模块发送“AT”，并按回车时，如果一切正常，屏幕上会显示返回的“OK”字符，这就是AT指令集最基本的操作：确认AT指令集工作正常。</p>
+<p>通过AT指令集初始化GPRS模块一般包括以下步骤(前面加“–”符号的表示正常工作返回的字符串，不同模块不完全一样，仅供参考，//表示注释)：</p>
+<ol>
+<li><code>AT // 确认AT指令集工作正常</code></li>
+<li><code>--OK</code></li>
+<li><code>ATE0 // 关闭回显（即禁止GPRS模块发送接收到每一个的字符，在电脑上调试时不需此语句）</code></li>
+<li><code>--OK</code></li>
+<li><code>AT+CPIN？ // SIM卡准备好？</code></li>
+<li><code>--READY</code></li>
+<li><code>AT+CMGF=1 // 设置短消息格式为Text模式，需在模块上电一段时间后才能正常返回OK，在此之前会返回ERROR</code></li>
+<li><code>--OK</code></li>
+<li><code>AT+CSMP=17,167,0,0 // 设置Text模式参数，用于短信发送</code></li>
+<li><code>--OK</code></li>
+<li><code>AT+CSCS=&quot;GSM&quot; // 设置GSM字符集，用于短信发送</code></li>
+<li><code>--OK</code></li>
+<li><code>AT+CREG? // 网络注册完成？应该一直循环发送此句直到网络注册完成才能进行短信和电话操作，如果没有信号，也会返回错误信息</code></li>
+<li><code>--+CREG: 0, 1, &quot;341B&quot;, &quot;2DBF&quot;</code></li>
+</ol>
+<p>如果需要使用GPRS网络，也可以在此处初始化，或者在需要使用时才初始化。</p>
+<p>写程序时发送这些字符串要注意，在每一句结尾处应有一个&quot;\r&quot;结束标志（回车符，ASCII码中的13，常缩写为）。对于大部分指令，GPRS模块接收到此结束符才会执行指令。另外有些引号不可省略，在写程序时应写为转义字符。</p>
+<p>网络注册正常后，发送ATD10086，就会给10086打电话，返回OK说明正在尝试拨打，拨号成功或没有信号会返回相应字符串。拨号成功，如果连接了话筒和耳机，就能正常通话了。</p>
+<p>发送短信有两种方式，一种是TEXT模式，另一种是PDU模式，需要先设置好。其中TEXT模式只支持英文（不排除可能有些模块或者某些特别的方法能使其支持中文），PDU模式支持中文，但编码方式较为复杂。</p>
+<blockquote>
+<p>PDU可参考：<a target="_blank" rel="noopener" href="http://yuanyu5237.iteye.com/blog/1126185">http://yuanyu5237.iteye.com/blog/1126185</a></p>
+<blockquote>
+<p>注：文中提到一个字符ASCII码中的26(0x1A)，在超级终端中可通过Ctrl+Z输入</p>
+</blockquote>
+</blockquote>
+<h2 id="AT指令集协议的编程实现">AT指令集协议的编程实现</h2>
+<p>要编写一个高效而又可靠的程序，我们既要向GPRS模块发送数据，又需要接收返回的数据并判断返回值是否正确。</p>
+<p>发送数据可以调用串口发送函数直接发送，而接收数据时，需要接收一段完整的字符串。由于单片机可能正在处理其他任务，并不一定能马上响应接收的指令。编程时我们可以使用环形队列作为串口接收缓冲区，并在接收到&quot;\r&quot;结束符时置位一个接收标志，然后等待CPU处理。对于一些特殊情形，返回值并不是以&quot;\r&quot;结束，比如发送短信提示输入短信内容时是以&quot;&gt;&quot;结束，此时可以通过延时等待并不断查询的方式判断是否接收到正常的返回值。</p>
+<p>还有一种通过超时判断是否接收完一条指令的方法，效果相对比较好。当接收到第一个字符时，启动定时器计时，如果一定时间内接收到下一个字符，清零定时器，再次重新计时……当接收到某个字符之后，计时到超过一定时间仍未收到下一个字符，表明接收完一条指令。因为返回的每条指令都是连续发送出来的，间隔时间固定，所以这种方式能准确判断指令是否接收完成，缺点是会占用更多硬件资源（需要多用一个定时器）。</p>
+<p>为了充分实现代码复用，加快程序开发，可以考虑实现这样几个函数：</p>
+<ol>
+<li><code>// 字符串复制（可使用string.h中的标准函数）</code></li>
+<li><code>void StrCopy(char*, char*);</code></li>
+<li><code>// 判断一个字符串是否包含另一个字符串</code></li>
+<li><code>unsigned char StrContain(char*, char*);</code></li>
+<li><code>// 发送指令并等待返回指定字符串。注意如果超时仍未返回指定字符串，则应退出函数，以免死机</code></li>
+<li><code>unsigned char SendAndGet(char*, char*);</code></li>
+<li><code>// 发送指令并等待返回指定字符串，尝试n次</code></li>
+<li><code>unsigned char SendAndGetTimes(char*, char*, unsigned char);</code></li>
+<li><code>// 初始化AT指令集设备，返回初始化是否成功结果</code></li>
+<li><code>unsigned char AT_Init(void);</code></li>
+<li><code>// 发送短信，并返回发送是否成功标志</code></li>
+<li><code>unsigned char SendMsg(char*, char*);</code></li>
+<li><code>// 检测模块当前是否有信号</code></li>
+<li><code>unsigned char CheckSignal(void);</code></li>
+</ol>
+<h2 id="一些更复杂的问题">一些更复杂的问题</h2>
+<p>当先后间隔很短时间发送多条指令，或者是前一条指令需要GPRS模块使用较长时间去响应时，情况就变得比较复杂了。比如说，我们给出指令发送一条短信，一般可能在10秒左右时间发完，然后返回OK。而在返回OK之前，如果又需要发送另外一条指令，或者很不幸有人打电话来，处理起来就很麻烦了。再比如在间隔很短时间内接收到多条消息，前一条正在处理，后一条消息又被接收到，这个时候怎么保证不遗漏消息呢？我们可以考虑使用队列来解决这个问题。</p>
+<p>类似这样的问题很多，尤其对于速度低存储空间小的单片机来说也不太好解决，而对于一些简单应用也不一定要考虑这么多情况，本文不做详细探讨。</p>
+<h2 id="附件">附件</h2>
+<p>串口超级终端 <a target="_blank" rel="noopener" href="http://download.csdn.net/detail/jzj1993/5744509">http://download.csdn.net/detail/jzj1993/5744509</a><br>
+有方M660+硬件设计指南 <a target="_blank" rel="noopener" href="http://download.csdn.net/detail/jzj1993/5507753">http://download.csdn.net/detail/jzj1993/5507753</a><br>
+AT命令手册 <a target="_blank" rel="noopener" href="http://download.csdn.net/detail/jzj1993/5507747">http://download.csdn.net/detail/jzj1993/5507747</a></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-16/" rel="bookmark">单片机小白学步(16) 单片机/计算机系统概述：模块化思想</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+              <a href="/tags/GPRS/" rel="tag"># GPRS</a>
+              <a href="/tags/GSM/" rel="tag"># GSM</a>
+              <a href="/tags/MSP430/" rel="tag"># MSP430</a>
+              <a href="/tags/%E6%9C%89%E6%96%B9/" rel="tag"># 有方</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/nuedc/" rel="prev" title="2013电赛总结【西电专用】">
+      <i class="fa fa-chevron-left"></i> 2013电赛总结【西电专用】
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/self-made-pcb/" rel="next" title="热转印法手工自制单面PCB流程和技巧总结">
+      热转印法手工自制单面PCB流程和技巧总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E6%96%B9M660-GPRS%E6%A8%A1%E5%9D%97%E7%9A%84%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">有方M660+ GPRS模块的硬件设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%89%87%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">单片机系统的硬件设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E6%96%B9M660-GPRS%E6%A8%A1%E5%9D%97%E7%9A%84%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">有方M660+ GPRS模块的软件设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AT%E6%8C%87%E4%BB%A4%E9%9B%86%E7%9A%84%E5%AD%A6%E4%B9%A0"><span class="nav-number">4.</span> <span class="nav-text">AT指令集的学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AT%E6%8C%87%E4%BB%A4%E9%9B%86%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">AT指令集协议的编程实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">6.</span> <span class="nav-text">一些更复杂的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">附件</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

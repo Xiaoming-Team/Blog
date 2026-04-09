@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前面说了很多东西，这一篇进入正题，介绍Win7系统的安装全过程。 本文中介绍的方法适用于Windows NT6的系统，包括Windows Vista &#x2F; 2008 &#x2F; 7 &#x2F; 8。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装系统不求人——Windows7&#x2F;8系统的安装（利用Win$Man）">
+<meta property="og:url" content="https://www.xiaoming.io/sysinst-win-nt6/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="前面说了很多东西，这一篇进入正题，介绍Win7系统的安装全过程。 本文中介绍的方法适用于Windows NT6的系统，包括Windows Vista &#x2F; 2008 &#x2F; 7 &#x2F; 8。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/3490820f858c06b1713064099aee7f5f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/187d0d5b1ffc107e08fd97b1a090b59d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/0815d368043e62168fd0a87caf11c350.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/009862b1ffc170b6244abe2285cd7914.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/4ea47f5bc9c21d7f724022ccd766bc87.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/594159baccdea212622766a506220528.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/0c236127e9de57db533c1e161800807a.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/76f09da513645bbc4eb3da0ab83dae56.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/969d484a193b6d71dae9768600064dd7.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/bf007b01f75154d3043190482cfdfd8e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/d7ff5dc3fd13082a2ab91da0007bf70f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/45464256ae90ba4850bf857e3e3c2aba.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/4f2ec074ed97033e9454b0dcbf05e071.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/c166faf6025affd64cc0b97732b71247.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/bb7cdb909c4a3899907810f77abb301a.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/5fe9ca827174f3eae3f21970d8eca682.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/fddd56dc01e5ee1233fe16c13aa5da44.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/78b232dd34f9dee47df11d3a1518a688.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/8c002a82793186a5685d16a0546c75af.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/5b0da2807daad980b4ab5b76fee33d77.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/6d3c91f406b7806a6e4c87392be6b2c8.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/286d69fd7dacacac0e68fcfcf0a727d6.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/2f8d1ba1ad21207996d7b64f73608f17.jpg">
+<meta property="article:published_time" content="2015-04-02T09:12:29.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.404Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="#装系统不求人#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/3490820f858c06b1713064099aee7f5f.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/sysinst-win-nt6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>装系统不求人——Windows7/8系统的安装（利用Win$Man） | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "装系统不求人——Windows7/8系统的安装（利用Win$Man）",
+      "description": "前面说了很多东西，这一篇进入正题，介绍Win7系统的安装全过程。 本文中介绍的方法适用于Windows NT6的系统，包括Windows Vista / 2008 / 7 / 8。",
+      "datePublished": "2015-04-02T09:12:29.000Z",
+      "dateModified": "2026-01-09T08:19:11.404Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/sysinst-win-nt6/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/sysinst-win-nt6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          装系统不求人——Windows7/8系统的安装（利用Win$Man）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-02 17:12:29" itemprop="dateCreated datePublished" datetime="2015-04-02T17:12:29+08:00">2015-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sysinst/" itemprop="url" rel="index"><span itemprop="name">装系统不求人</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sysinst-win-nt6/" class="post-meta-item leancloud_visitors" data-flag-title="装系统不求人——Windows7/8系统的安装（利用Win$Man）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sysinst-win-nt6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sysinst-win-nt6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前面说了很多东西，这一篇进入正题，介绍Win7系统的安装全过程。</p>
+<p><strong>本文中介绍的方法适用于Windows NT6的系统，包括Windows Vista / 2008 / 7 / 8</strong>。</p>
+<p>申明一下，这篇文章<strong>不是教你快速安装Win7的</strong>，而是成为<strong>装机高手</strong>过程中必要的一步。这篇文章中用的方法并<strong>不是最简单的</strong>，但是能学到很多东西，而且下次再装其他系统，你一样能应付过来~<code>⊙.⊙</code></p>
+<h2 id="准备工作">准备工作</h2>
+<p>常见的准备工作单独写成一篇文章了，先看下文吧~</p>
+<blockquote>
+<p>《装系统不求人——系统安装准备工作》<br>
+<a href="http://www.xiaoming.io/sysinst-prepare">http://www.xiaoming.io/sysinst-prepare</a></p>
+</blockquote>
+<h3 id="补充内容：系统安装盘">补充内容：系统安装盘</h3>
+<p>因为本文针对的是Win Vista/7/8等多种系统，这里以常见的Win7为例。如果是其他系统，换成对应的安装盘就行了。又要开始啰嗦了，Win7系统有两种类型的：</p>
+<ul>
+<li>
+<p>一种是Ghost Win7，只需十几分钟就能装好系统，而且各种常用软件都有了。虽然方便，但是<strong>不推荐这种版本</strong>。</p>
+<p>如果你让电脑城修电脑的给你重装系统，往往都是这种版本，因为节省时间啊，何况又不是自己的电脑~（除了新买的电脑有预装系统）……所以为了让你的电脑用着更顺心，还是自己动手丰衣足食的好~<code>o(*^▽^*)o</code></p>
+<blockquote>
+<p>原因是这种系统里面打包的东西都是通用的，例如里面的驱动都是通用驱动，没法对你的电脑硬件进行针对性的优化，导致的结果就是<strong>系统不稳定，容易出问题</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p>另一种是微软官方的纯净版Win7，或者叫做官方MSDN原版。<strong>推荐使用这种版本</strong>。虽然第一次安装会比较麻烦，可能要花几天来调整成自己熟悉的样子，但是安装完成备份好，以后系统出问题就只需要很简单的还原就好了<code>｡◕‿◕｡</code></p>
+</li>
+</ul>
+<p>后者在微软官方的MSDN网站就有提供下载链接，但由于从官网下载过程比较繁琐，这里直接给出可用的下载链接（可使用电驴或迅雷下载）：</p>
+<ul>
+<li>
+<p>Windows 7 With SP1 32位简体中文旗舰版（MSDN纯净版）<br>
+<a href="ed2k://filecn_windows_7_ultimate_with_sp1_x86_dvd_u_677486.iso26532761607503E4B9B8738DFCB95872445C72AEFB/">cn_windows_7_ultimate_with_sp1_x86_dvd_u_677486.iso (2.47 GB)</a><br>
+SHA1:B92119F5B732ECE1C0850EDA30134536E18CCCE7 ISO/CRC:76101970</p>
+</li>
+<li>
+<p>Windows 7 With SP1 64位简体中文旗舰版（MSDN纯净版）<br>
+<a href="ed2k://filecn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso3420557312B58548681854236C7939003B583A8078/">cn_windows_7_ultimate_with_sp1_x64_dvd_u_677408.iso (3.19 GB)</a><br>
+SHA1: 2CE0B2DB34D76ED3F697CE148CB7594432405E23 ISO/CRC: 69F54CA4</p>
+</li>
+</ul>
+<p>选择困难症一定在纠结为什么有两个链接，到底选哪个呢？第一个是32位的，第二个是64位的。如果你的电脑内存有4G甚至更多，就应该选择64位。如果你不知道内存是什么鬼，你也可以用64位的~~~<code>｡◕‿◕｡</code></p>
+<p>如果你可以跪求某个学长拿U盘给你复制，你得说清楚，它叫“Win7系统镜像文件”，你要的是中文旗舰版，然后根据你的需要是64位还是32位的。</p>
+<h3 id="补充内容：领取大礼包">补充内容：领取大礼包</h3>
+<p>听到大礼包这个词，你一定非常的激动。于是你点击了下面这个链接……<br>
+骗子去shi，原来只是让我下载文件<code>&lt;(－︿－)&gt;</code></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1c08NJs0">http://pan.baidu.com/s/1c08NJs0</a></p>
+<p>需要下载的有两个文件：</p>
+<ul>
+<li>Win$Man 系统安装工具</li>
+<li>Win7 Activation 系统激活工具</li>
+</ul>
+</blockquote>
+<p>下载完了别忘了提前解压出来，因为后面要用的PE系统中可能没有压缩软件。</p>
+<h2 id="一段废话">一段废话</h2>
+<p>这段是废话，看不看都无所谓。真啰嗦~~~<code>(づ￣ 3￣)づ</code></p>
+<p>网上的很多教程都是直接利用Win7镜像做启动盘的，和那种方式不一样，这里利用Win$Man软件安装系统。这种方式有一些好处：</p>
+<ul>
+<li>
+<p>速度快。Win7镜像下载了那么久，结果烧到U盘中做启动盘，那也不是一般的慢。装系统时又从U盘读取文件，可以想象也是非常慢的，所以等着等着你就饿了。</p>
+</li>
+<li>
+<p>安装成功率高。网上那种直接用Win7做启动盘的方式，之前我用过没成功（后来新版本的Win7出来了那种方式的成功率才有了提高）。</p>
+</li>
+<li>
+<p>灵活性好。我们可以把软件安装到任何一个分区，甚至是移动硬盘，还可以设置将系统安装到哪个盘，比如C盘还是D盘，还可以任意安装多个系统。一些情况下甚至不需要依赖PE启动盘，就可以装好系统。</p>
+</li>
+</ul>
+<p>网上的那种Win7镜像启动盘的方式，最大的好处是操作相对简单，所以教程写起来以及学起来容易，但是你的启动盘只能用来装Win7，其他什么也干不了。</p>
+<p>而这个系列教程的目的是成为装系统大神，从此装系统不求人，而不是简单的为了装Win7应付一下。当然，如果你确实只是为了装一下Win7又怕麻烦，可以看网上的教程。</p>
+<h2 id="解压文件">解压文件</h2>
+<p>用WinRAR或者“好压”、“360解压”之类压缩软件打开下载的Win7镜像文件（扩展名是ISO），找到sources文件夹下的install.wim文件（整个安装镜像里面就属这个文件最大了），然后把它解压出来，你爱解压到哪都行，不一定要放到U盘中的……那太慢了。</p>
+<ul>
+<li>其实你也可以跪求大神直接给你复制这个install.wim文件。</li>
+<li>如果你知道虚拟光驱怎么用，也可以进了PE环境直接用虚拟光驱加载ISO文件。</li>
+</ul>
+<h2 id="说明">说明</h2>
+<p>后面我们就要用到PE启动盘了。如果不是覆盖现有Windows系统，不用PE也行。</p>
+<blockquote>
+<p>例如C盘是Win7，想在D盘装Win8，就可以直接在Win7中运行<code>Win$Man</code>安装了。装好Win8开机了，再把C盘的Win7删掉也是可以的（格式化C盘即可）。典型的过河拆桥~~~</p>
+</blockquote>
+<h2 id="复制系统文件">复制系统文件</h2>
+<ol>
+<li>
+<p>首先正确的启动Win$Man软件。</p>
+<p>如果不是覆盖安装，可以直接在Windows下操作：</p>
+<blockquote>
+<ul>
+<li>
+<p>对于Windows Vista/7/8系统，先设置兼容性：右击 <code>Win$Man.exe</code> ，选择属性；在属性对话框中选择兼容性，勾选“以兼容模式运行这个程序”，并选择Windows XP，然后确定。<br>
+<img data-src="/blog-imgs/tech/sysinst/images/3490820f858c06b1713064099aee7f5f.png" alt=""><br>
+<img data-src="/blog-imgs/tech/sysinst/images/187d0d5b1ffc107e08fd97b1a090b59d.png" alt=""></p>
+</li>
+<li>
+<p>右击 <code>Win$Man.exe</code> ，以管理员身份运行，打开软件（XP系统中直接双击）。</p>
+</li>
+</ul>
+</blockquote>
+<p>设置BIOS然后启动到WinPE环境下。万能启动盘的Win7PE里面有Win$Man软件，或者用“大礼包”中提供的版本（右击、以管理员身份运行exe文件）。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/0815d368043e62168fd0a87caf11c350.jpg" alt=""></p>
+</li>
+<li>
+<p>在Win$Man界面，如图选择第二项，安装源选择之前解压到电脑中的install.wim文件，然后选择Win7旗舰版，点击下一步。</p>
+<blockquote>
+<p>每次给别人装系统到这一步我总会说，旗舰版比家庭普通版价值高好几百，就在这一念之间，hiahiahia~</p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/sysinst/images/009862b1ffc170b6244abe2285cd7914.png" alt=""></p>
+</li>
+<li>
+<p>选择硬盘的活动分区，点击“将此分区作为引导分区”；选择你想要装系统的分区，并点击“将系统安装到这个分区上”。</p>
+<p>注意，千万别弄错了分区，要不然数据被删你会死的很惨……在PE中，<strong>不要通过盘符来分辨各个分区</strong>，因为盘符在不同系统中是不一样的。可以根据卷标、分区大小、里面保存的文件来区分，或者直接在磁盘管理软件中可以看到（在桌面右击“计算机”，管理，存储–&gt;磁盘管理）。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/4ea47f5bc9c21d7f724022ccd766bc87.png" alt=""></p>
+</li>
+<li>
+<p>如果你选择将系统安装到的分区中已经有Windows系统文件，会弹出对话框提示需要先格式化，在下面的对话框中分别点确定、是、开始、确定。</p>
+<ul>
+<li>如果提前格式化过分区，或者不是已安装Windows的分区，就不会提示格式化。</li>
+<li><strong>强烈建议</strong>格式化分区，再装系统，以提高性能。</li>
+<li>除了格式化的过程，安装系统<strong>不会</strong>导致该分区文件丢失。</li>
+<li>强迫症用户请再次<strong>检查有没有选错分区</strong>！</li>
+<li>一旦格式化，该分区文件就会被删除，一定要注意<strong>备份</strong>！</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/sysinst/images/594159baccdea212622766a506220528.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/0c236127e9de57db533c1e161800807a.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/76f09da513645bbc4eb3da0ab83dae56.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/969d484a193b6d71dae9768600064dd7.jpg" alt=""></p>
+<blockquote>
+<p>这段写给爱折腾的读者，普通用户请无视。有种有趣的做法，将系统分区的Windows、Users、Program Files等文件夹重命名或移动到其他地方，不需要格式化分区就能重装系统。装好后再进入PE，将新装系统的文件夹改名，把这些文件改回来，系统就会恢复重装之前的样子（前提是重装前后都是同一种系统，且没有修改系统启动设置）。但是这样做容易导致系统出问题，just for fun~</p>
+</blockquote>
+</li>
+<li>
+<p>格式化完成并选中分区后，点击下一步。之后的几个步骤一直按下一步即可，除非特殊需要，要不然不用修改设置。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/bf007b01f75154d3043190482cfdfd8e.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/d7ff5dc3fd13082a2ab91da0007bf70f.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/45464256ae90ba4850bf857e3e3c2aba.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/4f2ec074ed97033e9454b0dcbf05e071.jpg" alt=""></p>
+</li>
+<li>
+<p>于是系统文件开始被复制到选定的硬盘分区，这个过程会持续5~20分钟，如图。直到进度条到达末尾，会自动处理引导程序设置，然后提醒你重启。</p>
+<blockquote>
+<p>如果一瞬间就提醒你完成了，通常是因为你没有用管理员权限运行，或者在Windows中没有设置兼容性。那就只能倒回去重新操作一遍了。</p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/sysinst/images/c166faf6025affd64cc0b97732b71247.png" alt=""></p>
+</li>
+<li>
+<p>至此，系统安装最重要和高难度的一部分已经完成。</p>
+</li>
+</ol>
+<h2 id="重启并继续完成安装">重启并继续完成安装</h2>
+<ol>
+<li>
+<p>重启电脑，注意要从硬盘启动电脑，所以可能需要重新设置BIOS或者拔掉U盘（如果硬盘是备胎启动项的话）。也可以在万能启动盘中选择“从硬盘启动”那一项。</p>
+</li>
+<li>
+<p>如果出现选择操作系统的界面，就选择新安装的那个Windows。</p>
+</li>
+<li>
+<p>进入后会自动初始化硬件，只要静静的等着就好了。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/bb7cdb909c4a3899907810f77abb301a.jpg" alt=""></p>
+</li>
+</ol>
+<h2 id="基本设置">基本设置</h2>
+<p>不出意外的话，上述步骤几分钟之后就完成了，此时系统已经算是安装好了。第一次运行要做一些基本设置。因为木有截图，直接从网上贴来几张图作为示意了~</p>
+<ol>
+<li>
+<p>按默认值直接下一步。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/5fe9ca827174f3eae3f21970d8eca682.jpg" alt=""></p>
+</li>
+<li>
+<p>用户名和计算机名，建议使用英文和拼音，不要使用中文，以提高兼容性。见过不少因为用中文名，导致软件不能正常工作而发生奇怪问题的情况。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/fddd56dc01e5ee1233fe16c13aa5da44.jpg" alt=""></p>
+</li>
+<li>
+<p>密码可以之后再设置。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/78b232dd34f9dee47df11d3a1518a688.jpg" alt=""></p>
+</li>
+<li>
+<p>如果你有正版系统的序列号，可以输入进去；否则直接点跳过。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/8c002a82793186a5685d16a0546c75af.jpg" alt=""></p>
+</li>
+<li>
+<p>勾选“我接受……”，点下一步。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/5b0da2807daad980b4ab5b76fee33d77.jpg" alt=""></p>
+</li>
+<li>
+<p>我每次选的都是“以后询问我”（因为感觉Windows Update很烦人）。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/6d3c91f406b7806a6e4c87392be6b2c8.jpg" alt=""></p>
+</li>
+<li>
+<p>UTC+8:00，北京时区~</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/286d69fd7dacacac0e68fcfcf0a727d6.jpg" alt=""></p>
+</li>
+<li>
+<p>稍后就能进入桌面了。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/2f8d1ba1ad21207996d7b64f73608f17.jpg" alt=""></p>
+</li>
+</ol>
+<h2 id="后续工作">后续工作</h2>
+<p>进入桌面了，显示效果暂时可能不太好。还有一些后续工作，包括激活系统、安装驱动、常用软件、系统备份等，将其单独写成一篇了，请参考：</p>
+<blockquote>
+<p>《装系统不求人——系统安装后续工作》<br>
+<a href="http://www.xiaoming.io/sysinst-follow-up">http://www.xiaoming.io/sysinst-follow-up</a></p>
+</blockquote>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-pwd-crack/" rel="bookmark">装系统不求人——开机密码破解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ubuntu/" rel="bookmark">装系统不求人——安装Ubuntu</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-customize-bootable-disk/" rel="bookmark">装系统不求人——量身定制自己的万能启动盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-xp/" rel="bookmark">装系统不求人——Win XP安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-boot/" rel="bookmark">装系统不求人——BootLoader与引导修复</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-prepare/" rel="bookmark">装系统不求人——系统安装准备工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ghost/" rel="bookmark">装系统不求人——用Ghost备份还原系统</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-follow-up/" rel="bookmark">装系统不求人——系统安装后续工作</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B8%8D%E6%B1%82%E4%BA%BA/" rel="tag"># #装系统不求人#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sysinst-harddisk-op/" rel="prev" title="装系统不求人——硬盘折腾大全与数据恢复">
+      <i class="fa fa-chevron-left"></i> 装系统不求人——硬盘折腾大全与数据恢复
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sysinst-follow-up/" rel="next" title="装系统不求人——系统安装后续工作">
+      装系统不求人——系统安装后续工作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E5%86%85%E5%AE%B9%EF%BC%9A%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%9B%98"><span class="nav-number">1.1.</span> <span class="nav-text">补充内容：系统安装盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E5%86%85%E5%AE%B9%EF%BC%9A%E9%A2%86%E5%8F%96%E5%A4%A7%E7%A4%BC%E5%8C%85"><span class="nav-number">1.2.</span> <span class="nav-text">补充内容：领取大礼包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E6%AE%B5%E5%BA%9F%E8%AF%9D"><span class="nav-number">2.</span> <span class="nav-text">一段废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">解压文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B4%E6%98%8E"><span class="nav-number">4.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">复制系统文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E5%B9%B6%E7%BB%A7%E7%BB%AD%E5%AE%8C%E6%88%90%E5%AE%89%E8%A3%85"><span class="nav-number">6.</span> <span class="nav-text">重启并继续完成安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AE%BE%E7%BD%AE"><span class="nav-number">7.</span> <span class="nav-text">基本设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD%E5%B7%A5%E4%BD%9C"><span class="nav-number">8.</span> <span class="nav-text">后续工作</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

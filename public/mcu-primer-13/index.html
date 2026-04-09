@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前面介绍了很多概念知识，做了很多准备工作，从这一节开始，我们正式开始单片机的学习。我们将使用单片机完成一项非常简单的工作：点亮一个发光二极管（即LED：Light-Emitting Diode）。 LED简介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单片机小白学步(13) 点亮第一个LED——好的开始，成功的一半">
+<meta property="og:url" content="https://www.xiaoming.io/mcu-primer-13/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="前面介绍了很多概念知识，做了很多准备工作，从这一节开始，我们正式开始单片机的学习。我们将使用单片机完成一项非常简单的工作：点亮一个发光二极管（即LED：Light-Emitting Diode）。 LED简介">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/fe3cccfcd353e809e32d7a01b5b481ba.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/e990e93817d8479f8274d15803ebc59d.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/ce33acb4a73d59144c7f1d625b38ff97.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/fbc6677eae921e642bb2376c6ac5f895.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/117b27213ecf574e052004974bf76abd.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/0d4dbd369d52a90d784972776d6f1bc9.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/c4c222d1f4113580b5986fdfb32a389b.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/60a04b6c7041a9f2ad8e8a4639a2a4db.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/2face3b72d7a33d4c4963b0b0644bf65.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/f647aa0eaf9cf28072ae6d87e5379113.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/8cf5780ce2de06f838ba17ba7a29e4a2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/b84ebc571a21d341421505dfb32a5ed4.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/e4ad8a451663c44847bee42ff5070397.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/12bda3777161ad810ebdc7c02cb09cbc.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/146f5b28a303d652221dfad7bfd744a2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/20d727b549b72d10d618dbe81292493d.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/50a07f164e435ad5780b8ed55db1835e.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/ab572c5b48c62e5e992ea6eea24c0ad1.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/f4f58fc151bc62900f3e5e33501ac434.jpg">
+<meta property="article:published_time" content="2014-11-06T11:59:52.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.773Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="电路设计">
+<meta property="article:tag" content="硬件开发">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="入门">
+<meta property="article:tag" content="#单片机小白学步#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/fe3cccfcd353e809e32d7a01b5b481ba.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/mcu-primer-13/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>单片机小白学步(13) 点亮第一个LED——好的开始，成功的一半 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "单片机小白学步(13) 点亮第一个LED——好的开始，成功的一半",
+      "description": "前面介绍了很多概念知识，做了很多准备工作，从这一节开始，我们正式开始单片机的学习。我们将使用单片机完成一项非常简单的工作：点亮一个发光二极管（即LED：Light-Emitting Diode）。 LED简介",
+      "datePublished": "2014-11-06T11:59:52.000Z",
+      "dateModified": "2025-06-17T13:33:21.773Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/mcu-primer-13/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/mcu-primer-13/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单片机小白学步(13) 点亮第一个LED——好的开始，成功的一半
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-11-06 19:59:52" itemprop="dateCreated datePublished" datetime="2014-11-06T19:59:52+08:00">2014-11-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mcu-primer/" itemprop="url" rel="index"><span itemprop="name">单片机小白学步</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/mcu-primer-13/" class="post-meta-item leancloud_visitors" data-flag-title="单片机小白学步(13) 点亮第一个LED——好的开始，成功的一半" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/mcu-primer-13/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/mcu-primer-13/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前面介绍了很多概念知识，做了很多准备工作，从这一节开始，我们正式开始单片机的学习。我们将使用单片机完成一项非常简单的工作：点亮一个发光二极管（即LED：Light-Emitting Diode）。</p>
+<h2 id="LED简介">LED简介</h2>
+<p>先简单介绍一下LED。LED是一种半导体器件，大家其实对LED并不陌生，各种电器的指示灯、手机键盘灯、LED液晶屏的背光、高亮LED手电筒等，都是通过LED发光的。LED有两种主要用途，一种是作为指示灯；另一种是照明。照明用的LED一般都是大功率LED，需要较大的电压电流才能正常工作。而这里我们要用到的则是用作指示灯的小功率LED。常见的小功率LED，在它的正负极加上3V左右的电压，就会发光，正常发光的时候，电流大概是2~5mA。这里要注意，LED有正负极之分，接反了不会发光。另外，电压也不可太高，那样会烧坏LED。关于LED更详细的介绍，大家可以参考电子元器件介绍之类的书籍。</p>
+<h2 id="电路设计">电路设计</h2>
+<p>前面已经介绍了，单片机的IO口能输出高低电平，点亮LED就是通过IO口输出电平实现的。如果我们把LED的正极接在电源正极，负极接在单片机的一个IO口上。让单片机的IO口输出低电平，也就是接近0V的电压，这时LED两端有电压差，就能发光；如果IO口输出高电平，LED就会熄灭。</p>
+<p>由于我们用的51单片机是5V供电，而LED需要3V电压，所以我们需要在LED上串联合适的电阻，否则会烧坏器件。我们可以选用P0~P3共32个IO口中的任何一个，这里选择的是P1.0。电路图如下，电阻取值推荐为330Ω ~ 1kΩ之间。</p>
+<p>顺便附上电阻阻值的计算过程：</p>
+<p>1、电阻和LED串联，LED点亮时总电压5V，LED上需要3V，所以电阻上电压是5-3=2V。</p>
+<p>2、LED的电流为2~5mA，如果算成2mA，电阻上电压为2V，电流为2mA，根据欧姆定律，所以阻值应该为2V/2mA=1kΩ。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/fe3cccfcd353e809e32d7a01b5b481ba.png" alt=""></p>
+<h2 id="面包板搭建电路">面包板搭建电路</h2>
+<p>我们在自己的面包板上搭建的电路如下，我把LED连接在P1.0端口上（万用板焊接的电路这里没有提供，大家可以自己去搭建）：</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/e990e93817d8479f8274d15803ebc59d.jpg" alt=""></p>
+<h2 id="开发板的使用">开发板的使用</h2>
+<p>如果你是用的是开发板并且上面有LED模块，你可以查看电路图。例如我的开发板电路图：</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/ce33acb4a73d59144c7f1d625b38ff97.png" alt=""></p>
+<p>图中VCC通过J1接到RP1上，RP1是排阻，图中的1号脚是公共脚，在排阻的内部从1号脚往2~9号每个管脚之间有一个1k电阻，总共8个1k电阻排列起来，所以叫做排阻。J1相当于一个开关，其实是两个排针构成的插座。如果插上跳线帽，就可以导通；拔下跳线帽，就断开了。这样设计的好处是，如果我要用LED模块就插上跳线帽；而如果我不用LED模块，而讲IO口用于其他目的，这时LED就不会对我的电路产生干扰，因为LED一端接IO口，另一端接到排阻上，而排阻另一端是悬空的，没有接入电路。</p>
+<p>而图中的标号DB1~DB8又接在单片机最小系统电路中的P1.0~P1.7的IO口，所以在J1导通的情况下，P1.0~P1.7的高低电平就能控制D1~D8这八个LED的亮灭了。</p>
+<h2 id="具体操作">具体操作</h2>
+<p>单片机的编程，我们通常使用Keil软件。Keil软件可以从网上下载，安装过程这里不做详细介绍，有基本计算机操作知识，安装起来应该没有问题。值得注意的一点是，安装的时候尽量安装到英文目录下，最好不要用中文，以免程序运行出现问题。</p>
+<p>我们打开Keil软件，准备给单片机写程序。大家可以按照下面的步骤进行（这里以Keil uv4英文版为例进行说明。如果你使用的是Keil其他版本，操作方式基本相同）。</p>
+<h3 id="一、新建并配置工程">一、新建并配置工程</h3>
+<p>1、首先新建工程：点击菜单中的Project - New uVision Project。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/fbc6677eae921e642bb2376c6ac5f895.jpg" alt=""></p>
+<p>2、然后我们在电脑上为我们的工程新建一个文件夹，这里我用的是Project01 – LED，大家可以自行命名，但最好是英文名。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/117b27213ecf574e052004974bf76abd.jpg" alt=""></p>
+<p>3、打开文件夹，输入工程的名称，点击保存。这里我输入的是LED。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/0d4dbd369d52a90d784972776d6f1bc9.jpg" alt=""></p>
+<p>4、然后弹出一个窗口，让我们选择单片机的型号。我们用到的是STC89C52RC，而这里面可能没有STC单片机，我们只需要选择完全兼容STC的Atmel系列AT89C52单片机，点击OK确认即可。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/c4c222d1f4113580b5986fdfb32a389b.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/60a04b6c7041a9f2ad8e8a4639a2a4db.jpg" alt=""></p>
+<p>5、随后会弹出一个窗口，提示我们是否需要添加8051的启动代码到工程中，点击否即可（如果我们需要使用自定义的启动代码，则可以点是，然后修改启动代码。而我们编程用的是C语言，一般情况下不需要修改启动代码。至于启动代码有什么用处，则可以等到我们对单片机了解的比较深入的时候再查找相关资料进行学习）。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/2face3b72d7a33d4c4963b0b0644bf65.png" alt=""></p>
+<p>6、下面我们对工程进行简单的设置。右击Target 1，选择第一项Options for Target ‘Target1’…，弹出工程属性设置窗口。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/f647aa0eaf9cf28072ae6d87e5379113.jpg" alt=""></p>
+<p>7、我们打开Output标签，并勾选Create HEX File，然后点击OK确认即可。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/8cf5780ce2de06f838ba17ba7a29e4a2.jpg" alt=""></p>
+<h3 id="二、新建源文件并添加至工程中">二、新建源文件并添加至工程中</h3>
+<p>1、工程新建并配置完成了，下面我们开始新建程序源文件。点击菜单中的File-New，出现一个新的文件，如图。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/b84ebc571a21d341421505dfb32a5ed4.jpg" alt=""></p>
+<p>2、然后我们点击保存按钮，将其保存到工程文件夹Project01 - LED中，保存为扩展名是“.c”的文件，如main.c。这里大家要注意的是，源文件其实只是一个普通的文本文件，不过扩展名是c而不是txt。我们刚刚新建main.c文件的操作，也可以通过在资源管理器中新建文本文档，然后重命名为main.c的方式进行。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/e4ad8a451663c44847bee42ff5070397.jpg" alt=""></p>
+<p>3、源文件新建好了。源文件只是一个独立的文本文件，而工程文件现在和刚刚新建的源文件还是完全独立、没有关联的。我们要把刚刚新建的main.c文件添加到我们的工程中来：右击Target 1/Source Group 1，并选择菜单中的Add Files to Group ‘Source Group 1’…来添加文件。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/12bda3777161ad810ebdc7c02cb09cbc.jpg" alt=""></p>
+<p>4、双击需要添加的文件main.c，或者选中它再点击Add按钮，从左边的Project窗口就可以看到，文件就已经被添加到工程中了。这时弹出的窗口并没有关闭，因为这样可以方便继续添加其他文件。因为我们现在只需添加一个文件并且添加好了，所以点击Close关闭弹出的窗口。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/146f5b28a303d652221dfad7bfd744a2.jpg" alt=""></p>
+<h3 id="三、编写程序并编译">三、编写程序并编译</h3>
+<p>1、我们打开main.c，开始正式编写程序了。我们编写的程序如下并保存。至于这个程序是什么含义，之后将详细介绍。注意一点，我给出的程序中设置的LED是P1.0，如果你的开发板或者自己搭建的电路中LED的IO口不是P1.0，你需要照着我给出的格式修改sbit那一行。这一点也充分体现了，单片机编程是和实际硬件电路息息相关的，程序和电路要配套，才能正常运行。</p>
+<p>#include</p>
+<p>sbit LED = P1^0;</p>
+<p>void main()</p>
+<p>{</p>
+<p>LED = 0;</p>
+<p>while(1);</p>
+<p>}</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/20d727b549b72d10d618dbe81292493d.jpg" alt=""></p>
+<p>2、点击左上方的双箭头按钮编译全部文件，我们看到下方的输出窗口显示编译完成，“creating hex file from ‘LED’”表明已经编译时创建了HEX文件（HEX文件是十六进制文件，将烧写进单片机。相当于Windows中的可执行文件“.exe”），“0 Error(s), 0 Warning(s).”表示编译成功，程序也没有语法错误。如果提示你的程序有错，请细心的检查一下，有没有发生漏掉分号等情况。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/50a07f164e435ad5780b8ed55db1835e.jpg" alt=""></p>
+<h3 id="四、烧写程序到单片机中">四、烧写程序到单片机中</h3>
+<p>在工程文件夹下，我们可以看到生成的LED.hex文件，这正是我们所需要的。下面我们将把LED.hex文件烧写进单片机。前面已经介绍了单片机程序下载相关知识，这里我们将介绍下载程序的一般步骤。由于大家使用的电脑、开发板等都不完全一样，有可能会下载失败。希望下载没有成功的读者不要灰心，关于下载失败如何处理，请继续看后面内容。下载程序的操作步骤如下：</p>
+<p>1、设置单片机型号，这里我们设置单片机为STC89C52RC。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/ab572c5b48c62e5e992ea6eea24c0ad1.jpg" alt=""></p>
+<p>2、设置串口端口号，波特率等参数。由于我们一般用的是USB转串口芯片，不是真正的RS232串口，所以串口号不固定，每次插上转接板或单片机学习板时，我们应打开设备管理器如图（XP系统：右击“我的电脑”→“属性”→“硬件”→“设备管理器”；Win7系统：右击“计算机”→“管理”→“设备管理器”）。找到端口（COM和LPT）选项，展开，里面会有一个类似“Prolific USB-to-Serial Comm Port(COM1)”或者“USB-SERIAL CH431(COM1)”的项。括号里面的COMx就是我们要找的端口号。填到STC-ISP中就可以了（如果有多项不知道是哪一个，可以插拔单片机学习板看哪项会刷新）。如果很不幸，你的串口号很大，超出STC-ISP可设置的范围了，可以右击设备管理器中显示的那一项更改COM端口序号。波特率等选项一般按默认即可，不需设置。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/f4f58fc151bc62900f3e5e33501ac434.jpg" alt=""></p>
+<p>3、点击“打开程序文件”，选择要烧写的单片机程序HEX或BIN文件。HEX或BIN文件是编译之后的机器码，打开后可以在STC-ISP右侧程序文件中看到对应的十六进制数字。你可以选择自己写的程序产生的机器码，也可以在STC-ISP的test-hex目录中找一些测试程序。这里我们选择刚刚编译生成的HEX文件。</p>
+<p>4、先点击“下载”，然后再打开电源开关，给单片机上电。稍后STC-ISP就会显示正在烧写程序。如果点击“下载”前忘了先关电源，或者程序没能下载，不需要点击“停止”按钮，直接断电再上电尝试即可。一般几秒钟就能下载完成，STC-ISP中会显示下载成功。</p>
+<h3 id="五、观察程序执行结果，有必要的时调试程序。">五、观察程序执行结果，有必要的时调试程序。</h3>
+<p>一般程序下载完成后，如果P1.0口接有LED，电路连接无误，LED就会奇迹般的亮起来。我们就成功的让单片机执行了我们自己写的程序。每个初学单片机的人在看到这一幕的时候，往往都会激动万分，正如我第一次学习单片机一样开心。由于这里的程序非常简单，基本不需要调试。这时你就可以向好友炫耀一下，展示你的劳动成果了。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-16/" rel="bookmark">单片机小白学步(16) 单片机/计算机系统概述：模块化思想</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/college-chat/" rel="prev" title="大学感到迷茫怎么办——我和学弟的聊天记录">
+      <i class="fa fa-chevron-left"></i> 大学感到迷茫怎么办——我和学弟的聊天记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/mcu-primer-14/" rel="next" title="单片机小白学步(14) 点亮第一个LED的程序分析">
+      单片机小白学步(14) 点亮第一个LED的程序分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LED%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">LED简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">电路设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%8C%85%E6%9D%BF%E6%90%AD%E5%BB%BA%E7%94%B5%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">面包板搭建电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">开发板的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">具体操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%96%B0%E5%BB%BA%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%B7%A5%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">一、新建并配置工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%96%B0%E5%BB%BA%E6%BA%90%E6%96%87%E4%BB%B6%E5%B9%B6%E6%B7%BB%E5%8A%A0%E8%87%B3%E5%B7%A5%E7%A8%8B%E4%B8%AD"><span class="nav-number">5.2.</span> <span class="nav-text">二、新建源文件并添加至工程中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BC%96%E5%86%99%E7%A8%8B%E5%BA%8F%E5%B9%B6%E7%BC%96%E8%AF%91"><span class="nav-number">5.3.</span> <span class="nav-text">三、编写程序并编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%83%A7%E5%86%99%E7%A8%8B%E5%BA%8F%E5%88%B0%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%AD"><span class="nav-number">5.4.</span> <span class="nav-text">四、烧写程序到单片机中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%A7%82%E5%AF%9F%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C%EF%BC%8C%E6%9C%89%E5%BF%85%E8%A6%81%E7%9A%84%E6%97%B6%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F%E3%80%82"><span class="nav-number">5.5.</span> <span class="nav-text">五、观察程序执行结果，有必要的时调试程序。</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

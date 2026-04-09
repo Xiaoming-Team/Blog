@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="初学单片机时，拿着一块实验板发呆，电路也不懂、程序也不懂，只好慢慢弄，等弄懂了，实验板也差不多报销了。而proteus 正好可以解决这个问题，它功能强大，这里只讨论仿真MCU 的功能。它可以在原理图上仿真，不用出PCB 板，不怕你“啥弄”。下面就先认识一下proteus.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Proteus 7 Professional 仿真51 单片机入门教程">
+<meta property="og:url" content="https://www.xiaoming.io/proteus-51/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="初学单片机时，拿着一块实验板发呆，电路也不懂、程序也不懂，只好慢慢弄，等弄懂了，实验板也差不多报销了。而proteus 正好可以解决这个问题，它功能强大，这里只讨论仿真MCU 的功能。它可以在原理图上仿真，不用出PCB 板，不怕你“啥弄”。下面就先认识一下proteus.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3409e3d58db8ba0934c8608598b3391a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8e8088b98cddafc43b512f9ca5614de3.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/bd8ba94ce4ece5cc3ba92e994d85a318.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8ef5a7f567ced5b51c97334656610f20.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/67eb7c745c934adedcdb0d837fc0a0fb.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/abc45770978afa799803df1e4d1d274a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/f7ea6c760fb055782cdb414e4b2c442a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0aa794042d1ec27c5e5c57b39881fbe0.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/89e741b10f40f6ef62119edf3994a860.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/94b439337083b168188d19b77bd8d00f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/91c36181f622d9d5e7c0c6f66a4dd203.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/f561c650e4fb1deb282323133c89e1ad.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/485cdf33c890ec878c7a997e66bb7135.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/f1edc4be0d042ab9318e7abcbe921136.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/73d2d9eaae16e4b4787a058ca306af12.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/cad6ae227a3e280635bcc59129dc3b32.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5be6516475f8a3c24e28edbf0fc2f2ec.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a202cfaf60a8732231cd6c485c0ee9f2.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/7606d358fadb062ce91ea7ed9757f286.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a8cb201ae69f5d95298e787b8c979a56.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c324f62534ddc20ded5a654b0adc343b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9483391cd8a5be88c118eb2f78759404.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/335ea1656677284ac4ba0128c804fef7.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ce21cd058a33eaf4bbb4b8ecff8d209e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1ab0753b1a7710f5abd2bbabdc8649fc.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6e8512b0f936a820c5c25e71837af87b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ca4c22ccbf0b2d15520507884c19a0e8.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/56ea81d689017b93f9fcd2c4ba029d5c.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8536533bd548878d57e96db1ac0c5d92.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e62ec16c2ea72723c7ca194c88ef036e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5998a6495c618e1feba564ec5d3d1b79.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5ef167d949184e6851e285a09a05bb46.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5ef167d949184e6851e285a09a05bb46.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3c3dc9892744a70c90c5cd85bac0d5c4.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c89556cc237c797505f45f937f49db32.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e89781ba182f1b3067e00ada9fe128e6.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e89781ba182f1b3067e00ada9fe128e6.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/01c8e06c26318f8f9b0977eedeecabdc.png">
+<meta property="article:published_time" content="2014-10-26T11:50:22.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.662Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3409e3d58db8ba0934c8608598b3391a.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/proteus-51/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Proteus 7 Professional 仿真51 单片机入门教程 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Proteus 7 Professional 仿真51 单片机入门教程",
+      "description": "初学单片机时，拿着一块实验板发呆，电路也不懂、程序也不懂，只好慢慢弄，等弄懂了，实验板也差不多报销了。而proteus 正好可以解决这个问题，它功能强大，这里只讨论仿真MCU 的功能。它可以在原理图上仿真，不用出PCB 板，不怕你“啥弄”。下面就先认识一下proteus.",
+      "datePublished": "2014-10-26T11:50:22.000Z",
+      "dateModified": "2025-06-17T13:33:21.662Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/proteus-51/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/proteus-51/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Proteus 7 Professional 仿真51 单片机入门教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-26 19:50:22" itemprop="dateCreated datePublished" datetime="2014-10-26T19:50:22+08:00">2014-10-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/proteus-51/" class="post-meta-item leancloud_visitors" data-flag-title="Proteus 7 Professional 仿真51 单片机入门教程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/proteus-51/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/proteus-51/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>初学单片机时，拿着一块实验板发呆，电路也不懂、程序也不懂，只好慢慢弄，等弄懂了，实验板也差不多报销了。而proteus 正好可以解决这个问题，它功能强大，这里只讨论仿真MCU 的功能。它可以在原理图上仿真，不用出PCB 板，不怕你“啥弄”。下面就先认识一下proteus.</p>
+<p><img data-src="/blog-imgs/tech/images/3409e3d58db8ba0934c8608598b3391a.png" alt=""></p>
+<p>上图是启动后的画面。我们点</p>
+<p><img data-src="/blog-imgs/tech/images/8e8088b98cddafc43b512f9ca5614de3.png" alt=""></p>
+<p>中的“P”后,弹出下面的画面：</p>
+<p><img data-src="/blog-imgs/tech/images/bd8ba94ce4ece5cc3ba92e994d85a318.png" alt=""></p>
+<p>在</p>
+<p><img data-src="/blog-imgs/tech/images/8ef5a7f567ced5b51c97334656610f20.png" alt=""></p>
+<p>里输入at89c51 后：</p>
+<p><img data-src="/blog-imgs/tech/images/67eb7c745c934adedcdb0d837fc0a0fb.png" alt=""></p>
+<p>右侧出现AT89C51,双击它，左侧空白框中出现AT89C51.</p>
+<p><img data-src="/blog-imgs/tech/images/abc45770978afa799803df1e4d1d274a.png" alt=""></p>
+<p>左键单击它，它上面框中显示出它的原理图，把鼠标移到右侧框中，鼠标变成铅笔形状，单击左键，框中出现一个AT89C51 原理图的轮廓图，可以移动。鼠标移到合适的位置后，按下鼠标左键，原理图放好了。</p>
+<p><img data-src="/blog-imgs/tech/images/f7ea6c760fb055782cdb414e4b2c442a.png" alt=""></p>
+<p>好了，一个单片机的原理图放好了。按这个方法依次把元件led-red、res 放到右侧的框中（单片机旁）。</p>
+<p><img data-src="/blog-imgs/tech/images/0aa794042d1ec27c5e5c57b39881fbe0.png" alt=""></p>
+<p>这张图太小了，看得不清楚，要是大的就好了。别着急，把鼠标放在LED 旁，向前滚动鼠标中键，图像放大，向后滚动鼠标，图像缩小。如果你的鼠标没这个键，你可以试试上面工具栏上这二个图标，也是一样的。</p>
+<p>选择左侧工具栏上的“箭头”图标，</p>
+<p><img data-src="/blog-imgs/tech/images/89e741b10f40f6ef62119edf3994a860.png" alt=""></p>
+<p>把鼠标移到右侧的原理图中，鼠标经过元件时会就成“手形”，把鼠标移到LED-RED 上，按下左键，LED-RED 高亮显示，鼠标变成“手形”并带有方向键头。松开鼠标后，形状没变，指着LED-RED 按住鼠标左键，移动鼠标，哈哈！元件移动了。好了，现在你应该明白它们了吧！不用我说你应该明白刚才用到的工具的作用了。</p>
+<p>在任何情况下，右键单击元器件时，元件会亮显示并弹出菜单：</p>
+<p><img data-src="/blog-imgs/tech/images/94b439337083b168188d19b77bd8d00f.png" alt=""></p>
+<p>非常直观，都是一些一目了然的图标。从上到的几个菜单分别是：移动物体、编辑属性、删除物体、顺时针旋转90 度（后面几个就不用说了吧）。单击鼠标左键操作。当元件高亮显示时，再右键击它，会删掉它。</p>
+<p>把原理图中的元件摆放好。</p>
+<p><img data-src="/blog-imgs/tech/images/91c36181f622d9d5e7c0c6f66a4dd203.png" alt=""></p>
+<p>左键单击左侧工具栏上的元件图标</p>
+<p><img data-src="/blog-imgs/tech/images/f561c650e4fb1deb282323133c89e1ad.png" alt=""></p>
+<p>，把鼠标移到LED-RED引脚上，引脚上高亮的小方框，单击左键，有一条绿色的线拉出来了。</p>
+<p><img data-src="/blog-imgs/tech/images/485cdf33c890ec878c7a997e66bb7135.png" alt=""></p>
+<p>把它移动到电阻上的引脚上，当有个高亮的小方框出现时按下左键，一条线画好了。</p>
+<p><img data-src="/blog-imgs/tech/images/f1edc4be0d042ab9318e7abcbe921136.png" alt=""></p>
+<p>我们把线画成下图的情形：</p>
+<p><img data-src="/blog-imgs/tech/images/73d2d9eaae16e4b4787a058ca306af12.png" alt=""></p>
+<p>在电阻R1 没有选择时，左键双击电阻，弹出电阻的属性：</p>
+<p><img data-src="/blog-imgs/tech/images/cad6ae227a3e280635bcc59129dc3b32.png" alt=""></p>
+<p>好了，现在在电阻的前面加上一个5V 的电压，这部份电路就绘制好了。点击左侧terminals 图标</p>
+<p><img data-src="/blog-imgs/tech/images/5be6516475f8a3c24e28edbf0fc2f2ec.png" alt=""></p>
+<p>，选择POWER</p>
+<p><img data-src="/blog-imgs/tech/images/a202cfaf60a8732231cd6c485c0ee9f2.png" alt=""></p>
+<p>放置并连接好电阻：</p>
+<p><img data-src="/blog-imgs/tech/images/7606d358fadb062ce91ea7ed9757f286.png" alt=""></p>
+<p>单片机电路暂时不讲解了，因为就这样也可以仿真。我们现在可以来点亮LED 了，只要把程序下载到单片机中就可以了。哦！忘了，你可能还不会写程序，没关系，下面就讲keil：</p>
+<p>把proteus 保存在test 文件夹中，命名为led.dsn.启动keil 后显示如下：</p>
+<p><img data-src="/blog-imgs/tech/images/a8cb201ae69f5d95298e787b8c979a56.png" alt=""></p>
+<p>选择上方的project 菜单选择New Project,保存在test 文件夹中，命名为ledc51。弹出cpu 选项，选择Atmel 中的At89c51:</p>
+<p><img data-src="/blog-imgs/tech/images/c324f62534ddc20ded5a654b0adc343b.png" alt=""></p>
+<p>弹出菜单后选择”是” :</p>
+<p><img data-src="/blog-imgs/tech/images/9483391cd8a5be88c118eb2f78759404.png" alt=""></p>
+<p>点击</p>
+<p><img data-src="/blog-imgs/tech/images/335ea1656677284ac4ba0128c804fef7.png" alt=""></p>
+<p>图标，现在可以编写程序了，我们编写如下代码：</p>
+<p><img data-src="/blog-imgs/tech/images/ce21cd058a33eaf4bbb4b8ecff8d209e.png" alt=""></p>
+<p>保存为led_demo.c.左边的Source Group1 文件夹图标上右击，在弹出的菜单中选择，如下图所示</p>
+<p><img data-src="/blog-imgs/tech/images/1ab0753b1a7710f5abd2bbabdc8649fc.png" alt=""></p>
+<p>c 程序加进来了,马上就要生成proteus 中需要的文件了。我们先配置一下keil：</p>
+<p><img data-src="/blog-imgs/tech/images/6e8512b0f936a820c5c25e71837af87b.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/ca4c22ccbf0b2d15520507884c19a0e8.png" alt=""></p>
+<p>就配置这些，其它的以后再讲，先把LED 亮起来。左键单击</p>
+<p><img data-src="/blog-imgs/tech/images/56ea81d689017b93f9fcd2c4ba029d5c.png" alt=""></p>
+<p>图标：</p>
+<p><img data-src="/blog-imgs/tech/images/8536533bd548878d57e96db1ac0c5d92.png" alt=""></p>
+<p>看到了吗？</p>
+<p><img data-src="/blog-imgs/tech/images/e62ec16c2ea72723c7ca194c88ef036e.png" alt=""></p>
+<p>激动人心的时刻就要到来，打开刚才的proteus 文件，左键双击At89c51 元件：</p>
+<p><img data-src="/blog-imgs/tech/images/5998a6495c618e1feba564ec5d3d1b79.png" alt=""></p>
+<p>开始仿真左键单击</p>
+<p><img data-src="/blog-imgs/tech/images/5ef167d949184e6851e285a09a05bb46.png" alt=""></p>
+<p>，没有看到灯亮呀，哎！电阻太大了，我们把电阻改成330，左键单击</p>
+<p><img data-src="/blog-imgs/tech/images/5ef167d949184e6851e285a09a05bb46.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/3c3dc9892744a70c90c5cd85bac0d5c4.png" alt=""></p>
+<p>LED 亮了，好高兴呀。我们现在要让LED 灭该如何改程序呢？</p>
+<p><img data-src="/blog-imgs/tech/images/c89556cc237c797505f45f937f49db32.png" alt=""></p>
+<p>左键单击</p>
+<p><img data-src="/blog-imgs/tech/images/e89781ba182f1b3067e00ada9fe128e6.png" alt=""></p>
+<p>图标，keil</p>
+<p><img data-src="/blog-imgs/tech/images/e89781ba182f1b3067e00ada9fe128e6.png" alt=""></p>
+<p>————编译</p>
+<p>再按仿真图标，灯灭了：</p>
+<p><img data-src="/blog-imgs/tech/images/01c8e06c26318f8f9b0977eedeecabdc.png" alt=""></p>
+<p>来源：<a target="_blank" rel="noopener" href="http://wenku.baidu.com/link?url=M06hoRDq2AUGGh1010zXCfpmSafYqmAOPWhwZ7dJ22GiXoQujiVCCrlxpg4wKrpJaAX0RT5bXZKiauaGaeE5k76sqwr9uJ4Xjv_HJi08qZC">http://wenku.baidu.com/link?url=M06hoRDq2AUGGh1010zXCfpmSafYqmAOPWhwZ7dJ22GiXoQujiVCCrlxpg4wKrpJaAX0RT5bXZKiauaGaeE5k76sqwr9uJ4Xjv_HJi08qZC</a></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/msp430-study/" rel="bookmark">怎样学习MSP430单片机</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mcu-primer-12/" rel="prev" title="单片机小白学步(12) Proteus仿真软件简介">
+      <i class="fa fa-chevron-left"></i> 单片机小白学步(12) Proteus仿真软件简介
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/proteus-keil/" rel="next" title="proteus与keil联调">
+      proteus与keil联调 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

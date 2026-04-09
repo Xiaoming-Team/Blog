@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="PROTEUS总线绘制 使用总线的目的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PROTEUS总线绘制与标号使用方法">
+<meta property="og:url" content="https://www.xiaoming.io/proteus-bus-and-lable/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="PROTEUS总线绘制 使用总线的目的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/b5e7908dd1e0c86072f76a39f1800ea0.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/7001559520b481d85ed2ca3095f111f9.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/733b12f016b991381db0e6dfb5513087.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/753953d9f6cac1ce5616202e30be3208.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ede7e18ef7ce71639f27c8e8d9e3248d.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/cf224c36f2e2021edf1c306490a7e636.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0154785e0d403912a6c5226decdfb543.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/7701fb377a18c724cd6103da7ac39bf8.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/49805594912e3d2120e27d3e23399705.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/53fb9a389ccecbfb371a911f887cc2e3.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3f8236aa0807c811f2d7ce4ad1c81eb5.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/91b90f808d92c5099a20a936d6ff9162.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0efe5a1bed8ea51838e97c64640262ca.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/299d67242f09c19fe1808d4cf75017af.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/de3479eb285fb78807cae3b946a2c6c6.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/7875dec9864dbbd425367aa5e677c298.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5dd5d0796855b0c987f0399b208409d8.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1525effedfeb3d068fac50da5fe902d7.jpg">
+<meta property="article:published_time" content="2014-10-26T12:17:29.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.662Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/b5e7908dd1e0c86072f76a39f1800ea0.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/proteus-bus-and-lable/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PROTEUS总线绘制与标号使用方法 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "PROTEUS总线绘制与标号使用方法",
+      "description": "PROTEUS总线绘制 使用总线的目的",
+      "datePublished": "2014-10-26T12:17:29.000Z",
+      "dateModified": "2025-06-17T13:33:21.662Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/proteus-bus-and-lable/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/proteus-bus-and-lable/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PROTEUS总线绘制与标号使用方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-26 20:17:29" itemprop="dateCreated datePublished" datetime="2014-10-26T20:17:29+08:00">2014-10-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/proteus-bus-and-lable/" class="post-meta-item leancloud_visitors" data-flag-title="PROTEUS总线绘制与标号使用方法" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/proteus-bus-and-lable/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/proteus-bus-and-lable/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="PROTEUS总线绘制">PROTEUS总线绘制</h2>
+<h3 id="使用总线的目的">使用总线的目的</h3>
+<p>1、在画数字电路时，需要对大量导线类型相同的数据和地址进行连线，这时就需要使用总线用以简单化电路图的连线.</p>
+<p>2、在复杂的电路图中使用总线，可以清晰快速的理解多连线元件间的关系</p>
+<p>因为即使是自己设计绘制的电路图，时间间隔较长时，也会忘记。在读别人的电路图时也会因为总线的使用而加快理解速度.</p>
+<h3 id="一、进入总线绘制模式的俩种方法">一、进入总线绘制模式的俩种方法</h3>
+<p>1、  点击Proteus左侧工具栏按钮</p>
+<p><img data-src="/blog-imgs/tech/images/b5e7908dd1e0c86072f76a39f1800ea0.jpg" alt=""></p>
+<p>2、  在Proteus绘制电路图空白区域右击鼠标，在弹出菜单中选择：放置-总线，如图：</p>
+<p><img data-src="/blog-imgs/tech/images/7001559520b481d85ed2ca3095f111f9.jpg" alt=""></p>
+<h3 id="二、绘制方法">二、绘制方法</h3>
+<p>进入总线绘制模式后，在适当位置单击后为总线起始点，在终点处双击，结束此段总线绘制，此种方式可以绘制直及多段式总线，如图：</p>
+<p><img data-src="/blog-imgs/tech/images/733b12f016b991381db0e6dfb5513087.jpg" alt=""></p>
+<p>在使用总线时，为了美观，拐角处都采用45度偏转方式绘制如图：</p>
+<p><img data-src="/blog-imgs/tech/images/753953d9f6cac1ce5616202e30be3208.jpg" alt=""></p>
+<p>上图中的总线及电路连接线都采用了45度偏转方式进行绘制的，方法是在需要偏转处，按住键盘Ctrl键后，总线及电路连线会按你鼠标移动方向进行偏转，单击鼠标，松开Ctrl键后结束偏转方式绘制。</p>
+<h3 id="三、总线意义">三、总线意义</h3>
+<p>如图所示，使用总线代表将俩个元件，相同标号引脚进行电气连接</p>
+<p><img data-src="/blog-imgs/tech/images/ede7e18ef7ce71639f27c8e8d9e3248d.jpg" alt=""></p>
+<h3 id="四、绘制过程">四、绘制过程</h3>
+<p>在绘制总线时，先在合适的位置绘制好总线后，再将元件相应引脚的电路连线以45度偏转方式连接到总线上。</p>
+<h2 id="PROTEUS标号使用方法">PROTEUS标号使用方法</h2>
+<p>此处讲俩种添加标号方法</p>
+<h3 id="一、点击">一、点击</h3>
+<p><img data-src="/blog-imgs/tech/images/cf224c36f2e2021edf1c306490a7e636.jpg" alt=""></p>
+<p>按钮，在其右侧选择点击DEFAULT,鼠标挪至电路图区会出现</p>
+<p><img data-src="/blog-imgs/tech/images/0154785e0d403912a6c5226decdfb543.jpg" alt=""></p>
+<p>单击放至相应元件引脚旁即可，然后用导线将其和引脚连接，如图：</p>
+<p><img data-src="/blog-imgs/tech/images/7701fb377a18c724cd6103da7ac39bf8.jpg" alt=""></p>
+<p>双击某引脚标号，出现其属性对话框，如图：</p>
+<p><img data-src="/blog-imgs/tech/images/49805594912e3d2120e27d3e23399705.jpg" alt=""></p>
+<p>在标号里添上相应标号，即完成，如图：</p>
+<p><img data-src="/blog-imgs/tech/images/53fb9a389ccecbfb371a911f887cc2e3.jpg" alt=""></p>
+<p>若需调整方向，可右击相应标号选择调整方向，进行调整</p>
+<p>若需放置标号前进行方向调整，可单击Proteus左侧快捷按钮</p>
+<p><img data-src="/blog-imgs/tech/images/3f8236aa0807c811f2d7ce4ad1c81eb5.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/91b90f808d92c5099a20a936d6ff9162.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/0efe5a1bed8ea51838e97c64640262ca.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/299d67242f09c19fe1808d4cf75017af.jpg" alt=""></p>
+<p>进行标号方向进行预设置(此四个按钮也可以调整其它元件).</p>
+<p>这种标号方式常用于元件间引脚连线较少，但距离比较远，连导线不方便时使用</p>
+<h3 id="二、点击">二、点击</h3>
+<p><img data-src="/blog-imgs/tech/images/de3479eb285fb78807cae3b946a2c6c6.jpg" alt=""></p>
+<p>按钮后，按下键盘上的A字母键，会弹出对话框，如图：</p>
+<p><img data-src="/blog-imgs/tech/images/7875dec9864dbbd425367aa5e677c298.jpg" alt=""></p>
+<p>在字符串后输入命令格式为：NET=XX#（NET代表网络，在此使用为固定模式，XX代表我们需要命名标号的名字，#代表从0开始的计数）</p>
+<p>如我们输入：NET=B#，如图:</p>
+<p><img data-src="/blog-imgs/tech/images/5dd5d0796855b0c987f0399b208409d8.jpg" alt=""></p>
+<p>在需要添加标号的电路线上合适位置单击，即可放置标号B0，下个电路线同样操作，即可放置标号B1，能够方便的快速放置多个标号,如图:</p>
+<p><img data-src="/blog-imgs/tech/images/1525effedfeb3d068fac50da5fe902d7.jpg" alt=""></p>
+<p>在放置时，按下字母A键，弹出对话框，计数即可归零，同样可以在对话框里设置，当前计数值，及计数增量。在放置标号误操作时，可按CTRL+Z(撤消操作快捷键)及此种方法配合可进行快速调整.</p>
+<p>此种添加标号方法常用于标记与总线连接的电路线。</p>
+<p>来源：<a target="_blank" rel="noopener" href="http://wenku.baidu.com/link?url=Sswg2YqO1GcoZj82tqTfr-5_gyCFXgYk9Rmh5E_z0k1IizOFweG8VUAFrggYhCWuBx1bXKf4daCv3IMxFb1C424qEv-WQ52Mkl7uxetYrFy">http://wenku.baidu.com/link?url=Sswg2YqO1GcoZj82tqTfr-5_gyCFXgYk9Rmh5E_z0k1IizOFweG8VUAFrggYhCWuBx1bXKf4daCv3IMxFb1C424qEv-WQ52Mkl7uxetYrFy</a></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/msp430-study/" rel="bookmark">怎样学习MSP430单片机</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/proteus-keil/" rel="prev" title="proteus与keil联调">
+      <i class="fa fa-chevron-left"></i> proteus与keil联调
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/university-challenge/" rel="next" title="我对国创、挑战杯这类大学生竞赛的看法">
+      我对国创、挑战杯这类大学生竞赛的看法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PROTEUS%E6%80%BB%E7%BA%BF%E7%BB%98%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">PROTEUS总线绘制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BA%BF%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="nav-number">1.1.</span> <span class="nav-text">使用总线的目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%BF%9B%E5%85%A5%E6%80%BB%E7%BA%BF%E7%BB%98%E5%88%B6%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BF%A9%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">一、进入总线绘制模式的俩种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BB%98%E5%88%B6%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">二、绘制方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%80%BB%E7%BA%BF%E6%84%8F%E4%B9%89"><span class="nav-number">1.4.</span> <span class="nav-text">三、总线意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%BB%98%E5%88%B6%E8%BF%87%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">四、绘制过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PROTEUS%E6%A0%87%E5%8F%B7%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">PROTEUS标号使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%82%B9%E5%87%BB"><span class="nav-number">2.1.</span> <span class="nav-text">一、点击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%82%B9%E5%87%BB"><span class="nav-number">2.2.</span> <span class="nav-text">二、点击</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

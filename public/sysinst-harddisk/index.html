@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="这篇文章主要是普及一些小知识，算是常识（这个年代不懂电脑就是文盲啊⊙▽⊙），也为后面的内容打下基础，看的一知半解就够了。也可以先不看，在需要的时候再点进来看。 硬盘的基本概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装系统不求人——硬盘的秘密">
+<meta property="og:url" content="https://www.xiaoming.io/sysinst-harddisk/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="这篇文章主要是普及一些小知识，算是常识（这个年代不懂电脑就是文盲啊⊙▽⊙），也为后面的内容打下基础，看的一知半解就够了。也可以先不看，在需要的时候再点进来看。 硬盘的基本概念">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/c533643fa6559850bb5cfb5559010980.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/40a2cdcb5ec3eb31f4746c6b27828683.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/07469f2fc5f50a310815e11d2fec9215.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/18e3ee8f6681e1220ae3b7f0b1b6a908.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/6a20b13012e3a5cefa69aa1a2fb01a88.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/15ea9d5195af26e71d7db144ff297723.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/95463e3a5f997caa1c2a3b72727c472f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/2b58cde2c51a8aac61b5005fb9f315db.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/05305122ff122f2bfe80d03b75e7bf25.png">
+<meta property="article:published_time" content="2015-04-02T09:07:05.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.403Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="#装系统不求人#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/c533643fa6559850bb5cfb5559010980.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/sysinst-harddisk/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>装系统不求人——硬盘的秘密 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "装系统不求人——硬盘的秘密",
+      "description": "这篇文章主要是普及一些小知识，算是常识（这个年代不懂电脑就是文盲啊⊙▽⊙），也为后面的内容打下基础，看的一知半解就够了。也可以先不看，在需要的时候再点进来看。 硬盘的基本概念",
+      "datePublished": "2015-04-02T09:07:05.000Z",
+      "dateModified": "2026-01-09T08:19:11.403Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/sysinst-harddisk/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/sysinst-harddisk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          装系统不求人——硬盘的秘密
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-02 17:07:05" itemprop="dateCreated datePublished" datetime="2015-04-02T17:07:05+08:00">2015-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sysinst/" itemprop="url" rel="index"><span itemprop="name">装系统不求人</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sysinst-harddisk/" class="post-meta-item leancloud_visitors" data-flag-title="装系统不求人——硬盘的秘密" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sysinst-harddisk/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sysinst-harddisk/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要是普及一些小知识，算是常识（这个年代不懂电脑就是文盲啊⊙▽⊙），也为后面的内容打下基础，看的一知半解就够了。也可以先不看，在需要的时候再点进来看。</p>
+<h2 id="硬盘的基本概念">硬盘的基本概念</h2>
+<p>只要对电脑有一点接触，你一般都会听说过硬盘这个词。你私藏的美女图片、喜欢的音乐、各种视频，包括操作系统，都是保存在硬盘里面的。</p>
+<p>装系统最主要的内容，就是在硬盘上下功夫。所以不了解下硬盘，怎么好意思说自己是专业装系统的……</p>
+<blockquote>
+<p>为什么叫硬盘呢？我猜是因为相对于古老的软盘来说，它比较硬吧 <code>o(*≥▽≤)ツ</code> 软盘又是什么鬼？反正已经是上个世纪的东西了，有兴趣自己百度。</p>
+</blockquote>
+<h2 id="机械硬盘-VS-固态硬盘">机械硬盘 VS 固态硬盘</h2>
+<p>写这篇文章的时候，丑的人（矮穷挫）电脑上还在用机械硬盘，而漂亮的人（高富帅）已经在用固态硬盘了。固态硬盘还有个洋气的英文名字SSD（Solid State Drive）。</p>
+<p>机械硬盘和磁带、磁卡一样，是利用磁性来保存数据的，因此硬盘又常被称为<strong>磁盘</strong>。</p>
+<p>之所以叫<strong>机械硬盘</strong>，因为这种硬盘通过电机机械运动，带动盘片旋转，让磁头在盘片上进行读写。所以机械硬盘工作时会有声音。下面分别是机械硬盘和内部结构图。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/c533643fa6559850bb5cfb5559010980.jpg" alt=""></p>
+<p>而固态硬盘和U盘原理一样，利用电路和存储芯片保存数据。至于芯片，利用的是电子在半导体器件中的一些特性，就不展开了。</p>
+<blockquote>
+<p>固态硬盘和U盘使用的是相同的存储芯片，但是固态硬盘使用的芯片通常是高质量的，并且主控芯片比U盘好，所以速度和价格也比普通U盘要高。</p>
+</blockquote>
+<p>这里说说两种硬盘的一些特点。</p>
+<ul>
+<li>
+<p>固态硬盘存储速度远比机械硬盘快，但制造成本目前也比较高，所以很多穷人还用不起<code>（┬＿┬）</code></p>
+<blockquote>
+<p>因为机械硬盘的速度受到机械运动的限制，所以速度很难提升。</p>
+</blockquote>
+</li>
+<li>
+<p>机械硬盘工作时，磁头会贴近盘片进行读写；而正常关机、或是待机了，硬盘停止工作，磁头就会移开。</p>
+<p>所以<strong>搬电脑时最好先待机</strong>，因为硬盘工作时，较大晃动可能导致磁头碰到并划伤盘片，然后就和你的男神女神照片资料一起光荣牺牲掉了。用不起固态硬盘的你不信可以试下，坏了刚好就有换SSD的借口了 <code>o(*￣▽￣*)o</code></p>
+<p>相对来说固态硬盘就好多了，不过它里面的芯片也是比较脆的，掉地上这么强烈的震动没准也会挂掉。内存卡、U盘也一样，不过好在他们比较轻，摔下来震动也不会太厉害（所以胖子摔倒比瘦子后果更严重咯？当然还要看缓冲的……）</p>
+<blockquote>
+<p>为了提高稳定性，确保数据的安全，有些商务笔记本装有硬盘保护系统，当传感器检测到震动比较强时，会自动让硬盘磁头离开盘片从而保护硬盘。</p>
+<p>我的穷人专享廉价版E系列ThinkPad虽然性价比比较低，但是却有这种装置，实测有效。所以说买电脑的时候不能盲目追求性价比，只看重CPU、内存、硬盘大小这种容易判断的参数，一些小的细节往往容易被人忽视，例如稳定性之类，毕竟一分钱一分货。</p>
+</blockquote>
+</li>
+<li>
+<p>机械硬盘里面的数据不慎删掉，是有可能恢复出来的，有一些数据恢复软件例如EasyRecovery可以做到，很神奇吧？如果里面的资料非常重要，还可以找专门的数据恢复公司给你恢复数据，用紫外线照射盘片等方式有可能将所有文件都恢复出来，只要你肯给钱。</p>
+<blockquote>
+<p>同样的原因，如果你的硬盘里面曾经保存过一些商业机密之类，千万不敢随便把硬盘给别人，即使文件都删了……因为只要这些机密足够有价值，就有可能被人想方设法恢复出来。有专门的磁盘数据擦除工具可以擦除数据难以恢复，但我不敢保证效果。最好的办法就是把硬盘砸成碎片（还要防止有人把它们又拼起来，好麻烦<code>｡◕‿◕｡</code>）……</p>
+</blockquote>
+<p>在这一点上，固态硬盘可就远不如机械硬盘了。固态硬盘上的数据如果被删了，回收站也清空了，很难被恢复。如果你是一个苦逼的程序员，哪天代码写到半夜脑子发晕，手贱把代码给删了，又用的固态硬盘，那就死定了，果断躲在墙角哭去吧 <code>o(╯□╰)o</code></p>
+</li>
+</ul>
+<h2 id="硬盘容量">硬盘容量</h2>
+<h3 id="国际单位制词头（SI词头）">国际单位制词头（SI词头）</h3>
+<p>在这里先简单说一下词头的概念。我们经常见到类似km、cm这种单位，是在标准单位m的基础上添加了前缀，即国际单位制词头（SI词头）。SI词头适用于所有国际单位制，所以下次见到一些新的单位，你应该就不会觉得很难理解了 <code>O(∩_∩)O~</code></p>
+<ul>
+<li>……Z、E、P、T、G、M、k<br>
+这些词头比标准单位大，它们从大到小排列，相邻两者之间进率为1000。</li>
+<li>m、u、n、p、f、a、z……<br>
+这些词头比标准单位小，它们从大到小排列，相邻两者同样进率为1000。</li>
+<li>1km = 1000m，1m=1000mm</li>
+</ul>
+<blockquote>
+<p>参考维基百科：<br>
+<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/zh/%E5%9B%BD%E9%99%85%E5%8D%95%E4%BD%8D%E5%88%B6%E8%AF%8D%E5%A4%B4">http://zh.wikipedia.org/zh/国际单位制词头</a></p>
+</blockquote>
+<h3 id="硬盘容量单位">硬盘容量单位</h3>
+<p>硬盘容量的基本单位是字节，也写作B，注意这里是大写的B，对应英文Byte。</p>
+<blockquote>
+<p>1Byte=8bit，这表示一个字节有八个位，这里的位则是小写的b，也就是bit。我们经常看到网速的单位Mbps、Kbps、bps，同样有8Mbps=8Mb/s=1MB/s，也就是8M带宽的网络，最大传输速度是1MB/s。可别因为没文化不懂这个，乱抱怨人家网络提供商啊 <code>(︶︿︶）</code></p>
+</blockquote>
+<p>字节是最基本、最小的存储单位，用的更多的是比它大的一些单位，KB、MB、GB和TB。随便一张照片都得有几百KB到几十MB~</p>
+<p>你可能遇到过这种情况，买了个16G的U盘，插到电脑上却显示只有14G左右，剩下的容量都去哪儿了呢？被奸商吃了么……少年莫急，且听我慢慢道来~</p>
+<ul>
+<li>
+<p>在SI标准中，这些存储单位的换算进率都是1000，也就是和SI词头一致。在工业生产中用的就是这种单位。</p>
+</li>
+<li>
+<p>而在常用的Windows系统中，使用的是IEC标准，单位换算进率是1024，于是（严格来说下面的单位应该是KiB、MiB……）：</p>
+<ul>
+<li>1 KB = 1024 B</li>
+<li>1 MB = 1024 KB</li>
+<li>1 GB = 1024 MB</li>
+<li>1 TB = 1024 GB</li>
+<li>1 PB = 1024 TB</li>
+<li>1 EB = 1024 PB</li>
+<li>1 ZB = 1024 EB</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<p>所以16GB的U盘，厂家制造时是16*10^9B，而到了Windows中自然就只剩了14G左右，不能怪别人奸商，只怪自己无知~没文化真可怕……</p>
+<h2 id="分区与分区表">分区与分区表</h2>
+<p>这里普及一下英文名词。在装系统时经常会遇到英文词汇，所以了解下吧~</p>
+<ul>
+<li>分区：Partition</li>
+<li>分区表：DPT = Disk Partition Table</li>
+</ul>
+<p>硬盘中的存储空间是连续的，可以把它想象成一个长条。为了提高安全性、方便文件整理等原因，通常会把一个硬盘分成多个<strong>分区</strong>，形象的从下图看出来。图中就是我的500GB西数黑盘的分区了，C盘装的Win7，最后三个分区装的Ubuntu，其他分区保存一些东西~</p>
+<p>而分区表，就是硬盘中记录的分区信息。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/40a2cdcb5ec3eb31f4746c6b27828683.png" alt=""></p>
+<h2 id="MBR与GPT、GUID">MBR与GPT、GUID</h2>
+<ul>
+<li>
+<p>MBR=Master Boot Record，主引导记录</p>
+</li>
+<li>
+<p>GPT=GUID Partition Table，全局唯一标识分区表</p>
+</li>
+<li>
+<p>GUID=Globally Unique Identifier，全局唯一标识符</p>
+<blockquote>
+<p>每个硬盘分区都有唯一的GUID，可通过DiskGenius软件查看。</p>
+</blockquote>
+</li>
+</ul>
+<p>有些人看到英文很害怕，因为完全不懂；实际上这里翻译成中文，还是一样不懂。因为没有相关专业知识~哈哈哈哈哈哈哈<code>o(*≥▽≤)ツ</code></p>
+<p>几个重要的区别：<br>
+MBR只能支持最大2TB的硬盘，而GPT能支持最大9.4ZB（9.4 x 10^21B）的硬盘<br>
+MBR只能支持四个主分区，而GPT至少可以划分128个主分区（后文会介绍主分区的概念）</p>
+<p>下面说一个MBR和GPT之间的<strong>恩怨小故事</strong>~</p>
+<hr>
+<p>早些时候，硬盘都是MBR类型，大家用着也都挺好的。后来网速越来越快，我们看电影什么的也都追求高清，我们装的系统和软件也越来越大，尤其还有不少资源收集狂整天到处下载东西存进硬盘，很快硬盘都被塞满了。于是我们队硬盘容量的需求越来越大了，而MBR格式自从设计的时候起，就只能支持2TB容量。</p>
+<p>什么？只能支持2TB？设计者是怎么想的？我们不能怪设计者。那是1983年的事了，匆匆那年，MBR就开始被使用了，而当时索尼公司才推出了容量1MB的3.5英寸双面软盘（今天很多人都没见过这种老古董了）……那时的人们，怎么也没想到计算机的发展这么迅速，几十年之后的今天，几个TB的硬盘都已经逐渐进入广大劳动人民的电脑中了。</p>
+<blockquote>
+<p>这段是给非小白用户准备的：这里的2TB是通常认为的MBR容量限制，扇区视为标准的512B，后面的GPT也一样。虽然一些硬盘制造商通过将扇区升级到4KB，使得MBR能支持最大16TB，但不是长久之计，这里也不考虑那么多情况。</p>
+</blockquote>
+<p>所以就有了GPT格式，它能支持9.4ZB（9.4 x 10^21B）的硬盘。对于现在的我们来说，这也是一个不敢想象的硬盘容量了。但或许再过几十年，GPT也会像MBR一样慢慢被新的技术替代。</p>
+<blockquote>
+<p>还记得之前说的BIOS么，Legacy BIOS只能启动MBR硬盘上的系统，而EFI/UEFI BIOS只能启动GPT硬盘上的系统。</p>
+<p>GPT硬盘最大容量参考了维基百科：<br>
+<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/GUID%E7%A3%81%E7%A2%9F%E5%88%86%E5%89%B2%E8%A1%A8">http://zh.wikipedia.org/wiki/GUID磁碟分割表</a></p>
+</blockquote>
+<hr>
+<h2 id="主分区-扩展分区-逻辑分区">主分区 / 扩展分区 / 逻辑分区</h2>
+<ul>
+<li>主分区：Primary Partition</li>
+<li>扩展分区：Extended Partition</li>
+<li>逻辑分区：Logical Partitions</li>
+</ul>
+<p>这几个词，表示不同类型的分区。</p>
+<p>还是小故事~</p>
+<hr>
+<p>MBR硬盘中，最多只能有四个分区~匆匆那年，设计者就是这么想的~</p>
+<p>之后人们发现，四个分区经常不够用（主分区），于是扩展分区和逻辑分区出现了。于是事情变得有趣起来：</p>
+<ul>
+<li>一个MBR硬盘中，主分区和扩展分区的总数目最多有四个，而扩展分区最多一个</li>
+<li>也就是说，可以是不超过四个主分区，或者不超过三个主分区+一个扩展分区</li>
+<li>和主分区不一样，扩展分区本身不能被格式化和保存数据，但是可以在其中新建逻辑分区</li>
+<li>最多能新建多少个逻辑分区呢？这个在不同的系统下也不一样，例如在Linux系统中，IDE 硬盘最多可以有59个逻辑分区。这下总该够用了吧~</li>
+</ul>
+<p>最新的GPT硬盘分区格式，至少可以支持128个主分区~所以未来扩展分区和逻辑分区的概念有可能不复存在~就像今天很多人没见过软盘一样。真是伤感~ <code>í﹏ì</code></p>
+<hr>
+<p>再来看下我的硬盘，我只有一个主分区，后面是一个扩展分区，剩下的全部都是这个扩展分区里面的逻辑分区。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/07469f2fc5f50a310815e11d2fec9215.png" alt=""></p>
+<h2 id="卷标、盘符">卷标、盘符</h2>
+<p>卷标就是每个分区的名字，例如WIN7，SOFTWARE这种，可以任意修改。</p>
+<p>盘符就是我们经常说的C盘、D盘这种，是Windows系统中特有的，主要用来指定文件路径。例如：</p>
+<ol>
+<li><code>C:\Windows\学习资料\系统文件\新建文件夹\新建文件夹2\女神照片\1.jpg</code></li>
+</ol>
+<p>烦人的<strong>注意事项</strong>又来啦~~~</p>
+<ul>
+<li>
+<p>盘符是系统分配的分区标识，和分区不是一个概念。盘符可以改，但不能重复（要不然就没法区别两个分区的文件了）。</p>
+</li>
+<li>
+<p>每次在电脑上插入移动硬盘、U盘时，常发现盘符不一定相同。在不同系统中（例如平时在Win7中和启动到PE下），同一个硬盘各个分区的盘符也很可能不同。</p>
+</li>
+<li>
+<p>综上所述，在不同的系统中，<strong>可以根据卷标、容量大小、里面保存的文件来区分不同的分区，但是不能根据盘符区分</strong>。</p>
+</li>
+<li>
+<p>分区的盘符还能删除，删除后就成了<strong>隐藏分区</strong>，没有文件路径，不能被常规软件操作，同时文件不容易被病毒或手贱的用户破坏 <code>o(*≥▽≤)ツ</code></p>
+<blockquote>
+<p>例如H盘的盘符删除后，就成了无名氏，被显示成了主分区(0)，如下图。这时在资源管理器等软件中，都看不到也不能访问。但在下图的DiskGenius软件中，文件仍然是可以看到的（就像你没法通过身份证号找到无名氏，但不代表他不存在啊~~~）</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/18e3ee8f6681e1220ae3b7f0b1b6a908.png" alt=""></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="分区编号">分区编号</h2>
+<p>分区编号平时我们接触不多，但是在装系统时可能需要用到。特别是在Linux系统中，硬盘分区是用编号表示的，而不是Windows中用的盘符。MBR硬盘中，主分区和扩展分区，按照先后顺序分别会被编号成0~3，而逻辑分区的编号则从4开始。例如下图就是我的硬盘分区编号。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/6a20b13012e3a5cefa69aa1a2fb01a88.png" alt=""></p>
+<h2 id="活动分区">活动分区</h2>
+<p>在硬盘中，必须有且只有一个活动分区才能启动系统；而且活动分区必须是主分区。活动分区中保存了一些必要的启动信息。</p>
+<p>有时电脑不开机，显示“Invalid partition table”（无效的分区表），原因就是硬盘中活动分区不存在或多于一个。</p>
+<p>后续文章中会介绍活动分区的查看和设置~ <code>｡◕‿◕｡</code></p>
+<h2 id="动态磁盘">动态磁盘</h2>
+<p>如果你通过Win7自带的磁盘管理器给硬盘分区，当你新建第五个主分区的时候，会提醒你如图消息：</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/15ea9d5195af26e71d7db144ff297723.png" alt=""></p>
+<p>手贱的你眼都没眨一下就习惯性的点了“是”，之后就悲剧了。</p>
+<p>基本磁盘是相对动态磁盘而言的，动态磁盘有很多好处，比如它可以支持超过四个主分区，新建分区时还有很多新花样，但是缺点在于，很多软件甚至系统都不支持动态磁盘。于是你就哭倒在地了~~~</p>
+<p>所以遇到这样的情况，千万别点“是”……千万别点……万别点……别点……点……</p>
+<p>后续文章中会介绍如何在基本磁盘和动态磁盘之间进行转换，可以救你于水火之中。</p>
+<h2 id="文件系统（分区格式）">文件系统（分区格式）</h2>
+<p>我们经常看到FAT32、NTFS之类的词语，这个就是文件系统（File system），也常常被叫做分区格式。所谓文件系统，简单理解，就是文件数据在硬盘上具体的保存方式。格式化分区的时候，就会在对话框中让我们选择文件系统。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/95463e3a5f997caa1c2a3b72727c472f.png" alt=""></p>
+<p>Windows中最常见的是NTFS、FAT32格式。FAT32不支持单个4G以上文件，单个分区最大容量只有32G，所以在硬盘中这种格式逐渐被淘汰了，但目前在U盘、存储卡等设备中还在被使用。</p>
+<p>Linux下，则有EXT等格式的分区（EXT3、EXT4等）。Win7不支持EXT分区中文件的读取，但可以通过一些软件实现。</p>
+<h2 id="回收站">回收站</h2>
+<p>回收站是Windows等系统中的一项功能，也就是删除文件时不直接删除，而是移动到回收站。<strong>回收站的本质是一个系统隐藏文件夹</strong>，移动到回收站就是移到了这个文件夹下。清空回收站才是真正删除了文件。通常在硬盘和移动硬盘的每个分区会有回收站的文件夹，而U盘等设备没有回收站。</p>
+<p>回收站就像垃圾桶一样，<strong>丢进去的东西还会占用空间</strong>，而<strong>不小心丢进去的东西能再找回来</strong>；但是如果回收站被清空了，东西就没了。</p>
+<blockquote>
+<p>在下面会讲到文件恢复，说的就是找回已经实际被删除、不在回收站的文件。</p>
+</blockquote>
+<h2 id="文件存储结构">文件存储结构</h2>
+<p>了解电脑基本操作的人，对<strong>文件</strong>这个概念应该不陌生吧？也就是硬盘上存放的各种资料，包括电影、音乐、图片、软件等等。<strong>文件夹</strong>也常被称为<strong>目录</strong>，方便进行文件的整理归类。</p>
+<p>这里要说的是文件相关的内容。对于硬盘分区中的文件来说，实际上是分为两部分的（两者都是由文件系统规定的）：</p>
+<ul>
+<li>
+<p><strong>文件分配表</strong>。保存了每个文件的基本信息：文件名、文件大小、修改日期、文件实际保存到的位置等。有点像一本书的<strong>目录</strong>。</p>
+</li>
+<li>
+<p><strong>文件数据</strong>。文件真正的内容，通过文件分配表找到这些数据，才能正确的读取文件。有点像一本书的<strong>正文</strong>（对于书来说，可以不用目录直接看正文，但是对于硬盘分区来说，没有文件分配表没办法读取文件）。</p>
+</li>
+</ul>
+<p>因为这种结构，<strong>机械硬盘</strong>中产生了以下我们常见到的现象（固态硬盘不太一样）。</p>
+<ol>
+<li>
+<p>在同一个分区不同目录之间移动文件很快，而复制文件、在不同分区之间移动文件比较慢。</p>
+<ul>
+<li>在同一个分区不同目录之间移动文件，只需修改文件分配表信息，而不需要处理文件数据，所以会很快。</li>
+<li>复制文件需要复制文件数据，因此无论在同一个分区还是不同分区，都会比较慢。</li>
+<li>在不同分区移动文件，相当于先复制文件，再删除原来的文件。过程中也要处理文件数据，所以较慢。</li>
+</ul>
+</li>
+<li>
+<p>删除一个1GB的文件，比删除1000个1KB的文件还要快。原因是，删除文件的时候，实际上只是修改了文件分配表，并不需要改动文件数据本身，所以删除文件时所耗费的时间，主要和文件数量有关，和文件大小关系不大。</p>
+</li>
+<li>
+<p>复制一个1MB的文件，比1000个1KB的文件快。因为要处理的文件数据量差不多，但是后者需要处理大量文件分配信息，所以会比较慢。</p>
+</li>
+<li>
+<p>删除的文件有可能通过数据恢复软件找回。因为删除文件只是修改了文件分配表，标记文件已经被删除，并没有清除实际的文件数据。只要这些数据所在的位置没有被新文件覆盖，将数据分配表修改回来，文件就找回来了。所以<strong>如果不慎误删文件想找回，最好立即停止往那个分区保存任何文件，以免被误删文件的数据被覆盖掉</strong>。具体的数据恢复方法可以在网上找找相关资料，或者参考本系列之后的文章。</p>
+</li>
+</ol>
+<h2 id="磁盘碎片整理">磁盘碎片整理</h2>
+<p>这段还是针对<strong>机械硬盘</strong>来说的~~~由于上面所说的文件存储结构，一个分区中反复保存和删除文件，最后会使得文件被分散保存到整个磁盘的不同地方，而不是连续的。这样读写文件时就需要到不同的地方去读取，降低了磁盘的访问速度。而磁盘碎片整理就是要将这些文件进行移动，使其能更好的被访问<code>｡◕‿◕｡</code></p>
+<p>如果想让电脑运行速度快一点，磁盘碎片大约1个月整理一次就可以了，如果碎片比例少于10%可以不整理。</p>
+<p>在资源管理器中右击分区，属性，工具，就可以看到磁盘碎片整理的选项了，如图。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/2b58cde2c51a8aac61b5005fb9f315db.png" alt=""></p>
+<p>选中分区，点击“分析”可以分析出磁盘碎片比例，点击“磁盘碎片整理”可以整理碎片。在碎片整理的过程中，尽量不要使用电脑，更不要进行下载、复制文件等操作。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/05305122ff122f2bfe80d03b75e7bf25.png" alt=""></p>
+<h2 id="总结">总结</h2>
+<p>对于之前尝试分区，但又担心出问题的同学，了解了很多硬盘分区的知识后，再次使用分区软件进行分区，是不是觉得容易了很多呢？</p>
+<p>更详细深入的硬盘知识和技术实现细节，请看下文。这篇有利于对装系统过程中一些问题的理解，但不看的话对学习装系统影响不会很大。难度略大，适合对计算机技术很感兴趣的读者看。</p>
+<blockquote>
+<p>《装系统不求人——硬盘的秘密深入》<br>
+<a href="http://www.xiaoming.io/sysinst-harddisk-details">http://www.xiaoming.io/sysinst-harddisk-details</a></p>
+</blockquote>
+<p>硬盘的分区等各种操作，将会在后续文章中详细介绍：</p>
+<blockquote>
+<p>《装系统不求人——硬盘折腾大全与数据恢复》<br>
+<a href="http://www.xiaoming.io/sysinst-harddisk-op">http://www.xiaoming.io/sysinst-harddisk-op</a></p>
+</blockquote>
+<p>为什么连着给两个链接，该点哪个呢？欺负我们选择困难么~<code>(｡◕ˇ∀ˇ◕）</code></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-pwd-crack/" rel="bookmark">装系统不求人——开机密码破解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ubuntu/" rel="bookmark">装系统不求人——安装Ubuntu</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-customize-bootable-disk/" rel="bookmark">装系统不求人——量身定制自己的万能启动盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-xp/" rel="bookmark">装系统不求人——Win XP安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-boot/" rel="bookmark">装系统不求人——BootLoader与引导修复</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-prepare/" rel="bookmark">装系统不求人——系统安装准备工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ghost/" rel="bookmark">装系统不求人——用Ghost备份还原系统</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-follow-up/" rel="bookmark">装系统不求人——系统安装后续工作</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B8%8D%E6%B1%82%E4%BA%BA/" rel="tag"># #装系统不求人#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sysinst-bootable-disk-manual/" rel="prev" title="装系统不求人——万能启动盘使用简介">
+      <i class="fa fa-chevron-left"></i> 装系统不求人——万能启动盘使用简介
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sysinst-harddisk-details/" rel="next" title="装系统不求人——硬盘的秘密深入">
+      装系统不求人——硬盘的秘密深入 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">硬盘的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E6%A2%B0%E7%A1%AC%E7%9B%98-VS-%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98"><span class="nav-number">2.</span> <span class="nav-text">机械硬盘 VS 固态硬盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E5%AE%B9%E9%87%8F"><span class="nav-number">3.</span> <span class="nav-text">硬盘容量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BD%E9%99%85%E5%8D%95%E4%BD%8D%E5%88%B6%E8%AF%8D%E5%A4%B4%EF%BC%88SI%E8%AF%8D%E5%A4%B4%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">国际单位制词头（SI词头）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E5%AE%B9%E9%87%8F%E5%8D%95%E4%BD%8D"><span class="nav-number">3.2.</span> <span class="nav-text">硬盘容量单位</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E4%B8%8E%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="nav-number">4.</span> <span class="nav-text">分区与分区表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MBR%E4%B8%8EGPT%E3%80%81GUID"><span class="nav-number">5.</span> <span class="nav-text">MBR与GPT、GUID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E5%88%86%E5%8C%BA-%E6%89%A9%E5%B1%95%E5%88%86%E5%8C%BA-%E9%80%BB%E8%BE%91%E5%88%86%E5%8C%BA"><span class="nav-number">6.</span> <span class="nav-text">主分区 &#x2F; 扩展分区 &#x2F; 逻辑分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E6%A0%87%E3%80%81%E7%9B%98%E7%AC%A6"><span class="nav-number">7.</span> <span class="nav-text">卷标、盘符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E7%BC%96%E5%8F%B7"><span class="nav-number">8.</span> <span class="nav-text">分区编号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B4%BB%E5%8A%A8%E5%88%86%E5%8C%BA"><span class="nav-number">9.</span> <span class="nav-text">活动分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%A3%81%E7%9B%98"><span class="nav-number">10.</span> <span class="nav-text">动态磁盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%88%86%E5%8C%BA%E6%A0%BC%E5%BC%8F%EF%BC%89"><span class="nav-number">11.</span> <span class="nav-text">文件系统（分区格式）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%94%B6%E7%AB%99"><span class="nav-number">12.</span> <span class="nav-text">回收站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-number">13.</span> <span class="nav-text">文件存储结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E7%A2%8E%E7%89%87%E6%95%B4%E7%90%86"><span class="nav-number">14.</span> <span class="nav-text">磁盘碎片整理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">15.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

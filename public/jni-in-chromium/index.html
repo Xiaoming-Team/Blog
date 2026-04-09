@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="JNI Documents Java Native Interface https:&#x2F;&#x2F;docs.oracle.com&#x2F;javase&#x2F;8&#x2F;docs&#x2F;technotes&#x2F;guides&#x2F;jni&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI Basics and Usage in Chromium">
+<meta property="og:url" content="https://www.xiaoming.io/jni-in-chromium/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="JNI Documents Java Native Interface https:&#x2F;&#x2F;docs.oracle.com&#x2F;javase&#x2F;8&#x2F;docs&#x2F;technotes&#x2F;guides&#x2F;jni&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/jni-design.gif">
+<meta property="article:published_time" content="2021-01-14T04:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.566Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="cpp">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Chromium">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/jni-design.gif">
+
+<link rel="canonical" href="https://www.xiaoming.io/jni-in-chromium/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JNI Basics and Usage in Chromium | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "JNI Basics and Usage in Chromium",
+      "description": "JNI Documents Java Native Interface https://docs.oracle.com/javase/8/docs/technotes/guides/jni/",
+      "datePublished": "2021-01-14T04:00:00.000Z",
+      "dateModified": "2025-06-17T13:33:21.566Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/jni-in-chromium/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/jni-in-chromium/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JNI Basics and Usage in Chromium
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-14 12:00:00" itemprop="dateCreated datePublished" datetime="2021-01-14T12:00:00+08:00">2021-01-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/jni-in-chromium/" class="post-meta-item leancloud_visitors" data-flag-title="JNI Basics and Usage in Chromium" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/jni-in-chromium/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/jni-in-chromium/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>36k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>33 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="JNI-Documents">JNI Documents</h2>
+<p>Java Native Interface <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/jni/">https://docs.oracle.com/javase/8/docs/technotes/guides/jni/</a></p>
+<p>JNI tips <a target="_blank" rel="noopener" href="https://developer.android.com/training/articles/perf-jni">https://developer.android.com/training/articles/perf-jni</a></p>
+<h2 id="Build-Shared-Library">Build Shared Library</h2>
+<p>C code can be built into shared library, <code>.SO</code> file in Linux, <code>.DLL</code> file in Windows.</p>
+<h3 id="Export-Symbols">Export Symbols</h3>
+<p>Shared library binary file needs to define what symbols to be exported. Only exported symbols can be accessed from outside.</p>
+<p>In Linux, we can use version script file to define exported C++ symbols for so file. And use this as arguments for <code>ld</code> to build the library.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/gnulib/manual/html_node/Exported-Symbols-of-Shared-Libraries.html">https://www.gnu.org/software/gnulib/manual/html_node/Exported-Symbols-of-Shared-Libraries.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/gnulib/manual/html_node/LD-Version-Scripts.html">https://www.gnu.org/software/gnulib/manual/html_node/LD-Version-Scripts.html</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># version script file: login_so.lst</span></span><br><span class="line">&#123;</span><br><span class="line">  global:</span><br><span class="line">    <span class="comment"># exports some method</span></span><br><span class="line">    SomeStaticMethod;</span><br><span class="line">  <span class="built_in">local</span>:</span><br><span class="line">    *;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C++ code</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXPORTS __attribute__((visibility(<span class="meta-string">&quot;default&quot;</span>)))</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// use extern C to prevent name mangling</span></span><br><span class="line"><span class="comment">// https://stackoverflow.com/questions/2587613/what-is-the-effect-of-declaring-extern-c-in-the-header-to-a-c-shared-libra</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">  <span class="function">EXPORTS <span class="keyword">void</span> <span class="title">SomeStaticMethod</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="View-Exported-Symbols-of-SO-File">View Exported Symbols of SO File</h3>
+<p>We can use <code>nm</code> command to view exported symbols of so file.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># view exported symbols for so.</span></span><br><span class="line"><span class="comment"># U means the symbol should be loaded from outside.</span></span><br><span class="line"><span class="comment"># T means the symbol is in the so and can be accessed from outside.</span></span><br><span class="line">&gt; nm -CD somelib.so</span><br><span class="line">         U abort</span><br><span class="line">         U __android_log_write</span><br><span class="line">00318a40 T Java_com_demo_login_native_onFailure</span><br><span class="line">00318821 T Java_com_demo_login_native_onSuccess</span><br></pre></td></tr></table></figure>
+<h3 id="Export-Sysmbols-for-JNI">Export Sysmbols for JNI</h3>
+<p>If a so file has JNI calls, JNI related symbols must be exported. The version script file will be like the following format.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># login_so.lst</span></span><br><span class="line">&#123;</span><br><span class="line">  global:</span><br><span class="line">    <span class="comment"># export jni related functions</span></span><br><span class="line">    JNI_OnLoad;</span><br><span class="line">    JNI_OnUnload;</span><br><span class="line">    Java_*;</span><br><span class="line">  <span class="built_in">local</span>:</span><br><span class="line">    *;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="jni-h">jni.h</h2>
+<p><code>jni.h</code> is a C header file. It provides JNI related API for native code. For Android JNI, it is defined in NDK.</p>
+<h2 id="Java-Load-Shared-Library">Java Load Shared Library</h2>
+<p>In Java code, call <code>System.loadLibrary(libname)</code> or <code>System.load(filename)</code> to load shared library. After that, the Java and C code can call each other.</p>
+<p>When the JVM load a shared library named <code>Login</code>, it will find if it have a exported symbol <code>JNI_OnLoad_Login</code> or <code>JNI_OnLoad</code> and then call it. If both <code>JNI_OnLoad_Login</code> and <code>JNI_OnLoad</code> are defined, the <code>JNI_OnLoad</code> will be ignored. <code>JNI_OnUnload</code> is just the same but called when unload the library.</p>
+<ul>
+<li><code>JNI_OnLoad</code>: The VM calls <code>JNI_OnLoad</code> when the native library is loaded (for example, through <code>System.loadLibrary</code>).</li>
+<li><code>JNI_OnUnload</code>: The VM calls <code>JNI_OnUnload</code> when the class loader containing the native library is garbage collected.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Main.java</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="comment">// Will load libLogin.so in Linux system, Login.dll in Win32 system</span></span><br><span class="line">        System.loadLibrary(<span class="string">&quot;Login&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// jni.h</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Prototypes for functions exported by loadable shared libs.  These are</span></span><br><span class="line"><span class="comment"> * called by JNI, not provided by JNI.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">JNIEXPORT jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span></span>;</span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> <span class="title">JNI_OnUnload</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>Reference:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#compiling_loading_and_linking_native_methods">https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#compiling_loading_and_linking_native_methods</a></p>
+</blockquote>
+<h2 id="JavaVM">JavaVM</h2>
+<p><code>JavaVM</code> represent the JVM. It is defined in <code>jni.h</code>.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// jni.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(__cplusplus)</span></span><br><span class="line"><span class="keyword">typedef</span> _JavaVM JavaVM;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">JNIInvokeInterface</span>* <span class="title">JavaVM</span>;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * JNI invocation interface.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">JNIInvokeInterface</span> &#123;</span></span><br><span class="line">    <span class="keyword">void</span>*       reserved0;</span><br><span class="line">    <span class="keyword">void</span>*       reserved1;</span><br><span class="line">    <span class="keyword">void</span>*       reserved2;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">jint</span>        (*DestroyJavaVM)(JavaVM*);</span><br><span class="line">    <span class="built_in">jint</span>        (*AttachCurrentThread)(JavaVM*, JNIEnv**, <span class="keyword">void</span>*);</span><br><span class="line">    <span class="built_in">jint</span>        (*DetachCurrentThread)(JavaVM*);</span><br><span class="line">    <span class="built_in">jint</span>        (*GetEnv)(JavaVM*, <span class="keyword">void</span>**, jint);</span><br><span class="line">    <span class="built_in">jint</span>        (*AttachCurrentThreadAsDaemon)(JavaVM*, JNIEnv**, <span class="keyword">void</span>*);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * C++ version.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">JavaVM</span> &#123;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">JNIInvokeInterface</span>* <span class="title">functions</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(__cplusplus)</span></span><br><span class="line">    <span class="function">jint <span class="title">DestroyJavaVM</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> functions-&gt;<span class="built_in">DestroyJavaVM</span>(<span class="keyword">this</span>); &#125;</span><br><span class="line">    <span class="function">jint <span class="title">AttachCurrentThread</span><span class="params">(JNIEnv** p_env, <span class="keyword">void</span>* thr_args)</span></span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> functions-&gt;<span class="built_in">AttachCurrentThread</span>(<span class="keyword">this</span>, p_env, thr_args); &#125;</span><br><span class="line">    <span class="function">jint <span class="title">DetachCurrentThread</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> functions-&gt;<span class="built_in">DetachCurrentThread</span>(<span class="keyword">this</span>); &#125;</span><br><span class="line">    <span class="function">jint <span class="title">GetEnv</span><span class="params">(<span class="keyword">void</span>** env, jint version)</span></span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> functions-&gt;<span class="built_in">GetEnv</span>(<span class="keyword">this</span>, env, version); &#125;</span><br><span class="line">    <span class="function">jint <span class="title">AttachCurrentThreadAsDaemon</span><span class="params">(JNIEnv** p_env, <span class="keyword">void</span>* thr_args)</span></span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> functions-&gt;<span class="built_in">AttachCurrentThreadAsDaemon</span>(<span class="keyword">this</span>, p_env, thr_args); &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/*__cplusplus*/</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="Save-JavaVM-for-Funture-Usage">Save JavaVM for Funture Usage</h3>
+<p>We can save <code>JavaVM</code> as a global instance for future usage when <code>JNI_OnLoad</code> called.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> &#123;</span><br><span class="line">  JavaVM *g_jvm = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span> </span>&#123;</span><br><span class="line">  g_jvm = vm;</span><br><span class="line">  <span class="keyword">return</span> JNI_VERSION_1_4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> <span class="title">JNI_OnUnload</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span> </span>&#123;</span><br><span class="line">  g_jvm = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="JNIEnv">JNIEnv</h2>
+<p>When we need to call Java code from native, we need to use <code>JNIEnv</code>.</p>
+<p><code>JNIEnv</code> is a pointer to a structure storing all JNI function pointers. These pointers point to the Java function. Each Java thread has a <code>JNIEnv</code> instance.</p>
+<p><img data-src="/blog-imgs/tech/images/jni-design.gif" alt="Interface pointer"></p>
+<p>Reference:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#jni_interface_functions_and_pointers">https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#jni_interface_functions_and_pointers</a></p>
+</blockquote>
+<h2 id="JNI-Data-Types-and-Signatures">JNI Data Types and Signatures</h2>
+<p>When using JNI, most of the data type conversion job is done in the native side. <code>jni.h</code> file has provide many definition of Java basic data types and conversion functions.</p>
+<h3 id="Java-Types-in-Native-Code">Java Types in Native Code</h3>
+<ul>
+<li>Primitive types in Java has corresponding C types defined in <code>jni.h</code>. E,g. <code>boolean</code> and <code>jboolean</code>, <code>char</code> and <code>jchar</code>.</li>
+<li>Reference types also have corresponding C types. E.g. <code>String</code> and <code>jstring</code>, <code>Class</code> and <code>jclass</code>, <code>Object[]</code> and <code>jobjectarray</code>.</li>
+<li>Other Java types in C is defined as <code>jobject</code>.</li>
+</ul>
+<h3 id="Field-and-Method-IDs">Field and Method IDs</h3>
+<ul>
+<li><code>jfieldID</code> represents a field of Java.</li>
+<li><code>jmethodID</code> represents a method of Java.</li>
+</ul>
+<h3 id="Signatures-of-Java-Type-and-Method">Signatures of Java Type and Method</h3>
+<p>When we need to refer a Java type or method with string, we need to use its signature.</p>
+<p>The JNI uses the Java VM’s representation of type signatures.</p>
+<ul>
+<li><code>B</code> - byte</li>
+<li><code>C</code> - char</li>
+<li><code>D</code> - double</li>
+<li><code>F</code> - float</li>
+<li><code>I</code> - int</li>
+<li><code>J</code> - long</li>
+<li><code>S</code> - short</li>
+<li><code>V</code> - void</li>
+<li><code>Z</code> - boolean</li>
+<li><code>[</code> - array of the thing following the bracket</li>
+<li><code>L</code> [class name] <code>;</code> - instance of this class, with dots becoming slashes</li>
+<li><code>(</code> [args] <code>)</code> [return type] - method signature</li>
+</ul>
+<p>For example:</p>
+<ul>
+<li>signature of <code>java.lang.String</code> is <code>Ljava/lang/String;</code></li>
+<li>signature of <code>int[][]</code> is <code>[[I</code></li>
+<li>signature of method <code>int foo(String bar, long[][] baz)</code> is <code>(Ljava/lang/String;[[J)I</code></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/types.html">https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/types.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/9909228/what-does-v-mean-in-a-class-signature">https://stackoverflow.com/questions/9909228/what-does-v-mean-in-a-class-signature</a></p>
+<h2 id="Java-Call-Native">Java Call Native</h2>
+<h3 id="Define-Native-Method-in-Java">Define Native Method in Java</h3>
+<p>When Java call native, we should define <code>native</code> method in Java first. <code>native</code> method can be static or non-static.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.mypkg;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">nonStaticMethod</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">staticMethod</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title">overloadedMethod</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title">overloadedMethod</span><span class="params">(MyClass args)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Resolving-Native-Method-Names">Resolving Native Method Names</h3>
+<p>When we call the <code>native</code> method in Java, JVM will call the corresponding C native method (exported symbol) in shared library.</p>
+<p>Dynamic linkers resolve entries based on their names. A native method name is concatenated from the following components:</p>
+<ul>
+<li>the prefix <code>Java_</code></li>
+<li>a mangled fully-qualified class name</li>
+<li>an underscore (“_”) separator</li>
+<li>a mangled method name</li>
+<li>for overloaded native methods, two underscores (“__”) followed by the mangled argument signature</li>
+</ul>
+<p>We can also call <code>JNIEnv.RegisterNatives()</code> to dynamically register native methods and override the default resolve rules. If we have registered a native method, it does not need to be exported.</p>
+<p>Reference:</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#resolving_native_method_names">https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#resolving_native_method_names</a><br>
+<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#registering_native_methods">https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#registering_native_methods</a><br>
+<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/1010645/what-does-the-registernatives-method-do">https://stackoverflow.com/questions/1010645/what-does-the-registernatives-method-do</a></p>
+</blockquote>
+<h3 id="Native-Method-Arguments">Native Method Arguments</h3>
+<p>Arguments of native method:</p>
+<ul>
+<li>First argument is <code>JNIEnv</code>.</li>
+<li>Second argument is <code>this</code> object for non-static native method or class object for static native method.</li>
+<li>Remaining arguments correspond to Java method arguments.</li>
+<li>Return value correspond to Java method return value.</li>
+</ul>
+<h3 id="Use-javah-to-Generate-C-Header-File">Use javah to Generate C Header File</h3>
+<p>We can use <code>javah</code> to generate the C header file.</p>
+<p>A simple example, we have file <code>com/mypkg/MyClass.java</code> as following:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.mypkg;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">nonStaticMethod</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">staticMethod</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title">overloadedMethod</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title">overloadedMethod</span><span class="params">(MyClass args)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># run javac to compile MyClass.java into MyClass.class</span></span><br><span class="line">$ javac com/mypkg/MyClass.java</span><br><span class="line"></span><br><span class="line"><span class="comment"># run javah to generate header file</span></span><br><span class="line">$ javah -jni -classpath . com.mypkg.MyClass</span><br><span class="line"></span><br><span class="line"><span class="comment"># show files in the directory</span></span><br><span class="line">$ tree</span><br><span class="line">.</span><br><span class="line">├── com</span><br><span class="line">│   └── mypkg</span><br><span class="line">│       ├── MyClass.class</span><br><span class="line">│       └── MyClass.java</span><br><span class="line">└── com_mypkg_MyClass.h</span><br><span class="line"></span><br><span class="line">2 directories, 3 files</span><br></pre></td></tr></table></figure>
+<p>Finally we got the following header file:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="comment">/* Header for class com_mypkg_MyClass */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _Included_com_mypkg_MyClass</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _Included_com_mypkg_MyClass</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Class:     com_mypkg_MyClass</span></span><br><span class="line"><span class="comment"> * Method:    nonStaticMethod</span></span><br><span class="line"><span class="comment"> * Signature: ()V</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_mypkg_MyClass_nonStaticMethod</span></span></span><br><span class="line"><span class="function">  <span class="params">(JNIEnv *, jobject)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Class:     com_mypkg_MyClass</span></span><br><span class="line"><span class="comment"> * Method:    staticMethod</span></span><br><span class="line"><span class="comment"> * Signature: ()V</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> JNICALL <span class="title">Java_com_mypkg_MyClass_staticMethod</span></span></span><br><span class="line"><span class="function">  <span class="params">(JNIEnv *, jclass)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Class:     com_mypkg_MyClass</span></span><br><span class="line"><span class="comment"> * Method:    overloadedMethod</span></span><br><span class="line"><span class="comment"> * Signature: ()Ljava/lang/String;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_mypkg_MyClass_overloadedMethod__</span></span></span><br><span class="line"><span class="function">  <span class="params">(JNIEnv *, jclass)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Class:     com_mypkg_MyClass</span></span><br><span class="line"><span class="comment"> * Method:    overloadedMethod</span></span><br><span class="line"><span class="comment"> * Signature: (Lcom/mypkg/MyClass;)Ljava/lang/String;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">JNIEXPORT jstring JNICALL <span class="title">Java_com_mypkg_MyClass_overloadedMethod__Lcom_mypkg_MyClass_2</span></span></span><br><span class="line"><span class="function">  <span class="params">(JNIEnv *, jclass, jobject)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="Native-Call-Java">Native Call Java</h2>
+<p>We need to use <code>JNIEnv</code> to call Java from native. It is like using reflection. So, don’t forget to <strong>config ProGuard</strong> to avoid code obfuscation of the Java class.</p>
+<p>Here is a simple demo of calling android log method from C++.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> android.util;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Log</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">i</span><span class="params">(String tag, String message)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// print log by calling static Java method of android.util.Log.i(String tag, String message)</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">log</span><span class="params">(JNIEnv* env, <span class="keyword">const</span> <span class="keyword">char</span>* message)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Find the Java class with full class name.</span></span><br><span class="line">    jclass cls = env-&gt;<span class="built_in">FindClass</span>(<span class="string">&quot;android/util/Log&quot;</span>);</span><br><span class="line">    <span class="comment">// Get the static method `i` with its name and signature.</span></span><br><span class="line">    jmethodID method = env-&gt;<span class="built_in">GetStaticMethodID</span>(cls, <span class="string">&quot;i&quot;</span>, <span class="string">&quot;(Ljava/lang/String;Ljava/lang/String;)I&quot;</span>);</span><br><span class="line">    <span class="comment">// Convert C++ string of `char*` into `jstring` as arguments.</span></span><br><span class="line">    jstring tag = env-&gt;<span class="built_in">NewStringUTF</span>(<span class="string">&quot;Login&quot;</span>);</span><br><span class="line">    jstring msg = env-&gt;<span class="built_in">NewStringUTF</span>(message);</span><br><span class="line">    <span class="comment">// Call static Java method with arguments and get `jint` result returned by Java.</span></span><br><span class="line">    jint result = env-&gt;<span class="built_in">CallStaticIntMethod</span>(cls, method, tag, msg);</span><br><span class="line">    <span class="comment">// Covert the result from Java type to C++ type and return the result.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Get-JNIEnv-in-Native-Code">Get JNIEnv in Native Code</h3>
+<p>When we call Java code from native, <code>JNIEnv</code> is always needed. This arguments is passed to the native method when Java call it. But sometimes we may not have the <code>JNIEnv</code> because we have not pass it from somewhere else. What can we do?</p>
+<p>Here is a simple solution:</p>
+<ul>
+<li>When <code>JNI_OnLoad</code> is called, save the <code>JavaVM</code> reference, and clear it when <code>JNI_OnUnload</code> is called.</li>
+<li>When <code>JNIEnv</code> is needed, call <code>JavaVM.AttachCurrentThread()</code> to get it.</li>
+</ul>
+<p>The code is as follows:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/prctl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// declare an anonymous namespace to avoid naming conflict</span></span><br><span class="line"><span class="keyword">namespace</span> &#123;</span><br><span class="line">    JavaVM *g_jvm = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line">    <span class="function">JNIEXPORT jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span> </span>&#123;</span><br><span class="line">        g_jvm = vm;</span><br><span class="line">        <span class="keyword">return</span> JNI_VERSION_1_4;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">JNIEXPORT <span class="keyword">void</span> <span class="title">JNI_OnUnload</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span> </span>&#123;</span><br><span class="line">        g_jvm = <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> MyJNI &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">JNIEnv* <span class="title">AttachCurrentThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!g_jvm) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        JNIEnv* env = <span class="literal">nullptr</span>;</span><br><span class="line">        jint ret = g_jvm-&gt;<span class="built_in">GetEnv</span>(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">void</span>**&gt;(&amp;env), JNI_VERSION_1_4);</span><br><span class="line">        <span class="keyword">if</span> (ret == JNI_EDETACHED || !env) &#123;</span><br><span class="line">            JavaVMAttachArgs args;</span><br><span class="line">            args.version = JNI_VERSION_1_4;</span><br><span class="line">            args.group = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 16 is the maximum size for thread names on Android.</span></span><br><span class="line">            <span class="keyword">char</span> thread_name[<span class="number">16</span>];</span><br><span class="line">            <span class="keyword">int</span> err = <span class="built_in">prctl</span>(PR_GET_NAME, thread_name);</span><br><span class="line">            <span class="keyword">if</span> (err &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                args.name = <span class="literal">nullptr</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                args.name = thread_name;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ret = g_jvm-&gt;<span class="built_in">AttachCurrentThread</span>(&amp;env, &amp;args);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> env;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// namespace MyJNI</span></span><br></pre></td></tr></table></figure>
+<h3 id="Call-Java-from-Native-Thread">Call Java from Native Thread</h3>
+<p>In most case, Java code call native and then native call Java, the call is running in Java thread. And we can get a <code>JNIEnv</code> corresponded to this thread and made calls correctly.</p>
+<p>But sometimes we may running native code in a native thread instead of Java thread and see a <code>ClassNotFoundException</code> when calling <code>JNIEnv -&gt; FindClass()</code> but the class exists.</p>
+<p>This is because the <code>JNIEnv</code> attached to the native thread will use the “system” class loader instead of the one associated with your application to find the class, so attempts to find app-specific classes will fail.</p>
+<p>Here is a simple solution. We can save the class loader when <code>JNI_OnLoad</code> called, this must be running in a Java thread. Then we can use this class loader to find class from any thread.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> &#123;</span><br><span class="line">  JavaVM *g_jvm = <span class="literal">nullptr</span>;</span><br><span class="line">  jobject g_class_loader = <span class="literal">nullptr</span>;</span><br><span class="line">  jmethodID g_find_class_method = <span class="literal">nullptr</span>;</span><br><span class="line">  <span class="comment">// this should be a class in application</span></span><br><span class="line">  <span class="keyword">constexpr</span> <span class="keyword">char</span> kJavaClass[] = <span class="string">&quot;org/chromium/chrome/Xxx&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span> </span>&#123;</span><br><span class="line">  g_jvm = vm;</span><br><span class="line">  JNIEnv* env = oneauth_android_jni::<span class="built_in">AttachCurrentThread</span>();</span><br><span class="line">  jclass java_class = env-&gt;<span class="built_in">FindClass</span>(kJavaClass);</span><br><span class="line">  jclass class_class = env-&gt;<span class="built_in">GetObjectClass</span>(java_class);</span><br><span class="line">  jclass class_loader_class = env-&gt;<span class="built_in">FindClass</span>(<span class="string">&quot;java/lang/ClassLoader&quot;</span>);</span><br><span class="line">  jmethodID get_class_loader_method = env-&gt;<span class="built_in">GetMethodID</span>(class_class, <span class="string">&quot;getClassLoader&quot;</span>, <span class="string">&quot;()Ljava/lang/ClassLoader;&quot;</span>);</span><br><span class="line">  <span class="comment">// java object should use NewGlobalRef</span></span><br><span class="line">  g_class_loader = env-&gt;<span class="built_in">NewGlobalRef</span>(env-&gt;<span class="built_in">CallObjectMethod</span>(java_class, get_class_loader_method));</span><br><span class="line">  g_find_class_method = env-&gt;<span class="built_in">GetMethodID</span>(class_loader_class, <span class="string">&quot;findClass&quot;</span>, <span class="string">&quot;(Ljava/lang/String;)Ljava/lang/Class;&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> JNI_VERSION_1_4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">JNIEXPORT <span class="keyword">void</span> <span class="title">JNI_OnUnload</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span> </span>&#123;</span><br><span class="line">  g_jvm = <span class="literal">nullptr</span>;</span><br><span class="line">  g_class_loader = <span class="literal">nullptr</span>;</span><br><span class="line">  g_find_class_method = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// this method can be called from cpp native thread and find the right class</span></span><br><span class="line"><span class="function">jclass <span class="title">FindClassInAnyThread</span><span class="params">(JNIEnv* env, <span class="keyword">const</span> <span class="keyword">char</span>* name)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;jclass&gt;(env-&gt;<span class="built_in">CallObjectMethod</span>(</span><br><span class="line">      g_class_loader, g_find_class_method, env-&gt;<span class="built_in">NewStringUTF</span>(name)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Reference:</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/7/docs/technotes/guides/jni/jni-12.html#FindClass">https://docs.oracle.com/javase/7/docs/technotes/guides/jni/jni-12.html#FindClass</a></li>
+</ol>
+<blockquote>
+<p>When FindClass is called through the Invocation Interface, there is no current native method or its associated class loader. In that case, the result of ClassLoader.getBaseClassLoader is used. This is the class loader the virtual machine creates for applications, and is able to locate classes listed in the java.class.path property.</p>
+</blockquote>
+<ol start="2">
+<li>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13263340/findclass-from-any-thread-in-android-jni">https://stackoverflow.com/questions/13263340/findclass-from-any-thread-in-android-jni</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/articles/perf-jni#faq:-why-didnt-findclass-find-my-class">https://developer.android.com/training/articles/perf-jni#faq:-why-didnt-findclass-find-my-class</a></p>
+</li>
+</ol>
+<h2 id="Print-Log-in-Native-Code">Print Log in Native Code</h2>
+<p>When we need to print log in native code on Android platform, <code>printf</code> is not working by default. Here is what we can do:</p>
+<p>1、Call Android Java Log API.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LogInfo</span><span class="params">(JNIEnv* env, <span class="keyword">const</span> <span class="keyword">char</span>* tag, <span class="keyword">const</span> <span class="keyword">char</span>* message)</span> </span>&#123;</span><br><span class="line">    jclass cls = env-&gt;<span class="built_in">FindClass</span>(<span class="string">&quot;android/util/Log&quot;</span>);</span><br><span class="line">    jmethodID method = env-&gt;<span class="built_in">GetStaticMethodID</span>(</span><br><span class="line">        	cls, <span class="string">&quot;i&quot;</span>, <span class="string">&quot;(Ljava/lang/String;Ljava/lang/String;)I&quot;</span>);</span><br><span class="line">    env-&gt;<span class="built_in">CallStaticIntMethod</span>(cls, method,</span><br><span class="line">                             env-&gt;<span class="built_in">NewStringUTF</span>(tag),</span><br><span class="line">                             env-&gt;<span class="built_in">NewStringUTF</span>(message));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、Call native API of log library directly.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;android/log.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>  LOG_TAG    <span class="meta-string">&quot;Native&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">LOGD</span>(<span class="string">&quot;1 + 2 = %d&quot;</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>To call this, we need to configure log library. If we are using Gradle, just add this:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        ndk &#123;</span><br><span class="line">            ldLibs <span class="string">&quot;log&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Handle-Exceptions">Handle Exceptions</h2>
+<p>Conclusion:</p>
+<ul>
+<li>Java can not catch native code error.</li>
+<li>Native code can raise Java exceptions, and let Java code to handle them.</li>
+<li>Native code can get Java exceptions, and have several ways to handle them.</li>
+</ul>
+<h3 id="Java-Call-Native-and-Native-Crashed">Java Call Native and Native Crashed</h3>
+<p>Java call native, and error occurred in native: native code will stop immediately, Java can not catch the exception. And we can not get any stack trace.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fatal signal 8 (SIGFPE), code 1 (FPE_INTDIV), fault addr 0xc3aa9f51 in tid 9992 (com.demo.jnidemo), pid 9992 (com.demo.jnidemo)</span><br></pre></td></tr></table></figure>
+<h3 id="Produce-a-Pending-Exception">Produce a Pending Exception</h3>
+<p>Native call Java, and error occurred in Java: Java code will stop immediately, the <code>JNIEnv</code> will store a pending exception, but the <strong>native code will continue running</strong>.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JNIEnv *env;</span><br><span class="line">jobject thisObj;</span><br><span class="line">jclass cls = env-&gt;<span class="built_in">FindClass</span>(<span class="string">&quot;xxx&quot;</span>);</span><br><span class="line">jmethodID method = env-&gt;<span class="built_in">GetMethodID</span>(cls, <span class="string">&quot;exceptionMethod&quot;</span>, <span class="string">&quot;()V&quot;</span>);</span><br><span class="line">env-&gt;<span class="built_in">CallVoidMethod</span>(thisObj, method);</span><br></pre></td></tr></table></figure>
+<p>Native code can throw a Java exception: the <code>JNIEnv</code> will store a pending exception, native code will continue running.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JNIEnv *env;</span><br><span class="line">jclass cls = env-&gt;<span class="built_in">FindClass</span>(<span class="string">&quot;java/lang/RuntimeException&quot;</span>);</span><br><span class="line">env-&gt;<span class="built_in">ThrowNew</span>(cls, <span class="string">&quot;error thrown in native code&quot;</span>);</span><br><span class="line"><span class="comment">// will continue running</span></span><br></pre></td></tr></table></figure>
+<h3 id="Handle-Pending-Exception">Handle Pending Exception</h3>
+<p>If a <code>JNIEnv</code> already stored a pending exception:</p>
+<p>1、Native code try to call Java or throw Java error through the <code>JNIEnv</code>: native code will stop immediately, and then <code>JVM</code> will report the pending exception.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JNI DETECTED ERROR IN APPLICATION: JNI FindClass called with pending exception java.lang.RuntimeException: java runtime exception</span><br><span class="line">at void com.demo.jnidemo.MainActivity.exceptionMethod() (MainActivity.java:60)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>2、Native code finished running, and the control goes back to Java: the error will be thrown in Java code. Java can catch the error with <code>try-catch</code>.</p>
+<p>3、Native code can read or clear the pending exception. So, to avoid pending exception causing the process crashed, we need to check the pending exception every time after we call Java. When we found an error in native code, we have several ways to handle it.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">JNIEnv env;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. just return and let Java code to handle the exception</span></span><br><span class="line"><span class="built_in">CallExceptionJavaMethod</span>(env);</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">HasException</span>(env)) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. handle exception in native code</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">HasException</span>(env)) &#123;</span><br><span class="line">    <span class="built_in">ClearException</span>();</span><br><span class="line">    <span class="comment">/* code to handle exception */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. handle exception in native code and throw a new exception</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">HasException</span>(env)) &#123;</span><br><span class="line">    env-&gt;<span class="built_in">ExceptionClear</span>();</span><br><span class="line">    <span class="comment">/* code to handle exception */</span></span><br><span class="line">    env-&gt;<span class="built_in">ThrowNew</span>(jcls, <span class="string">&quot;error message&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasException</span><span class="params">(JNIEnv* env)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> env-&gt;<span class="built_in">ExceptionCheck</span>() != JNI_FALSE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ClearException</span><span class="params">(JNIEnv* env)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">HasException</span>(env))</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  env-&gt;<span class="built_in">ExceptionDescribe</span>();</span><br><span class="line">  env-&gt;<span class="built_in">ExceptionClear</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CheckAndDescribeException</span><span class="params">(JNIEnv* env)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">HasException</span>(env))</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  jthrowable java_throwable = env-&gt;<span class="built_in">ExceptionOccurred</span>();</span><br><span class="line">  <span class="keyword">if</span> (java_throwable) &#123;</span><br><span class="line">    env-&gt;<span class="built_in">ExceptionDescribe</span>();</span><br><span class="line">    env-&gt;<span class="built_in">ExceptionClear</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Reference:</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/jzj1993/AndroidJniDemo/blob/master/app/src/main/cpp/native-lib.cpp">https://github.com/jzj1993/AndroidJniDemo/blob/master/app/src/main/cpp/native-lib.cpp</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#java_exceptions">https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#java_exceptions</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.developer.com/java/data/exception-handling-in-jni.html">https://www.developer.com/java/data/exception-handling-in-jni.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b6129f110e86">https://www.jianshu.com/p/b6129f110e86</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xyang81/article/details/45770551">https://blog.csdn.net/xyang81/article/details/45770551</a></p>
+<h2 id="JNI-in-Chromium">JNI in Chromium</h2>
+<h3 id="Build-Shared-Library-for-Android-JNI-with-GN">Build Shared Library for Android JNI with GN</h3>
+<p>In GN, we can use <code>loadable_module</code> rule to build shared library for Android JNI, and use <code>ldflags</code> parameter to specify the version script file.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BUILD.gn</span></span><br><span class="line">loadable_module(...) &#123;</span><br><span class="line">	<span class="comment"># add needed libs</span></span><br><span class="line">    libs = [</span><br><span class="line">        <span class="string">&quot;android&quot;</span>,</span><br><span class="line">        <span class="string">&quot;log&quot;</span>,</span><br><span class="line">    ]</span><br><span class="line">    <span class="comment"># flags for ld</span></span><br><span class="line">    ldflags = [</span><br><span class="line">        <span class="comment"># specify version script files</span></span><br><span class="line">        <span class="string">&quot;-Wl,--version-script=&quot;</span> + rebase_path(<span class="string">&quot;login_so.lst&quot;</span>, root_build_dir),</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Android-JNI-Utils">Android JNI Utils</h3>
+<p>Chromium provides some Android JNI related utils. For example, <code>base/android/jni_android.cc</code> provides some useful functions for JNI.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">JNIEnv* <span class="title">AttachCurrentThread</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">HasException</span><span class="params">(JNIEnv* env)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CheckException</span><span class="params">(JNIEnv* env)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">ClearException</span><span class="params">(JNIEnv* env)</span></span>;</span><br><span class="line"><span class="function">std::string <span class="title">GetJavaExceptionInfo</span><span class="params">(JNIEnv* env, jthrowable java_throwable)</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="JNI-Generator">JNI Generator</h3>
+<p><code>jni_generator</code> generates boiler-plate code with the goal of making our code:</p>
+<ol>
+<li>easier to write, and</li>
+<li>typesafe.</li>
+</ol>
+<p><code>jni_generator</code> use <code>AnnotationProcessor</code> to generate Java side JNI binding class, and the source code is here:</p>
+<blockquote>
+<p><code>base/android/jni_generator/java/src/org/chromium/jni_generator/JniProcessor.java</code>.</p>
+</blockquote>
+<p>and use python script to generate native side JNI binding, and the source code is here:</p>
+<blockquote>
+<p><code>base/android/jni_generator/jni_registration_generator.py</code>.</p>
+</blockquote>
+<p>See more details in the code repo:</p>
+<p><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromium/src/base/+/master/android/jni_generator/">https://chromium.googlesource.com/chromium/src/base/+/master/android/jni_generator/</a></p>
+<h3 id="Write-JNI-Code">Write JNI Code</h3>
+<p>With the help of <code>jni_generator</code>, we can write JNI related code more convenient. Here is a simple example:</p>
+<ul>
+<li>We have a <code>JavaClass</code> and a related <code>native_namespace::CppClass</code>.</li>
+<li><code>jni_generator</code> will generate a <code>JavaClassJni.java</code>  and a <code>JavaClass_jni.h</code> from Java code.</li>
+<li>When we construct Java (native) instance, a related native (Java) instance will be created at the same time.</li>
+<li>Java and native code can call each other’s member methods.</li>
+</ul>
+<p>File structure is as follows:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">components/jni_test/android/BUILD.gn</span><br><span class="line">components/jni_test/android/cpp_class.cc</span><br><span class="line">components/jni_test/android/cpp_class.h</span><br><span class="line">components/jni_test/android/java/src/com/demo/jni/JavaClass.java</span><br></pre></td></tr></table></figure>
+<h4 id="Java-File">Java File</h4>
+<p><code>JavaClass.java</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.jni;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.chromium.base.annotations.CalledByNative;</span><br><span class="line"><span class="keyword">import</span> org.chromium.base.annotations.JNINamespace;</span><br><span class="line"><span class="keyword">import</span> org.chromium.base.annotations.NativeMethods;</span><br><span class="line"></span><br><span class="line"><span class="comment">// We can use the annotation to specify the related native namespace</span></span><br><span class="line"><span class="meta">@JNINamespace(&quot;native_namespace&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// native side instance pointer</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> mNativeCppClass;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create instaces from Java side</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JavaClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// create native side instance</span></span><br><span class="line">        mNativeCppClass = JavaClassJni.get().init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create instances from native side</span></span><br><span class="line">    <span class="comment">// Use CalledByNative annotation to indicate a method / constructor can be called by native</span></span><br><span class="line">    <span class="comment">// Proguard will be keep this method name</span></span><br><span class="line">    <span class="meta">@CalledByNative</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JavaClass</span><span class="params">(<span class="keyword">long</span> nativeCppClass)</span> </span>&#123;</span><br><span class="line">        mNativeCppClass = nativeCppClass;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">callNativeMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// call native member method</span></span><br><span class="line">        SomeClass param = <span class="keyword">new</span> SomeClass();</span><br><span class="line">        <span class="keyword">int</span> result = JavaClassJni.get().cppClassMember(mNativeCppClass, param);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@CalledByNative</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">javaClassMember</span><span class="params">(SomeClass param)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NativeMethods</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Natives</span> </span>&#123;</span><br><span class="line">        <span class="comment">// By default the method will related to a static native function.</span></span><br><span class="line">        <span class="comment">// Normally we can construct a related native instance in this method.</span></span><br><span class="line">        <span class="comment">// The return value is a pointer to the native instace.</span></span><br><span class="line">        <span class="function"><span class="keyword">long</span> <span class="title">init</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// When we need to define a member function of the native class, we can use this style.</span></span><br><span class="line">        <span class="comment">// The first arguments should the native instance pointer with long type,</span></span><br><span class="line">        <span class="comment">// and its name should be &quot;native&lt;CppClassName&gt;&quot;</span></span><br><span class="line">        <span class="function"><span class="keyword">int</span> <span class="title">cppClassMember</span><span class="params">(<span class="keyword">long</span> nativeCppClass, SomeClass param)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="CPP-File">CPP File</h4>
+<p><code>cpp_class.h</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> COMPONENTS_JNI_TEST_ANDROID_CPP_CLASS_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPONENTS_JNI_TEST_ANDROID_CPP_CLASS_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;base/android/scoped_java_ref.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> native_namespace &#123;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CppClass</span> &#123;</span></span><br><span class="line">        <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">CppClass</span>();</span><br><span class="line">        ~<span class="built_in">CppClass</span>();</span><br><span class="line">        <span class="function"><span class="keyword">int</span> <span class="title">CppClassMember</span><span class="params">(JNIEnv* env, <span class="keyword">const</span> base::android::JavaParamRef&lt;jobject&gt;&amp; param)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span>:</span><br><span class="line">        <span class="comment">// Java side instance</span></span><br><span class="line">        base::android::ScopedJavaGlobalRef&lt;jobject&gt; java_instance_;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; <span class="comment">// namespace native_namespace</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>  <span class="comment">// COMPONENTS_JNI_TEST_ANDROID_CPP_CLASS_H_</span></span></span><br></pre></td></tr></table></figure>
+<p><code>cpp_class.cpp</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// include header file</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;components/jni_test/android/cpp_class.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// include jni header file generated from Java code</span></span><br><span class="line"><span class="comment">// the path is related to the target name of `generate_jni` (defined in the BUILD.gn file)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;components/jni_test/android/jni_headers/JavaClass_jni.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> native_namespace &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Java call this static function to create native instance</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> jlong <span class="title">JNI_JavaClass_Init</span><span class="params">(JNIEnv* env)</span> </span>&#123;</span><br><span class="line">        CppClass* cpp_class = <span class="keyword">new</span> <span class="built_in">CppClass</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">intptr_t</span>&gt;(cpp_class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    CppClass::<span class="built_in">CppClass</span>() &#123;</span><br><span class="line">        <span class="comment">// create Java side instance</span></span><br><span class="line">        JNIEnv* env = base::android::<span class="built_in">AttachCurrentThread</span>();</span><br><span class="line">        java_instance_ = <span class="built_in">Java_JavaClass_Constructor</span>(env, <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">intptr_t</span>&gt;(<span class="keyword">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">CppClass::CppClassMember</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        JNIEnv* env, <span class="keyword">const</span> base::android::JavaParamRef&lt;jobject&gt;&amp; param)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// call Java member method</span></span><br><span class="line">        jint result = native_namespace::<span class="built_in">Java_JavaClass_javaClassMember</span>(env, java_instance_, param);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// namespace native_namespace</span></span><br></pre></td></tr></table></figure>
+<h4 id="GN-File">GN File</h4>
+<p><code>BUILD.gn</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">import(<span class="string">&quot;//build/config/android/rules.gni&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># build an android java library</span></span><br><span class="line">android_library(<span class="string">&quot;java&quot;</span>) &#123;</span><br><span class="line">  sources = [</span><br><span class="line">    <span class="string">&quot;java/src/com/demo/jni/JavaClass.java&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">  deps = [</span><br><span class="line">    <span class="string">&quot;//base:base_java&quot;</span>,</span><br><span class="line">    <span class="string">&quot;//base:jni_java&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">  <span class="comment"># configure GN to call annotation processor to generate java file: JavaClassJni.java</span></span><br><span class="line">  annotation_processor_deps = [ <span class="string">&quot;//base/android/jni_generator:jni_processor&quot;</span> ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># configure GN to call python script to generate native header file: JavaClass_jni.h</span></span><br><span class="line">generate_jni(<span class="string">&quot;jni_headers&quot;</span>) &#123;</span><br><span class="line">  sources = [</span><br><span class="line">    <span class="string">&quot;java/src/com/demo/jni/JavaClass.java&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># build a static library with native code</span></span><br><span class="line">static_library(<span class="string">&quot;cpp&quot;</span>) &#123;</span><br><span class="line">  sources = [</span><br><span class="line">    <span class="string">&quot;cpp_class.h&quot;</span>,</span><br><span class="line">    <span class="string">&quot;cpp_class.cc&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">  deps = [</span><br><span class="line">    <span class="string">&quot;//base&quot;</span>,</span><br><span class="line">    <span class="comment"># depends on the generated native header file</span></span><br><span class="line">    <span class="string">&quot;:jni_headers&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># this group combine multiple target into one</span></span><br><span class="line">group(<span class="string">&quot;all&quot;</span>) &#123;</span><br><span class="line">  deps = [</span><br><span class="line">    <span class="string">&quot;:java&quot;</span>,</span><br><span class="line">    <span class="string">&quot;:jni_headers&quot;</span>,</span><br><span class="line">    <span class="string">&quot;:cpp&quot;</span>,</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>BUILD.gn</code> in root directory:</p>
+<blockquote>
+<p>All the GN targets should be dependencies of <code>gn_all</code>, or GN will not resolve the <a target="_blank" rel="noopener" href="http://BUILD.gn">BUILD.gn</a> file and report errors like this  <code>ninja: error: unknown target 'components/jni_test/android:group'</code>. So, to run our test, add this into deps of <code>gn_all</code>.</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">group(<span class="string">&quot;gn_all&quot;</span>) &#123;</span><br><span class="line">    deps = [</span><br><span class="line">        <span class="string">&quot;//components/jni_test/android:all&quot;</span>,</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Build-The-Code">Build The Code</h4>
+<p>We can run the following command to build the code, I have already tested it.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">autoninja -C out/debug_arm_android components/jni_test/android:all</span><br></pre></td></tr></table></figure>
+<h4 id="Generated-Java-File-Java-Side-JNI-Binding">Generated Java File (Java Side JNI Binding)</h4>
+<p><code>out/debug_arm_android/gen/components/jni_test/android/java/generated_java/input_srcjars/com/demo/jni/JavaClassJni.java</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.jni;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.Override;</span><br><span class="line"><span class="keyword">import</span> javax.annotation.Generated;</span><br><span class="line"><span class="keyword">import</span> org.chromium.base.JniStaticTestMocker;</span><br><span class="line"><span class="keyword">import</span> org.chromium.base.NativeLibraryLoadedStatus;</span><br><span class="line"><span class="keyword">import</span> org.chromium.base.annotations.CheckDiscard;</span><br><span class="line"><span class="keyword">import</span> org.chromium.base.natives.GEN_JNI;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Generated(&quot;org.chromium.jni_generator.JniProcessor&quot;)</span></span><br><span class="line"><span class="meta">@CheckDiscard(&quot;crbug.com/993421&quot;)</span></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaClassJni</span> <span class="keyword">implements</span> <span class="title">JavaClass</span>.<span class="title">Natives</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> JavaClass.Natives testInstance;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> JniStaticTestMocker&lt;JavaClass.Natives&gt; TEST_HOOKS = <span class="keyword">new</span> org.chromium.base.JniStaticTestMocker&lt;com.demo.jni.JavaClass.Natives&gt;() &#123;</span><br><span class="line">    <span class="meta">@java</span>.lang.<span class="function">Override</span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setInstanceForTesting</span><span class="params">(com.demo.jni.JavaClass.Natives instance)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!org.chromium.base.natives.GEN_JNI.TESTING_ENABLED) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Tried to set a JNI mock when mocks aren&#x27;t enabled!&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      testInstance = instance;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">long</span>)GEN_JNI.com_demo_jni_JavaClass_init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">cppClassMember</span><span class="params">(<span class="keyword">long</span> nativeCppClass, JavaClass.SomeClass param)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)GEN_JNI.com_demo_jni_JavaClass_cppClassMember(nativeCppClass, param);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> JavaClass.<span class="function">Natives <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (GEN_JNI.TESTING_ENABLED) &#123;</span><br><span class="line">      <span class="keyword">if</span> (testInstance != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> testInstance;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (GEN_JNI.REQUIRE_MOCK) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">&quot;No mock found for the native implementation for com.demo.jni.JavaClass.Natives. The current configuration requires all native implementations to have a mock instance.&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    NativeLibraryLoadedStatus.checkLoaded(<span class="keyword">false</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> JavaClassJni();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Generated-CPP-Header-File-Native-Side-JNI-Binding">Generated CPP Header File (Native Side JNI Binding)</h4>
+<p><code>out/debug_arm_android/gen/components/jni_test/android/jni_headers/JavaClass_jni.h</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2014 The Chromium Authors. All rights reserved.</span></span><br><span class="line"><span class="comment">// Use of this source code is governed by a BSD-style license that can be</span></span><br><span class="line"><span class="comment">// found in the LICENSE file.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// This file is autogenerated by</span></span><br><span class="line"><span class="comment">//     base/android/jni_generator/jni_generator.py</span></span><br><span class="line"><span class="comment">// For</span></span><br><span class="line"><span class="comment">//     com/demo/jni/JavaClass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> com_demo_jni_JavaClass_JNI</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> com_demo_jni_JavaClass_JNI</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;../../../../../../../base/android/jni_generator/jni_generator_helper.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Step 1: Forward declarations.</span></span><br><span class="line"></span><br><span class="line">JNI_REGISTRATION_EXPORT <span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">char</span> kClassPath_com_demo_jni_JavaClass[];</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> kClassPath_com_demo_jni_JavaClass[] = <span class="string">&quot;com/demo/jni/JavaClass&quot;</span>;</span><br><span class="line"><span class="comment">// Leaking this jclass as we cannot use LazyInstance from some threads.</span></span><br><span class="line"><span class="function">JNI_REGISTRATION_EXPORT std::atomic&lt;jclass&gt; <span class="title">g_com_demo_jni_JavaClass_clazz</span><span class="params">(<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> com_demo_jni_JavaClass_clazz_defined</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> com_demo_jni_JavaClass_clazz_defined</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> jclass <span class="title">com_demo_jni_JavaClass_clazz</span><span class="params">(JNIEnv* env)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> base::android::<span class="built_in">LazyGetClass</span>(env, kClassPath_com_demo_jni_JavaClass,</span><br><span class="line">      &amp;g_com_demo_jni_JavaClass_clazz);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Step 2: Constants (optional).</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Step 3: Method stubs.</span></span><br><span class="line"><span class="keyword">namespace</span> native_namespace &#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> jlong <span class="title">JNI_JavaClass_Init</span><span class="params">(JNIEnv* env)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">JNI_GENERATOR_EXPORT jlong <span class="title">Java_org_chromium_base_natives_GEN_1JNI_com_1demo_1jni_1JavaClass_1init</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    JNIEnv* env,</span></span></span><br><span class="line"><span class="params"><span class="function">    jclass jcaller)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">JNI_JavaClass_Init</span>(env);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">JNI_GENERATOR_EXPORT jint</span></span><br><span class="line"><span class="function">    <span class="title">Java_org_chromium_base_natives_GEN_1JNI_com_1demo_1jni_1JavaClass_1cppClassMember</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    JNIEnv* env,</span></span></span><br><span class="line"><span class="params"><span class="function">    jclass jcaller,</span></span></span><br><span class="line"><span class="params"><span class="function">    jlong nativeCppClass,</span></span></span><br><span class="line"><span class="params"><span class="function">    jobject param)</span> </span>&#123;</span><br><span class="line">  CppClass* native = <span class="keyword">reinterpret_cast</span>&lt;CppClass*&gt;(nativeCppClass);</span><br><span class="line">  <span class="built_in">CHECK_NATIVE_PTR</span>(env, jcaller, native, <span class="string">&quot;CppClassMember&quot;</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> native-&gt;<span class="built_in">CppClassMember</span>(env, base::android::JavaParamRef&lt;jobject&gt;(env, param));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> std::atomic&lt;jmethodID&gt; <span class="title">g_com_demo_jni_JavaClass_Constructor</span><span class="params">(<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"><span class="keyword">static</span> base::<span class="function">android::ScopedJavaLocalRef&lt;jobject&gt; <span class="title">Java_JavaClass_Constructor</span><span class="params">(JNIEnv* env, jlong</span></span></span><br><span class="line"><span class="params"><span class="function">    nativeCppClass)</span> </span>&#123;</span><br><span class="line">  jclass clazz = <span class="built_in">com_demo_jni_JavaClass_clazz</span>(env);</span><br><span class="line">  <span class="built_in">CHECK_CLAZZ</span>(env, clazz,</span><br><span class="line">      <span class="built_in">com_demo_jni_JavaClass_clazz</span>(env), <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">  jni_generator::JniJavaCallContextChecked call_context;</span><br><span class="line">  call_context.Init&lt;</span><br><span class="line">      base::android::MethodID::TYPE_INSTANCE&gt;(</span><br><span class="line">          env,</span><br><span class="line">          clazz,</span><br><span class="line">          <span class="string">&quot;&lt;init&gt;&quot;</span>,</span><br><span class="line">          <span class="string">&quot;(J)V&quot;</span>,</span><br><span class="line">          &amp;g_com_demo_jni_JavaClass_Constructor);</span><br><span class="line"></span><br><span class="line">  jobject ret =</span><br><span class="line">      env-&gt;<span class="built_in">NewObject</span>(clazz,</span><br><span class="line">          call_context.base.method_id, nativeCppClass);</span><br><span class="line">  <span class="keyword">return</span> base::android::ScopedJavaLocalRef&lt;jobject&gt;(env, ret);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> std::atomic&lt;jmethodID&gt; <span class="title">g_com_demo_jni_JavaClass_javaClassMember</span><span class="params">(<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">static</span> jint <span class="title">Java_JavaClass_javaClassMember</span><span class="params">(JNIEnv* env, <span class="keyword">const</span> base::android::JavaRef&lt;jobject&gt;&amp; obj,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">const</span> base::android::JavaRef&lt;jobject&gt;&amp; param)</span> </span>&#123;</span><br><span class="line">  jclass clazz = <span class="built_in">com_demo_jni_JavaClass_clazz</span>(env);</span><br><span class="line">  <span class="built_in">CHECK_CLAZZ</span>(env, obj.<span class="built_in">obj</span>(),</span><br><span class="line">      <span class="built_in">com_demo_jni_JavaClass_clazz</span>(env), <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  jni_generator::JniJavaCallContextChecked call_context;</span><br><span class="line">  call_context.Init&lt;</span><br><span class="line">      base::android::MethodID::TYPE_INSTANCE&gt;(</span><br><span class="line">          env,</span><br><span class="line">          clazz,</span><br><span class="line">          <span class="string">&quot;javaClassMember&quot;</span>,</span><br><span class="line">          <span class="string">&quot;(Lcom/demo/jni/JavaClass$SomeClass;)I&quot;</span>,</span><br><span class="line">          &amp;g_com_demo_jni_JavaClass_javaClassMember);</span><br><span class="line"></span><br><span class="line">  jint ret =</span><br><span class="line">      env-&gt;<span class="built_in">CallIntMethod</span>(obj.<span class="built_in">obj</span>(),</span><br><span class="line">          call_context.base.method_id, param.<span class="built_in">obj</span>());</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;  <span class="comment">// namespace native_namespace</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>  <span class="comment">// com_demo_jni_JavaClass_JNI</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="Traditional-JNI-Code-Style-Is-Deprecated">Traditional JNI Code Style Is Deprecated</h4>
+<p>It is deprecated to use traditional code style ( <code>native</code> method ) in Java. We should use the new style Chromium suggested. The new code style is more user-friendly, and it has more additional functions.</p>
+<p>If we use the <code>native</code> method, Chromium still can generate JNI binding for the native code, but it can not support all the JNI code grammar and sometime it may report some errors:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Inner class (%s) can not be imported and used by JNI (%s). Please import the outer class and use Outer.Inner instead.</span><br><span class="line">Inner class (%s) can not be used directly by JNI. Please import the outer class, probably: import %s.%s;</span><br></pre></td></tr></table></figure>
+<p>Some style of Java code is not supported, for example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use full class name as native method params or return type without import it,</span></span><br><span class="line"><span class="comment">// will recogonize it as an inner class com.xxx.java.util.UUID.</span></span><br><span class="line"><span class="comment">// SyntaxError: Inner class (java.util.UUID) can not be used directly by JNI.</span></span><br><span class="line"><span class="comment">// Please import the outer class, probably:</span></span><br><span class="line"><span class="comment">// import com.xxx.java.util.UUID</span></span><br><span class="line"><span class="keyword">package</span> com.xxx;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XXX</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">native</span> <span class="keyword">void</span> <span class="title">someMethod</span><span class="params">(java.util.UUID uuid)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use same name as the java.lang package,</span></span><br><span class="line"><span class="comment">// this type will be recognized as java.lang.InternalError.</span></span><br><span class="line"><span class="comment">// Ambiguous class (%s) can not be used directly by JNI.</span></span><br><span class="line"><span class="comment">// Please import it, probably:</span></span><br><span class="line"><span class="comment">// import java.lang.InternalError;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XXX</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">InternalError</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">native</span> <span class="keyword">void</span> <span class="title">someMethod</span><span class="params">(InternalError error)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If the code needs JNI binding generation, you can rewrite the code to make it works. If the code does not need JNI binding generation, you can exclude them from JNI sources.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chrome/android/BUILD.gn</span></span><br><span class="line"></span><br><span class="line">chrome_jni_sources_exclusions = []</span><br><span class="line">chrome_jni_sources_exclusions += [</span><br><span class="line">  <span class="string">&quot;//third_party/android_sdks/login/com/main/Main.java&quot;</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">template(<span class="string">&quot;chrome_public_apk_or_module_tmpl&quot;</span>) &#123;</span><br><span class="line">  chrome_public_common_apk_or_module_tmpl(target_name) &#123;</span><br><span class="line">    jni_sources_exclusions = chrome_jni_sources_exclusions</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Smart-Pointer-For-JNI">Smart Pointer For JNI</h4>
+<p>We should use smart pointer provided by Chromium to hold Java variables in native code.</p>
+<ul>
+<li><code>ScopedJavaLocalRef&lt;&gt;</code> - When lifetime is the current function’s scope.</li>
+<li><code>ScopedJavaGlobalRef&lt;&gt;</code> - When lifetime is longer than the current function’s scope.</li>
+<li><code>JavaObjectWeakGlobalRef&lt;&gt;</code> - Weak reference (do not prevent garbage collection).</li>
+<li><code>JavaParamRef&lt;&gt;</code> - Use to accept any of the above as a parameter to a function without creating a redundant registration.</li>
+</ul>
+<h4 id="More-Samples">More Samples</h4>
+<p>We can see more JNI samples here: <a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromium/src/base/+/master/android/jni_generator/java/src/org/chromium/example/jni_generator/SampleForTests.java">https://chromium.googlesource.com/chromium/src/base/+/master/android/jni_generator/java/src/org/chromium/example/jni_generator/SampleForTests.java</a></p>
+<h3 id="Crazy-Linker">Crazy Linker</h3>
+<p>Crazy Linker is a custom dynamic linker for Android programs that adds a few interesting features compared to /system/bin/linker. Read the docs for more details.</p>
+<p><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromium/src.git/+/master/third_party/android_crazy_linker/src/README.TXT">https://chromium.googlesource.com/chromium/src.git/+/master/third_party/android_crazy_linker/src/README.TXT</a></p>
+<h3 id="Native-Initialization-Tips">Native Initialization Tips</h3>
+<p>Normally, Chromium will initialize native side in <code>ChromeTabbedActivity.java</code>. But in some cases (e.g. test), we may need to call native code before this Activity started.</p>
+<p>We can call <code>LibraryLoader.getInstance().ensureInitialized()</code> to load native libraries.</p>
+<p>Another tips is that we can call <code>ChromeBrowserInitializer</code> to initialize the native environment. This will not only load native libraries but also initialize the necessary basic components in native code.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> BrowserParts parts = <span class="keyword">new</span> EmptyBrowserParts() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finishNativeInitialization</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// this method will be called when native initialized.</span></span><br><span class="line">        <span class="comment">// if native is already initialized, this method will be called immediately.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ChromeBrowserInitializer.getInstance().handlePreNativeStartup(parts);</span><br><span class="line">ChromeBrowserInitializer.getInstance().handlePostNativeStartup(<span class="keyword">true</span>, parts);</span><br></pre></td></tr></table></figure>
+<h3 id="JniMocker-for-Test">JniMocker for Test</h3>
+<p>Sometimes when we write Java tests in Chromium, we can use <code>JniMocker</code> and <code>Mockito</code> library to mock native method behavior.</p>
+<p>For example, we have a <code>SigninManagerImpl</code>, here is part of its code:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SigninManagerImpl</span> </span>&#123;</span><br><span class="line">    <span class="meta">@NativeMethods</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Natives</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">boolean</span> <span class="title">isSigninAllowedByPolicy</span><span class="params">(<span class="keyword">long</span> nativeSigninManagerAndroid)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the generated Java side JNI binding class we can see, if we call <code>SigninManagerImplJni.get()</code> it will check if there is a <code>testInstance</code>, and we can call <code>TEST_HOOKS</code> to set the <code>testInstance</code>.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SigninManagerImplJni</span> <span class="keyword">implements</span> <span class="title">SigninManagerImpl</span>.<span class="title">Natives</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> SigninManagerImpl.Natives testInstance;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> JniStaticTestMocker&lt;SigninManagerImpl.Natives&gt; TEST_HOOKS = <span class="keyword">new</span> org.chromium.base.JniStaticTestMocker&lt;org.chromium.chrome.browser.signin.SigninManagerImpl.Natives&gt;() &#123;</span><br><span class="line">    <span class="meta">@java</span>.lang.<span class="function">Override</span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setInstanceForTesting</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        org.chromium.chrome.browser.signin.SigninManagerImpl.Natives instance)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!org.chromium.base.natives.GEN_JNI.TESTING_ENABLED) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;Tried to set a JNI mock when mocks aren&#x27;t enabled!&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      testInstance = instance;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSigninAllowedByPolicy</span><span class="params">(<span class="keyword">long</span> nativeSigninManagerAndroid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">boolean</span>)GEN_JNI.org_chromium_chrome_browser_signin_SigninManagerImpl_isSigninAllowedByPolicy(nativeSigninManagerAndroid);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> SigninManagerImpl.<span class="function">Natives <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (GEN_JNI.TESTING_ENABLED) &#123;</span><br><span class="line">      <span class="keyword">if</span> (testInstance != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> testInstance;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (GEN_JNI.REQUIRE_MOCK) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">&quot;No mock found for the native implementation for org.chromium.chrome.browser.signin.SigninManagerImpl.Natives. The current configuration requires all native implementations to have a mock instance.&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    NativeLibraryLoadedStatus.checkLoaded(<span class="keyword">false</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SigninManagerImplJni();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Code of <code>JniMocker</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JniMocker</span> <span class="keyword">extends</span> <span class="title">ExternalResource</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;JniStaticTestMocker&gt; mHooks = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">mock</span><span class="params">(JniStaticTestMocker&lt;T&gt; hook, T testInst)</span> </span>&#123;</span><br><span class="line">        hook.setInstanceForTesting(testInst);</span><br><span class="line">        mHooks.add(hook);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Use <code>JniMocker</code> in the test case.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith(BaseRobolectricTestRunner.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SigninManagerTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Rule</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> JniMocker mocker = <span class="keyword">new</span> JniMocker();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> SigninManagerImpl.Natives mNativeMock = mock(SigninManagerImpl.Natives.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// set SigninManagerImplJni to use mNativeMock as testInstance</span></span><br><span class="line">        mocker.mock(SigninManagerImplJni.TEST_HOOKS, mNativeMock);</span><br><span class="line">        <span class="comment">// set mNativeMock to return true when the mocked method is called</span></span><br><span class="line">        doReturn(<span class="keyword">true</span>).when(mNativeMock).isSigninAllowedByPolicy(anyLong());</span><br><span class="line">        <span class="comment">// now we can write the related test code...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="More-Resources">More Resources</h2>
+<p><a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/8/docs/technotes/guides/jni/">https://docs.oracle.com/javase/8/docs/technotes/guides/jni/</a></p>
+<p><a target="_blank" rel="noopener" href="https://chromium.googlesource.com/chromium/src/base/+/master/android/jni_generator">https://chromium.googlesource.com/chromium/src/base/+/master/android/jni_generator</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/training/articles/perf-jni">https://developer.android.com/training/articles/perf-jni</a></p>
+<p>Java™ Native Interface. Programmer’s Guide and Specification <a target="_blank" rel="noopener" href="https://book.douban.com/subject/3162962/">https://book.douban.com/subject/3162962/</a></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chromium-print-cpp-stack/" rel="bookmark">Chromium打印C++ Stack Trace</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gn-chromium-android/" rel="bookmark">GN Cheat Sheet for Chromium Android</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-performance/" rel="bookmark">Android性能优化流程与思路</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-crash-sdk/" rel="bookmark">Android Crash监控SDK设计思路</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/java-reference/" rel="bookmark">Java引用类型简介与应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sparse-array/" rel="bookmark">SparseArray源码分析与性能优化</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dynamic-proxy-java-bus/" rel="bookmark">一种基于动态代理实现的Android/Java总线通信组件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/infer/" rel="bookmark">空指针静态代码检查工具Infer</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/cpp/" rel="tag"># cpp</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Chromium/" rel="tag"># Chromium</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/large-project-build-speed-up/" rel="prev" title="Speed up build in large project with right work flow">
+      <i class="fa fa-chevron-left"></i> Speed up build in large project with right work flow
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/pve-cannot-connect-network/" rel="next" title="PVE中虚拟机不能联网问题解决案例">
+      PVE中虚拟机不能联网问题解决案例 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI-Documents"><span class="nav-number">1.</span> <span class="nav-text">JNI Documents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Shared-Library"><span class="nav-number">2.</span> <span class="nav-text">Build Shared Library</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Export-Symbols"><span class="nav-number">2.1.</span> <span class="nav-text">Export Symbols</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View-Exported-Symbols-of-SO-File"><span class="nav-number">2.2.</span> <span class="nav-text">View Exported Symbols of SO File</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Export-Sysmbols-for-JNI"><span class="nav-number">2.3.</span> <span class="nav-text">Export Sysmbols for JNI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jni-h"><span class="nav-number">3.</span> <span class="nav-text">jni.h</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-Load-Shared-Library"><span class="nav-number">4.</span> <span class="nav-text">Java Load Shared Library</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaVM"><span class="nav-number">5.</span> <span class="nav-text">JavaVM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-JavaVM-for-Funture-Usage"><span class="nav-number">5.1.</span> <span class="nav-text">Save JavaVM for Funture Usage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JNIEnv"><span class="nav-number">6.</span> <span class="nav-text">JNIEnv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI-Data-Types-and-Signatures"><span class="nav-number">7.</span> <span class="nav-text">JNI Data Types and Signatures</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-Types-in-Native-Code"><span class="nav-number">7.1.</span> <span class="nav-text">Java Types in Native Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Field-and-Method-IDs"><span class="nav-number">7.2.</span> <span class="nav-text">Field and Method IDs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Signatures-of-Java-Type-and-Method"><span class="nav-number">7.3.</span> <span class="nav-text">Signatures of Java Type and Method</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-Call-Native"><span class="nav-number">8.</span> <span class="nav-text">Java Call Native</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-Native-Method-in-Java"><span class="nav-number">8.1.</span> <span class="nav-text">Define Native Method in Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resolving-Native-Method-Names"><span class="nav-number">8.2.</span> <span class="nav-text">Resolving Native Method Names</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Native-Method-Arguments"><span class="nav-number">8.3.</span> <span class="nav-text">Native Method Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-javah-to-Generate-C-Header-File"><span class="nav-number">8.4.</span> <span class="nav-text">Use javah to Generate C Header File</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Native-Call-Java"><span class="nav-number">9.</span> <span class="nav-text">Native Call Java</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-JNIEnv-in-Native-Code"><span class="nav-number">9.1.</span> <span class="nav-text">Get JNIEnv in Native Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Call-Java-from-Native-Thread"><span class="nav-number">9.2.</span> <span class="nav-text">Call Java from Native Thread</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Print-Log-in-Native-Code"><span class="nav-number">10.</span> <span class="nav-text">Print Log in Native Code</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handle-Exceptions"><span class="nav-number">11.</span> <span class="nav-text">Handle Exceptions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-Call-Native-and-Native-Crashed"><span class="nav-number">11.1.</span> <span class="nav-text">Java Call Native and Native Crashed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Produce-a-Pending-Exception"><span class="nav-number">11.2.</span> <span class="nav-text">Produce a Pending Exception</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Handle-Pending-Exception"><span class="nav-number">11.3.</span> <span class="nav-text">Handle Pending Exception</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI-in-Chromium"><span class="nav-number">12.</span> <span class="nav-text">JNI in Chromium</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Build-Shared-Library-for-Android-JNI-with-GN"><span class="nav-number">12.1.</span> <span class="nav-text">Build Shared Library for Android JNI with GN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-JNI-Utils"><span class="nav-number">12.2.</span> <span class="nav-text">Android JNI Utils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI-Generator"><span class="nav-number">12.3.</span> <span class="nav-text">JNI Generator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-JNI-Code"><span class="nav-number">12.4.</span> <span class="nav-text">Write JNI Code</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-File"><span class="nav-number">12.4.1.</span> <span class="nav-text">Java File</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPP-File"><span class="nav-number">12.4.2.</span> <span class="nav-text">CPP File</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GN-File"><span class="nav-number">12.4.3.</span> <span class="nav-text">GN File</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Build-The-Code"><span class="nav-number">12.4.4.</span> <span class="nav-text">Build The Code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Generated-Java-File-Java-Side-JNI-Binding"><span class="nav-number">12.4.5.</span> <span class="nav-text">Generated Java File (Java Side JNI Binding)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Generated-CPP-Header-File-Native-Side-JNI-Binding"><span class="nav-number">12.4.6.</span> <span class="nav-text">Generated CPP Header File (Native Side JNI Binding)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Traditional-JNI-Code-Style-Is-Deprecated"><span class="nav-number">12.4.7.</span> <span class="nav-text">Traditional JNI Code Style Is Deprecated</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smart-Pointer-For-JNI"><span class="nav-number">12.4.8.</span> <span class="nav-text">Smart Pointer For JNI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#More-Samples"><span class="nav-number">12.4.9.</span> <span class="nav-text">More Samples</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Crazy-Linker"><span class="nav-number">12.5.</span> <span class="nav-text">Crazy Linker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Native-Initialization-Tips"><span class="nav-number">12.6.</span> <span class="nav-text">Native Initialization Tips</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JniMocker-for-Test"><span class="nav-number">12.7.</span> <span class="nav-text">JniMocker for Test</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#More-Resources"><span class="nav-number">13.</span> <span class="nav-text">More Resources</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

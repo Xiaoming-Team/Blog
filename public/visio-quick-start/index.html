@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Microsoft Visio是Office套件中的一款功能强大的绘图工具。本文介绍了Visio的基本使用方法，基于Visio 2010。 绘制流程图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Microsoft Visio绘图工具快速入门">
+<meta property="og:url" content="https://www.xiaoming.io/visio-quick-start/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="Microsoft Visio是Office套件中的一款功能强大的绘图工具。本文介绍了Visio的基本使用方法，基于Visio 2010。 绘制流程图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/11d8753e2a9727e8a337ed106bfdc8b4.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3d73a769319c69cea3a20fc40576860f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3a3716c9020406cc65aa304297aeb35d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9ddc2503c3077590aaf0975df4ff7cfc.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/dc69e803b9fbb9b8534d84da87a28185.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/97cc69784ff7ceedf6498943d194b336.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/95eba7b20d70c086962f3e1e1a2d6ab9.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ef21c0e10d476975400acfbc0687d219.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1640db41e9c0eb390c2c2390c38c1762.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e6cd840be313d30be4b648172a60a13e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6894758ea39fe97eb9d3870238abed17.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/29b23075671ef64f3eed2d2fa74e0f89.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/032bc282599438ea74a05e967040cce7.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/31b0cf8a89341b35c72a8a6afe7bbc1b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/dc9cf65199d1c965d71f6b406be23953.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/49ef605148967812eb36076fabf449a7.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/761a1724196cb60bfa51e899532444bd.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ed181f390e780b588f59270100a9727b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/331be4d95c3f4c3a2eb7b13e7ac4e235.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c621e8a6f5fe61dbc7c7f23a284100fe.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/fdbe1ac3db81ea5a087a31a98ad7e3fe.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/216bfbc1d0806a368c5a47e724476fc5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0c84c3374a9b1b03e75e3644781c74fd.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/d793664a65642b2c800420904e322c4c.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/94b9a4ac6aa554ea881c1ec4b75757e7.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/56ccbc40373baad2bfbe685584af3511.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/fa180d2432f611ee0c28be712b482441.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ba2060ead1dad81fc7ebba613d5a6061.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9a2e983169f0688872f8f120024a5593.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1052d8ba9eb24ab1bfbbb6496064c11b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/39cc90834955973250ed34773c10fb4a.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/2495132c978fdb1f732fb9576c2ae20d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/bb869e1f5708bd39a9940e86070122d9.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/2386acef25022a882ddaaa84d9b03877.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3750fefc63bac21554824aa268560f05.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/744dd207fa5f7a7b42dfb6fb4931d3ce.png">
+<meta property="article:published_time" content="2015-02-08T11:29:35.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.397Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/11d8753e2a9727e8a337ed106bfdc8b4.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/visio-quick-start/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Microsoft Visio绘图工具快速入门 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Microsoft Visio绘图工具快速入门",
+      "description": "Microsoft Visio是Office套件中的一款功能强大的绘图工具。本文介绍了Visio的基本使用方法，基于Visio 2010。 绘制流程图",
+      "datePublished": "2015-02-08T11:29:35.000Z",
+      "dateModified": "2026-01-09T08:19:11.397Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/visio-quick-start/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/visio-quick-start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Microsoft Visio绘图工具快速入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-02-08 19:29:35" itemprop="dateCreated datePublished" datetime="2015-02-08T19:29:35+08:00">2015-02-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/visio-quick-start/" class="post-meta-item leancloud_visitors" data-flag-title="Microsoft Visio绘图工具快速入门" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/visio-quick-start/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/visio-quick-start/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Microsoft Visio是Office套件中的一款功能强大的绘图工具。本文介绍了Visio的基本使用方法，基于Visio 2010。</p>
+<h2 id="绘制流程图">绘制流程图</h2>
+<p>新建文件，流程图-基本流程图</p>
+<p><img data-src="/blog-imgs/tech/images/11d8753e2a9727e8a337ed106bfdc8b4.jpg" alt=""></p>
+<h2 id="绘制形状">绘制形状</h2>
+<p>从左边形状窗口可以直接往文档中拖入一个方框</p>
+<p><img data-src="/blog-imgs/tech/images/3d73a769319c69cea3a20fc40576860f.png" alt=""></p>
+<p>如果没找到形状窗口，可以在视图菜单中打开</p>
+<p><img data-src="/blog-imgs/tech/images/3a3716c9020406cc65aa304297aeb35d.png" alt=""></p>
+<p>双击形状可以添加文字。选中形状，可以修改其填充颜色或图案，线条边框的颜色、粗细、虚实，阴影的设置，文本的设置等。</p>
+<p><img data-src="/blog-imgs/tech/images/9ddc2503c3077590aaf0975df4ff7cfc.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/dc69e803b9fbb9b8534d84da87a28185.png" alt=""></p>
+<h2 id="绘制箭头">绘制箭头</h2>
+<p>在菜单-开始中选择连接线工具，然后在形状之间拖动，即可绘制形状之间的箭头。绘制完成后，可重新切换回指针工具。</p>
+<p><img data-src="/blog-imgs/tech/images/97cc69784ff7ceedf6498943d194b336.png" alt=""></p>
+<p>拖动箭头起点、终点，可以修改其指向，还可以修改其位置和形状。</p>
+<p><img data-src="/blog-imgs/tech/images/95eba7b20d70c086962f3e1e1a2d6ab9.png" alt=""></p>
+<p>双击箭头也可以添加文字，同样可以设置文字的颜色、字体、大小。</p>
+<p><img data-src="/blog-imgs/tech/images/ef21c0e10d476975400acfbc0687d219.png" alt=""></p>
+<p>选中箭头，也可以设置其粗细、颜色等。</p>
+<p><img data-src="/blog-imgs/tech/images/1640db41e9c0eb390c2c2390c38c1762.png" alt=""></p>
+<p>另外，还可以在线条-箭头中设置箭头的形式，例如可以设置成双向箭头。</p>
+<p><img data-src="/blog-imgs/tech/images/e6cd840be313d30be4b648172a60a13e.png" alt=""></p>
+<p>右击箭头，选择菜单中的格式-线条；或点击菜单-开始-线条-线条选项，可以进行线条的详细设置。</p>
+<p><img data-src="/blog-imgs/tech/images/6894758ea39fe97eb9d3870238abed17.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/29b23075671ef64f3eed2d2fa74e0f89.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/032bc282599438ea74a05e967040cce7.png" alt=""></p>
+<h2 id="操作技巧">操作技巧</h2>
+<p>点击文档空白处，让焦点处于文档中，此时按住Ctrl，滚动鼠标即可缩放文档。也可以点击右下角的控件设置缩放。</p>
+<p><img data-src="/blog-imgs/tech/images/31b0cf8a89341b35c72a8a6afe7bbc1b.png" alt=""></p>
+<p>单击选中形状，鼠标移到其边缘就会出现四个方向的箭头（注意在流程图中这种方法有效，在其他类型的文档中不一定有效），然后移动鼠标选择图中的四种形状并单击，可以快速在形状的指定方向创建新的形状，同时完成箭头绘制。当然，也可以通过前面说的拖动的方式，创建新的形状。</p>
+<p><img data-src="/blog-imgs/tech/images/dc9cf65199d1c965d71f6b406be23953.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/49ef605148967812eb36076fabf449a7.png" alt=""></p>
+<h2 id="绘制容器">绘制容器</h2>
+<p>菜单-插入-容器，可以插入一个指定样式的容器，容器中可以包含多个形状对象。同样，还可以插入文本框、图标等对象。</p>
+<p><img data-src="/blog-imgs/tech/images/761a1724196cb60bfa51e899532444bd.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/ed181f390e780b588f59270100a9727b.png" alt=""></p>
+<h2 id="对象的选择">对象的选择</h2>
+<p>单个对象通过单击即可选中。按住Ctrl或Shift键可以选中多个对象，也可以直接拖动鼠标，框选多个对象。</p>
+<p><img data-src="/blog-imgs/tech/images/331be4d95c3f4c3a2eb7b13e7ac4e235.png" alt=""></p>
+<p>在文档比较复杂的时候，可以使用选择工具选中需要的对象，例如选中文档中所有的箭头，可以使用菜单-开始-选择-按类型选择，图层-连接线，即可。</p>
+<p><img data-src="/blog-imgs/tech/images/c621e8a6f5fe61dbc7c7f23a284100fe.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/fdbe1ac3db81ea5a087a31a98ad7e3fe.png" alt=""></p>
+<h2 id="对象的排列">对象的排列</h2>
+<p>选中多个对象，使用位置可进行排列。对于一些常规的对齐方式，可以尝试自动对齐和自动调整间距选项（鼠标移到按钮上可以预览效果，单击应用效果）</p>
+<p><img data-src="/blog-imgs/tech/images/216bfbc1d0806a368c5a47e724476fc5.png" alt=""></p>
+<h2 id="设计">设计</h2>
+<p>可在设计菜单中，快速设置文档中所有元素的风格。</p>
+<p><img data-src="/blog-imgs/tech/images/0c84c3374a9b1b03e75e3644781c74fd.png" alt=""></p>
+<p>对于层次结构较为清晰的文档，还可以使用重新布局页面功能，根据对象的逻辑层次，自动布局。如果没有选中元素，则对所有元素进行布局，如果选中其中一部分元素，则只对这些元素进行布局。</p>
+<p><img data-src="/blog-imgs/tech/images/d793664a65642b2c800420904e322c4c.png" alt=""></p>
+<p>在设计菜单中，还可以设置页面的尺寸和方向，例如A4纸横向画面。默认情况下，自动调整大小的选项是开启的，如果绘制的图形超出了一张纸张的面积，会自动进行扩展。</p>
+<p><img data-src="/blog-imgs/tech/images/94b9a4ac6aa554ea881c1ec4b75757e7.png" alt=""></p>
+<p>下图是我绘制的一个流程图。</p>
+<p><img data-src="/blog-imgs/tech/images/56ccbc40373baad2bfbe685584af3511.png" alt=""></p>
+<h2 id="绘制数据流图">绘制数据流图</h2>
+<p>我们经常会遇到需要绘制一些图形来表示各种元素之间关系的情况，或是绘制状态转移图，这时可以使用Visio中的数据流图表进行绘制。</p>
+<p>新建文档，选择软件和数据库-数据流图表</p>
+<p><img data-src="/blog-imgs/tech/images/fa180d2432f611ee0c28be712b482441.jpg" alt=""></p>
+<p>可向文档中添加圆形形状，形状的绘制方法和前面相同。同样，也可以绘制箭头，箭头的起止点可以在圆形的中心，也可以在边缘的四个点上。</p>
+<p><img data-src="/blog-imgs/tech/images/ba2060ead1dad81fc7ebba613d5a6061.png" alt=""></p>
+<h2 id="箭头">箭头</h2>
+<p>默认的箭头只能沿着横竖两个方向行走。在数据流图中，还可以绘制方向可以任意旋转的直线型箭头，以及环形箭头。可以选择从中心到中心的箭头元素，这个箭头有五个锚点。</p>
+<p><img data-src="/blog-imgs/tech/images/9a2e983169f0688872f8f120024a5593.png" alt=""></p>
+<p>其中箭头中间的那个蓝色锚点可用于控制箭头的弯曲程度，如果将其向下拖拽，可以让箭头变成直线型。</p>
+<p><img data-src="/blog-imgs/tech/images/1052d8ba9eb24ab1bfbbb6496064c11b.png" alt=""></p>
+<p>两端的蓝色锚点可以控制箭头的断点，例如可以将其分别拖动到两个圆形的中心，如图。</p>
+<p><img data-src="/blog-imgs/tech/images/39cc90834955973250ed34773c10fb4a.png" alt=""></p>
+<p>黄色的两个锚点，可以控制箭头的实际长度。</p>
+<p><img data-src="/blog-imgs/tech/images/2495132c978fdb1f732fb9576c2ae20d.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/bb869e1f5708bd39a9940e86070122d9.png" alt=""></p>
+<p>选择中心环绕形状，并拖动到画布中，可以绘制环形箭头。同样可以通过锚点控制箭头形状。</p>
+<p><img data-src="/blog-imgs/tech/images/2386acef25022a882ddaaa84d9b03877.png" alt=""></p>
+<p>另外，也可以用和前面一样的方法，设置箭头的形式、颜色、线条等属性。</p>
+<p><img data-src="/blog-imgs/tech/images/3750fefc63bac21554824aa268560f05.png" alt=""></p>
+<p>下图是我绘制的一个数据流图的效果。</p>
+<p><img data-src="/blog-imgs/tech/images/744dd207fa5f7a7b42dfb6fb4931d3ce.png" alt=""></p>
+<p>在下面的文章中，给出了Visio的一种实际用途</p>
+<p>《互联网产品初期需求确定与数据库模型设计——基于Visio和Xmind》 <a href="http://www.xiaoming.io/web-product-design">http://www.xiaoming.io/web-product-design</a></p>
+<p>Visio还可以绘制各种类型的图表，包括思维导图、各种组织结构图表等，这里不再一一介绍。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/optical-fiber-communication/" rel="bookmark">光纤通信和家用万兆网络布线知识总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/network-learning/" rel="bookmark">计算机网络相关知识学习</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/desktop-computer-knowledge/" rel="bookmark">台式机组装知识系统梳理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chromium-print-cpp-stack/" rel="bookmark">Chromium打印C++ Stack Trace</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openwrt-godaddy-ddns/" rel="bookmark">OpenWRT Godaddy DDNS设置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/pve-config-nic/" rel="bookmark">PVE换网卡后重新设置网络</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dont-make-me-think/" rel="bookmark">Don't make me think思想在代码设计中的应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/online-video-download/" rel="bookmark">网页视频通用下载方法(支持网易云音乐MV、优酷等)</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web-product-design/" rel="prev" title="互联网产品初期需求确定与数据库模型设计——基于Visio和Xmind">
+      <i class="fa fa-chevron-left"></i> 互联网产品初期需求确定与数据库模型设计——基于Visio和Xmind
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/windows-django-setup/" rel="next" title="Windows下安装Python和Django">
+      Windows下安装Python和Django <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">绘制流程图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%E5%BD%A2%E7%8A%B6"><span class="nav-number">2.</span> <span class="nav-text">绘制形状</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%E7%AE%AD%E5%A4%B4"><span class="nav-number">3.</span> <span class="nav-text">绘制箭头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%8A%80%E5%B7%A7"><span class="nav-number">4.</span> <span class="nav-text">操作技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%E5%AE%B9%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">绘制容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">6.</span> <span class="nav-text">对象的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8E%92%E5%88%97"><span class="nav-number">7.</span> <span class="nav-text">对象的排列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">8.</span> <span class="nav-text">设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%E6%95%B0%E6%8D%AE%E6%B5%81%E5%9B%BE"><span class="nav-number">9.</span> <span class="nav-text">绘制数据流图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4"><span class="nav-number">10.</span> <span class="nav-text">箭头</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

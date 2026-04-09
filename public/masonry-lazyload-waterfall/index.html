@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="瀑布流布局 我们常能在网上看到很多瀑布流布局的页面，尤其是很多图片网站，例如百度图片。这种最典型的瀑布流布局，每个元素的宽度是固定的，但图片长度各不相同，于是通过下图这种样子竖着排列了下来，达到了最大的页面空间利用率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Masonry和jQuery.lazyload插件实现网页瀑布流布局">
+<meta property="og:url" content="https://www.xiaoming.io/masonry-lazyload-waterfall/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="瀑布流布局 我们常能在网上看到很多瀑布流布局的页面，尤其是很多图片网站，例如百度图片。这种最典型的瀑布流布局，每个元素的宽度是固定的，但图片长度各不相同，于是通过下图这种样子竖着排列了下来，达到了最大的页面空间利用率。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/575b490c53c977bf8d321b8e82cbf859.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/67cebaa87f3064dce52f5b5f2aa9c174.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a681c52cf8a5a6b01951c3572e892e5b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1c833133de3ac1c22eab3677b168c40f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c456551a34aaa96dfd66c06d063dce61.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a07fd3e1f73f787714546915c8746e34.png">
+<meta property="article:published_time" content="2015-03-18T03:29:10.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.661Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="Web开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/575b490c53c977bf8d321b8e82cbf859.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/masonry-lazyload-waterfall/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>用Masonry和jQuery.lazyload插件实现网页瀑布流布局 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "用Masonry和jQuery.lazyload插件实现网页瀑布流布局",
+      "description": "瀑布流布局 我们常能在网上看到很多瀑布流布局的页面，尤其是很多图片网站，例如百度图片。这种最典型的瀑布流布局，每个元素的宽度是固定的，但图片长度各不相同，于是通过下图这种样子竖着排列了下来，达到了最大的页面空间利用率。",
+      "datePublished": "2015-03-18T03:29:10.000Z",
+      "dateModified": "2025-06-17T13:33:21.661Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/masonry-lazyload-waterfall/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/masonry-lazyload-waterfall/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用Masonry和jQuery.lazyload插件实现网页瀑布流布局
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-03-18 11:29:10" itemprop="dateCreated datePublished" datetime="2015-03-18T11:29:10+08:00">2015-03-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/masonry-lazyload-waterfall/" class="post-meta-item leancloud_visitors" data-flag-title="用Masonry和jQuery.lazyload插件实现网页瀑布流布局" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/masonry-lazyload-waterfall/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/masonry-lazyload-waterfall/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="瀑布流布局">瀑布流布局</h2>
+<p>我们常能在网上看到很多瀑布流布局的页面，尤其是很多图片网站，例如百度图片。这种最典型的瀑布流布局，每个元素的宽度是固定的，但图片长度各不相同，于是通过下图这种样子竖着排列了下来，达到了最大的页面空间利用率。</p>
+<blockquote>
+<p>因为对前端开发不了解，一开始为了找到这种布局叫什么名字也是花了我好久时间o(╯□╰)o</p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/images/575b490c53c977bf8d321b8e82cbf859.jpg" alt=""></p>
+<p>瀑布流布局不局限于等宽布局，例如下面这种形式也可以，来自<code>Masonry</code>官网截图。</p>
+<blockquote>
+<p>Masonry官网 <a target="_blank" rel="noopener" href="http://masonry.desandro.com/">http://masonry.desandro.com/</a></p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/images/67cebaa87f3064dce52f5b5f2aa9c174.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/a681c52cf8a5a6b01951c3572e892e5b.png" alt=""></p>
+<p>瀑布流布局作为一种响应式布局，网页元素会自动根据页面宽度进行调整。按住Ctrl键并滚动鼠标滚轮，对网页进行缩放，我们就能看到网页元素之间的排版位置会不断变化，如上图所示。</p>
+<h2 id="瀑布流布局实现">瀑布流布局实现</h2>
+<p>对于上面的等宽瀑布流布局，看起来其实似乎很容易实现。但是由于HTML文档流的原理，网页元素的排列是先从左往右的，超出了才会换行，而不能直接控制成从上往下，因此直接利用HTML和CSS不太好处理，完美的瀑布流布局需要借助<code>javascript</code>或<code>jQuery</code>插件实现。这里说的不是很清楚，可以看下文中详细的图文解释。瀑布流布局的实现有很多种方式，这篇文章写得也很详细。</p>
+<blockquote>
+<p>瀑布流布局浅析 <a target="_blank" rel="noopener" href="http://ued.taobao.org/blog/2011/09/waterfall/">http://ued.taobao.org/blog/2011/09/waterfall/</a></p>
+</blockquote>
+<h2 id="Masonry插件">Masonry插件</h2>
+<p><code>Masonry</code>插件是用的比较多的瀑布流布局插件。下面两张图展示了插件使用前后的网页布局，很容易看出其作用。</p>
+<p>没使用<code>Masonry</code>时，网页元素按照HTML文档流排列，先从左到右，超出再换行，中间会有很多空隙，如下图所示。</p>
+<p><img data-src="/blog-imgs/tech/images/1c833133de3ac1c22eab3677b168c40f.png" alt=""></p>
+<p>使用了<code>Masonry</code>之后，每个元素位置会自动被调整，空隙少了很多，如图所示。</p>
+<p><img data-src="/blog-imgs/tech/images/c456551a34aaa96dfd66c06d063dce61.png" alt=""></p>
+<h2 id="Masonry的基本使用">Masonry的基本使用</h2>
+<p>Masonry插件有两个版本，一个用的原生<code>javascript</code>，一个用的<code>jQuery</code>，如果你的网页刚好用到了其他<code>jQuery</code>库，建议用后者，因为代码量会少很多。两个版本的插件都可以在附件中的Demo里找到。</p>
+<blockquote>
+<p>Masonry官方GitHub链接（JavaScript版本，含多个Demo示例）<br>
+<a target="_blank" rel="noopener" href="https://github.com/desandro/masonry">https://github.com/desandro/masonry</a></p>
+<p>jQuery Masonry也可在此下载（不知道这个站点算不算官网，感觉有点乱）<br>
+<a target="_blank" rel="noopener" href="http://www.fishspotr.com">http://www.fishspotr.com</a></p>
+</blockquote>
+<p><code>Masonry</code>插件的使用很简单，但是官方GitHub给出的Demo里面代码太长不容易看明白，所以我提供了一个简化的Demo，使用了最常用的几个参数。具体的参数可以参考官方的Demo。</p>
+<p>调用<code>Masonry</code>的代码可以写在<code>&lt;script&gt;</code>标签中，也可以直接写在HTML标签的<code>data-masonry-options</code>属性中，我提供的<code>javascript</code>版本的代码就写在了<code>data-masonry-options</code>属性中。</p>
+<p>另外网上的很多文档都有错，都是套用官方的文档，把两个版本混为一谈。例如<code>jQuery</code>和<code>javascript</code>版本有一些参数是不一样的，例如<code>javascript</code>版本中的<code>gutter</code>参数在<code>jQuery</code>版本里面是<code>gutterWidth</code>，这个可以从源码中看到（也可能是版本升级改了参数名）。</p>
+<h2 id="Lazyload延迟加载图片">Lazyload延迟加载图片</h2>
+<p>网页中常用<code>Lazyload</code>插件进行图片的延迟加载，用户滚动页面，要浏览到图片所在的位置时，才开始加载图片，否则不加载。一方面能加快网页刚刚载入时的速度，因为省去了很多图片的加载；另一方面能节省流量，因为只需要加载用户滚动到的地方的图片，如果用户中途离开页面，部分图片就不会被加载了。</p>
+<p>这里顺便提一下<code>Lazyload</code>，使用这个插件时，<code>IMG</code>标签需要写成这种形式：<code>&lt;img src=&quot;loading.gif&quot; data-original=&quot;img.jpg&quot; /&gt;</code>，src中是一个体积较小的占位图片，而真实图片地址写在后面的<code>data-original</code>属性中。网上有人说的Lazyload不能用、有bug，就是因为这个地方没有写好。</p>
+<p>另外，为了防止有些用户浏览器没开<code>javascript</code>，上面这样写会导致图片不显示，因此稳妥起见还有必要添加一个<code>&lt;noscript&gt;</code>标签，在里面写上正常的图片标签，没有<code>javascript</code>时这段代码就会生效，如下所示。</p>
+<ol>
+<li><code>&lt;img src=&quot;loading.gif&quot; data-original=&quot;img.jpg&quot; /&gt;</code></li>
+<li><code>&lt;noscript&gt;&lt;img src=&quot;img.jpg&quot; /&gt;&lt;/noscript&gt;</code></li>
+</ol>
+<h2 id="Masonry与Lazyload插件冲突">Masonry与Lazyload插件冲突</h2>
+<p>同时使用<code>Masonry</code>和<code>Lazyload</code>插件，会造成冲突。因为<code>Masonry</code>需要获取每个元素的尺寸从而计算出元素的位置，但是在网页滚动过程中，由于<code>Lazyload</code>动态加载图片会导致元素尺寸变化，而此时<code>Masonry</code>并不会重新计算，于是排列就混乱了，如图所示。</p>
+<p><img data-src="/blog-imgs/tech/images/a07fd3e1f73f787714546915c8746e34.png" alt=""></p>
+<p>解决思路是每次<code>Lazyload</code>加载好一张图片就让<code>Masonry</code>重新排版。但找了很久也没找到<code>Lazyload</code>的回调参数……</p>
+<p>先后考虑或尝试了滚动网页事件、IMG加载完成事件、DIV尺寸变化事件、延时等来触发<code>Masonry</code>，还考虑过提前在后台计算好图片标签的尺寸、把<code>Lazyload</code>换成其他插件，但是怎么做都感觉不好，效率低或是很麻烦等问题。</p>
+<p>最后感觉最好的办法还是干脆自己改一下<code>Lazyload</code>的源码好了。但在看源码的时候意外发现了<code>Lazyload</code>其实有回调函数，也就是<code>load</code>参数。</p>
+<p>网上大量文章都是复制粘贴来的一摸一样的几句话，甚至连官方也都没有说这个参数……莫非是我的打开方式不对？</p>
+<blockquote>
+<p>我眼里的Lazyload官网 <a target="_blank" rel="noopener" href="http://www.appelsiini.net/projects/lazyload">http://www.appelsiini.net/projects/lazyload</a></p>
+</blockquote>
+<p>最后的解决方案就很清楚了，关键代码大致如下。示例Demo也在附件中。</p>
+<ol>
+<li>
+<p><code>&lt;script&gt;</code></p>
+</li>
+<li>
+<p><code>$(function() &#123;</code></p>
+</li>
+<li>
+<p><code>f_masonry();</code></p>
+</li>
+<li>
+<p><code>$(&quot;img&quot;).lazyload(&#123;</code></p>
+</li>
+<li>
+<p><code>effect:&quot;fadeIn&quot;,</code></p>
+</li>
+<li>
+<p><code>failurelimit:40,</code></p>
+</li>
+<li>
+<p><code>load:f_masonry,</code></p>
+</li>
+<li>
+<p><code>&#125;);</code></p>
+</li>
+<li>
+<p><code>&#125;);</code></p>
+</li>
+<li>
+<p><code>function f_masonry() &#123;</code></p>
+</li>
+<li>
+<p><code>$('.masonry').masonry(&#123;</code></p>
+</li>
+<li>
+<p><code>gutterWidth: 20,</code></p>
+</li>
+<li>
+<p><code>itemSelector: '.item',</code></p>
+</li>
+<li>
+<p><code>isAnimated: true,</code></p>
+</li>
+<li>
+<p><code>&#125;);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&lt;/script&gt;</code></p>
+</li>
+</ol>
+<p>最后再吐槽一下网上各种不负责任复制粘贴来的文章，参考价值略低，甚至各种错误（自己动手丰衣足食）。</p>
+<blockquote>
+<p>附件：Demo下载地址<br>
+<a target="_blank" rel="noopener" href="https://github.com/jzj1993/masonry-lazyload-demos">https://github.com/jzj1993/masonry-lazyload-demos</a></p>
+</blockquote>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nginx-config/" rel="bookmark">Nginx常用配置整理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/node-sharp/" rel="bookmark">sharp图片库用法总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mysql-basic-usage/" rel="bookmark">MySQL基本命令总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mysql57-change-password/" rel="bookmark">MySQL 5.7.16可登陆Shell但不能改root密码</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mac-tomcat/" rel="bookmark">MAC安装配置Tomcat</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/ubuntu-lnmp/" rel="bookmark">Ubuntu搭建LNMP</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wp-auto-postname/" rel="bookmark">WordPress离线发表文章自动生成别名</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wp-log/" rel="bookmark">WordPress主题输出Log信息</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Web%E5%BC%80%E5%8F%91/" rel="tag"># Web开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/ie8-jquery/" rel="prev" title="IE8不支持jQuery问题">
+      <i class="fa fa-chevron-left"></i> IE8不支持jQuery问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/html-form-submit/" rel="next" title="HTML一个form表单中有两个（多个）submit，后台如何区分（纯HTML实现，无需javascript）">
+      HTML一个form表单中有两个（多个）submit，后台如何区分（纯HTML实现，无需javascript） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%80%91%E5%B8%83%E6%B5%81%E5%B8%83%E5%B1%80"><span class="nav-number">1.</span> <span class="nav-text">瀑布流布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%80%91%E5%B8%83%E6%B5%81%E5%B8%83%E5%B1%80%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">瀑布流布局实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Masonry%E6%8F%92%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">Masonry插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Masonry%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">Masonry的基本使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lazyload%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87"><span class="nav-number">5.</span> <span class="nav-text">Lazyload延迟加载图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Masonry%E4%B8%8ELazyload%E6%8F%92%E4%BB%B6%E5%86%B2%E7%AA%81"><span class="nav-number">6.</span> <span class="nav-text">Masonry与Lazyload插件冲突</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

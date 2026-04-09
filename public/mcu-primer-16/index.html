@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="截至目前，单片机入门篇的介绍就告一段落了。从本文开始将进入思想篇的学习。 思想篇对后面的具体知识学习进行整体的框架介绍，解释一些基础名词，以及对学习思想方法进行总结。思想篇的内容，对于后面的学习有很大的指导作用，尤其是模块化思想将会贯穿整个学习篇的知识体系。思想篇并不仅限于接下来的几篇文章，还会在学习篇中通过话题的形式穿插讲解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单片机小白学步(16) 单片机&#x2F;计算机系统概述：模块化思想">
+<meta property="og:url" content="https://www.xiaoming.io/mcu-primer-16/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="截至目前，单片机入门篇的介绍就告一段落了。从本文开始将进入思想篇的学习。 思想篇对后面的具体知识学习进行整体的框架介绍，解释一些基础名词，以及对学习思想方法进行总结。思想篇的内容，对于后面的学习有很大的指导作用，尤其是模块化思想将会贯穿整个学习篇的知识体系。思想篇并不仅限于接下来的几篇文章，还会在学习篇中通过话题的形式穿插讲解。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-11-09T10:10:29.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.773Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="电路设计">
+<meta property="article:tag" content="硬件开发">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="入门">
+<meta property="article:tag" content="#单片机小白学步#">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/mcu-primer-16/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>单片机小白学步(16) 单片机/计算机系统概述：模块化思想 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "单片机小白学步(16) 单片机/计算机系统概述：模块化思想",
+      "description": "截至目前，单片机入门篇的介绍就告一段落了。从本文开始将进入思想篇的学习。 思想篇对后面的具体知识学习进行整体的框架介绍，解释一些基础名词，以及对学习思想方法进行总结。思想篇的内容，对于后面的学习有很大的指导作用，尤其是模块化思想将会贯穿整个学习篇的知识体系。思想篇并不仅限于接下来的几篇文章，还会在学习篇中通过话题的形式穿插讲解。",
+      "datePublished": "2014-11-09T10:10:29.000Z",
+      "dateModified": "2025-06-17T13:33:21.773Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/mcu-primer-16/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/mcu-primer-16/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单片机小白学步(16) 单片机/计算机系统概述：模块化思想
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-11-09 18:10:29" itemprop="dateCreated datePublished" datetime="2014-11-09T18:10:29+08:00">2014-11-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mcu-primer/" itemprop="url" rel="index"><span itemprop="name">单片机小白学步</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/mcu-primer-16/" class="post-meta-item leancloud_visitors" data-flag-title="单片机小白学步(16) 单片机/计算机系统概述：模块化思想" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/mcu-primer-16/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/mcu-primer-16/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>截至目前，单片机入门篇的介绍就告一段落了。从本文开始将进入思想篇的学习。</p>
+<p>思想篇对后面的具体知识学习进行整体的框架介绍，解释一些基础名词，以及对学习思想方法进行总结。思想篇的内容，对于后面的学习有很大的指导作用，尤其是模块化思想将会贯穿整个学习篇的知识体系。思想篇并不仅限于接下来的几篇文章，还会在学习篇中通过话题的形式穿插讲解。</p>
+<p>阅读建议：如果还没有涉及到实践，阅读时不一定能对思想方法有深刻的认识，看的时候有个大致的认识就可以了。在具体实践的时候，可以根据需要再回来看一看。</p>
+<p>==================================</p>
+<p>为了让大家更好的理解单片机，从本文开始，会先对单片机/计算机系统进行一个整体的介绍。让大家对单片机的学习和单片机系统的设计有个比较准确的把握，更好的分清后面各种知识点之间的联系，以及它们之间的轻重主次，学习起来更加得心应手。</p>
+<p>在这几篇里，会涉及到大量新的名词术语，而这些也正是很多初学者遇到的巨大的困难。我会用通俗的语言对它们进行介绍，不需要理解的很透彻，只要有一个大致的认识就可以了。同时，也会涉及单片机和计算机系统的各种设计思想，以及学习时的思路技巧等。</p>
+<p>因为单片机和计算机本质上没有太大的区别，所以这里介绍的内容绝不是仅仅局限于51单片机，也不只是单片机，而是包含计算机在内的各种微机系统。废话不多说，下面进入正题。</p>
+<h2 id="模块化思想">模块化思想</h2>
+<p>模块化是一个很重要的思想，它的应用不仅仅局限在单片机等技术方面，还体现在我们的身体构造，体现在人类社会生产生活中的方方面面。何为模块化思想呢？按照我的理解，模块化思想有几个特点，下面一一道来。</p>
+<h3 id="1、分工合作与专一">1、分工合作与专一</h3>
+<p>对生物学有基本认识的人都知道，包括人在内的很多动物是由多种器官构成的，例如大脑负责思考，心脏负责输送血液等。每个器官或组织负责几项功能，各个器官之间协调工作，共同构成一个复杂的整体。</p>
+<p>在人类社会中，分工合作的现象也是很常见的。生活中需要吃饭穿衣，在比较落后的年代，可能有一些自给自足的经济形式，自己劳动满足最基本的生活需求。而在现代社会，人的需求越来越多，不可能全部靠自己生产。每个人都专注于自己的特长，例如农民负责种植粮食，服装工人负责制造衣服，养殖户负责养殖，程序员负责编写程序等。各种人分工合作，最后互相交换劳动成果。当一个人长期专注于一件事，而不用担心自己其他的需求时，这个人能把这件事做得更好，总体上来看，社会的生产力也就大大提高了。</p>
+<h3 id="2、模块抽象">2、模块抽象</h3>
+<p>如果对电脑的基本组成有所了解，可以知道电脑由CPU、内存、硬盘、主板、显示器等几部分组成。如果想在电脑中存储更多的电影，可以考虑更换更大的硬盘。我们只需要知道硬盘是电脑中负责存储的部件，而不关注硬盘内部的构造。因为每个模块都是高度抽象的，内部原理可能很复杂，但是对外部而言，它只是一个能完成特定功能的黑盒子。这样抽象的好处，就是在更换硬盘时，只需要从外部对硬盘有一个抽象的认识，就能轻松解决问题，剩下的就只是花钱购买硬盘了。</p>
+<h3 id="3、分层">3、分层</h3>
+<p>如果让你管理一个庞大的公司，你会怎么管理？分层管理将会是一个很好的选择。</p>
+<p>你可以根据实际情况将公司分为几个部门，研发部、营销部、财务部、人事后勤部等。每个部门指派几个负责人进行管理，每个部门负责指定的工作。而具体到研发部，管理人员为了便于管理，又可能将其分为软件部、硬件部等；而到了软件部，又会有不同的团队，移动客户端开发、服务器端开发等等。这样一层一层进行分下来，每个人各司其职，也体现了分工合作的特点。</p>
+<p>如果你是公司的老总，当发现这个月公司的软件产品开发进度非常慢时，可能会直接叫来研发部的总管大发雷霆：“公司的XX软件开发太慢了，你看人家公司的同类产品早就发布出去了。这件事你得尽快给我搞定，要不然就走人！”然后指令一层一层的下达到了最下层的员工，最底层的程序猿们就又要加班加点拼命的干活了。研发进度慢或许只是因为有几个程序员最近有事请假了，但是在这个过程中，你不需要过多关注底层的细节，你也没有太多精力去关注，而只是把整个研发部当做一个抽象的整体去对待，这也体现了模块抽象的特点。</p>
+<h2 id="模块化设计的方法原则">模块化设计的方法原则</h2>
+<p>前面说了模块化思想的特点，模块化思想应用很广泛，而根据这种思想设计系统，就是模块化设计了。不只是单片机系统，计算机软硬件系统也可以充分利用模块化设计。这里先说一说模块化设计的方法思路。</p>
+<p>对于初学者，对此只需要先有个大概的认识，没有实际设计过，对这些思想也不容易有所感触；后来需要设计实际系统时，有需要回来再看看这篇就好了。</p>
+<h3 id="1、自顶向下，逐步求精；逻辑设计与物理实现分离；自底向上">1、自顶向下，逐步求精；逻辑设计与物理实现分离；自底向上</h3>
+<p>当要设计一个比较复杂的系统时，常常会先画框图，每个框表示一个抽象的功能模块。通过框图可以设计这些模块之间的逻辑关系，然后再细化去设计每个模块。而这样一个模块可能也比较复杂，这时又会将其拆分为更小的模块。这样一步一步的拆分模块，直到最后技术细节实现。这就是自顶向下的设计方法，将一个复杂问题进行分解，逐步求精。而框图的设计则是模块之间的逻辑设计，逻辑设计与每个模块的具体物理实现可以完全分离。</p>
+<p>和自顶向下的设计方法相比，还有一种恰恰相反的思路：自底向上。先设计出一些核心模块，然后再逐步进行扩展和完善。完全的自底向上的方法只适合设计小型的系统。在实际应用中，往往是结合这两种方法进行设计。</p>
+<h3 id="2、模块独立，减小耦合度">2、模块独立，减小耦合度</h3>
+<p>模块化设计中很重要的一个思想是模块独立，减小模块之间的耦合度。也就是说，每个模块负责完成自己的功能，不同的模块之间关联要尽可能小，以免互相影响。</p>
+<p>想给电脑换一个更大的硬盘时，一般不用考虑内存等其他模块会不会受到影响，要不然实在是太麻烦了。因为电脑的模块化设计非常规范，模块之间的关联很小。</p>
+<p>减小耦合度这种看似简单的问题，实际上在设计的时候却相当麻烦，为了减小耦合度，需要使用很多技术来完成，后面会在实际操作中进行介绍。</p>
+<h3 id="3、模块标准化，可代换">3、模块标准化，可代换</h3>
+<p>有同学觉得自己的电脑反应太慢，网上一查，原来电脑慢很大可能是因为机械硬盘的速度太慢。相比硬盘，CPU和内存要快很多，所以就如木桶效应，电脑被最慢的硬盘给拖慢了速度。于是就给电脑换上了固态硬盘，顿时速度快了很多。</p>
+<p>固态硬盘和机械硬盘的内部结构是完全不一样的。机械硬盘是依靠磁性盘片存储数据的，读写时需要机械结构带动盘片转动，机械转动速度不能太快（2.5寸机械硬盘以7200转每分钟的速度旋转，盘片边缘的速度能达到86km/h），太快了盘片可能会直接破裂，或者发热量巨大，所以读写速度远远没有电子器件快。而固态硬盘使用的就是电子芯片来实现数据存储，所以速度非常快。</p>
+<p>两种硬盘虽然原理和性能差距都很大，但是却能很轻松的安装在同一台电脑上，只要保证一些参数匹配，例如都是2.5寸的。这是因为现有的不同硬盘设计的都是标准化的，硬盘的尺寸、接口等都有标准规范，所以能很轻松的代换。</p>
+<h3 id="4、模块通用性，适用于多种产品">4、模块通用性，适用于多种产品</h3>
+<p>几年以前的手机等数码产品，不同品牌、不同设备分别由不同的人和公司设计，充电的接口各不相同，充电器也都是每个数码产品专门配备一套，出门旅行带的数码产品一多，仅仅是大大小小的各种充电器就够让人烦了。而且充电器坏了只能重新买配套的充电器。这样的设计浪费了很多资源，也给人们的生活带来了很大的不便。</p>
+<p>而近几年，MP3、MP4、手机等数码产品的充电器接口慢慢被统一起来，很多设备都可以使用通用的USB充电头和数据线进行充电。对于用户来说方便多了；对于设备制造商来说，也不是很有必要单独设计充电器，直接用标准充电器就可以了；还节约了资源，例如有些数码设备充电器是可以选配的，有充电器就不用再进行购买了。通用的充电头和手机充电接口设计，使得一个充电器可以用于多种产品。</p>
+<p>通用性和前面一点标准化，两者其实都可以理解成，设计一个模块或系统，都要遵循一定的标准化规范。一个标准化的模块，可以应用于不同的系统（通用充电器给多种设备充电）；而符合统一标准的多个同类模块，可以用于同一个系统（机械硬盘和固态硬盘都能装进电脑）。</p>
+<h2 id="模块化设计的优缺点">模块化设计的优缺点</h2>
+<p>前面通过举例，已经明确的体现了模块化设计的很多优点，这里对其特点进行一个总结。</p>
+<h3 id="1、便于分工合作">1、便于分工合作</h3>
+<p>对于一个实际产品，很多时候不是一个人开发的，而是很多人共同开发。这里的原因有很多，可能是因为时间比较紧，例如公司之间的竞争，谁最先开发并发布新的产品，就最有可能抢占市场；可能是因为系统太庞大，一个人一辈子也做不完，例如操作系统的代码量往往能达到几百万行；分工合作还会提高整体效率，前面已经说过了。</p>
+<p>多个人开发同一个系统，模块化开发是最好的选择。一些人专注于一个领域，例如安卓程序、平面设计、服务器等，每个人负责开发和他的专注领域匹配的小模块，而另外一些知识面比较广、经验丰富的人，负责模块之间的逻辑组合，最后将整个系统整合到一起。这个过程也可能会有分层，系统分成大的模块，再拆分成小的模块，逐层分解并实现。</p>
+<h3 id="2、提高开发效率">2、提高开发效率</h3>
+<p>一方面，分工合作的方式能提高效率；另一方面，运用已经实现好的模块，像积木一样搭建新的系统，更是让效率大大提高。</p>
+<p>模块的开发，可能是很多人分别完成的，也可能是同一个人在不同时期完成的，还有可能是从别人那免费获得或购买的。</p>
+<p>具体到单片机的学习，其实一开始我们就在使用别人的模块。单片机、各种元件都是别人生产好的，运用这些模块，我们很快的搭建了自己的开发板。</p>
+<p>同样的道理，在后面的详细学习过程中，我希望大家每次学完一个技术知识，就自己实现一个程序模块，例如数码管的驱动程序（虽然现在你可能还不理解这是什么）。到整个知识都快学完了，就有了一套自己的程序库，也就是全套的模块程序。</p>
+<p>时间久了，或许你就有点记不清数码管驱动当初是怎么写的了。但是没关系，只要你写好了自己的程序模块，并且给出了规范的使用说明，需要时直接照着说明去用就可以了，而不需要再去复习一遍前面的知识。所以在后面开发自己的单片机系统时，直接用自己开发好的模块，就能极大的提高开发效率。</p>
+<p>而在后面具体技术的学习中，我也会详细的分析，如何才能尽可能好的实现每一个模块，用到哪些技术知识，帮助大家一起搭建自己的程序库。</p>
+<h3 id="3、能开发出复杂系统">3、能开发出复杂系统</h3>
+<p>分工合作，使得人们能开发出一个人有生之年根本完成不了的、很庞大的系统。</p>
+<p>而对于个人开发系统来说，如果你花几个月写一个比较庞大的程序，写到后面可能就忘记了前面的程序是怎么写的，这样可能会影响程序的继续编写。这时你可能需要回过头来再看以前的程序，但程序毕竟不是自然语言，看起来还是比较费劲的，很可能后来你自己也很难看懂了，至少是需要很多时间才能看懂。等你终于看懂了前面的东西，发现后面的代码又忘了。</p>
+<p>而模块化的设计方法，你可以在一个小的时间段里，设计一个小的模块，并把它做的足够好，然后对整个模块编写一个自己能看懂的使用说明。以后要用这个模块，就把它当做一个抽象的整体，不需要关注模块内部细节实现，直接看使用说明就行了。这样，你才更有可能独立开发一个比较庞大的程序。</p>
+<h3 id="4、便于维护和查错">4、便于维护和查错</h3>
+<p>便于维护也是模块化很重要的一个特点。模块化讲究降低模块间的耦合度，一个不是很核心的模块出了问题，往往不会对其他模块造成很大影响，只会表现出系统中的一些功能无法使用（当然，如果核心模块例如电脑CPU出了问题，可能会导致整个系统崩溃）。这时你可以直接判断出哪个模块有问题，然后去修复那个模块，大大缩小了检查错误的范围。</p>
+<p>不知道大家对前面《单片机程序下载失败总结》的那篇文章还有没有印象，文中提到，下载失败时，如果你能有一套正常下载程序的电脑、下载线、单片机系统板装备，通过替换的方法，很快就能确定问题是否出在你的电脑上。从这里可以看出来模块化思想在查错时的重大意义。</p>
+<h3 id="5、缺点">5、缺点</h3>
+<p>任何事物都有两面性，模块化思想也不例外。这里我简单说一下。</p>
+<p>不知道大家有没有听说过这样的话，很多互联网公司都是“三个人拿四个人的钱干五个人的活”。为什么很多互联网公司工作非常累，工资很高，但是老板却不愿意降低工资多招聘一些人，同时让员工能更轻松呢？</p>
+<p>有本书叫《人月神话》，里面就解释了这个问题的原因。人月是一个单位，表示一个人一个月能完成的工作量。按照人月理论，6个人月的工作两个人需要三个月完成，而三个人则只需要两个月。而事实是，在互联网公司，三个人往往需要远远不止两个月，甚至三个月还完成不了任务，人月理论只是一个不可能的神话。</p>
+<p>为什么会这样呢？原因是多个人设计同一个系统，人与人之间需要沟通，人越多沟通需要的成本越大。所以招聘更多的人，意味着浪费掉更多的沟通成本。</p>
+<p>如果把每个人看做一个模块，人月神话说明了，过多的模块会增加模块之间的交流成本，从而降低系统效率；而在模块特别多、关系很密切的时候，保持模块的独立性和模块之间的匹配，本身就成了很大的难题。</p>
+<p>但是总体来说，模块化的优点远大于缺点，有些时候模块化也是不得已而为之的，而一些缺点往往是在特定情况下才有的。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-15/" rel="bookmark">单片机小白学步(15) 单片机程序下载失败总结</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mcu-engineer/" rel="prev" title="如何以学习单片机为契机，逐步成为优秀的工程师">
+      <i class="fa fa-chevron-left"></i> 如何以学习单片机为契机，逐步成为优秀的工程师
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/msp430-study/" rel="next" title="怎样学习MSP430单片机">
+      怎样学习MSP430单片机 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E6%80%9D%E6%83%B3"><span class="nav-number">1.</span> <span class="nav-text">模块化思想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%88%86%E5%B7%A5%E5%90%88%E4%BD%9C%E4%B8%8E%E4%B8%93%E4%B8%80"><span class="nav-number">1.1.</span> <span class="nav-text">1、分工合作与专一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%A8%A1%E5%9D%97%E6%8A%BD%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">2、模块抽象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%88%86%E5%B1%82"><span class="nav-number">1.3.</span> <span class="nav-text">3、分层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%96%B9%E6%B3%95%E5%8E%9F%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">模块化设计的方法原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%EF%BC%8C%E9%80%90%E6%AD%A5%E6%B1%82%E7%B2%BE%EF%BC%9B%E9%80%BB%E8%BE%91%E8%AE%BE%E8%AE%A1%E4%B8%8E%E7%89%A9%E7%90%86%E5%AE%9E%E7%8E%B0%E5%88%86%E7%A6%BB%EF%BC%9B%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A"><span class="nav-number">2.1.</span> <span class="nav-text">1、自顶向下，逐步求精；逻辑设计与物理实现分离；自底向上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%A8%A1%E5%9D%97%E7%8B%AC%E7%AB%8B%EF%BC%8C%E5%87%8F%E5%B0%8F%E8%80%A6%E5%90%88%E5%BA%A6"><span class="nav-number">2.2.</span> <span class="nav-text">2、模块独立，减小耦合度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E6%A8%A1%E5%9D%97%E6%A0%87%E5%87%86%E5%8C%96%EF%BC%8C%E5%8F%AF%E4%BB%A3%E6%8D%A2"><span class="nav-number">2.3.</span> <span class="nav-text">3、模块标准化，可代换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E6%A8%A1%E5%9D%97%E9%80%9A%E7%94%A8%E6%80%A7%EF%BC%8C%E9%80%82%E7%94%A8%E4%BA%8E%E5%A4%9A%E7%A7%8D%E4%BA%A7%E5%93%81"><span class="nav-number">2.4.</span> <span class="nav-text">4、模块通用性，适用于多种产品</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">模块化设计的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%BE%BF%E4%BA%8E%E5%88%86%E5%B7%A5%E5%90%88%E4%BD%9C"><span class="nav-number">3.1.</span> <span class="nav-text">1、便于分工合作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%8F%90%E9%AB%98%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87"><span class="nav-number">3.2.</span> <span class="nav-text">2、提高开发效率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E8%83%BD%E5%BC%80%E5%8F%91%E5%87%BA%E5%A4%8D%E6%9D%82%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.3.</span> <span class="nav-text">3、能开发出复杂系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E4%BE%BF%E4%BA%8E%E7%BB%B4%E6%8A%A4%E5%92%8C%E6%9F%A5%E9%94%99"><span class="nav-number">3.4.</span> <span class="nav-text">4、便于维护和查错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E7%BC%BA%E7%82%B9"><span class="nav-number">3.5.</span> <span class="nav-text">5、缺点</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

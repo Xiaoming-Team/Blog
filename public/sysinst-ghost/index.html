@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Ghost是一款很古老很经典、但是一直很好用、很受欢迎的系统备份还原软件。   在系统处于最佳状态的时候（例如刚装完系统并按自己的需要设置好，装上各种顺手的常用软件），将其进行备份。   以后遇到任何系统问题，无论是系统越来越慢，中了病毒，还是各种疑难杂症，毫不犹豫的花十几分钟还原系统，就能恢复如新~甚至都有了不装杀毒软件直接裸奔的勇气＞▽＜ ~  我就是做么做的，从不管那些杀毒软件和系统更新，出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装系统不求人——用Ghost备份还原系统">
+<meta property="og:url" content="https://www.xiaoming.io/sysinst-ghost/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="Ghost是一款很古老很经典、但是一直很好用、很受欢迎的系统备份还原软件。   在系统处于最佳状态的时候（例如刚装完系统并按自己的需要设置好，装上各种顺手的常用软件），将其进行备份。   以后遇到任何系统问题，无论是系统越来越慢，中了病毒，还是各种疑难杂症，毫不犹豫的花十几分钟还原系统，就能恢复如新~甚至都有了不装杀毒软件直接裸奔的勇气＞▽＜ ~  我就是做么做的，从不管那些杀毒软件和系统更新，出">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/b77f8fcaca00ad8e042c4ac02722bb13.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/d30106cebb3e7f908b4b0555e2d200ed.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/7e104a4a29e5f69ea912f02c596c7f42.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/d7afad6d28f7f82eb0796304ce6ea3cb.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/6beeb99f8a6763efa217839467f675c2.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/900314789120f13cea8e98c50af3253b.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/5cf7cadda18edf0cec446dd8cc954bf8.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/b0daea9772d20b9e1cf50cc2b48a7323.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/b25fcf488952e0d74a65661f5f603402.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/fe1cb50efe5256467170b46c7bd10a6e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/2c76a01ad6240c38961d91881198c16e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/a491652f3b7e181a4ce5dbda3ae9378f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/dbd461e8472031105a8ecc15469aa7cc.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/1d3ddcf0ff060bf2c2ad63bf74718bde.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/c9827c3281c9b5440948b62b3a99ccca.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/4657c2295447bfb816c89bca2e3b1c23.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/e6359cfeb8da881a7c83ceeb7a8343ca.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/6803f9e81f36e8392de1081742c38c4c.png">
+<meta property="article:published_time" content="2015-04-02T09:14:49.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.403Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="#装系统不求人#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/b77f8fcaca00ad8e042c4ac02722bb13.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/sysinst-ghost/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>装系统不求人——用Ghost备份还原系统 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "装系统不求人——用Ghost备份还原系统",
+      "description": "Ghost是一款很古老很经典、但是一直很好用、很受欢迎的系统备份还原软件。 在系统处于最佳状态的时候（例如刚装完系统并按自己的需要设置好，装上各种顺手的常用软件），将其进行备份。 以后遇到任何系统问题，无论是系统越来越慢，中了病毒，还是各种疑难杂症，毫不犹豫的花十几分钟还原系统，就能恢复如新~甚至都有了不装杀毒软件直接裸奔的勇气＞▽＜ ~...",
+      "datePublished": "2015-04-02T09:14:49.000Z",
+      "dateModified": "2026-01-09T08:19:11.403Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/sysinst-ghost/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/sysinst-ghost/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          装系统不求人——用Ghost备份还原系统
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-02 17:14:49" itemprop="dateCreated datePublished" datetime="2015-04-02T17:14:49+08:00">2015-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sysinst/" itemprop="url" rel="index"><span itemprop="name">装系统不求人</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sysinst-ghost/" class="post-meta-item leancloud_visitors" data-flag-title="装系统不求人——用Ghost备份还原系统" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sysinst-ghost/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sysinst-ghost/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Ghost是一款很古老很经典、但是一直很好用、很受欢迎的系统备份还原软件。</p>
+<ol>
+<li>
+<p>在系统处于最佳状态的时候（例如刚装完系统并按自己的需要设置好，装上各种顺手的常用软件），将其进行备份。</p>
+</li>
+<li>
+<p>以后遇到任何系统问题，无论是系统<strong>越来越慢，中了病毒，还是各种疑难杂症</strong>，毫不犹豫的花<strong>十几分钟</strong>还原系统，就能恢复如新~甚至都有了不装杀毒软件直接裸奔的勇气<code>＞▽＜</code> ~</p>
+<blockquote>
+<p>我就是做么做的，从不管那些杀毒软件和系统更新，出了疑难问题果断还原。电脑配置并不多高，但是有机会用到我的电脑的人，有一大半第一反应就是：你的电脑怎么这么快~ 因为我得了电脑反应慢就会抑郁的病……</p>
+<p>（很多奇怪的问题，慢慢找原因，花的时间远比还原系统多，而且不一定能根治问题，为什么要浪费时间呢~至于病毒，首先是平时注意一点，其次Win7的UAC机制可以过滤掉很多病毒，最后中毒了电脑变慢或异常，往往能感觉出来）</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="进入Ghost环境">进入Ghost环境</h2>
+<ul>
+<li>你可以在Windows下直接运行Ghost软件（以管理员身份运行），但如果要备份/还原正在运行的系统分区，就需要借助启动盘了。</li>
+<li>可以进入WinPE，然后在里面运行Ghost软件（以管理员身份运行）。</li>
+<li>推荐的方法是，使用万能启动盘，启动后直接选择DOS版的Ghost并回车，稍后即进入Ghost环境如图。点击OK即可进入Ghost主界面。</li>
+</ul>
+<blockquote>
+<p>万能启动盘的制作和基本使用可参考</p>
+<p>《装系统不求人——利用Grub4dos打造万能启动盘》<br>
+<a href="http://www.xiaoming.io/sysinst-create-bootable-disk">http://www.xiaoming.io/sysinst-create-bootable-disk</a></p>
+<p>《装系统不求人——万能启动盘使用简介》<br>
+<a href="http://www.xiaoming.io/sysinst-bootable-disk-manual">http://www.xiaoming.io/sysinst-bootable-disk-manual</a></p>
+<p>《装系统不求人——量身定制自己的万能启动盘》<br>
+<a href="http://www.xiaoming.io/sysinst-customize-bootable-disk">http://www.xiaoming.io/sysinst-customize-bootable-disk</a></p>
+</blockquote>
+<p><img data-src="/blog-imgs/tech/sysinst/images/b77f8fcaca00ad8e042c4ac02722bb13.png" alt=""></p>
+<h2 id="退出Ghost环境">退出Ghost环境</h2>
+<ul>
+<li>
+<p>在Windows或PE下，右上角就能关闭Ghost……这个不用我多说吧。。。</p>
+</li>
+<li>
+<p>如果是直接从启动盘启动的：在Ghost主界面点击Quit，即退出到DOS环境。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/d30106cebb3e7f908b4b0555e2d200ed.png" alt=""></p>
+<p>此时按Ctrl+Alt+Delete就能重启电脑，或者直接按关机键。黑黑的DOS窗口看着还真有点压抑哈~这就是上个世纪图形化界面的操作系统还没有发明前，电脑的样子~真是可怕<code>(⊙o⊙)</code>……</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/7e104a4a29e5f69ea912f02c596c7f42.png" alt=""></p>
+</li>
+</ul>
+<h2 id="备份系统（备份分区）">备份系统（备份分区）</h2>
+<p>备份系统的本质，就是将系统分区中的文件，打包成一个GHO镜像，通过Ghost分区备份即可完成。当然，你同样可以备份其他分区。</p>
+<h3 id="1-选择操作">1. 选择操作</h3>
+<p>如果支持鼠标可以直接用鼠标操作，或直接用方向键、ESC返回键、ENTER回车键操作。</p>
+<p>在Ghost主界面选择Local --&gt; Partition --&gt; To Image。Local表示本地磁盘，Partition即分区操作，子菜单中的三项：</p>
+<ul>
+<li>To Partition 表示 <strong>从一个分区直接克隆到另一个分区</strong></li>
+<li>To Image 表示 <strong>从分区备份到镜像文件</strong>，也就是我们要选择的</li>
+<li>From Image 表示 <strong>从镜像文件还原到分区</strong>，还原系统时会用到</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/sysinst/images/d7afad6d28f7f82eb0796304ce6ea3cb.png" alt=""></p>
+<h3 id="2-选择源设备">2. 选择源设备</h3>
+<p>选择你要备份哪个设备上的数据。如果你有多个硬盘，或者插着U盘，这里就会有多个设备，你可以根据容量（Size，单位为MB）来区分它们。选中设备后，点击OK。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/6beeb99f8a6763efa217839467f675c2.png" alt=""></p>
+<h3 id="3-选择源分区">3. 选择源分区</h3>
+<p>选择你要备份的分区，也就是你的系统安装到的分区。你可以根据你的分区名字（Bolume Label）来确定要选择的分区。如图，我选择的是WIN7分区（这里的截图只是作为演示）。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/900314789120f13cea8e98c50af3253b.png" alt=""></p>
+<h3 id="4-选择目标镜像文件">4. 选择目标镜像文件</h3>
+<p>选择你要把备份文件（也就是镜像）放在哪，并给它取个名字。</p>
+<p>你可以在上面的下拉菜单选择备份文件放在哪个分区。因为Ghost不支持中文，中文会显示成乱码。可以根据分区中保存的文件判断在哪个分区。</p>
+<p>注意：</p>
+<ul>
+<li>备份文件不能放在你要备份的那个分区里</li>
+<li>你选择的分区要有足够大的剩余空间，以保存镜像文件。备份Win7系统，镜像文件大概占用5~15G空间。</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/sysinst/images/5cf7cadda18edf0cec446dd8cc954bf8.png" alt=""></p>
+<p>然后在下方输入备份文件的名字，扩展名固定为gho，不用输入。然后点击Save保存。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/b0daea9772d20b9e1cf50cc2b48a7323.png" alt=""></p>
+<h3 id="5-设置压缩比例">5. 设置压缩比例</h3>
+<p>Ghost问你要不要压缩镜像，随便选一个都可以，推荐选Fast。</p>
+<ul>
+<li>No表示不压缩，生成文件最大，但是备份速度也最快（除非硬盘速度限制）</li>
+<li>Fast表示快速压缩，推荐选择此项。</li>
+<li>High表示最大的压缩比例，最后镜像最小，但是备份速度慢</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/sysinst/images/b25fcf488952e0d74a65661f5f603402.png" alt=""></p>
+<h3 id="6-确认开始备份">6. 确认开始备份</h3>
+<p><img data-src="/blog-imgs/tech/sysinst/images/fe1cb50efe5256467170b46c7bd10a6e.png" alt=""></p>
+<h3 id="7-备份完成">7. 备份完成</h3>
+<p>进度条到达100%即备份完成，点击Continue回到Ghost主页面。一般Win7系统需要十几分钟，高富帅的高配电脑可能会更快~系统备份就这么完成了，感觉自己萌萌哒<code>｡◕‿◕｡</code></p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/2c76a01ad6240c38961d91881198c16e.png" alt=""></p>
+<h2 id="还原系统（还原分区）">还原系统（还原分区）</h2>
+<p>学会了备份系统，还原就简单多了，操作差不多。</p>
+<h3 id="1-选择操作-2">1. 选择操作</h3>
+<p>菜单中选择Local --&gt; Partition --&gt; From Image即可。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/a491652f3b7e181a4ce5dbda3ae9378f.png" alt=""></p>
+<h3 id="2-选择源镜像文件">2. 选择源镜像文件</h3>
+<p>选择你之前备份的GHO文件。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/dbd461e8472031105a8ecc15469aa7cc.png" alt=""></p>
+<h3 id="3-选择镜像中的源分区">3. 选择镜像中的源分区</h3>
+<p>什么意思呢？有些镜像文件中备份了不止一个分区，所以需要选择从其中的哪个分区备份来还原。这里只有一个选项，直接选中确认就行了。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/1d3ddcf0ff060bf2c2ad63bf74718bde.png" alt=""></p>
+<h3 id="4-选择目标设备">4. 选择目标设备</h3>
+<p>选择要还原到哪个设备上的分区。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/c9827c3281c9b5440948b62b3a99ccca.png" alt=""></p>
+<h3 id="5-选择目标分区">5. 选择目标分区</h3>
+<p>选择还原到哪个分区。</p>
+<p>注意：</p>
+<ul>
+<li>不能还原到镜像文件自身所在分区，也就是图中红色分区。</li>
+<li>千万别选错了目标分区，要不然还原后里面的文件就没了。</li>
+</ul>
+<p><img data-src="/blog-imgs/tech/sysinst/images/4657c2295447bfb816c89bca2e3b1c23.png" alt=""></p>
+<h3 id="6-确认还原">6. 确认还原</h3>
+<p>是否确认开始还原？目标分区的文件将会被覆盖掉。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/e6359cfeb8da881a7c83ceeb7a8343ca.png" alt=""></p>
+<h3 id="7-还原完成">7. 还原完成</h3>
+<p>点击Continue回到主界面，点击Reset Computer可以重启电脑。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/6803f9e81f36e8392de1081742c38c4c.png" alt=""></p>
+<p>从此以后，再也不怕Ghost了~也不用依赖各种一键还原的软件了，直接自己动手就能搞定~</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-pwd-crack/" rel="bookmark">装系统不求人——开机密码破解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ubuntu/" rel="bookmark">装系统不求人——安装Ubuntu</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-customize-bootable-disk/" rel="bookmark">装系统不求人——量身定制自己的万能启动盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-xp/" rel="bookmark">装系统不求人——Win XP安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-boot/" rel="bookmark">装系统不求人——BootLoader与引导修复</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-prepare/" rel="bookmark">装系统不求人——系统安装准备工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-follow-up/" rel="bookmark">装系统不求人——系统安装后续工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-win-nt6/" rel="bookmark">装系统不求人——Windows7/8系统的安装（利用Win$Man）</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B8%8D%E6%B1%82%E4%BA%BA/" rel="tag"># #装系统不求人#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sysinst-follow-up/" rel="prev" title="装系统不求人——系统安装后续工作">
+      <i class="fa fa-chevron-left"></i> 装系统不求人——系统安装后续工作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/50mm-f1-8-rain-photo/" rel="next" title="EF-50mm F1.8 II镜头室外初体验 & 丁香家属区雨中摄影">
+      EF-50mm F1.8 II镜头室外初体验 & 丁香家属区雨中摄影 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5Ghost%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">进入Ghost环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%80%E5%87%BAGhost%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">退出Ghost环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%A4%87%E4%BB%BD%E5%88%86%E5%8C%BA%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">备份系统（备份分区）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%80%89%E6%8B%A9%E6%93%8D%E4%BD%9C"><span class="nav-number">3.1.</span> <span class="nav-text">1. 选择操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%80%89%E6%8B%A9%E6%BA%90%E8%AE%BE%E5%A4%87"><span class="nav-number">3.2.</span> <span class="nav-text">2. 选择源设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%80%89%E6%8B%A9%E6%BA%90%E5%88%86%E5%8C%BA"><span class="nav-number">3.3.</span> <span class="nav-text">3. 选择源分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%80%89%E6%8B%A9%E7%9B%AE%E6%A0%87%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="nav-number">3.4.</span> <span class="nav-text">4. 选择目标镜像文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%AE%BE%E7%BD%AE%E5%8E%8B%E7%BC%A9%E6%AF%94%E4%BE%8B"><span class="nav-number">3.5.</span> <span class="nav-text">5. 设置压缩比例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%A1%AE%E8%AE%A4%E5%BC%80%E5%A7%8B%E5%A4%87%E4%BB%BD"><span class="nav-number">3.6.</span> <span class="nav-text">6. 确认开始备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%A4%87%E4%BB%BD%E5%AE%8C%E6%88%90"><span class="nav-number">3.7.</span> <span class="nav-text">7. 备份完成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%98%E5%8E%9F%E7%B3%BB%E7%BB%9F%EF%BC%88%E8%BF%98%E5%8E%9F%E5%88%86%E5%8C%BA%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">还原系统（还原分区）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%80%89%E6%8B%A9%E6%93%8D%E4%BD%9C-2"><span class="nav-number">4.1.</span> <span class="nav-text">1. 选择操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%80%89%E6%8B%A9%E6%BA%90%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">2. 选择源镜像文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%80%89%E6%8B%A9%E9%95%9C%E5%83%8F%E4%B8%AD%E7%9A%84%E6%BA%90%E5%88%86%E5%8C%BA"><span class="nav-number">4.3.</span> <span class="nav-text">3. 选择镜像中的源分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%80%89%E6%8B%A9%E7%9B%AE%E6%A0%87%E8%AE%BE%E5%A4%87"><span class="nav-number">4.4.</span> <span class="nav-text">4. 选择目标设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%80%89%E6%8B%A9%E7%9B%AE%E6%A0%87%E5%88%86%E5%8C%BA"><span class="nav-number">4.5.</span> <span class="nav-text">5. 选择目标分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%A1%AE%E8%AE%A4%E8%BF%98%E5%8E%9F"><span class="nav-number">4.6.</span> <span class="nav-text">6. 确认还原</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E8%BF%98%E5%8E%9F%E5%AE%8C%E6%88%90"><span class="nav-number">4.7.</span> <span class="nav-text">7. 还原完成</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

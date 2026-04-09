@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="sharp用法总结 sharp是一个Node图片库，可以用来生成图片、对图片进行各种操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sharp图片库用法总结">
+<meta property="og:url" content="https://www.xiaoming.io/node-sharp/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="sharp用法总结 sharp是一个Node图片库，可以用来生成图片、对图片进行各种操作。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-11-01T10:50:49.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.661Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="Web开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/node-sharp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>sharp图片库用法总结 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "sharp图片库用法总结",
+      "description": "sharp用法总结 sharp是一个Node图片库，可以用来生成图片、对图片进行各种操作。",
+      "datePublished": "2018-11-01T10:50:49.000Z",
+      "dateModified": "2025-06-17T13:33:21.661Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/node-sharp/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/node-sharp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          sharp图片库用法总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-01 18:50:49" itemprop="dateCreated datePublished" datetime="2018-11-01T18:50:49+08:00">2018-11-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/node-sharp/" class="post-meta-item leancloud_visitors" data-flag-title="sharp图片库用法总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/node-sharp/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/node-sharp/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1>sharp用法总结</h1>
+<p>sharp是一个Node图片库，可以用来生成图片、对图片进行各种操作。</p>
+<blockquote>
+<p>GitHub地址<br>
+<a target="_blank" rel="noopener" href="https://github.com/lovell/sharp">https://github.com/lovell/sharp</a></p>
+</blockquote>
+<h2 id="基本用法">基本用法</h2>
+<p>官方文档 <a target="_blank" rel="noopener" href="http://sharp.dimens.io/en/stable/">http://sharp.dimens.io/en/stable/</a></p>
+<p>常见用法分三步：</p>
+<p>1、创建sharp对象，来源可以是文件、Buffer或新建图片</p>
+<p>2、操作sharp对象，处理图片（rotate、resize、background…）、合并元素（overlayWith）等</p>
+<p>3、保存sharp对象，可以保存为文件、Buffer等，且可以指定编码格式为jpg、png、raw等。</p>
+<h2 id="添加文字：text-to-svg">添加文字：text-to-svg</h2>
+<p>sharp不支持直接添加文字，添加文字可以用text-to-svg先把文字转成svg，然后让sharp合并svg。</p>
+<p>目前还不支持文字自动换行，需要自己调用<code>getMetrics</code>计算文本尺寸进行分行拆分，然后分别转换。</p>
+<p>也不支持竖向文字排版（类似CSS中的<code>writing-mode</code>效果）</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/shrhdk/text-to-svg">https://github.com/shrhdk/text-to-svg</a></p>
+</blockquote>
+<h2 id="注意事项">注意事项</h2>
+<h3 id="加载SVG">加载SVG</h3>
+<p>加载生成的SVG时传入的应该是Buffer而不是string，传string会当成文件路径来处理，导致报错提示格式不识别。</p>
+<blockquote>
+<p>Error: Input file is missing or of an unsupported image format</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const sharp = require(&quot;sharp&quot;);</span><br><span class="line">const TextToSVG = require(&quot;text-to-svg&quot;);</span><br><span class="line">const textToSVG = TextToSVG.loadSync();</span><br><span class="line"></span><br><span class="line">const svgOptions = &#123; x: 0, y: 0, fontSize: 72, anchor: &quot;top&quot;, attributes: &#123; fill: &quot;red&quot;, stroke: &quot;black&quot; &#125; &#125;;</span><br><span class="line"></span><br><span class="line">const svg = textToSVG.getSVG(&quot;hello&quot;, svgOptions);</span><br><span class="line"></span><br><span class="line">console.log(svg);</span><br><span class="line"></span><br><span class="line">const options = &#123;</span><br><span class="line">  create: &#123;</span><br><span class="line">    width: 600,</span><br><span class="line">    height: 800,</span><br><span class="line">    channels: 4,</span><br><span class="line">    background: &#123; r: 255, g: 200, b: 255, alpha: 1 &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">sharp(options)</span><br><span class="line">// 注意这里不能直接传svg，要传Buffer</span><br><span class="line">  .overlayWith(Buffer.from(svg), &#123; gravity: sharp.gravity.southeast &#125;)</span><br><span class="line">  .png()</span><br><span class="line">  .toFile(__dirname + &quot;/output.png&quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="加载raw格式数据">加载raw格式数据</h3>
+<p>加载时需要传options指定宽高和通道数，否则报错提示格式不识别。</p>
+<blockquote>
+<p>Error: Input file is missing or of an unsupported image format</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const sharp = require(&quot;sharp&quot;);</span><br><span class="line"></span><br><span class="line">const sharpOptions = &#123;</span><br><span class="line">  raw: &#123;</span><br><span class="line">    width: 600,</span><br><span class="line">    height: 800,</span><br><span class="line">    channels: 4</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Promise.resolve()</span><br><span class="line">  .then(() =&gt; &#123;</span><br><span class="line">    return sharp(&#123;</span><br><span class="line">      create: &#123;</span><br><span class="line">        width: 600,</span><br><span class="line">        height: 800,</span><br><span class="line">        channels: 4,</span><br><span class="line">        background: &#123; r: 255, g: 200, b: 255, alpha: 1 &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;).raw().toBuffer();</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(data =&gt; &#123;</span><br><span class="line">    // 这里从raw格式的Buffer创建sharp，必须指定options</span><br><span class="line">    return sharp(data, sharpOptions).png().toFile(__dirname + &quot;/output.png&quot;);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="多个图层合并">多个图层合并</h3>
+<p>一次链式操作不能调用多个overlayWith，后面的会覆盖掉前面的。需要合成多个元素时，应该每次创建新的sharp对象，可以用Promise写法如下；如果overlay的数量不确定，可以保存到数组中，最后用js数组的reduce实现。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/lovell/sharp/issues/728">https://github.com/lovell/sharp/issues/728</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lovell/sharp/issues/405">https://github.com/lovell/sharp/issues/405</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">const sharp = require(&quot;sharp&quot;);</span><br><span class="line">const TextToSVG = require(&quot;text-to-svg&quot;);</span><br><span class="line">const textToSVG = TextToSVG.loadSync();</span><br><span class="line"></span><br><span class="line">const svgOptions = &#123; x: 0, y: 0, fontSize: 72, anchor: &quot;top&quot;, attributes: &#123; fill: &quot;red&quot;, stroke: &quot;black&quot; &#125; &#125;;</span><br><span class="line"></span><br><span class="line">const sharpOptions = &#123;</span><br><span class="line">  raw: &#123;</span><br><span class="line">    width: 600,</span><br><span class="line">    height: 800,</span><br><span class="line">    channels: 4</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Promise.resolve()</span><br><span class="line">  .then(() =&gt; &#123;</span><br><span class="line">    return sharp(&#123;</span><br><span class="line">      create: &#123;</span><br><span class="line">        width: 600,</span><br><span class="line">        height: 800,</span><br><span class="line">        channels: 4,</span><br><span class="line">        background: &#123; r: 255, g: 200, b: 255, alpha: 1 &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;).raw().toBuffer();</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(data =&gt; &#123;</span><br><span class="line">    const svg = textToSVG.getSVG(&quot;hello1&quot;, svgOptions);</span><br><span class="line">    return sharp(data, sharpOptions)</span><br><span class="line">      .overlayWith(Buffer.from(svg), &#123; gravity: sharp.gravity.southeast &#125;)</span><br><span class="line">      .raw().toBuffer();</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(data =&gt; &#123;</span><br><span class="line">    const svg = textToSVG.getSVG(&quot;hello2&quot;, svgOptions);</span><br><span class="line">    return sharp(data, sharpOptions)</span><br><span class="line">      .overlayWith(Buffer.from(svg), &#123; gravity: sharp.gravity.northwest &#125;)</span><br><span class="line">      .raw().toBuffer();</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(data =&gt; &#123;</span><br><span class="line">    return sharp(data, sharpOptions).png().toFile(__dirname + &quot;/output.png&quot;);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nginx-config/" rel="bookmark">Nginx常用配置整理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mysql-basic-usage/" rel="bookmark">MySQL基本命令总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mysql57-change-password/" rel="bookmark">MySQL 5.7.16可登陆Shell但不能改root密码</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mac-tomcat/" rel="bookmark">MAC安装配置Tomcat</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/ubuntu-lnmp/" rel="bookmark">Ubuntu搭建LNMP</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wp-auto-postname/" rel="bookmark">WordPress离线发表文章自动生成别名</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wp-log/" rel="bookmark">WordPress主题输出Log信息</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wp-custom-smiley/" rel="bookmark">WordPress主题自定义表情及表情名称</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Web%E5%BC%80%E5%8F%91/" rel="tag"># Web开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/abstract-thinking/" rel="prev" title="小学生数学题与抽象思维的理解">
+      <i class="fa fa-chevron-left"></i> 小学生数学题与抽象思维的理解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/optometry/" rel="next" title="今天去验光检查视力，学到了很多……">
+      今天去验光检查视力，学到了很多…… <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">sharp用法总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%96%87%E5%AD%97%EF%BC%9Atext-to-svg"><span class="nav-number">1.2.</span> <span class="nav-text">添加文字：text-to-svg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.3.</span> <span class="nav-text">注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDSVG"><span class="nav-number">1.3.1.</span> <span class="nav-text">加载SVG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDraw%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE"><span class="nav-number">1.3.2.</span> <span class="nav-text">加载raw格式数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E5%9B%BE%E5%B1%82%E5%90%88%E5%B9%B6"><span class="nav-number">1.3.3.</span> <span class="nav-text">多个图层合并</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

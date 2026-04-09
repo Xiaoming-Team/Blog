@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="其实我也不想写这么无聊的东西可是学弟一遍一遍问啊，学姐大三了啊很忙啊，不能天天看着你给你分析感情问题啊，学姐觉得应该授之以渔不能授之以鱼啊，于是学姐版把妹课堂开课啦！ 首先，你要有个target，并且很喜欢她。并不是说你想谈恋爱了就随便找个还不错的妹子就上，那种把妹把的不是爱情是寂寞啊亲，我讲的可不似这一种。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="到底他妈的应该怎么把妹——复旦学姐版把妹课堂开课啦">
+<meta property="og:url" content="https://www.xiaoming.io/create-object/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="其实我也不想写这么无聊的东西可是学弟一遍一遍问啊，学姐大三了啊很忙啊，不能天天看着你给你分析感情问题啊，学姐觉得应该授之以渔不能授之以鱼啊，于是学姐版把妹课堂开课啦！ 首先，你要有个target，并且很喜欢她。并不是说你想谈恋爱了就随便找个还不错的妹子就上，那种把妹把的不是爱情是寂寞啊亲，我讲的可不似这一种。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/2ced82a76bbacb2937837049bcd836dc.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/66c6f6291ce86e6dd7d3649b3bd6c25e.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/4f7c74bc1b0d10c601cc7e8e404386b0.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/73c12aae1203f40451f4cdc2488a7844.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/e5850b9b21a48edfda524cbcad7cffc9.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/ed32d8129e460af58f88c43c30ed09c4.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/73a60ca90470e21f39af8c3e7155a1ee.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/213ec876304c30daa59921026254834d.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/4dccc327cac414039ecc3996816deed2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/0b5f78178301b83b9e742c7926eafe56.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/042cac889b7aa0aa968d3a857ea4ef88.jpg">
+<meta property="article:published_time" content="2015-02-14T07:49:11.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.732Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="网站">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/learn/images/2ced82a76bbacb2937837049bcd836dc.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/create-object/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>到底他妈的应该怎么把妹——复旦学姐版把妹课堂开课啦 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "到底他妈的应该怎么把妹——复旦学姐版把妹课堂开课啦",
+      "description": "其实我也不想写这么无聊的东西可是学弟一遍一遍问啊，学姐大三了啊很忙啊，不能天天看着你给你分析感情问题啊，学姐觉得应该授之以渔不能授之以鱼啊，于是学姐版把妹课堂开课啦！ 首先，你要有个target，并且很喜欢她。并不是说你想谈恋爱了就随便找个还不错的妹子就上，那种把妹把的不是爱情是寂寞啊亲，我讲的可不似这一种。",
+      "datePublished": "2015-02-14T07:49:11.000Z",
+      "dateModified": "2025-06-17T13:33:21.732Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/create-object/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/create-object/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          到底他妈的应该怎么把妹——复旦学姐版把妹课堂开课啦
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-02-14 15:49:11" itemprop="dateCreated datePublished" datetime="2015-02-14T15:49:11+08:00">2015-02-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">学习思考</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/create-object/" class="post-meta-item leancloud_visitors" data-flag-title="到底他妈的应该怎么把妹——复旦学姐版把妹课堂开课啦" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/create-object/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/create-object/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="/blog-imgs/learn/images/2ced82a76bbacb2937837049bcd836dc.jpg" alt=""><br>
+其实我也不想写这么无聊的东西可是学弟一遍一遍问啊，学姐大三了啊很忙啊，不能天天看着你给你分析感情问题啊，学姐觉得应该授之以渔不能授之以鱼啊，于是学姐版把妹课堂开课啦！</p>
+<p>首先，你要有个target，并且很喜欢她。并不是说你想谈恋爱了就随便找个还不错的妹子就上，那种把妹把的不是爱情是寂寞啊亲，我讲的可不似这一种。</p>
+<p>喜欢她是什么意思呢，你愿意看着她，愿意跟她在一起玩耍，愿意为了她把自己身上不好的东西改掉。这个一会儿再说。好现在你有了这么一个target让你心动了让你想要为她付粗努力了，就可以开始第一步接近了。</p>
+<h2 id="初级心法">初级心法</h2>
+<p>把妹其实和吊男人一样，你要让妹子自然而然喜欢上你，而不是低声下气死皮赖脸上赶着追，这也是我为什么一直用把妹而不是追女生这个说法。所以呢，你在跟妹子聊天的时候一定不能太以妹子为中心，什么在吗睡了吗吃了吗你喜欢什么，那是标准的备胎范。这是第一种错误。第二种错误是太早进入角色，里里外外什么事都要管都要问，饿不饿渴不渴今天干嘛了明天要干嘛，你又不是她男人又不是她妈，你一上来就管这么多谁愿意啊。所以应该怎么做呢~</p>
+<p><strong>首先你要在适当的场合展示自己最有魅力的一面，并且在聊天的过程中尽量以与个人没有太多关系的话题开头和展开，在刚开始把的时候不要过分地关心对方，耐心点等到关系足够好了再慢慢展开。</strong></p>
+<p><img data-src="/blog-imgs/learn/images/66c6f6291ce86e6dd7d3649b3bd6c25e.jpg" alt=""></p>
+<p>举个栗子，刚开始聊天的时候什么话题容易让妹子开心并且觉得你很有意思呢，对付一般的学妹，<strong>吃和玩</strong>都是永恒的话题，学妹初来乍到，如果不是住在这附近一定还是有很多地方没有去过，这时候作为学长的优势就体现出来，什么桌球体感酒吧街什么川粤港式咖啡厅，既然有着学长的身份就用啊！比如 今天拉了防空警报，你就可以用“防空警报的时候我在干嘛干嘛直接就被吓尿了”这种 自己的糗事 开头，聊着聊着说道诶我喜欢港式菜诶最近一直在吃港市餐厅，恩恩我也喜欢，学校旁边娜娜娜去过吗？没有啊。。周末学长有空，带你尝尝~ 要是这么不巧妹子不喜欢，那就，居然觉得港式的不好吃，那你喜欢什么，什么什么，我靠这么恶心的口味，不过我知道娜娜这种菜做的超级好，等学长没胃口的时候领你去吃。</p>
+<blockquote>
+<p>（这种“等我有空”的方法就显得你姿态比较高一点，比那些直接问，诶学妹，你有没有去过娜娜娜，你什么时候有空我带你吃这样贱兮兮地问显得高端一些，而且不容易让妹子有压力，因为这种说话的方式目的性稍微弱一些，既不失学长的尊严又会给妹子感觉你比较随意好相处，不巧成功率也要高一些）</p>
+</blockquote>
+<p><img data-src="/blog-imgs/learn/images/4f7c74bc1b0d10c601cc7e8e404386b0.jpg" alt=""></p>
+<h2 id="【一】让她对你印象深刻">【一】让她对你印象深刻</h2>
+<h3 id="观察自己">观察自己</h3>
+<p>每个人都有不一样的一面，你想把的妹子一定是跟你在某种场合下认识的，在你给她留下深刻的印象之前，你自己一定要想清楚，<strong>自己想要给她呈现一个什么样的人格</strong>。不要跟我说什么真实的自己咱们都多大了，谁还没有点别人受不了的地方，如果你知道自己哪里好哪里不好，那就说明智商还是挺够用的，如果不知道，找个哥们或者闺蜜问一下。问缺点人家肯定是不会说太多，但是人性格总共也没有多少个形容词，什么慷慨吝啬啊，什么阳光死宅啊，差不多都是成对出现的。你问人家优点人家应该会说实话，但肯定也就说出来不几个关键词，那人家没说到的就是你的缺点了呗。这是性格上的。大部分男生生活习惯都还算可以，但也总是有一些邋遢的点，也要注意观察自己。</p>
+<h3 id="控制缺点">控制缺点</h3>
+<p>现在你知道了自己哪里好哪里不好，那么在把妹的时候，一定要注意隐藏自己的缺点。比如说你平时喜欢抠脚，你现在想把妹了，并且你知道抠脚是个不好的行为，那么你要做的<strong>不仅仅是在妹子面前不抠脚，而且是在所有人的面前都不再抠脚</strong>。因为妹子有耳朵，她要是从别人嘴里听到你抠脚，你觉得你还有希望么？控制自己的缺点是一定要做的事。就算你最后没有把上这个妹，你也算是因为她而让自己更加美好了一些。</p>
+<p><img data-src="/blog-imgs/learn/images/73c12aae1203f40451f4cdc2488a7844.jpg" alt=""></p>
+<h3 id="展示优点">展示优点</h3>
+<p>比如说你爱运动，或者有学问知道很多事，你要知道怎么在妹子面前让这些优点变成武器打开妹子的心什么的。聊天的过程中可以<strong>顺带</strong>提那么一两句自己会什么什么什么，妹子知道了之后以后有什么事也好说话。但是千万不要一直去问妹子喜欢什么什么的，太屌丝了。举个栗子，你比较爱运动每天跑步，最好不要你自己很突兀地说你平时特别喜欢运动或者问妹子喜不喜欢运动，你得等话题顺利而自然地转到这样类似的话题。要是妹子有天跟你抱怨说自己应该多出门动一动，这种时候就绝壁不是介绍南北健身房的时候，肯定是要速度向妹子发出邀请每天晚上跟自己一起跑步啊，跑的时候肯定得放慢速度跟着妹子的节奏，然后结束了给买瓶水坐一坐休息一会聊聊天。so easy</p>
+<h3 id="重复印象">重复印象</h3>
+<p>刚才已经说了你要找到自己一个优点，并且让她知道这个优点。之后就可以从这个优点展开一个人格，还是比如说你以爱运动这个点，就可以展开 球赛–旅游–热爱生活阳光大男孩 或者 爱玩–喝酒–豪爽霸气哥这些方向，<strong>要经常组织或者参加集体活动，叫上妹子一起玩耍，然后在这种集体活动中用自己的优点成为聚会中显眼的位置</strong>。这样你想要在妹子面前展示的人格就会在她心里加深印象。当然有些妹子喜欢开朗的阳光的，有些妹子喜欢沉默的有故事的，但是所有妹子都会对特别的感兴趣，所以，要保持自己在聚会中的风格尽量不要融入背景。</p>
+<p><img data-src="/blog-imgs/learn/images/e5850b9b21a48edfda524cbcad7cffc9.jpg" alt=""></p>
+<p>大体上，把妹的第一步就是这样，有一些聊天中的要素得注意，今天讨论到一个对比，就是二逼和幽默，这是两种完全不同的概念。幽默让妹子觉得有趣，二逼让妹子觉得无语。还是举个栗子，你说话的时候开开玩笑逗一逗妹子是很可取的，比如妹子电话没接或者微信没回，二逼的逗法就是，你掉厕所里啦，幽默的逗法可以是，我猜你大概是手机掉进了厕所然后你去捡然后一不小心自己也掉进去了，然后你挣扎着往外爬结果我一个电话打过来你刚爬上来又吓掉了（好吧其实一点也不好笑不要在意这些细节）。二者区别在于二逼往往由于太直白并且很土锤。还有就是聊天的话题，一定要有趣，你自己觉得有趣屁用都没有，你得以一个女生的角度，实在想不出就<strong>讲故事</strong>吧，女孩子一般都比较喜欢听故事。讲一些朋友的故事，讲小时候有意思地故事，讲曾经见过听过的各种特别的有趣的不会让人听完之后有任何不舒服的故事。</p>
+<blockquote>
+<p>当然这些都是细节。主要还是在聊天中的心态。在刚开始地时候，一定一定要把握住 “等我有空” 原则，要以展示自己和引起妹子兴趣为主，不要过多关注妹子的个人空间，保持适当的学长的身段和神秘感。切忌！！从妹子的人人上发现了什么端倪之后去微信问她几点在哪发生什么怎么了这类行为，这简直太备胎，备胎到无以复加。</p>
+</blockquote>
+<p><strong>第一阶段留下印象很重要，一眼备胎，永远备胎。所以一定要注意！</strong></p>
+<p><img data-src="/blog-imgs/learn/images/ed32d8129e460af58f88c43c30ed09c4.jpg" alt=""></p>
+<hr>
+<p><img data-src="/blog-imgs/learn/images/73a60ca90470e21f39af8c3e7155a1ee.jpg" alt=""></p>
+<p>昨天的内容不知道各位朋友有没有仔细看，反正我是看了好几遍，实在是写的好，都是些干货，特别有用有木有！！！我们今天继续来学习—《到底他妈的应该怎么把妹（二）》。</p>
+<h2 id="【二】展开攻势嘘寒问暖">【二】展开攻势嘘寒问暖</h2>
+<p>当你们进行过一次长距离长时间的玩耍，可以是春游秋游之类的，之后，如果你按照上面的点来做的话，应该能够跟她聊得挺好的了。这之后就可以对妹子的私人生活表示关心了。</p>
+<p>因为妹子对你已经有了感情基础，这时候你去关心她就不会显得目的性太强。包括上面切忌的备胎行为就可以适当地施展一下了。要对她好，什么修电脑请吃饭送礼物压马路趴光草什么的都可以展开。还是提几点tips吧。</p>
+<p><img data-src="/blog-imgs/learn/images/213ec876304c30daa59921026254834d.jpg" alt=""></p>
+<h3 id="约玩耍">约玩耍</h3>
+<p>要是约妹子看电影，比较妥的约法应该是，一起吃饭啊，吃吃吃吃完了，晚上也没什么事溜达溜达诶我们看电影去吧，而不是，周末请你看电影怎么样。虽然这时候已经有感情基础了，但是<strong>太有目的性的邀请依然会让妹子一眼看穿的</strong>。</p>
+<h3 id="送温暖">送温暖</h3>
+<p>关心妹子的时候，就比如说刚刚过去的中秋，妹子要是出去玩了（要是不是跟你出去玩就好好想想为什么==）等回来的时候再约出来聊聊玩得时候开不开心，要是没出去玩，就更要约出来聊聊想不想家习不习惯，家里都有什么好玩的好吃的之类，要是妹子直接回家了，就跟她聊爸爸妈妈中秋会干什么有意思的事过节都吃了什么有意思的东西。反正关心嘛，<strong>要让她的感觉是你在她左右，而不是横插硬挤在她生活中间</strong>。</p>
+<h3 id="小礼物">小礼物</h3>
+<p>关于送礼物啊，唉真是头疼。一般男生送礼物的能力真是巨人的小鸡鸡一样，还是直接列一些女孩子们通常不会怪罪的礼物吧。<strong>手链手镯（买的时候带个女的去，不要过于相信自己的审美），毛绒玩具挂件（同上），可爱的书或者简单精致的本子，进口食品，耳机（不要买太贵的），一些比较文艺小清新的东西（比如很古旧的相框啊笔筒啊，有创意的杯子扇子雨伞啊），一些你确定符合她口味的东西（比如她喜欢宫崎骏你送她一张ost）</strong>。这些简单的小物件可以不用等到特定的日子，比如今天你们泡在一起吃饭了，吃完了走一走，看见一些可能有这样的神奇的东西的店就可以进去顺便送一个。<strong>不过也别天天送== 其实平时送的这些东西，才会让她感动更深一点</strong>。</p>
+<p><img data-src="/blog-imgs/learn/images/4dccc327cac414039ecc3996816deed2.jpg" alt=""></p>
+<p><strong>这个阶段就是要让妹子猜测你对她有意思了，但是又不能表现得太明显，给她一种好像对自己不错却又还是有一定距离的感觉</strong>。妹子不确定和纠结的时候才总是会想起来，并且把这件事当回事。要是距离太远了人家就不会放在心上，距离太近了人家完全确定态度了也就没有再去想的必要了。所以表白之前这个度其实不是太好掌握。不过还好妹子心都比较软，要是你之前距离远了点也有拯救的余地，反正你表白之后再对人家特别好也不会有太大的问题。</p>
+<p>暧昧的时间呢也不要太长，吊着的感觉也不好，差不多是你第一个阶段准备时间的一半到三分之二吧。差不多差不多</p>
+<h2 id="【三】终于他妈的可以表白了">【三】终于他妈的可以表白了</h2>
+<p>但是 表白之前还要有一段时间的<strong>准备工作</strong>啊一定要落实！！就是百依百顺区间。这段时间一定要<strong>唯妹子马首是瞻</strong>，不能说唉今天下雨啊我就不去跟你吃饭了吧。下雨怕个球，姐当时可是脱了鞋踩着水出去打伞都没有用浑身湿透地去找男人聊天啊。</p>
+<p>暧昧之后呢妹子如果对你还算有点意思那大概就会开始主动找你了，这些时候<strong>一定一定不要拒绝</strong>，无论你有什么天大的事也不要说不行，你可以婉转一下说我听说周四上海有地震海啸龙卷风啊 要不咱们改成周五？或者妹子因为智商不太够用，找你做一些很脑残的事，也不要流露出任何无语不懂的表情（妹子找你做无聊的事情就说明她已经开始把你当成自己人了啊笨蛋）。</p>
+<p><img data-src="/blog-imgs/learn/images/0b5f78178301b83b9e742c7926eafe56.jpg" alt=""></p>
+<h3 id="眼神交流">眼神交流</h3>
+<p>还有就是<strong>眼神交流</strong>！！跟妹子在一起的时候眼神很重要！！<strong>这个时候才可以开始含情脉脉温柔涟漪</strong>！！之前要是这么看妹子那绝对是老色鬼死变态！！！</p>
+<h3 id="注重礼仪">注重礼仪</h3>
+<p>还有就是<strong>礼仪</strong>！！尽量少卖萌让人家请你，你是个男的，不要那么小气，同理你是要去陪妹子，少要求妹子陪你，你是个男的。妹子病了要去送药送吃的，不是一句喝点热水就打发掉，妹子过马路要站在左后方，有车的时候可以趁机搂一下但是要马上松开，吃饭的时候注意观察，妹子想喝水想要纸，就要先她一步叫服务员，送妹子回去的时候碰巧妹子在打电话要等着，就算她不巧打了比较久也得等着（不要跟我说你比较忙你特码跟妹子出来就一定要挑自己有事的时候吗你还追不追了）。跟妹子走路的时候你要是推车就站在她右边别让车夹在你俩中间，别老往妹子那蹭走直道，反正就是这种琐碎的礼仪我也就不说太多了，要是真的你啥也不知道，就多观察一下别的男的都是怎么做的，请教一下或者上网找找，这种事要细心一点。因为<strong>往往就是这样的细节，才会给女生带来深入的认同感</strong>。</p>
+<hr>
+<p>准备工作差不多了就可以表白啦~~</p>
+<p>表白估计就不用教了，找个天气不错的下午或者晚上，准备一段比较动感情的话，当面讲出来，就行了。千万不要在有第三个人存在的情况下表白，尤其有些人想在公共场合。。实在是太幼稚了。。。。</p>
+<p>被拒绝了也别太难过，等一等，要是妹子拒绝你之后 你找她还是会跟你说话吃饭什么的，就继续追着，过一段时间觉得时机合适了再表白。<strong>要是妹子不再跟你说话也不理你见到了也不打招呼，那就算了吧小备胎，翻不了身了</strong>。</p>
+<p><img data-src="/blog-imgs/learn/images/042cac889b7aa0aa968d3a857ea4ef88.jpg" alt=""><br>
+（本文配图：武汉大学校花黄灿灿）</p>
+<p>来源： <a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzA4MDcwOTMwOQ==&amp;mid=207815488&amp;idx=1&amp;sn=ab05701c2ae394a1eecc462602a2b558#rd">http://mp.weixin.qq.com/s?__biz=MzA4MDcwOTMwOQ==&amp;mid=207815488&amp;idx=1&amp;sn=ab05701c2ae394a1eecc462602a2b558#rd</a><br>
+<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzA4MDcwOTMwOQ==&amp;mid=207844185&amp;idx=1&amp;sn=8b82a3a0aaf0590f5057465742f06a77#rd">http://mp.weixin.qq.com/s?__biz=MzA4MDcwOTMwOQ==&amp;mid=207844185&amp;idx=1&amp;sn=8b82a3a0aaf0590f5057465742f06a77#rd</a></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/django-quick-start-2/" rel="prev" title="Python Django快速入门（二）">
+      <i class="fa fa-chevron-left"></i> Python Django快速入门（二）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/css-js-tool/" rel="next" title="CSS和JavaScript在线代码压缩工具推荐">
+      CSS和JavaScript在线代码压缩工具推荐 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E7%BA%A7%E5%BF%83%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">初级心法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%90%E4%B8%80%E3%80%91%E8%AE%A9%E5%A5%B9%E5%AF%B9%E4%BD%A0%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB"><span class="nav-number">2.</span> <span class="nav-text">【一】让她对你印象深刻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%87%AA%E5%B7%B1"><span class="nav-number">2.1.</span> <span class="nav-text">观察自己</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%BC%BA%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">控制缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%95%E7%A4%BA%E4%BC%98%E7%82%B9"><span class="nav-number">2.3.</span> <span class="nav-text">展示优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E5%8D%B0%E8%B1%A1"><span class="nav-number">2.4.</span> <span class="nav-text">重复印象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%90%E4%BA%8C%E3%80%91%E5%B1%95%E5%BC%80%E6%94%BB%E5%8A%BF%E5%98%98%E5%AF%92%E9%97%AE%E6%9A%96"><span class="nav-number">3.</span> <span class="nav-text">【二】展开攻势嘘寒问暖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%A6%E7%8E%A9%E8%80%8D"><span class="nav-number">3.1.</span> <span class="nav-text">约玩耍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%81%E6%B8%A9%E6%9A%96"><span class="nav-number">3.2.</span> <span class="nav-text">送温暖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%A4%BC%E7%89%A9"><span class="nav-number">3.3.</span> <span class="nav-text">小礼物</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%90%E4%B8%89%E3%80%91%E7%BB%88%E4%BA%8E%E4%BB%96%E5%A6%88%E7%9A%84%E5%8F%AF%E4%BB%A5%E8%A1%A8%E7%99%BD%E4%BA%86"><span class="nav-number">4.</span> <span class="nav-text">【三】终于他妈的可以表白了</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%BC%E7%A5%9E%E4%BA%A4%E6%B5%81"><span class="nav-number">4.1.</span> <span class="nav-text">眼神交流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8D%E7%A4%BC%E4%BB%AA"><span class="nav-number">4.2.</span> <span class="nav-text">注重礼仪</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="很多程序员都有做笔记的习惯，而且会写个人博客和公众号。但是怎么管理笔记、什么平台写博客、怎么快速编辑公众号，一直是个大难题。在走了多年弯路之后，我找到了一套自己的方式，可以把学习笔记、博客和公众号高效整合起来。这篇文章本来去年就该写的，但是由于比较忙+拖延症一直没写。最近突然觉得有必要分享一下，希望能帮助更多人从中找到启发，早日摆脱繁琐的笔记和博客的编辑和管理。 我的诉求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建自己的笔记博客系统（程序员版）">
+<meta property="og:url" content="https://www.xiaoming.io/note-and-blog-system/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="很多程序员都有做笔记的习惯，而且会写个人博客和公众号。但是怎么管理笔记、什么平台写博客、怎么快速编辑公众号，一直是个大难题。在走了多年弯路之后，我找到了一套自己的方式，可以把学习笔记、博客和公众号高效整合起来。这篇文章本来去年就该写的，但是由于比较忙+拖延症一直没写。最近突然觉得有必要分享一下，希望能帮助更多人从中找到启发，早日摆脱繁琐的笔记和博客的编辑和管理。 我的诉求">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/66d94271eac6fc63d03bee2a05625046.png">
+<meta property="article:published_time" content="2023-06-01T13:20:00.000Z">
+<meta property="article:modified_time" content="2026-01-08T11:36:38.126Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="总结">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/learn/images/66d94271eac6fc63d03bee2a05625046.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/note-and-blog-system/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>构建自己的笔记博客系统（程序员版） | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "构建自己的笔记博客系统（程序员版）",
+      "description": "很多程序员都有做笔记的习惯，而且会写个人博客和公众号。但是怎么管理笔记、什么平台写博客、怎么快速编辑公众号，一直是个大难题。在走了多年弯路之后，我找到了一套自己的方式，可以把学习笔记、博客和公众号高效整合起来。这篇文章本来去年就该写的，但是由于比较忙+拖延症一直没写。最近突然觉得有必要分享一下，希望能帮助更多人从中找到启发，早日摆脱繁琐的笔记和博客的编辑和管理。 我的诉求",
+      "datePublished": "2023-06-01T13:20:00.000Z",
+      "dateModified": "2026-01-08T11:36:38.126Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/note-and-blog-system/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/note-and-blog-system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          构建自己的笔记博客系统（程序员版）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-01 21:20:00" itemprop="dateCreated datePublished" datetime="2023-06-01T21:20:00+08:00">2023-06-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">学习思考</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/note-and-blog-system/" class="post-meta-item leancloud_visitors" data-flag-title="构建自己的笔记博客系统（程序员版）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/note-and-blog-system/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/note-and-blog-system/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>很多程序员都有做笔记的习惯，而且会写个人博客和公众号。但是怎么管理笔记、什么平台写博客、怎么快速编辑公众号，一直是个大难题。在走了多年弯路之后，我找到了一套自己的方式，可以把学习笔记、博客和公众号高效整合起来。这篇文章本来去年就该写的，但是由于比较忙+拖延症一直没写。最近突然觉得有必要分享一下，希望能帮助更多人从中找到启发，早日摆脱繁琐的笔记和博客的编辑和管理。</p>
+<h2 id="我的诉求">我的诉求</h2>
+<p>关于笔记和博客，我有一系列的诉求，并且可以说有点苛刻了：</p>
+<p>1、笔记编辑方便。我现在写文章基本都是优先使用Markdown，所以笔记软件要支持Markdown，我经常会在笔记里插入代码片段，而且很喜欢放图片，还有时候可能会从网上复制粘贴一段带有格式包括图片的文字，因此Markdown编辑过程中的流畅性也很重要。只能在线编辑的笔记工具都不考虑，因为严重依赖网络，网络不佳的时候就没法查看和编辑笔记了，没有安全感，且很多在线软件的体验不太好。</p>
+<p>2、笔记数据可靠。很多人用商业笔记软件，例如印象笔记、有道云笔记，以及我之前用的为知笔记。但是有个问题，这些笔记软件可能突然改版了难以使用，或者是收费变高，更坑的是突然通知停止维护了，这时我会考虑要不要换个笔记软件，又很担心自己辛辛苦苦写的笔记没了。最理想的方式是笔记软件直接用公开的Markdown之类格式保存，数据完全掌握在自己手里。或者至少笔记软件中可以导出通用文档格式，方便我随时迁移到其他笔记软件中。另外笔记最好支持版本管理，我很少会误操作，用的不多，但是感觉关键时刻会很有用。</p>
+<p>3、笔记管理方便。因为我笔记很多，且有不同的大分类，希望以多级文件夹的形式组织，要是还可以支持标签就更方便了。另外笔记要能按标题和全文搜索，这是基本要求。</p>
+<p>4、笔记和博客打通。把笔记分为私有和公开笔记，私有笔记是给自己看的，公开笔记则要能同步发布到博客和公众号，并且之后的修改也可以同步到博客（由于公众号文章发布后只能改错别字，就不做要求了）。我不希望在本地编辑好了之后，又要在博客和公众号上分别再复制粘贴排版一次，特别是图片上传还得一张张插入，实在浪费生命。两类笔记可以存放在同一个地方的不同子目录，一些文章在整理阶段算私有笔记，整理好了又能马上移动到公开笔记目录同步到博客。至于博客，需要支持最常见的评论、搜索等功能，且可以根据自己的喜好改网页样式。</p>
+<p>5、笔记的同步和跨平台。由于平时会用到多台电脑，以及平板、手机，所以需要在不同设备之间同步笔记，且笔记软件要支持全平台（Windows / Mac / Linux / Android / iOS）。具体到桌面端和移动端，把笔记分为文章和备忘两种类型，文章通常是复杂的长篇大论，主要在电脑上编辑，手机上主要是阅读或者细节完善，而备忘则是比较简短零碎的文字，可能是最近要做的事情备忘录，也可能灵感来了用手机随手记点笔记之类，且备忘类都是私有笔记，不需要发布到博客上。</p>
+<p>根据这些诉求，对比了众多笔记软件，研究了各种方案。</p>
+<h2 id="1、笔记编辑方便">1、笔记编辑方便</h2>
+<p>多年前还在上大学时，我用Word写过文章，然后转成PDF，但是排版和文件版本管理都很繁琐，只能说勉强可用，完全谈不上优雅。</p>
+<p>后来用国产的为知笔记，我在博客里还给为知笔记写过几篇文章各种夸。之后为知笔记突然就开始收费了，这倒也没什么问题，作为为知笔记资深用户，我果断付费了。为知笔记的编辑功能还是偏向于富文本编辑器的设计，虽然可以设置丰富的格式，但是对于Markdown的支持并没有特别好，且由于富文本格式过于复杂，为知笔记编辑器里的Bug挺多。有一点要感谢为知笔记的是，我最开始知道Markdown就是因为为知笔记里的新特性介绍。</p>
+<p>之后工作了，更加没有精力在排版上浪费时间了，年纪大了对花里胡哨的排版也更加不感兴趣了。有很长一段时间我都在直接用Markdown写文章，然后用git管理写好的Markdown文件，一开始的编辑器是跨平台且免费的Haroopad，之后被同事推荐发现了宝藏编辑器Typora。而为知笔记更多的被用于记备忘，因为为知笔记在手机和电脑上同步很方便，而备忘常常是突然想到一些事然后就用手机记录的。</p>
+<p>Typora相比其他众多Markdown编辑器，有几个很重要的特点。Typora支持所见即所得的编辑模式，不需要左边写Markdown源码右边显示预览，而是两者合二为一。插入图片时，可以在界面上直接粘贴，Typora会自己把图片复制到指定的目录，这就比常规的自己保存图片、然后手写Markdown引用图片的方式轻松多了。还有一个点就是Typora还能粘贴网页上带格式的富文本，自动转换成Markdown，当初着实让我震惊了一会。加上Typora优美的界面设计和可更换主题设计，以至于后来他们开始在新版本收费了，我也没有太犹豫就付费支持了一波。</p>
+<h2 id="2、笔记数据可靠">2、笔记数据可靠</h2>
+<p>给人安全感最高的笔记数据保存方式，就是直接以文件的形式保存在本地，且文件格式是公开通用的Markdown格式。这样即使一个笔记软件用不了了，也可以无缝切换到其他软件查看和编辑。</p>
+<p>Markdown笔记在编辑和发布的时候，有个很麻烦的事情是图片。一种比较优雅的解决方案是使用PicGo之类工具，可以在你本地复制了一张图片或者截屏后，自动上传图片到CDN服务器、生成URL、把对应的Markdown源码拷贝到剪贴板，你要做的就是直接在Markdown编辑器里粘贴。发布到博客的时候，由于图片本来就有完整URL，所以也不需要担心图片怎么上传到博客的问题。</p>
+<p>但是我对这种方式并不满意。虽然博客文章本身是安全了，但是图片还是存在CDN服务器上的，并不安全，可能哪天服务器要关停了，那么多笔记图片想全下载下来实在艰难。</p>
+<p>所以我始终坚持把图片保存在本地，放在Markdown文件平级的images文件夹里，而Typora刚好有这个功能，这让我非常满意。</p>
+<h2 id="3、笔记管理方便">3、笔记管理方便</h2>
+<p>Typora解决了Markdown编辑的一些麻烦事，但是对笔记的管理能力比较弱。虽然Typora也可以打开一整个包含很多Markdown的文件夹，但是也就仅此而已，没有更多和笔记管理有关的功能，例如不能进行全文搜索。</p>
+<p>实际试用了很多种支持Markdown的笔记软件，包括Wolai、思源笔记、VNote等，直到用了Obsidian，有种相见恨晚的感觉。</p>
+<ul>
+<li>Obsidian和VSCode一样，都是基于Electron开发，所以天生自带跨平台属性，且两者操作逻辑很相似，很容易上手。</li>
+<li>Obsidian支持安装主题，窗口可以灵活调整，支持Tab和无限分栏，还可以把Tab拖出来创建一个很纯净的窗口专注写作。</li>
+<li>常规的文件管理和搜索功能都不在话下，快捷键丰富且支持自定义，可以调出命令菜单搜索运行各种命令，并支持丰富的插件扩展，功能灵活又强大。</li>
+<li>Obsidian软件本身是免费的，提供了一个可选的付费数据同步服务。</li>
+</ul>
+<p><img data-src="/blog-imgs/learn/images/66d94271eac6fc63d03bee2a05625046.png" alt=""></p>
+<p>笔记编辑上</p>
+<ul>
+<li>Obsidian支持Typora一样的编辑模式，编辑体验和Typora差不多。</li>
+<li>Advanced Tables插件可以辅助编辑Markdown表格，自动对齐每一列，比Typora更方便了。</li>
+<li>Markdown Prettifier插件可以格式化Markdown。</li>
+<li>Pandoc Plugin插件可以把Markdown笔记导出成PDF、Word等格式。</li>
+</ul>
+<p>笔记管理上</p>
+<ul>
+<li>Obsidian会打开一个文件夹作为笔记目录，且所有的配置也都存放在这个文件夹下的<code>.obsidian</code>目录。只要把这个目录用git管理起来，迁移到新电脑上非常容易。</li>
+<li>Obsidian可以管理笔记，文件夹可以嵌套，支持全文搜索，支持双链笔记，支持标签管理。</li>
+<li>Quick Switcher功能可以快速通过标题搜索笔记并打开。</li>
+<li>Consistent attachments and links插件可以设置把文章的图片都放在平级的images目录中，如果移动笔记，对应的图片也会被移动，这个非常有用，我甚至为有人跟我想到一样的使用需要并且已经做了实现感到震惊。不足之处是处理有点慢，需要等。</li>
+<li>Unique attachments插件可以重命名文章中的图片为MD5，更加整洁。</li>
+<li>Clear Unused Images插件可以自动清除没有被文章引用的图片。</li>
+<li>Terminal插件可以打开一个shell窗口，从而方便运行git命令管理笔记。</li>
+<li>Open vault in VSCode插件给界面上加了个小按钮，点一下就可以用VSCode打开笔记目录，这时就可以用VSCode对笔记Markdown源码做一些更高级的操作了，例如正则替换。这也是使用开放格式的笔记软件的好处，可以同时用多个工具编辑笔记。</li>
+<li>Obsidian官方提供了付费的Sync功能，可以在不同设备之间Sync，这样移动端也就可以编辑笔记了。不过我是直接用git管理笔记的，就没有用这个功能。</li>
+</ul>
+<h2 id="4、笔记和博客打通">4、笔记和博客打通</h2>
+<p>我之所以用为知笔记，还有一个很重要的原因是为知笔记支持把笔记一键发布到WordPress等支持MetaWeblog的博客。但是为知笔记的博客发布功能有几个问题。</p>
+<p>1、发布过程繁琐。为知笔记发布博客原本很简单，前提是文章在为知笔记里写的，且用的Windows版本。但是在我经常用Typora+Markdown写文章之后，每次想发到博客，就需要把文章复制到为知笔记里，最麻烦的一步是图片需要一张一张重新插入。另一个问题是只有Windows版为知笔记有发布功能，所以我经常要先在Mac里写好笔记，然后在Windows虚拟机里启动为知笔记，同步数据，再发布到博客。</p>
+<p>2、更新博客困难。为知笔记会把发布出去的笔记的博客id缓存起来，在没有重装的情况下，重新发布就会更新已有博客。但是如果系统重装或者换了电脑，就失效了。还有个巨大的缺点，就是每次编辑都会重新上传文章里的所有图片，导致我的WordPress服务器里有很多无用图片，这些硬盘都是我花钱买的，感觉也很亏。</p>
+<p>为了解决这个问题，我花费了很多精力去研究Markdown发布博客的技术实现。网上有人提供了一些看似优雅的办法，通过pandoc命令行渲染Markdown然后调用MetaWeblog的API发布，但是实现太过简陋，基本的笔记属性都设置不了，且不能解决本地图片上传到博客的问题，除非使用前面说的PicGo在编辑时就把图片传到CDN服务器，而这不是我想要的。</p>
+<p>后来我花了两个多月的时间，基于Electron自己做了一个专门发布文章到博客的开源工具，取名为PublishMarkdown。这下开心了，我再也不需要用为知笔记来发博客了，而且也不用担心为知笔记里编辑博客需要重新上传所有图片的问题，因为这个工具会对图片做md5，把每张图片上传后的id也给存起来，重新发布的时候会据此自动处理。但是同样的问题，如果是在多个电脑上用或者重装系统，这些缓存的id也就没了。</p>
+<p>PublishMarkdown项目的GitHub主页：<a target="_blank" rel="noopener" href="https://github.com/jzj1993/PublishMarkdown">https://github.com/jzj1993/PublishMarkdown</a></p>
+<p>之后还是觉得WordPress对Markdown的支持没有那么好，加上PublicMarkdown这个工具有时候会有一点小Bug且使用体验不佳，整个过程还是不够优雅。所以还是决定迁移到Hexo上，用GitHub Pages来保存网站内容，这样还可以节省每年几百块的VPS服务器费用。Hexo的搜索可以使用<code>hexo-generator-searchdb</code>插件实现local search，阅读量统计和评论可以使用Valine实现。</p>
+<p>由于Obsidian的笔记保存方式是直接在文件夹里放Markdown（假设路径是<code>Notes</code>），所以我在里面单独建了一个<code>Notes/blog</code>目录，把所有要发布到博客的公开笔记都移到里面（这个时候Consistent attachments and links插件就发挥作用了，会自动把笔记引用过的图片也移动到同级目录）。</p>
+<p>我又在<code>Blog</code>目录创建了一个Hexo博客工程，这个工程里有Hexo的各种配置，包括被我魔改过CSS的Next主题。</p>
+<p>正常情况下，博客源文件要放在<code>Blog/source/_posts</code>中，我将其软链接到了<code>Notes/blog</code>目录，这样Hexo工程就可以直接读取要发博客的Markdown笔记源文件了。</p>
+<p>文件夹结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- Notes</span><br><span class="line">- Notes/blog/</span><br><span class="line">- Blog</span><br><span class="line">- Blog/source/_posts -&gt; Notes/blog/</span><br></pre></td></tr></table></figure>
+<p>Hexo发布文章通常分为几步：</p>
+<p>1、<code>hexo clean</code>清空public目录<br>
+2、<code>hexo generate</code>把Markdown源文件渲染成HTML输出到public目录<br>
+3、<code>hexo server</code>可以在本地启动静态文件服务器，预览网站效果<br>
+4、<code>hexo deploy</code>把public目录中的文件push到Github</p>
+<p>在第二步渲染时，Hexo原先的设计要求所有文章的图片都在同一个目录，没办法正确处理Markdown中用相对路径引用的图片。因此我在<code>hexo-renderer-markdown-it</code>基础上魔改了一番，在渲染时会自动把相对路径引用的图片复制到public目录中的对应位置，并且会跳过重复图片，同时在渲染输出的HTML中用相对路径正确引用图片。</p>
+<p>第一步clean不是必须的，通常可以省略，这样Hexo每次只会渲染有改动的文章，耗时大大减少。</p>
+<p>第四步deploy时，默认的实现会重新push所有内容覆盖到Github，但是博客里的图片数量众多，这样push会非常慢，有必要改成增量。</p>
+<p>因此我写了一个<code>deploy.sh</code>脚本，每次将远程最新的博客HTML文件（包括图片）更新到<code>remote</code>目录，然后用软链接把<code>remote/.git</code>链接到<code>public/.git</code>，这时git就会认为public目录也是一个git项目，且HEAD指向了远程博客HTML文件的最新版本，于是就可以利用git计算出当前的<code>public</code>相对HEAD的文件变更，提交一个只包含变更的commit并push到远程，从而实现增量更新博客，大大提高了博客发布性能。这里之所以要单独开一个<code>remote</code>目录然后软链接，是因为<code>public</code>目录可能会在clean时被完全清空，所以不能把git repo直接克隆到<code>public</code>里面。</p>
+<p>之后无论是往<code>blog</code>目录增加新文章，还是修改<code>blog</code>目录已有的文章后，都只需要运行一下<code>deploy.sh</code>就能增量同步改动到博客，不需要担心重复创建文章或是重复上传图片的问题，因为hexo和git已经帮我们处理好了。换电脑也没关系，只是第一次克隆到<code>remote</code>目录会比较慢，之后也同样可以增量更新了。</p>
+<p>文件夹结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- Notes</span><br><span class="line">- Notes/blog/</span><br><span class="line">- Blog</span><br><span class="line">- Blog/source/_posts -&gt; Notes/blog/</span><br><span class="line">- Blog/remote/.git</span><br><span class="line">- Blog/public/.git -&gt; Blog/remote/.git</span><br></pre></td></tr></table></figure>
+<p>博客工程的源码也放到Github上了：<a target="_blank" rel="noopener" href="https://github.com/jzj1993/jzj1993.github.io">https://github.com/jzj1993/jzj1993.github.io</a></p>
+<p>微信公众号上发布图片笔记也比较繁琐，需要自己一张一张的插入图片，这一点也被很多人吐槽过。但是如果文章已经发布到网上，就可以直接复制粘贴到微信公众号编辑器里，编辑器会保留文章的CSS样式，并且自动从对应的URL下载图片插入到文章里。因此也不需要手动去编辑文章了。所以只要博客本身的CSS样式不算太丑，直接复制到公众号里也完全没有问题。</p>
+<h2 id="5、笔记的同步和跨平台">5、笔记的同步和跨平台</h2>
+<p>由于Obsidian使用文件夹和Markdown文件保存笔记，因此在不同的设备上直接通过git管理，就可以实现笔记的同步了。不过这样手机上就不方便同步数据了，可以使用Obsidian Git插件在手机上同步数据，但是有一定的限制，我目前还没试过。</p>
+<p>前面说了，我把笔记分为文章和备忘两种类型，Obsidian里保存的主要都是文章类型的笔记，通常比较复杂，我基本都在电脑上编辑，偶尔想在手机上看就导出PDF。而备忘型的笔记，常常要同时在手机和电脑上编辑查看，字数不会很多，格式也不会太复杂，所以我直接用微信收藏功能解决了。如果备忘越写越完善，必要的时候，也会整理成文章放到Obsidian里。</p>
+<p>跨平台问题前面也已经说过了，Obsidian是基于Electron开发的，所以本来就支持Desktop全平台，而Obsidian也提供了Mobile版本。所以跨平台不成问题。</p>
+<h2 id="总结">总结</h2>
+<p>在我的各种魔改之后，现在的我终于可以把时间精力都专注于写作本身了，而不是整天在排版、笔记管理、发博客这些事情上纠结。现在的方案也全面拥抱开源、透明、免费、轻量化的技术了，除了每年要给域名花点钱，其他都是免费的。</p>
+<p>为了迁移到这样一套系统中，我费了很大力气把以前存在为知笔记、WordPress博客上的内容全都做了迁移，用了一些Hack手法，都是技术细节，我在另一篇博客里有介绍，这里就不讲了。</p>
+<p>这里把整个写笔记和发布博客公众号的流程再做个总结。</p>
+<p>1、笔记编辑：首先我可以在Obsidian里用“所见即所得”的方式专注于Markdown的编写。图片和网页内容都可以直接粘贴，Obsidian会自动处理排版，并把图片保存到同级images目录。写好了还可以用Markdown Prettifier插件整理Markdown格式。</p>
+<p>2、图片整理：写完之后，我可以用Clear Unused Images插件清除写笔记过程中插入但是最后又没用到的多余图片，用Unique attachments插件把图片重命名为MD5格式，更加美观统一。如果觉得图片比较大想压缩一下，节省储存空间特别是博客上的加载速度，或者是想加水印，因为图片都在本地文件夹，有很多工具可以实现。例如可以把images目录拖到ImageOptim软件中，就会自动无损压缩图片并替换原始文件。</p>
+<p>3、发布博客：文章写好了，如果我想发到博客，就移动到<code>Notes/blog</code>子目录，我可以按照自己想要的方式组织这里面的文章，可以放在这个子目录里的任意位置。Consistent attachments and links插件会自动同步的把文章引用的图片移动到Markdown同级的images目录下。然后用Hexo的Front-matter格式，在Markdown顶部用YAML语法指定文章标题、时间、分类、标签、固定链接、是否置顶等参数。最后，在命令行里切到<code>Blog</code>目录，运行<code>./deploy.sh</code>，就会自动把<code>Notes/blog</code>中的更新以增量的形式快速同步到Github Pages。几分钟后，我就可以在网站上看到自己更新的博客了。之后如果编辑已有的公开笔记，也只需要重新运行一下<code>deploy.sh</code>就同步到博客上了。</p>
+<p>4、发公众号：发布到博客后，在网页上复制全文，直接粘贴到公众号的编辑器窗口里，然后填一下标题、作者、封面图信息，点击预览在手机上检查一下效果，最后点击发布推送给用户，就可以发群聊发朋友圈求点赞了。</p>
+<p>5、笔记分享：可以用Pandoc插件的导出功能，把Markdown导出成HTML / Word / PDF文件分享给其他人。</p>
+<p>6、笔记同步：在Obsidian的Terminal插件提供的窗口中运行git命令，把最新的博客push到私有git仓库。也可以选择用Obsidian Git插件把数据同步上去。在其他设备上通过git再把变更同步下来。</p>
+<p>7、备忘录：<a target="_blank" rel="noopener" href="http://xn--Any-li9doa55f73pn1usjhmyg712dytxf.Do">对于待办事项我会用Any.Do</a>、Google Calendar之类软件，对于需要做简单笔记的备忘录（比如最近旅游计划，今年年终总结的提纲），直接在微信收藏中编辑就可以了，手机电脑都能编辑，必要的话再迁移到Obsidian里。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2025-year-end-review/" rel="bookmark">大厂码农的2025：被AI取代、卖房血亏、炒股白干，我却更自由了</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/coin-game/" rel="bookmark">为什么做了正确的选择，还是会失败？——从抛硬币游戏看人生</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2024-year-end-review/" rel="bookmark">2024年终总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2023-year-end-review/" rel="bookmark">2023年终总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wiz-export-html-md/" rel="bookmark">知笔记批量导出HTML并转换为Markdown</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chat-gpt/" rel="bookmark">我如何使用ChatGPT和Copilot</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2022-year-end-review/" rel="bookmark">2022年终总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021-year-end-review/" rel="bookmark">2021年终总结</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E6%80%BB%E7%BB%93/" rel="tag"># 总结</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/wiz-export-html-md/" rel="prev" title="知笔记批量导出HTML并转换为Markdown">
+      <i class="fa fa-chevron-left"></i> 知笔记批量导出HTML并转换为Markdown
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023-year-end-review/" rel="next" title="2023年终总结">
+      2023年终总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E8%AF%89%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">我的诉求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E7%AC%94%E8%AE%B0%E7%BC%96%E8%BE%91%E6%96%B9%E4%BE%BF"><span class="nav-number">2.</span> <span class="nav-text">1、笔记编辑方便</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E7%AC%94%E8%AE%B0%E6%95%B0%E6%8D%AE%E5%8F%AF%E9%9D%A0"><span class="nav-number">3.</span> <span class="nav-text">2、笔记数据可靠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E7%AC%94%E8%AE%B0%E7%AE%A1%E7%90%86%E6%96%B9%E4%BE%BF"><span class="nav-number">4.</span> <span class="nav-text">3、笔记管理方便</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E7%AC%94%E8%AE%B0%E5%92%8C%E5%8D%9A%E5%AE%A2%E6%89%93%E9%80%9A"><span class="nav-number">5.</span> <span class="nav-text">4、笔记和博客打通</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E7%AC%94%E8%AE%B0%E7%9A%84%E5%90%8C%E6%AD%A5%E5%92%8C%E8%B7%A8%E5%B9%B3%E5%8F%B0"><span class="nav-number">6.</span> <span class="nav-text">5、笔记的同步和跨平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

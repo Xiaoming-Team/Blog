@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文涉及的内容较多，个人知识水平有限，如有不当之处欢迎指正。 特别鸣谢：嵌入式大神 @tofulee ，@woshizmxin 对本文给出了一些很好的意见。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式科普：基本概念，设计流程，开发特点，如何学习">
+<meta property="og:url" content="https://www.xiaoming.io/embedded/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本文涉及的内容较多，个人知识水平有限，如有不当之处欢迎指正。 特别鸣谢：嵌入式大神 @tofulee ，@woshizmxin 对本文给出了一些很好的意见。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e7450d0a84dc26d7fbcf5e21dff6191c.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/b97065866a9f2293fd63405ab0a3e3c5.png">
+<meta property="article:published_time" content="2014-12-21T09:25:17.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.395Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="硬件开发">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e7450d0a84dc26d7fbcf5e21dff6191c.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/embedded/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>嵌入式科普：基本概念，设计流程，开发特点，如何学习 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "嵌入式科普：基本概念，设计流程，开发特点，如何学习",
+      "description": "本文涉及的内容较多，个人知识水平有限，如有不当之处欢迎指正。 特别鸣谢：嵌入式大神 @tofulee ，@woshizmxin 对本文给出了一些很好的意见。",
+      "datePublished": "2014-12-21T09:25:17.000Z",
+      "dateModified": "2026-01-09T08:19:11.395Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/embedded/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/embedded/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          嵌入式科普：基本概念，设计流程，开发特点，如何学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-12-21 17:25:17" itemprop="dateCreated datePublished" datetime="2014-12-21T17:25:17+08:00">2014-12-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/embedded/" class="post-meta-item leancloud_visitors" data-flag-title="嵌入式科普：基本概念，设计流程，开发特点，如何学习" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/embedded/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/embedded/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文涉及的内容较多，个人知识水平有限，如有不当之处欢迎指正。</p>
+<p><strong>特别鸣谢：嵌入式大神 @<a href="http://www.xiaoming.io/author/tofulee">tofulee</a> ，@<a href="http://www.xiaoming.io/author/woshizmxin">woshizmxin</a> 对本文给出了一些很好的意见。</strong></p>
+<h2 id="何为嵌入式">何为嵌入式</h2>
+<p>嵌入式是一个比较模糊的概念，也没有很准确的解释，其实也没必要一定找出个准确的解释来，并不影响学习。</p>
+<p>参考了网上的资料，根据我的认识，可以认为嵌入式系统是一种完全嵌入到设备内部、解决特定问题的专用计算机。我们常用的电脑被认为是通用计算机，能安装各种软件，从而解决各种不同问题；而嵌入式系统是专用计算机，只负责解决特定问题，例如控制洗衣机、控制路由器等；其软件被称为固件，一般不会经常进行变动。</p>
+<p>一般认为智能手机也是嵌入式系统，但是现在手机功能越来越强大，可以装各种软件，和电脑之间的界限也比较模糊了。例如平板电脑，既可以当成电脑，又可以当成大屏幕手机……当然，没必要过多的去纠结这些。</p>
+<p>从上面的这个定义来看，单片机一般也属于嵌入式系统。</p>
+<h2 id="典型嵌入式系统的设计流程">典型嵌入式系统的设计流程</h2>
+<p>这里举一个使用ARM9的CPU和Linux操作系统的、典型的嵌入式系统的设计流程。整个设计过程有点组装电脑的感觉，就是拼接各种模块，包括软件模块和硬件模块。</p>
+<p>需要注意的是，嵌入式的范畴非常广。这里要举的例子，作为典型的嵌入式设备，也是近几年很流行的智能硬件设备；其设计重点在软件系统和硬件电路上，和IT类专业的关系非常密切。本文也是以这种典型的嵌入式设备为主进行介绍的。</p>
+<p>实际上还有很多不一样的情况。例如一台全自动洗衣机，智能化程度不高，运算量小，往往只需要简单的单片机就可以控制，也不依赖操作系统，这时设计重点就放在了机电控制、力学、外观等方面。</p>
+<h3 id="方案确定">方案确定</h3>
+<p>现在要做一个产品，人脸识别的门锁。人脸识别的算法实现，需要用到较高运算能力的器件。如果使用一台常规电脑执行算法，并和门锁连接，那样成本太高，体积大，不实用，还很费电。这时最佳选择就是使用嵌入式系统了。</p>
+<p>硬件方面，根据算法的运算量和响应时间，可以选择一款合适的CPU，例如三星的一款ARM9芯片；容量合适的存储器，包括RAM、ROM芯片等；给它配备摄像头负责获取人脸图像；电机之类的装置负责开门；可能还有一些指示灯和控制按钮；以及USB接口，用于连接电脑进行更多操作。确定硬件器件时，往往需要考虑很多因素，例如器件的体积，成本，批量制造时是否便于采购，是否易于使用，等等。</p>
+<p>软件方面，为了开发方便，考虑直接使用Linux操作系统。Linux系统和Windows类似，但是Linux是开源的，可以看到源代码，可以按需要修改。在Linux的基础上，利用OpenCV图形库编写应用程序，实现人脸录入、识别等功能。</p>
+<h3 id="嵌入式软件">嵌入式软件</h3>
+<p>Linux操作系统是开源的，可以找到它的源码，按需修改。基于Linux的操作系统很多，例如电脑上用的Ubuntu，手机上的Android。</p>
+<p>整体方案考虑好之后就有问题来了，产品方案已经确定，不需要显示器、声卡、网卡等硬件设备。如果把一个完整的Linux操作系统装进去，上面就会有很多多余的东西，不仅对有限的CPU配置来说浪费运算能力，而且浪费存储空间，又费电。</p>
+<p>Linux开源免费，可以按需要修改，带来了巨大的好处。实际上只要把需要的设备驱动和Linux内核一起编译就可以了（操作系统和常见的C语言编程一样，也是从源码编译成可执行文件）。而显卡、声卡等设备驱动程序就不需要了。另外还有负责引导操作系统启动的BootLoader程序，也可以直接用成品。</p>
+<p>Linux的资源非常丰富，需要的摄像头驱动程序往往都能找到，通常摄像头的硬件厂商也会提供配套的驱动程序。有些情况下或许会有特殊需要，这个时候才需要有人专门负责给这个摄像头写驱动程序，也就是嵌入式驱动开发（这里是从产品研发厂商的角度来考虑的。如果从摄像头厂商的角度考虑，他们提供的摄像头产品配套驱动程序，也是需要有人来写的）。</p>
+<p>针对挑选好的CPU等硬件的型号，配置好各种参数，将这些软件模块进行编译，就成了经过裁剪的专用操作系统。在这个操作系统上开发好人脸识别程序（嵌入式应用软件）。最后固件开发完成，下载进硬件中就可以了。</p>
+<h3 id="嵌入式硬件">嵌入式硬件</h3>
+<p>硬件方面，首先是电路设计，一般各种硬件设备和芯片，例如摄像头、CPU等都会有它的接口，就像单片机的IO口、各种芯片的接口一样，按照一些规则进行连接就可以了。</p>
+<p>然后是PCB的设计，根据电路设计PCB，PCB设计的过程中可能要考虑到布线、产品外观等问题（实际上还要设计产品外观，可以利用3D打印技术；大概是工业设计什么的，不太了解，也不细说）。</p>
+<h3 id="产品原型与量产">产品原型与量产</h3>
+<p>设计好以后，进行产品原型的制造，制造的量很少。例如外壳可以用3D打印实现，3D打印非常适合原型的制造，免除了模具设计等复杂的工艺；硬件电路方面，可以申请公司样片，人工焊接到电路板上；然后烧写固件并组装产品。将软硬件整合成产品原型进行测试，如果有问题则需要再修改设计，重复这些步骤。完成后，产品的研发阶段就差不多了，也就是产品原型已经能用了。</p>
+<p>产品原型实现了，就可以进行批量生产了。批量生产又会涉及很多问题，例如元器件采购要考虑成本和供应量，PCB、外壳的批量制造，焊接、装配、包装等。</p>
+<h2 id="嵌入式开发的特点与难点">嵌入式开发的特点与难点</h2>
+<p>还是以上面的典型嵌入式系统为例，可以看出，嵌入式系统涉及的东西很多，从最底层的硬件电路，一直到上层的应用程序。通常说的嵌入式开发，最主要的就是软硬件结合的部分；在其上是应用程序开发了，例如安卓App的开发，对于底层原理不需要有太多的了解；而在其下如PCB设计之类，一般认为是纯硬件，也不算嵌入式的内容了。</p>
+<p>软件方面，利用了很成熟的Linux操作系统，整个过程中大部分软件模块都有成品，只需要合理的选用，然后进行拼接、编译就可以了。这些软件模块早就有人写好了，往往不需要去写，但是要能大致理解写好的程序，并根据需要做一些小的修改调整。而对于一些特殊和极端情况，才有必要对程序进行较大改动，甚至自行实现。很多时候就是在移植驱动和系统，程序方面常用成品，更多的是小规模的修改调整；写程序相对少，难度较大，往往也没必要重复发明轮子。<strong>看懂代码最简单，修改次之，自己写最难。</strong></p>
+<p>嵌入式系统设计时，如果使用的都是现成的代码，难点在哪呢？有大神给我解释，嵌入式开发入门比较难，学着学着，发现很多现成的驱动都摆在那儿，而难题在于怎么将这些驱动移植到系统中，怎么去调试了。因为调试的时候，涉及整个linux系统，非常庞大，要考虑的地方非常多，所以显得比较难了。但是只要在繁杂的linux系统中找到问题所在了，往往就只需要修改那么一两个地方即可。另外，在设计一个系统时，需要考虑开支，技术难度等各种因素，选取合适的芯片、模块，也比较难。</p>
+<h2 id="如何学习">如何学习</h2>
+<p>嵌入式涉及的东西非常多，学起来也不容易。我本人只做过单片机系统设计，和学嵌入式的同学聊过一些，没有具体的去学嵌入式，所以这里简单提一些看法。嵌入式方面我研究的不多，所以也没办法推荐太多的书籍，知道的就顺便推荐下。</p>
+<p>根据网上的招聘信息，嵌入式常分为嵌入式硬件和嵌入式软件两个大的方向，硬件方向负责电路设计之类；嵌入式软件常常是底层的驱动程序移植、开发之类；而嵌入式软件再往上层一点，差不多就是操作系统之上的应用开发了。</p>
+<p>首先C语言几乎是嵌入式各种岗位必备的基础知识，并且要求很高（很多公司给出的要求是精通）。在嵌入式的底层，C语言大量被使用，特别是多维指针、结构体等，还有很多上层C编程中不常用的知识，例如volatile关键字。另外C++在有些公司的招聘要求中也有提到，稍上层一点的编程可能会用C++。《The C Programming Language》《C++ Primer》这两本书比较经典。</p>
+<p>单片机作为嵌入式的重要基础，有必要学习一下，对于提高动手能力等也很有好处。微机原理也是基础知识，学习单片机对于理解微机原理有帮助；汇编语言则是微机原理中的重点知识，在嵌入式最底层的程序中会用到。数字电路是微机原理的基础，在单片机/嵌入式的硬件电路设计时，也会经常用到。如果做偏硬件方面，可能还需要一定的模拟电路和PCB设计知识。</p>
+<p>Linux的操作也是一个很基础的知识，嵌入式用Linux系统很多，编译很多时候也是在Linux环境下进行的。由于嵌入式往往涉及操作系统，所以操作系统也有学习的必要。网络方面的知识也经常会涉及。推荐书籍：《鸟哥的Linux私房菜》《现代操作系统》《计算机网络》。</p>
+<p>然后推荐一本韦东山的《嵌入式Linux应用开发完全手册》，里面涉及了嵌入式系统移植方方面面的知识。如果想学的再深入一些，可以去看嵌入式驱动开发，还有BootLoader、Linux的原理以及代码实现等等。Linux操作系统非常庞大，能把里面的原理都弄明白，需要很多的知识，也需要很长时间的积累。编程方面还可能涉及数据结构，设计模式等学科内容。嵌入式的编程一般是在Linux系统下进行的，所以熟悉Linux系统下的代码编辑器、熟悉程序的编译、工程的管理、Makefile的编写等也很必要。</p>
+<p>Android作为一个新兴的优秀开源嵌入式系统，也在越来越多的被用到，安卓智能手机的设计也少不了嵌入式方面的研发工作。例如有安卓内核与驱动开发方面的岗位；专门的安卓ROM移植工程师，负责安卓系统的定制移植等工作。《Android内核剖析》这本书不错。通常所说的嵌入式方向，不包括安卓应用程序的开发。</p>
+<p>总得来说，嵌入式涉及的东西特别多，软件、硬件都有，其中很多东西对理论要求倒也不高，但是不好理解。知识太多需要长期坚持和积累。初级的嵌入式工程师，主要是移植驱动和系统之类，看懂已有的程序，做一些小的调整；而高级的嵌入式工程师，则能对代码进行大规模的调整，甚至自己写代码。这一点非常不容易，因为嵌入式的程序往往很难写，每一行代码都可能包含了大量的背景知识（所以待遇肯定也不会差）。</p>
+<p><img data-src="/blog-imgs/tech/images/e7450d0a84dc26d7fbcf5e21dff6191c.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/b97065866a9f2293fd63405ab0a3e3c5.png" alt=""></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-20/" rel="bookmark">单片机小白学步(20) IO口原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-16/" rel="bookmark">单片机小白学步(16) 单片机/计算机系统概述：模块化思想</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/job-apply/" rel="prev" title="我的求职经历与心路历程——我是如何面试进美团的">
+      <i class="fa fa-chevron-left"></i> 我的求职经历与心路历程——我是如何面试进美团的
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/analog-circuit-design/" rel="next" title="模拟电路设计：理论的神话与残酷的现实">
+      模拟电路设计：理论的神话与残酷的现实 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%95%E4%B8%BA%E5%B5%8C%E5%85%A5%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">何为嵌入式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">典型嵌入式系统的设计流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E7%A1%AE%E5%AE%9A"><span class="nav-number">2.1.</span> <span class="nav-text">方案确定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">嵌入式软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%A1%AC%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">嵌入式硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A7%E5%93%81%E5%8E%9F%E5%9E%8B%E4%B8%8E%E9%87%8F%E4%BA%A7"><span class="nav-number">2.4.</span> <span class="nav-text">产品原型与量产</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91%E7%9A%84%E7%89%B9%E7%82%B9%E4%B8%8E%E9%9A%BE%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">嵌入式开发的特点与难点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0"><span class="nav-number">4.</span> <span class="nav-text">如何学习</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

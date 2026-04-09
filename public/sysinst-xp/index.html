@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="这篇介绍如何安装Windows XP系统……虽然XP已经比较古老了，但还是做个介绍吧，毕竟一些早期的电脑配置太低，还用不了Win7&#x2F;8等系统。 准备工作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="装系统不求人——Win XP安装">
+<meta property="og:url" content="https://www.xiaoming.io/sysinst-xp/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="这篇介绍如何安装Windows XP系统……虽然XP已经比较古老了，但还是做个介绍吧，毕竟一些早期的电脑配置太低，还用不了Win7&#x2F;8等系统。 准备工作">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/ca43b11ad35d9e09bb531250ed87ba93.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/42186324f30b95d820e461ae25416b50.png">
+<meta property="article:published_time" content="2015-04-08T06:28:06.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.404Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="#装系统不求人#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/ca43b11ad35d9e09bb531250ed87ba93.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/sysinst-xp/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>装系统不求人——Win XP安装 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "装系统不求人——Win XP安装",
+      "description": "这篇介绍如何安装Windows XP系统……虽然XP已经比较古老了，但还是做个介绍吧，毕竟一些早期的电脑配置太低，还用不了Win7/8等系统。 准备工作",
+      "datePublished": "2015-04-08T06:28:06.000Z",
+      "dateModified": "2026-01-09T08:19:11.404Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/sysinst-xp/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/sysinst-xp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          装系统不求人——Win XP安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-04-08 14:28:06" itemprop="dateCreated datePublished" datetime="2015-04-08T14:28:06+08:00">2015-04-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sysinst/" itemprop="url" rel="index"><span itemprop="name">装系统不求人</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/sysinst-xp/" class="post-meta-item leancloud_visitors" data-flag-title="装系统不求人——Win XP安装" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/sysinst-xp/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/sysinst-xp/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇介绍如何安装Windows XP系统……虽然XP已经比较古老了，但还是做个介绍吧，毕竟一些早期的电脑配置太低，还用不了Win7/8等系统。</p>
+<h2 id="准备工作">准备工作</h2>
+<p>常见的准备工作单独写成一篇文章了，先看下文吧~</p>
+<blockquote>
+<p>《装系统不求人——系统安装准备工作》<br>
+<a href="http://www.xiaoming.io/sysinst-prepare">http://www.xiaoming.io/sysinst-prepare</a></p>
+</blockquote>
+<h3 id="补充内容：系统安装盘">补充内容：系统安装盘</h3>
+<p>XP系统有两种类型的：</p>
+<ul>
+<li>
+<p>一种是Ghost XP，只需十几分钟就能装好系统，而且各种常用软件都有了。</p>
+</li>
+<li>
+<p>另一种是微软官方的原版XP。第一次安装会比较麻烦，装好了需要安装驱动等然后调整很多东西。</p>
+</li>
+</ul>
+<p>在之前的Win7安装中，我们极力推荐使用原版Win7，但是安装XP我们则选用Ghost XP。原因是原版XP安装过程比较繁琐并且很慢，还有大量设置需要进行修改，才能比较好的使用。而用Ghost XP节省了很多精力，相比Win7，XP驱动问题造成的影响也比较小。</p>
+<p>Ghost XP系统盘可以自行百度“Ghost XP”寻找合适的版本（比较推荐深度技术的Ghost XP，特点是优化做得好，运行比较流畅；番茄花园的Ghost XP则是界面比较好看），或点击下面的链接下载。</p>
+<blockquote>
+<p>深度技术 GHOST XP SP3 安全稳定版 V2015.03 下载<br>
+<a target="_blank" rel="noopener" href="http://www.xitongzhijia.net/xp/201503/42222.html">http://www.xitongzhijia.net/xp/201503/42222.html</a></p>
+</blockquote>
+<h3 id="补充内容：学习Ghost备份还原">补充内容：学习Ghost备份还原</h3>
+<p>因为是Ghost系统，装系统其实就是用Ghost还原已经制作好的系统备份。因此学会Ghost的使用是当然的了。可以参考下文：</p>
+<blockquote>
+<p>《装系统不求人——用Ghost备份还原系统》<br>
+<a href="http://www.xiaoming.io/sysinst-ghost">http://www.xiaoming.io/sysinst-ghost</a></p>
+</blockquote>
+<h3 id="补充内容：引导修复">补充内容：引导修复</h3>
+<p>参考下文。</p>
+<blockquote>
+<p>《装系统不求人——BootLoader与引导修复》<br>
+<a href="http://www.xiaoming.io/sysinst-boot">http://www.xiaoming.io/sysinst-boot</a></p>
+</blockquote>
+<h2 id="安装系统">安装系统</h2>
+<p>做了不少准备工作，安装系统的过程就比较简单了。直接用Ghost还原已经做好的系统就可以了。</p>
+<h3 id="常规安装过程">常规安装过程</h3>
+<ol>
+<li>
+<p>准备GHO文件：首先用压缩软件打开之前的系统盘，将其中最大的一个GHO文件解压出来（这个文件尺寸大概在500MB~2GB之间）。</p>
+<blockquote>
+<p>当然也可以直接用虚拟光驱加载ISO系统盘镜像文件。</p>
+</blockquote>
+</li>
+<li>
+<p>准备分区：<strong>一般情况下，Ghost XP只能安装到主分区</strong>。所以需要事先准备好要安装XP的分区，然后<strong>将其设置为活动分区</strong>。为便于表述，后面将其简称为“<strong>XP分区</strong>”。</p>
+</li>
+<li>
+<p>还原系统文件：如果不是覆盖安装，可以直接在Windows下运行Ghost（别忘了设置兼容性，并以管理员身份运行）；也可以启动到PE运行Ghost；或者直接启动DOS版本的Ghost。将第一步中的GHO文件，还原到第二步中准备好的XP分区。</p>
+</li>
+<li>
+<p>修复引导：Ghost XP系统文件已经还原到XP分区了，这里用NTBootAutoFix在PE下自动修复XP的引导。</p>
+<blockquote>
+<p>虽然Ghost会自动处理XP分区中的引导记录，但视不同情况，BootLoader并不一定都能正确运行并启动XP，所以需要进行修复。</p>
+</blockquote>
+</li>
+<li>
+<p>安装系统：重启后选择进入XP系统，就会进入GhostXP系统安装部署的界面，一般都是全自动进行的，不需要操作。安装完成后电脑会自动重启，再次选择进入XP就会进入桌面，此时系统就安装好了。</p>
+</li>
+</ol>
+<h3 id="将Ghost-XP安装到逻辑分区">将Ghost XP安装到逻辑分区</h3>
+<p>前面提到Ghost XP一般只能安装到主分区。原因在于，Ghost XP在制作时，系统盘符一般都是C盘，加载各种系统文件都会根据这个路径来识别。在还原到你的电脑上之后，首次开机时系统会自动给每个硬盘分区按一定的顺序分配盘符。活动分区会被最先分配，也就成了C盘，而其他分区则按先后顺序分别分配为D、E、F……因此只有将Ghost XP还原到活动分区，才能在开机时分配为C盘从而正常启动系统。而只有主分区才能被设置成活动分区。</p>
+<p>如果需要将Ghost XP安装到逻辑分区，最大的问题就是要保证系统所在的分区盘符会被分配成C。</p>
+<p>具体的安装方法如下：</p>
+<ol>
+<li>
+<p>还原文件：和前面一样准备好GHO文件，再用Ghost将GHO文件还原到XP分区。XP分区可以是主分区，也可以是逻辑分区。</p>
+</li>
+<li>
+<p>移动引导文件：将XP分区中的三个启动文件NTLDR，<a target="_blank" rel="noopener" href="http://NTDETECT.COM">NTDETECT.COM</a>，boot.ini移动到活动分区根目录。因为它们只有在活动分区，才能正常启动系统。</p>
+</li>
+<li>
+<p>修复引导：启动NTBootAutoFix，直接用自动修复即可。</p>
+<blockquote>
+<p>修复完成后，可以看到boot.ini文件中的设置已经被修改成正确的分区，例如：</p>
+<ol>
+<li><code>[boot loader]</code></li>
+<li><code>default=multi(0)disk(0)rdisk(0)partition(6)\windows</code></li>
+<li><code>timeout=30</code></li>
+<li><code>[operating systems]</code></li>
+<li><code>multi(0)disk(0)rdisk(0)partition(6)\windows=&quot;G Microsoft Windows XP x86    &quot; /NOEXECUTE=OPTIN /FASTDETECT /DETECTHAL</code></li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>隐藏分区：在PE下启动DiskGenius，将XP分区前面所有的主分区和逻辑分区设置为隐藏。具体的操作是右击分区，选择“隐藏当前分区”即可，如图。隐藏的分区不会被分配盘符。</p>
+<p><img data-src="/blog-imgs/tech/sysinst/images/ca43b11ad35d9e09bb531250ed87ba93.png" alt=""></p>
+</li>
+<li>
+<p>从硬盘启动XP，就会进入XP的安装界面。作为XP系统的<strong>首次启动</strong>，将会对硬盘分区进行盘符的分配。由于XP系统分配分区盘符的顺序是：活动分区–&gt;主分区–&gt;逻辑分区，并且从左到右，而隐藏的分区不会被分配盘符，所以XP系统分区会被最先分配成C盘。</p>
+<blockquote>
+<p>你可以在进入XP安装界面后，尝试按Shift+F10启动cmd命令窗口。如果启动不了，等一会再尝试就可以了。启动后可以看到类似下图的窗口，且显示的是<code>C:\windows\system32&gt;</code>，说明XP分区已经被正确识别成C盘。<br>
+<img data-src="/blog-imgs/tech/sysinst/images/42186324f30b95d820e461ae25416b50.png" alt=""></p>
+</blockquote>
+</li>
+<li>
+<p>取消隐藏分区：安装好后，即可进入XP系统桌面。此时再用DiskGenius取消隐藏分区，就能一切正常。</p>
+<ul>
+<li>
+<p>如果首次启动XP安装界面前，没有隐藏分区的操作，XP分区就不会被识别成C盘。于是GhostXP安装完成后，会卡在登陆界面不能进入桌面。</p>
+</li>
+<li>
+<p>同样的道理，如果你的电脑上之前有其他系统例如Win7，且它的分区已经设置成了隐藏，则启动Win7会卡在“正在启动Windows”的界面，因为Win7所在分区无法被正确分配盘符。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="后续工作">后续工作</h2>
+<p>成功进入XP的桌面，说明系统已经装好了，还有少量后续工作。因为我们装的是Ghost XP，系统已经激活了，并且集成了常用驱动和软件，后续工作不多了。最必要的两个是：</p>
+<ul>
+<li>完善驱动：GhostXP集成的万能驱动并不一定能很好的兼容所有硬件，所以最好自己再完善一下驱动。</li>
+<li>备份系统：备份好系统，下次就可以用Ghost直接还原自己的专属GHO文件，而不需要再安装一遍。</li>
+</ul>
+<p>具体可以参考下文中的相应内容：</p>
+<blockquote>
+<p>《装系统不求人——系统安装后续工作》<br>
+<a href="http://www.xiaoming.io/sysinst-follow-up">http://www.xiaoming.io/sysinst-follow-up</a></p>
+</blockquote>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-pwd-crack/" rel="bookmark">装系统不求人——开机密码破解</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ubuntu/" rel="bookmark">装系统不求人——安装Ubuntu</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-customize-bootable-disk/" rel="bookmark">装系统不求人——量身定制自己的万能启动盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-boot/" rel="bookmark">装系统不求人——BootLoader与引导修复</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-prepare/" rel="bookmark">装系统不求人——系统安装准备工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-ghost/" rel="bookmark">装系统不求人——用Ghost备份还原系统</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-follow-up/" rel="bookmark">装系统不求人——系统安装后续工作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/sysinst-win-nt6/" rel="bookmark">装系统不求人——Windows7/8系统的安装（利用Win$Man）</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B8%8D%E6%B1%82%E4%BA%BA/" rel="tag"># #装系统不求人#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/sysinst-boot/" rel="prev" title="装系统不求人——BootLoader与引导修复">
+      <i class="fa fa-chevron-left"></i> 装系统不求人——BootLoader与引导修复
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/sysinst-customize-bootable-disk/" rel="next" title="装系统不求人——量身定制自己的万能启动盘">
+      装系统不求人——量身定制自己的万能启动盘 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E5%86%85%E5%AE%B9%EF%BC%9A%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E7%9B%98"><span class="nav-number">1.1.</span> <span class="nav-text">补充内容：系统安装盘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E5%86%85%E5%AE%B9%EF%BC%9A%E5%AD%A6%E4%B9%A0Ghost%E5%A4%87%E4%BB%BD%E8%BF%98%E5%8E%9F"><span class="nav-number">1.2.</span> <span class="nav-text">补充内容：学习Ghost备份还原</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E5%86%85%E5%AE%B9%EF%BC%9A%E5%BC%95%E5%AF%BC%E4%BF%AE%E5%A4%8D"><span class="nav-number">1.3.</span> <span class="nav-text">补充内容：引导修复</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.</span> <span class="nav-text">安装系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">常规安装过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86Ghost-XP%E5%AE%89%E8%A3%85%E5%88%B0%E9%80%BB%E8%BE%91%E5%88%86%E5%8C%BA"><span class="nav-number">2.2.</span> <span class="nav-text">将Ghost XP安装到逻辑分区</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">后续工作</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

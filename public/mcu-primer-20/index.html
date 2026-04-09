@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="2014-11-25更新：在“上拉电阻&#x2F;下拉电阻&#x2F;高阻态”一节中添加了三条备注 IO口操作是单片机实践中最基本最重要的一个知识，本篇花了比较长的篇幅介绍IO口的原理。也是查阅了不少资料，确保内容正确无误，花了很长时间写的。IO口原理原本需要涉及很多深入的知识，而这里尽最大可能做了简化方便理解。这样对于以后解决各种IO口相关的问题会有很大的帮助。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单片机小白学步(20) IO口原理">
+<meta property="og:url" content="https://www.xiaoming.io/mcu-primer-20/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="2014-11-25更新：在“上拉电阻&#x2F;下拉电阻&#x2F;高阻态”一节中添加了三条备注 IO口操作是单片机实践中最基本最重要的一个知识，本篇花了比较长的篇幅介绍IO口的原理。也是查阅了不少资料，确保内容正确无误，花了很长时间写的。IO口原理原本需要涉及很多深入的知识，而这里尽最大可能做了简化方便理解。这样对于以后解决各种IO口相关的问题会有很大的帮助。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/9dd98dd478267fec2129541d881d40c3.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/c289073328687407640a8bcac21a31a2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/f2fdb53786d3ea11585cb11094077589.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/0027db2b9b4243aaff82cb33b8ba98b5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/917e6d03abd995393e95a8906b76a03f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/aa620cd2839c1ef6f961d910dc87a2ed.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/65b17a234f766a6c30a3f52f770313e6.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/aa4ec17d5d39b7551c80289a1f5203aa.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/637d14bdde35585e46d39303e0b2be9e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/3aa6a09d04b53c96893f1782572d70f5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/46b16ed58b434a62df86eead8c50eed0.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/1d8dce72c2c122eed079d46690320261.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/aede72bf017c02a40c30d0b72e2aafce.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/1eb61090ccd021748561fda30aaff593.png">
+<meta property="article:published_time" content="2014-11-13T08:00:34.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.773Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="电路设计">
+<meta property="article:tag" content="硬件开发">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="单片机">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="入门">
+<meta property="article:tag" content="#单片机小白学步#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/9dd98dd478267fec2129541d881d40c3.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/mcu-primer-20/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>单片机小白学步(20) IO口原理 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "单片机小白学步(20) IO口原理",
+      "description": "2014-11-25更新：在“上拉电阻/下拉电阻/高阻态”一节中添加了三条备注 IO口操作是单片机实践中最基本最重要的一个知识，本篇花了比较长的篇幅介绍IO口的原理。也是查阅了不少资料，确保内容正确无误，花了很长时间写的。IO口原理原本需要涉及很多深入的知识，而这里尽最大可能做了简化方便理解。这样对于以后解决各种IO口相关的问题会有很大的帮助。",
+      "datePublished": "2014-11-13T08:00:34.000Z",
+      "dateModified": "2025-06-17T13:33:21.773Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/mcu-primer-20/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/mcu-primer-20/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单片机小白学步(20) IO口原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-11-13 16:00:34" itemprop="dateCreated datePublished" datetime="2014-11-13T16:00:34+08:00">2014-11-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mcu-primer/" itemprop="url" rel="index"><span itemprop="name">单片机小白学步</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/mcu-primer-20/" class="post-meta-item leancloud_visitors" data-flag-title="单片机小白学步(20) IO口原理" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/mcu-primer-20/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/mcu-primer-20/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>2014-11-25更新：在“上拉电阻/下拉电阻/高阻态”一节中添加了三条备注</p>
+<p>IO口操作是单片机实践中最基本最重要的一个知识，本篇花了比较长的篇幅介绍IO口的原理。也是查阅了不少资料，确保内容正确无误，花了很长时间写的。IO口原理原本需要涉及很多深入的知识，而这里尽最大可能做了简化方便理解。这样对于以后解决各种IO口相关的问题会有很大的帮助。</p>
+<p>IO口等效模型是本人独创的方法，通过此模型，能有效的降低对IO口内部结构理解的难度。并且经查阅资料确认，这种模型和实际工作原理基本一致。</p>
+<p>==========================================</p>
+<p>前面说了很多东西，不少人或许已经迫不及待的想要实际操作单片机了。IO口作为单片机与外界通信最主要的手段，是单片机学习最基本也最重要的一个知识。前面我们编程实现了IO口点亮LED的实验，本篇继续对IO口相关知识进行介绍。</p>
+<p>为了更好的学习IO口操作，有必要了解一下IO口的内部结构和相关概念。这些知识对于后续的学习很有帮助，重点是理解，完全不需要刻意去记。不记得就回来再看看就行了，用得多了自然就记住了。</p>
+<h2 id="官方资料（最权威准确）">官方资料（最权威准确）</h2>
+<p>我们说过，要了解一个芯片，最准确有效的方法，是查看官方给出的芯片手册等资料。但是初学单片机，直接看芯片手册资料恐怕很难弄明白，尤其是看到一堆英文、陌生的电路、名词术语，如果是我，一定也会抓狂的。但是这里我还是给出一张从Atmel官方的《Atmel 8051 Microcontrollers Hardware Manual》中截取的图片。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/9dd98dd478267fec2129541d881d40c3.png" alt=""></p>
+<p>给出这张图片并不是为了打击大家学习热情，而是希望大家能明白，我们所见过的各种单片机资料到底是怎么来的，到底是否准确，这一切都可以通过官方资料弄清楚，对于大家以后深入学习一些东西有一定的帮助。</p>
+<h2 id="第二功能简介">第二功能简介</h2>
+<p>上图正是官方给出的权威的51单片机IO口结构图。可以看出，单片机的四组IO口内部结构各不相同，原因是有些IO口有第二功能，入门篇里面提到过。</p>
+<p>还记得这张管脚图吗？括号中标注的就是IO口的第二功能名称。除了P1以外，每个接口都有第二功能。介绍单片机系统模块时，我提到51单片机有预留扩展存储器的接口，正是图中的P0和P1的第二功能（同时还要用到29、30等管脚）。因为用的不多，涉及知识也比较深入，就不做具体研究了。顺便一提，其实这里我们看到的AD0~AD7，就是用于并行口的。而P3口的第二功能，就包括串口等，后面学到了还会具体介绍。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/c289073328687407640a8bcac21a31a2.jpg" alt=""></p>
+<h2 id="IO口等效电路">IO口等效电路</h2>
+<p>由于深入理解IO口的原理涉及到很多电路甚至微机原理相关知识，这里只做简化介绍，能满足绝大多数情况下的需要。作为普通IO口使用时，四个IO口的工作原理基本一致。</p>
+<p>下面的图是从前面图中的P1电路中裁剪出来的，也是我们需要理解的关键。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/f2fdb53786d3ea11585cb11094077589.png" alt=""></p>
+<p>右边的P1.X表示P1的一个IO口，如P1.0；电阻右边写的英文是内部上拉电阻的意思，之所以叫上拉电阻，是因为电阻的一端接在VCC上。下面的三角形表示接地，相当于GND。除此之外，最关键的一个器件是下面这个。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/0027db2b9b4243aaff82cb33b8ba98b5.png" alt=""></p>
+<p>这个器件的本质是晶体管，起到电子开关的作用（如果想深入了解，可以学习模拟电路相关的知识，或者等到原理篇中介绍）。上面的电路可以大致等效成下图。注意，这样的结构只是一个IO口，整个单片机中有32个这种结构。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/917e6d03abd995393e95a8906b76a03f.png" alt=""></p>
+<p>图中的R为阻值10k的上拉电阻，S是由前面的晶体管等效的电子开关。蓝色框中的部分在单片机内部。</p>
+<p>S的开关状态由CPU控制。当用程序设置P1.0管脚为低电平时，电子开关S闭合。实际上电子开关S闭合时，两端还有很小的电阻。根据分压原理，P1.0上会有一个很低的电压，近似0V，已经可以视为低电平了。当设置管脚为高电平时S断开，P1.0通过10k上拉电阻接到VCC上。如果用电压表测量，因为电压表内阻很大，所以可以得出其电压值为高电平。</p>
+<h2 id="IO口的输出：点亮LED">IO口的输出：点亮LED</h2>
+<p>前面介绍了点亮第一个LED的程序和电路。程序如下：</p>
+<p>#include &lt;reg52.h&gt;</p>
+<p>sbit LED = P1^0;</p>
+<p>void main()</p>
+<p>{</p>
+<p>LED = 0;</p>
+<p>while(1);</p>
+<p>}</p>
+<p>电路关键部分如下，VCC通过1k电阻连接到LED正极，LED负极接到P1.0口：</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/aa620cd2839c1ef6f961d910dc87a2ed.png" alt=""></p>
+<p>在单片机执行LED=0的时候，电子开关S就由CPU控制而闭合，P1.0上输出低电平。电流通过1k电阻和LED流入P1.0，再经过S流入GND，LED两端有合适的电压于是点亮。结合单片机内部IO口等效电路，整个电路如下图</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/65b17a234f766a6c30a3f52f770313e6.png" alt=""></p>
+<h2 id="灌电流与拉电流">灌电流与拉电流</h2>
+<p>在上面的例子中，P1.0输出低电平点亮LED。能不能反过来，P1.0输出高电平点亮LED呢？我们可以考虑电路连接成下面这样，并在程序中编写LED=1。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/aa4ec17d5d39b7551c80289a1f5203aa.png" alt=""></p>
+<p>当执行LED=1时，S断开。电流通过10k上拉电阻R从P1.0流出，并进入LED。由于上拉电阻的阻值太大，电流太小，导致LED不亮，或者亮度很微弱。所以通常不采用这种方法。</p>
+<p>这两种方法，前者电流从外部流入单片机内部，我们称之为灌电流接法；后者电流方向相反，称为拉电流接法。对比可以看出，对于51单片机，灌电流接法电流较大，拉电流接法由于受到上拉电阻限制，电流较小。</p>
+<p>在实际当中灌电流的最大电流也是有限的，因为电子开关S中能通过的电流有限。根据STC官方的芯片手册，对于STC单片机，建议单个IO口灌电流建议不超过20mA，所有IO口灌电流之和不超过55mA，否则容易烧坏IO口。而拉电流大小只有230uA左右。</p>
+<h2 id="上拉电阻-下拉电阻-高阻态">上拉电阻/下拉电阻/高阻态</h2>
+<p>拉电流是从上拉电阻流出来的，能否提高拉电流大小呢？答案是可以。我们只需要在单片机外部再添加一个上拉电阻，就可以增大拉电流，并且能成功点亮LED，如下图所示。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/637d14bdde35585e46d39303e0b2be9e.png" alt=""></p>
+<p>图中的电路，相当于R和R0并联了，整个上拉电阻的阻值减小了。但是这样做有个缺陷。在这个电路中，当单片机输出低电平时，S闭合，此时电流从VCC通过上拉电阻和S流入GND。此时虽然LED熄灭了，但是却有较大电流通过上拉电阻而浪费掉。所以上拉电阻过大，会导致驱动力不足，而上拉电阻过小，又会在输出低电平时浪费电能。</p>
+<p>上拉电阻的作用是什么呢？对电路了解多一点的人很快能发现，如果没有上拉电阻，IO口就无法输出高电平，也就是下图这样的。开关闭合时能输出低电平，但是开关断开时，P1.0就悬空了，什么也没连接。这时IO口的电压就是不确定的了，这种状态无法判断它是低电平还是高电平，叫做高阻态。很巧的是，单片机的P0口确实就没有上拉电阻，而其他三组IO口都有上拉电阻。所以当P0输出高电平，并且没有外接上拉电阻时，就是高阻态，不能正常输出高电平。后面我会通过具体例子来让大家感受一下高阻态。</p>
+<p>备注1：后续文章会详细分析高阻态。</p>
+<p>备注2：虽然P1.0似乎是同时连接到CPU的IO输入端了，即图中写着“输入”的绿色箭头，但是这部分电路只有在读取管脚输入的时候才会导通，并且是单向的，可以想象成内阻较大的电压表输入端。</p>
+<p>备注3：如图中所示，51单片机IO口工作在普通IO口状态下，电子开关是用晶体管实现的（包括三极管和MOS管两种）。图中实现的这种电平输出结构，如果是MOS管实现，则被称为漏极开路输出(OD=Open Drain，或简称为“开漏”)，漏极是MOS管的一个管脚，对应于图中S和R的接点处。而如果是三极管实现，则称为集电极开路输出(OC=Open Collector)，两者原理基本一致。后续文章会介绍三极管。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/3aa6a09d04b53c96893f1782572d70f5.png" alt=""></p>
+<p>上拉电阻的存在，将原本的高阻态转变成了高电平，也因此得名。和上拉电阻相对应的，还有下拉电阻，区别在于下拉电阻另一端不是连接VCC而是接到GND。</p>
+<h2 id="IO口的输入">IO口的输入</h2>
+<p>IO口之所以叫IO口（IO=Input/Output），意味着它既可以输出又可以输入。前面讲的都是IO口的输出，下面讲IO口的输入。IO口的输出我们通过LED来介绍，而IO口的输入我们则通过开关来说明。在很多单片机中，IO的输入和输出需要通过电路切换，而对于51单片机来说，输入和输出使用的是同一套电路，也就是上面我们分析的电路。</p>
+<p>图中的S0是一个单刀双掷开关，往上切换可以将P1.0接到VCC，往下切换可以接到GND。读取时CPU会通过特定电路获取图中橙色导线上的电平。我们想要实现的效果是，让CPU读取P1.0端口的电平，从而获得开关S0的状态。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/46b16ed58b434a62df86eead8c50eed0.png" alt=""></p>
+<p>当S断开时，CPU通过获取P1.0上的电平可以知道外部开关S0的状态，从而执行相应的操作。</p>
+<p>而S闭合时，S0往下切换，P1.0确实是低电平。而S保持闭合且S0往上切换时，VCC通过S0和S直接接到GND就短路了。此时电子开关S通过大量电流，可能会烧坏单片机。于是我们添加了电阻R0。S仍然保持闭合，S0往上切换。此时P1.0仍然是低电平，于是CPU无法判断外部开关S0的状态，如下图。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/1d8dce72c2c122eed079d46690320261.png" alt=""></p>
+<p>总结起来就是在读取IO口电平时，应先设置输出高电平（即断开S），再读取数据。这个规则适用于所有IO口。</p>
+<p>类似的，还可以读取单刀单掷开关（或按键开关）的状态，读取前先设置输出高电平，电路图如下。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/aede72bf017c02a40c30d0b72e2aafce.png" alt=""></p>
+<p>上面这种电路需要依赖上拉电阻才能工作。P0口由于没有上拉电阻，需要在外部添加一个上拉电阻（因为如果没有上拉电阻，并且S和S0都断开时，IO口变成高阻态，读取的电平结果不确定，于是无法正确判断S0的开关状态）。</p>
+<h2 id="双向IO口-准双向IO口">双向IO口/准双向IO口</h2>
+<p>标准双向IO口的特点有两条：</p>
+<p>1、在输出模式下，可以输出高低电平；</p>
+<p>2、在输入模式下，如果没有接外部电路，应呈现高阻态。</p>
+<p>对于51单片机的P1、P2、P3口，由于有内部上拉电阻，输入模式下不可能出现高阻态，所以称之为准双向IO口。而P0口作为IO口工作时，如果不加上拉电阻就无法输出高电平；而加了上拉电阻，输入时又不会出现高阻态，所以也是准双向IO口。</p>
+<p>备注1：51单片机的P0口如果工作在第二功能状态下，则是双向IO口。初学时具体原理不需要研究的很透彻，下面一段对此进行分析，仅供有兴趣的读者参考。</p>
+<p>对照官方的完整IO口结构图，P0口内部有上下两个晶体管。当P0口工作在IO口模式下，上面那个晶体管断开，可以直接忽略，前面的等效电路就没有考虑上面那个晶体管。而当P0口工作在第二功能状态下，两个晶体管都可以工作。如果上面的晶体管断开，下面的导通，就输出低电平；反之上面的导通下面的断开，就输出高电平并且不需要上拉电阻；如果两个晶体管都断开，则可以作为输入，并且在没有外界电路时呈现高阻态。所以是双向IO口。</p>
+<p>备注2：关于双向IO口和准双向IO口的概念存在一定争议，这里的介绍综合了网上多方面的观点，被多数人所接受。</p>
+<h2 id="线与逻辑">线与逻辑</h2>
+<p>如果把两个单片机IO口连接在一起会发生什么现象呢？下面就是我们的电路图。</p>
+<p><img data-src="/blog-imgs/tech/mcu-primer/images/1eb61090ccd021748561fda30aaff593.png" alt=""></p>
+<p>当设置两个IO口都输出低电平，即S和S1都闭合时，总体是低电平；而当设置其中一个IO口输出低电平另一个输出高电平时，即S或S1闭合，此时两个IO口上都会呈现低电平。只有当P1.0、P1.1都输出高电平，即S和S1都断开时，才会呈现高电平。</p>
+<p>可以简单表述成：两个IO口连接在一起，仅当P1.0与P1.1都设置输出高电平时，两者接线上才会呈现高电平。这就是所谓的线与逻辑。不仅是两个，如果是很多的这样的IO口连在一起，只有所有IO都设置输出高电平，接线上才会呈现高电平。线与逻辑会在后面的矩阵键盘中使用到。</p>
+<h2 id="总结">总结</h2>
+<p>最后总结起来，主要就是下面几点。内容有点多，但是实际上常用的只有其中的几点。再次强调，不需要刻意去记，明白了原理，用多了自然就记住了。</p>
+<p>1、灌电流比拉电流能通过更大的电流；点亮LED一般用灌电流方式</p>
+<p>2、上拉电阻越小，拉电流输出能力越大，但输出低电平时越费电</p>
+<p>3、读取IO口前，要先设置输出高电平</p>
+<p>4、P0作为输出，需外接上拉电阻</p>
+<p>5、按键开关作为输入时，接在IO口和GND之间，另外需要上拉电阻</p>
+<p>6、51单片机的四个IO口在普通IO状态下都是准双向口</p>
+<p>7、51单片机IO口遵从线与逻辑</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-22/" rel="bookmark">单片机小白学步(22) IO口：蜂鸣器的使用/三极管的工作原理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-21/" rel="bookmark">单片机小白学步(21) IO口：基本的LED和按键操作</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-19/" rel="bookmark">单片机小白学步(19) 单片机/计算机系统概述：扩展模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-16/" rel="bookmark">单片机小白学步(16) 单片机/计算机系统概述：模块化思想</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/mcu-primer-15/" rel="bookmark">单片机小白学步(15) 单片机程序下载失败总结</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
+              <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mcu-primer-19/" rel="prev" title="单片机小白学步(19) 单片机/计算机系统概述：扩展模块">
+      <i class="fa fa-chevron-left"></i> 单片机小白学步(19) 单片机/计算机系统概述：扩展模块
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/mcu-primer-21/" rel="next" title="单片机小白学步(21) IO口：基本的LED和按键操作">
+      单片机小白学步(21) IO口：基本的LED和按键操作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E8%B5%84%E6%96%99%EF%BC%88%E6%9C%80%E6%9D%83%E5%A8%81%E5%87%86%E7%A1%AE%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">官方资料（最权威准确）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E5%8A%9F%E8%83%BD%E7%AE%80%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text">第二功能简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E5%8F%A3%E7%AD%89%E6%95%88%E7%94%B5%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">IO口等效电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E5%8F%A3%E7%9A%84%E8%BE%93%E5%87%BA%EF%BC%9A%E7%82%B9%E4%BA%AELED"><span class="nav-number">4.</span> <span class="nav-text">IO口的输出：点亮LED</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%81%8C%E7%94%B5%E6%B5%81%E4%B8%8E%E6%8B%89%E7%94%B5%E6%B5%81"><span class="nav-number">5.</span> <span class="nav-text">灌电流与拉电流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E6%8B%89%E7%94%B5%E9%98%BB-%E4%B8%8B%E6%8B%89%E7%94%B5%E9%98%BB-%E9%AB%98%E9%98%BB%E6%80%81"><span class="nav-number">6.</span> <span class="nav-text">上拉电阻&#x2F;下拉电阻&#x2F;高阻态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E5%8F%A3%E7%9A%84%E8%BE%93%E5%85%A5"><span class="nav-number">7.</span> <span class="nav-text">IO口的输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E5%90%91IO%E5%8F%A3-%E5%87%86%E5%8F%8C%E5%90%91IO%E5%8F%A3"><span class="nav-number">8.</span> <span class="nav-text">双向IO口&#x2F;准双向IO口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E4%B8%8E%E9%80%BB%E8%BE%91"><span class="nav-number">9.</span> <span class="nav-text">线与逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前面对单元测试进行了一些比较全的入门学习，都是通过Android Studio直接编译并自动运行测试的。 因为实际需要，希望在Android Studio中配置Robotium进行黑盒测试，之前知道原理，但一直没配置成功，网上也没找到相关的资料，所以自己进行了研究，终于成功了。在Android Studio中进行黑盒测试，需要用命令行编译、安装和运行TestRunner。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android测试初探（七） 在Android Studio中进行黑盒测试（可使用Robotium）">
+<meta property="og:url" content="https://www.xiaoming.io/android-test-7/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="前面对单元测试进行了一些比较全的入门学习，都是通过Android Studio直接编译并自动运行测试的。 因为实际需要，希望在Android Studio中配置Robotium进行黑盒测试，之前知道原理，但一直没配置成功，网上也没找到相关的资料，所以自己进行了研究，终于成功了。在Android Studio中进行黑盒测试，需要用命令行编译、安装和运行TestRunner。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/9437dc083615c7422e104e50ce41c5b3.png">
+<meta property="article:published_time" content="2016-05-11T07:41:32.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.567Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="安卓">
+<meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="#Android测试初探#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/9437dc083615c7422e104e50ce41c5b3.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/android-test-7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android测试初探（七） 在Android Studio中进行黑盒测试（可使用Robotium） | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Android测试初探（七） 在Android Studio中进行黑盒测试（可使用Robotium）",
+      "description": "前面对单元测试进行了一些比较全的入门学习，都是通过Android Studio直接编译并自动运行测试的。 因为实际需要，希望在Android Studio中配置Robotium进行黑盒测试，之前知道原理，但一直没配置成功，网上也没找到相关的资料，所以自己进行了研究，终于成功了。在Android Studio中进行黑盒测试，需要用命令行编译、安装和运行TestRunner。",
+      "datePublished": "2016-05-11T07:41:32.000Z",
+      "dateModified": "2025-06-17T13:33:21.567Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/android-test-7/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/android-test-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android测试初探（七） 在Android Studio中进行黑盒测试（可使用Robotium）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-05-11 15:41:32" itemprop="dateCreated datePublished" datetime="2016-05-11T15:41:32+08:00">2016-05-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android-test/" itemprop="url" rel="index"><span itemprop="name">Android测试初探</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/android-test-7/" class="post-meta-item leancloud_visitors" data-flag-title="Android测试初探（七） 在Android Studio中进行黑盒测试（可使用Robotium）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/android-test-7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/android-test-7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前面对单元测试进行了一些比较全的入门学习，都是通过Android Studio直接编译并自动运行测试的。</p>
+<p>因为实际需要，希望在Android Studio中配置Robotium进行黑盒测试，之前知道原理，但一直没配置成功，网上也没找到相关的资料，所以自己进行了研究，终于成功了。在Android Studio中进行黑盒测试，需要用命令行编译、安装和运行TestRunner。</p>
+<h2 id="研究过程">研究过程</h2>
+<p>这一段是讲述利用Android Studio实现黑盒测试的研究过程的，可以直接跳过。</p>
+<p>为了明确测试的执行流程，创建了一个白盒测试项目（参考本系列文章的第三篇），将其中的代码改为黑盒形式，如下。主要的变化就是不再直接引用被测试代码中的类和方法，而采用反射的形式获取。</p>
+<ol>
+<li>
+<p><code>public class ToastTest extends ActivityInstrumentationTestCase2 &#123;</code></p>
+</li>
+<li>
+<p><code>private Activity mActivity;</code></p>
+</li>
+<li>
+<p><code>public ToastTest() throws ClassNotFoundException &#123;</code></p>
+</li>
+<li>
+<p><code>super(&quot;com.jzj1993.test_instrumentation&quot;, Class.forName(&quot;com.jzj1993.test_instrumentation.MainActivity&quot;));</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>public void testToast() throws Throwable &#123;</code></p>
+</li>
+<li>
+<p><code>mActivity = getActivity();</code></p>
+</li>
+<li>
+<p><code>runTestOnUiThread(new Runnable() &#123;</code></p>
+</li>
+<li>
+<p><code>@Override</code></p>
+</li>
+<li>
+<p><code>public void run() &#123;</code></p>
+</li>
+<li>
+<p><code>Toast.makeText(mActivity, &quot;test&quot;, Toast.LENGTH_LONG).show();</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;);</code></p>
+</li>
+<li>
+<p><code>Thread.sleep(5000);</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+<li>
+<p><code>&#125;</code></p>
+</li>
+</ol>
+<p>仍然使用Android Studio进行编译和运行测试，执行成功。</p>
+<p>此时的TestRunner是一个Target为com.jzj1993.test_instrumentation，并通过反射启动com.jzj1993.test_instrumentation.MainActivity后弹一个Toast。<br>
+通过adb指令也可以看到这一点</p>
+<ol>
+<li><code>adb shell pm list instrumentation</code></li>
+<li><code>instrumentation:com.example.android.apis/.app.LocalSampleInstrumentation (target=com.example.android.apis)</code></li>
+<li><code>instrumentation:com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner (target=com.jzj1993.test_instrumentation)</code></li>
+</ol>
+<p>如果此时，重新安装一个同样包名、且含有同样的一个MainActivity的APP代替现有的APP，这个TestRunner是否仍然能调用新的APP呢？于是进行了实验。</p>
+<ul>
+<li>
+<p>创建一个新的项目，包名也是com.jzj1993.test_instrumentation，同样含有一个MainActivity，编译并安装，覆盖之前的APP。</p>
+</li>
+<li>
+<p>调用adb指令，再次启动原先的那个TestRunner。</p>
+<ol>
+<li><code>adb shell am instrument -w com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner</code></li>
+</ol>
+</li>
+<li>
+<p>发现新的APP果然被之前的TestRunner成功调起并运行测试了。猜想正确。</p>
+</li>
+</ul>
+<h2 id="Android-Studio实现黑盒测试">Android Studio实现黑盒测试</h2>
+<h3 id="获取包名、资源文件id">获取包名、资源文件id</h3>
+<p>假设已经有一个待测试APK，将其安装到安卓设备上。通过adb指令、Android Studio的Device Monitor可以获取其页面的包名、控件的id等信息。</p>
+<p>用adb查看当前的Activity</p>
+<ol>
+<li>
+<p><code>adb shell dumpsys activity activities  sed -En -e '/Running activities/,/Run #0/p'</code></p>
+</li>
+<li>
+<p><code>Running activities (most recent first):</code></p>
+</li>
+<li>
+<p><code>TaskRecord&#123;5323d558 #32 A com.jzj1993.unittest U 0&#125;</code></p>
+</li>
+<li>
+<p><code>Run #1: ActivityRecord&#123;5311cd60 u0 com.jzj1993.unittest/.MainActivity&#125;</code></p>
+</li>
+<li>
+<p><code>TaskRecord&#123;5309f8c8 #2 A com.android.launcher U 0&#125;</code></p>
+</li>
+<li>
+<p><code>Run #0: ActivityRecord&#123;52fc9ac0 u0 com.android.launcher/com.android.launcher2.Launcher&#125;</code></p>
+</li>
+</ol>
+<p>Device Monitor获取控件id<br>
+<img data-src="/blog-imgs/tech/android-test/images/9437dc083615c7422e104e50ce41c5b3.png" alt=""></p>
+<h3 id="签名的统一">签名的统一</h3>
+<p>如果有待测试APK的签名源文件，则直接配置给测试工程即可。如果没有，可以通过工具对待测试APK进行重新签名，使其与TestRunner的签名一致即可。</p>
+<h3 id="测试项目的实现">测试项目的实现</h3>
+<p>用Android Studio创建一个Android项目，包名和被测试APK一致，签名与待测APK保持一致。<br>
+按照白盒测试一样的方式进行配置。可参考本系列文章的第三篇。<br>
+代码主目录main中不用写任何代码（写了也不影响）。<br>
+在androidTest目录下编写黑盒测试代码。</p>
+<h3 id="TestRunner的编译和执行">TestRunner的编译和执行</h3>
+<p>前面创建好的项目，如果直接使用Android Studio进行测试运行，实际上Android Studio会执行以下操作：</p>
+<ul>
+<li>gradle assembleDebug，打包主目录main中的待测试APK</li>
+<li>gradle assembleDebugAndroidTest，打包测试目录androidTest中的TestRunner</li>
+<li>adb install -r app/build/outputs/apk/app-debug.apk，安装build目录生成的待测试APK</li>
+<li>adb install -r app/build/outputs/apk/app-debug-androidTest-unaligned.apk，安装build目录生成的TestRunner</li>
+<li>adb shell am instrument -w com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner，运行TestRunner</li>
+</ul>
+<p>现在只需要手动执行其中的部分操作即可，即：打包TestRunner、安装TestRunner、运行TestRunner，最终命令行输出测试成功的信息，同时可以看到安卓设备中进行黑盒测试的APK已经按照测试代码执行。</p>
+<ol>
+<li>
+<p><code>gradle clean</code></p>
+</li>
+<li>
+<p><code>gradle assembleDebugAndroidTest</code></p>
+</li>
+<li>
+<p><code>adb install -r app/build/outputs/apk/app-debug-androidTest-unaligned.apk</code></p>
+</li>
+<li>
+<p><code>adb shell am instrument -w com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner</code></p>
+</li>
+<li>
+<p><code>com.jzj1993.test_instrumentation.ApplicationTest:..</code></p>
+</li>
+<li>
+<p><code>com.jzj1993.test_instrumentation.ToastTest:.</code></p>
+</li>
+<li>
+<p><code>Test results for InstrumentationTestRunner=...</code></p>
+</li>
+<li>
+<p><code>Time: 5.311</code></p>
+</li>
+<li>
+<p><code>OK (3 tests)</code></p>
+</li>
+</ol>
+<p>在adb shell am instrument命令中，还可以指定-e参数，只运行TestRunner中指定的类。例如我可以在测试代码中写一个ToastTest和一个DialogTest，编译后如果不指定-e参数，则默认每个Test都会先后被执行，而如果指定-e参数，可以只运行ToastTest。</p>
+<ol>
+<li><code>adb shell am instrument -e class com.jzj1993.test_instrumentation.ToastTest -w com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner</code></li>
+</ol>
+<p>由于已经通过黑盒的方式获取到了Activity实例，并成功弹Toast，因此在其基础上增加Robotium框架，实现更为全面的黑盒测试是完全没有问题的，可参考本系列文章第五篇。</p>
+<h2 id="运行测试时的一些报错">运行测试时的一些报错</h2>
+<h3 id="找不到TestRunner">找不到TestRunner</h3>
+<ol>
+<li>
+<p><code>adb shell am instrument -w com.jzj1993.black.test/android.test.InstrumentationTestRunner</code></p>
+</li>
+<li>
+<p><code>INSTRUMENTATION_STATUS: id=ActivityManagerService</code></p>
+</li>
+<li>
+<p><code>INSTRUMENTATION_STATUS: Error=Unable to find instrumentation info for: ComponentInfo&#123;com.jzj1993.black.test/android.test.InstrumentationTestRunner&#125;</code></p>
+</li>
+<li>
+<p><code>INSTRUMENTATION_STATUS_CODE: -1</code></p>
+</li>
+<li>
+<p><code>android.util.AndroidException: INSTRUMENTATION_FAILED: com.jzj1993.black.test/android.test.InstrumentationTestRunner</code></p>
+</li>
+<li>
+<p><code>at com.android.commands.am.Am.runInstrument(Am.java:802)</code></p>
+</li>
+<li>
+<p><code>at com.android.commands.am.Am.onRun(Am.java:242)</code></p>
+</li>
+<li>
+<p><code>at com.android.internal.os.BaseCommand.run(BaseCommand.java:47)</code></p>
+</li>
+<li>
+<p><code>at com.android.commands.am.Am.main(Am.java:75)</code></p>
+</li>
+<li>
+<p><code>at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)</code></p>
+</li>
+<li>
+<p><code>at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:235)</code></p>
+</li>
+<li>
+<p><code>at dalvik.system.NativeStart.main(Native Method)</code></p>
+</li>
+</ol>
+<p>一般是因为TestRunner没有安装成功，或者在命令中写错包名等，可以用<code>adb shell pm list instrumentation</code>查看已经安装的TestRunner。</p>
+<h3 id="找不到被测试包-Target-Package">找不到被测试包 Target Package</h3>
+<ol>
+<li><code>adb shell am instrument -w com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner</code></li>
+<li><code>INSTRUMENTATION_STATUS: id=ActivityManagerService</code></li>
+<li><code>INSTRUMENTATION_STATUS: Error=Unable to find instrumentation target package: com.jzj1993.test_instrumentation</code></li>
+<li><code>INSTRUMENTATION_STATUS_CODE: -1</code></li>
+<li><code>android.util.AndroidException: INSTRUMENTATION_FAILED: com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner</code></li>
+<li><code>at com.android.commands.am.Am.runInstrument(Am.java:802)</code></li>
+<li><code>at com.android.commands.am.Am.onRun(Am.java:242)</code></li>
+<li><code>at com.android.internal.os.BaseCommand.run(BaseCommand.java:47)</code></li>
+<li><code>at com.android.commands.am.Am.main(Am.java:75)</code></li>
+<li><code>at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)</code></li>
+<li><code>at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:235)</code></li>
+<li><code>at dalvik.system.NativeStart.main(Native Method)</code></li>
+</ol>
+<p>一般是因为待测试包没有安装成功，或者TestRunner的Target和安装的包不一致。</p>
+<h3 id="找不到目标类-ClassNotFound">找不到目标类 ClassNotFound</h3>
+<ol>
+<li>
+<p><code>adb shell am instrument -w com.jzj1993.black.test.test/android.test.InstrumentationTestRunner</code></p>
+</li>
+<li>
+<p><code>android.test.suitebuilder.TestSuiteBuilder$FailedToCreateTests:</code></p>
+</li>
+<li>
+<p><code>Error in testSuiteConstructionFailed:</code></p>
+</li>
+<li>
+<p><code>java.lang.RuntimeException: Exception during suite construction</code></p>
+</li>
+<li>
+<p><code>at android.test.suitebuilder.TestSuiteBuilder$FailedToCreateTests.testSuiteConstructionFailed(TestSuiteBuilder.java:238)</code></p>
+</li>
+<li>
+<p><code>at java.lang.reflect.Method.invokeNative(Native Method)</code></p>
+</li>
+<li>
+<p><code>at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:191)</code></p>
+</li>
+<li>
+<p><code>at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:176)</code></p>
+</li>
+<li>
+<p><code>at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:554)</code></p>
+</li>
+<li>
+<p><code>at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1701)</code></p>
+</li>
+<li>
+<p><code>Caused by: java.lang.reflect.InvocationTargetException</code></p>
+</li>
+<li>
+<p><code>at java.lang.reflect.Constructor.constructNative(Native Method)</code></p>
+</li>
+<li>
+<p><code>at java.lang.reflect.Constructor.newInstance(Constructor.java:417)</code></p>
+</li>
+<li>
+<p><code>at android.test.suitebuilder.TestMethod.instantiateTest(TestMethod.java:87)</code></p>
+</li>
+<li>
+<p><code>at android.test.suitebuilder.TestMethod.createTest(TestMethod.java:73)</code></p>
+</li>
+<li>
+<p><code>at android.test.suitebuilder.TestSuiteBuilder.addTest(TestSuiteBuilder.java:262)</code></p>
+</li>
+<li>
+<p><code>at android.test.suitebuilder.TestSuiteBuilder.build(TestSuiteBuilder.java:184)</code></p>
+</li>
+<li>
+<p><code>at android.test.InstrumentationTestRunner.onCreate(InstrumentationTestRunner.java:379)</code></p>
+</li>
+<li>
+<p><code>at android.app.ActivityThread.handleBindApplication(ActivityThread.java:4435)</code></p>
+</li>
+<li>
+<p><code>at android.app.ActivityThread.access$1300(ActivityThread.java:141)</code></p>
+</li>
+<li>
+<p><code>at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1316)</code></p>
+</li>
+<li>
+<p><code>at android.os.Handler.dispatchMessage(Handler.java:99)</code></p>
+</li>
+<li>
+<p><code>at android.os.Looper.loop(Looper.java:137)</code></p>
+</li>
+<li>
+<p><code>at android.app.ActivityThread.main(ActivityThread.java:5103)</code></p>
+</li>
+<li>
+<p><code>at java.lang.reflect.Method.invokeNative(Native Method)</code></p>
+</li>
+<li>
+<p><code>at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:737)</code></p>
+</li>
+<li>
+<p><code>at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:553)</code></p>
+</li>
+<li>
+<p><code>at dalvik.system.NativeStart.main(Native Method)</code></p>
+</li>
+<li>
+<p><code>Caused by: java.lang.ClassNotFoundException: com.jzj1993.black.MainActivity</code></p>
+</li>
+<li>
+<p><code>at java.lang.Class.classForName(Native Method)</code></p>
+</li>
+<li>
+<p><code>at java.lang.Class.forName(Class.java:204)</code></p>
+</li>
+<li>
+<p><code>at java.lang.Class.forName(Class.java:169)</code></p>
+</li>
+<li>
+<p><code>at com.jzj1993.black.test.BlackBoxTest.&lt;init&gt;(BlackBoxTest.java:17)</code></p>
+</li>
+<li>
+<p><code>... 18 more</code></p>
+</li>
+<li>
+<p><code>Caused by: java.lang.NoClassDefFoundError: com/jzj1993/black/MainActivity</code></p>
+</li>
+<li>
+<p><code>... 22 more</code></p>
+</li>
+<li>
+<p><code>Caused by: java.lang.ClassNotFoundException: Didn't find class &quot;com.jzj1993.black.MainActivity&quot; on path: DexPathList[[zip file &quot;/system/framework/android.test.runner.jar&quot;, zip file &quot;/data/app/com.jzj1993.black.test.test-1.apk&quot;, zip file &quot;/data/app/com.jzj1993.black.test-2.apk&quot;],nativeLibraryDirectories=[/data/app-lib/com.jzj1993.black.test.test-1, /data/app-lib/com.jzj1993.black.test-2, /system/lib]]</code></p>
+</li>
+<li>
+<p><code>at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:53)</code></p>
+</li>
+<li>
+<p><code>at java.lang.ClassLoader.loadClass(ClassLoader.java:501)</code></p>
+</li>
+<li>
+<p><code>at java.lang.ClassLoader.loadClass(ClassLoader.java:461)</code></p>
+</li>
+<li>
+<p><code>... 22 more</code></p>
+</li>
+<li>
+<p><code>Test results for InstrumentationTestRunner=.E</code></p>
+</li>
+<li>
+<p><code>Time: 0.008</code></p>
+</li>
+<li>
+<p><code>FAILURES!!!</code></p>
+</li>
+<li>
+<p><code>Tests run: 1,  Failures: 0,  Errors: 1</code></p>
+</li>
+</ol>
+<p>这个错误是TestRunner抛出的异常。常见有几种可能：</p>
+<ul>
+<li>测试代码中的目标包名、类名，和实际安装在设备上的APK包名、类名不一致；</li>
+<li>TestRunner的包名和被测试包名不匹配（一般情况下，例如被测试APK包名为com.example.target，则TestRunner包名应为com.example.target.test）；</li>
+<li>其他</li>
+</ul>
+<h3 id="签名不一致">签名不一致</h3>
+<ol>
+<li>
+<p><code>adb shell am instrument -w com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner</code></p>
+</li>
+<li>
+<p><code>INSTRUMENTATION_STATUS: id=ActivityManagerService</code></p>
+</li>
+<li>
+<p><code>INSTRUMENTATION_STATUS: Error=Permission Denial: starting instrumentation ComponentInfo&#123;com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner&#125; from pid=9230, uid=9230 not allowed because package com.jzj1993.test_instrumentation.test does not have a signature matching the target com.jzj1993.test_instrumentation</code></p>
+</li>
+<li>
+<p><code>INSTRUMENTATION_STATUS_CODE: -1</code></p>
+</li>
+<li>
+<p><code>java.lang.SecurityException: Permission Denial: starting instrumentation ComponentInfo&#123;com.jzj1993.test_instrumentation.test/android.test.InstrumentationTestRunner&#125; from pid=9230, uid=9230 not allowed because package com.jzj1993.test_instrumentation.test does not have a signature matching the target com.jzj1993.test_instrumentation</code></p>
+</li>
+<li>
+<p><code>at android.os.Parcel.readException(Parcel.java:1431)</code></p>
+</li>
+<li>
+<p><code>at android.os.Parcel.readException(Parcel.java:1385)</code></p>
+</li>
+<li>
+<p><code>at android.app.ActivityManagerProxy.startInstrumentation(ActivityManagerNative.java:2938)</code></p>
+</li>
+<li>
+<p><code>at com.android.commands.am.Am.runInstrument(Am.java:801)</code></p>
+</li>
+<li>
+<p><code>at com.android.commands.am.Am.onRun(Am.java:242)</code></p>
+</li>
+<li>
+<p><code>at com.android.internal.os.BaseCommand.run(BaseCommand.java:47)</code></p>
+</li>
+<li>
+<p><code>at com.android.commands.am.Am.main(Am.java:75)</code></p>
+</li>
+<li>
+<p><code>at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)</code></p>
+</li>
+<li>
+<p><code>at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:235)</code></p>
+</li>
+<li>
+<p><code>at dalvik.system.NativeStart.main(Native Method)</code></p>
+</li>
+</ol>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-test-6/" rel="bookmark">Android测试初探（六） 利用UI Automator框架实现跨应用测试</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-test-5/" rel="bookmark">Android测试初探（五） Rototium框架的使用、黑盒与白盒测试</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-test-4/" rel="bookmark">Android测试初探（四） Android JUnit Test Runner与Espresso框架</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-test-3/" rel="bookmark">Android测试初探（三） 单元测试实例：基本的Android代码测试</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-test-2/" rel="bookmark">Android测试初探（二） 单元测试实例：基于Instrumentation Test Runner的JUnit3测试</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-test-1/" rel="bookmark">Android测试初探（一） Android测试技术简介和原理浅析</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"># 安卓</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+              <a href="/tags/Android%E6%B5%8B%E8%AF%95%E5%88%9D%E6%8E%A2/" rel="tag"># #Android测试初探#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/gradle-dependencies/" rel="prev" title="Gradle依赖项学习总结，dependencies、transitive、force、exclude的使用与依赖冲突解决">
+      <i class="fa fa-chevron-left"></i> Gradle依赖项学习总结，dependencies、transitive、force、exclude的使用与依赖冲突解决
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/android-enum-annotation/" rel="next" title="Android中用IntDef、StringDef注解代替Enum枚举类型">
+      Android中用IntDef、StringDef注解代替Enum枚举类型 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%94%E7%A9%B6%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">研究过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Studio%E5%AE%9E%E7%8E%B0%E9%BB%91%E7%9B%92%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text">Android Studio实现黑盒测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%8C%85%E5%90%8D%E3%80%81%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6id"><span class="nav-number">2.1.</span> <span class="nav-text">获取包名、资源文件id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%BE%E5%90%8D%E7%9A%84%E7%BB%9F%E4%B8%80"><span class="nav-number">2.2.</span> <span class="nav-text">签名的统一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.</span> <span class="nav-text">测试项目的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TestRunner%E7%9A%84%E7%BC%96%E8%AF%91%E5%92%8C%E6%89%A7%E8%A1%8C"><span class="nav-number">2.4.</span> <span class="nav-text">TestRunner的编译和执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E6%97%B6%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%A5%E9%94%99"><span class="nav-number">3.</span> <span class="nav-text">运行测试时的一些报错</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E4%B8%8D%E5%88%B0TestRunner"><span class="nav-number">3.1.</span> <span class="nav-text">找不到TestRunner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E4%B8%8D%E5%88%B0%E8%A2%AB%E6%B5%8B%E8%AF%95%E5%8C%85-Target-Package"><span class="nav-number">3.2.</span> <span class="nav-text">找不到被测试包 Target Package</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E4%B8%8D%E5%88%B0%E7%9B%AE%E6%A0%87%E7%B1%BB-ClassNotFound"><span class="nav-number">3.3.</span> <span class="nav-text">找不到目标类 ClassNotFound</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%BE%E5%90%8D%E4%B8%8D%E4%B8%80%E8%87%B4"><span class="nav-number">3.4.</span> <span class="nav-text">签名不一致</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

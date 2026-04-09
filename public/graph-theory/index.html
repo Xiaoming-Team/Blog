@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基本概念 图 (Graph) 是由若干给定的顶点及连接两顶点的边所构成的图形，这种图形通常用来描述某些事物之间的某种特定关系。顶点用于代表事物，连接两顶点的边则用于表示两个事物间具有这种关系。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图论基础知识、常用算法与LeetCode题解">
+<meta property="og:url" content="https://www.xiaoming.io/graph-theory/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="基本概念 图 (Graph) 是由若干给定的顶点及连接两顶点的边所构成的图形，这种图形通常用来描述某些事物之间的某种特定关系。顶点用于代表事物，连接两顶点的边则用于表示两个事物间具有这种关系。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/graph-02.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/graph-03.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn1.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn2.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn3.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn4.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn5.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn6.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/dfs-sort1.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/dfs-sort2.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/Dijkstra_Animation.gif">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/dijkstra.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/dsu1.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/dsu2.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/dsu3.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/redundant-connection.png">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/mst.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/bi-graph.png">
+<meta property="article:published_time" content="2020-04-06T09:20:14.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.395Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="图论">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/graph-theory/img/https://www.xiaoming.io/wp-content/uploads/2020/04/graph-02.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/graph-theory/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>图论基础知识、常用算法与LeetCode题解 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "图论基础知识、常用算法与LeetCode题解",
+      "description": "基本概念 图 (Graph) 是由若干给定的顶点及连接两顶点的边所构成的图形，这种图形通常用来描述某些事物之间的某种特定关系。顶点用于代表事物，连接两顶点的边则用于表示两个事物间具有这种关系。",
+      "datePublished": "2020-04-06T09:20:14.000Z",
+      "dateModified": "2026-01-09T08:19:11.395Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/graph-theory/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/graph-theory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图论基础知识、常用算法与LeetCode题解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-06 17:20:14" itemprop="dateCreated datePublished" datetime="2020-04-06T17:20:14+08:00">2020-04-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/graph-theory/" class="post-meta-item leancloud_visitors" data-flag-title="图论基础知识、常用算法与LeetCode题解" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/graph-theory/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/graph-theory/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>20k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>18 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="基本概念">基本概念</h2>
+<p><strong>图 (Graph)</strong> 是由若干给定的顶点及连接两顶点的边所构成的图形，这种图形通常用来描述某些事物之间的某种特定关系。顶点用于代表事物，连接两顶点的边则用于表示两个事物间具有这种关系。</p>
+<p>使用 <code>G(V, E)</code> 表示一个图，V为顶点(Vertex)，E为边(Edge)。图中<strong>不允许没有顶点</strong>，但是可以没有边。</p>
+<h3 id="有限图与无限图">有限图与无限图</h3>
+<p><strong>有限图</strong>：V, E 都是有限集合。</p>
+<p><strong>无限图</strong>：V 或 E 是无限集合。</p>
+<h3 id="有向图与无向图">有向图与无向图</h3>
+<p><strong>无向图 (Undirected graph)</strong>：每个边都是无向边。</p>
+<p><code>e = (u, v)</code></p>
+<ul>
+<li>e：<strong>无向边 (Undirected edge)</strong>，简称 <strong>边 (Edge)</strong></li>
+<li>u, v：e的 <strong>端点 (Endpoint)</strong></li>
+</ul>
+<p><strong>有向图 (Directed graph)</strong>：每个边都是有向边。</p>
+<p><code>e = u -&gt; v</code></p>
+<ul>
+<li>e：<strong>有向边 (Directed edge)</strong> ，简称<strong>弧 (Arc)</strong> 或 <strong>边 (Edge)</strong></li>
+<li>u：e 的 <strong>起点 (Tail)</strong></li>
+<li>v：e 的 <strong>终点 (Head)</strong></li>
+<li>u, v：e的 <strong>端点 (Endpoint)</strong></li>
+<li>u 是 v 的<strong>直接前驱</strong>，v 是 u 的<strong>直接后继</strong></li>
+</ul>
+<blockquote>
+<p>为什么起点是 Tail，终点是 Head？<br>
+有向边通常用箭头表示，而箭头是从“尾”指向“头”的。</p>
+</blockquote>
+<p><strong>混合图 (Mixed graph)</strong>：既有有向边，又有无向边。</p>
+<h3 id="相邻">相邻</h3>
+<p><strong>关联（Incident)</strong>：顶点 v 是边 e 的一个端点，则称 e 和 v 关联 或 相邻。</p>
+<p><strong>邻接 / 相邻（Adjacent）</strong>：顶点u和v，若存在边 <code>(u，v)</code>，则称u和v是邻接或相邻的。</p>
+<p><strong>邻域 (Neighborhood)</strong> ：</p>
+<ul>
+<li>顶点 v：所有与顶点 v 相邻的顶点集合，记作 <code>N(v)</code>。</li>
+<li>点集 S：与 S 中至少一个点相邻的顶点集合，记作 <code>N(S)</code> ，<code>N(S) = ∪ N(v), v∈S</code></li>
+</ul>
+<h3 id="度">度</h3>
+<p><strong>度（degree）</strong>：顶点相邻边的数目，常用 <code>deg(V)</code>, <code>d(v)</code> 表示。</p>
+<ul>
+<li>孤立点 (Isolated vertex) ： <code>d(v) == 0</code></li>
+<li>叶节点 (Leaf vertex) / 悬挂点 (Pendant vertex) ： <code>d(v) == 1</code></li>
+<li>偶点 (Even vertex) ： <code>d(v) % 2 == 0</code></li>
+<li>奇点 (Odd vertex) ：<code>d(v) % 2 == 1</code>。奇点的个数是偶数。</li>
+<li>支配点 (Universal vertex) ：<code>d(v) = V - 1</code>，和所有其他点都相邻。</li>
+</ul>
+<p>有向图中：</p>
+<ul>
+<li><strong>入度 (In-degree)</strong>：以该顶点为终点的边的数目，常用 <code>d+(v)</code> 表示。</li>
+<li><strong>出度 (Out-degree)</strong>：以该顶点为起点的边的数目，常用 <code>d-(v)</code> 表示。</li>
+<li>顶点的度 = 入度 + 出度，即 <code>d(v) = d+(v) + d-(v)</code>。</li>
+</ul>
+<h3 id="自环与重边">自环与重边</h3>
+<ul>
+<li>自环 (Loop) ：边 e 的两个端点相同，则 e 称为一个自环。</li>
+<li>重边 (Multiple edge) ：两个完全相同的边，称作（一组）重边。在无向图中 <code>(u,v)</code> 和<code>(v,u)</code> 算一组重边，而在有向图中，<code>u -&gt; v</code> 和 <code>v -&gt; u</code> 不为重边。</li>
+</ul>
+<h3 id="简单图与多重图">简单图与多重图</h3>
+<ul>
+<li>简单图 (Simple graph) ：没有自环和重边。非空简单图中一定存在度相同的结点。</li>
+<li>多重图 (Multigraph) ：有自环或重边 。</li>
+</ul>
+<h3 id="路径">路径</h3>
+<p><strong>途径 (Walk) / 链 (Chain)</strong>：<code>v0, e1, v1, e2, ... ek, vk</code>，或简写为 <code>v0 → v1 → ... → vk</code></p>
+<p><strong>迹 (Trail)</strong> ：链，且所有边都不同。</p>
+<p><strong>路径（Path）/ 简单路径 (Simple path)</strong>：迹，且所有点都不同（除了允许 <code>v0 == vk</code>）。</p>
+<p><strong>回路 (Circuit)</strong> ：迹，且 <code>v0 == vk</code>。</p>
+<p><strong>环 / 圈 (Cycle) / 简单回路 / 简单环 (Simple circuit)</strong>：简单路径，且 <code>v0 == vk</code>。</p>
+<h3 id="连通">连通</h3>
+<p>无向图</p>
+<ul>
+<li><strong>连通的 (Connected)</strong> ：从顶点 u 有路径到达 v ，则 <code>u,v</code> 是连通的。</li>
+<li><strong>连通图 (Connected graph)</strong>：任意两点连通。</li>
+<li><strong>连通分量 / 极大连通子图 (Connected component)</strong>：H是G的连通子图，且不存在连通图F，使得 <code>H ⊊ F ⊆ G</code>，则H是G的连通分量。</li>
+</ul>
+<p>性质：</p>
+<ul>
+<li>连通图只有一个连通分量，即图自身。</li>
+<li>非连通图有多个连通分量。</li>
+</ul>
+<p>有向图</p>
+<ul>
+<li><strong>可达</strong>：从顶点 u 有路径到达 v ，则 u 可达 v。</li>
+<li><strong>强连通的 (Strongly connected)</strong>：有向图中，所有节点互相可达。</li>
+<li><strong>弱连通的 (Weakly connected)</strong>：有向图中，边替换为无向边后可以得到连通图（也就是有些节点只能单向可达）。</li>
+<li><strong>弱连通分量 / 极大弱连通子图 (Weakly connected component)</strong> ， <strong>强连通分量 / 极大强连通子图 (Strongly Connected component)</strong>：与连通分量类似。</li>
+</ul>
+<h3 id="稀疏图与稠密图">稀疏图与稠密图</h3>
+<p>稀疏图 (Sparse graph)：边数远小于点数的平方。</p>
+<p>稠密图 (Dense graph) ：边数接近点数的平方。</p>
+<h3 id="特殊的图">特殊的图</h3>
+<p><strong>树 (Tree)</strong> ：不含环的无向连通图。</p>
+<p><strong>森林 (Forest)</strong>：多棵树可以组成一个 森林。</p>
+<p><strong>二分图 (Bipartite graph)</strong>：图的点集分为两部分，每一部分的内部都没有连边（或者说所有边的两个点刚好分别在两部分中）。</p>
+<p><strong>完全二分图 (Complete bipartite graph/Biclique)</strong>：任何两个不在同一部分的点之间都有连边（例如两部分分别有 <code>x,y</code> 个点，则图总共有<code>x*y</code>个边）。</p>
+<h2 id="图的表示">图的表示</h2>
+<h3 id="直接存边">直接存边</h3>
+<p>使用一个数组来存边，数组中的每个元素都包含一条边的起点、终点和边权（带边权的图），或者使用多个数组分别存起点、终点和边权。</p>
+<h3 id="邻接矩阵-Adjacency-Matrix">邻接矩阵 Adjacency Matrix</h3>
+<p>二维数组 <code>adj[][]</code>，<code>adj[u][v]</code> 为 1 表示存在 u 到 v 的边，为 0 表示不存在。</p>
+<p>如果是带边权的图，可以在 <code>adj[u][v]</code> 中存储 u 到 v 的边的边权。</p>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/graph-02.png" alt=""></p>
+<h3 id="邻接表-Adjacency-Table">邻接表 Adjacency Table</h3>
+<p>使用一个支持动态增加元素的数据结构构成的数组，例如Java中的 <code>List[] adj</code>。</p>
+<ul>
+<li>
+<p><strong>领接表</strong>中 <code>adj[u]</code> 存储的是点 u 所有出边的信息（终点、边权等）。</p>
+</li>
+<li>
+<p><strong>逆邻接表</strong>中 <code>adj[u]</code> 存储的是点 u 所有入边的信息（起点、边权等）。</p>
+</li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/graph-03.png" alt=""></p>
+<h2 id="图的遍历">图的遍历</h2>
+<ul>
+<li>深度优先搜索 (Depth-First Search, DFS)</li>
+<li>广度优先搜索 (Breadth-First Search, BFS)</li>
+</ul>
+<h2 id="拓扑排序问题（有向无环图、AOV网）">拓扑排序问题（有向无环图、AOV网）</h2>
+<p><strong>有向无环图，Directed Acyclic Graph，DAG</strong></p>
+<p><strong>拓扑排序，Topological sorting</strong></p>
+<p><strong>AOV网（Activity On Vertex Network)</strong>：将一个工程分为多个小的<strong>活动（Activity)</strong>，在<strong>有向无环图</strong>中，用顶点表示活动，用弧（有向边）表示活动的先后关系，简称为AOV网。</p>
+<p>性质：</p>
+<ul>
+<li>能 拓扑排序 的图，一定是有向无环图</li>
+<li>有向无环图，一定能拓扑排序</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>B依赖A，一般在图中表示为有向边 <code>A -&gt; B</code> ，也就是先完成A，后完成B。</li>
+</ul>
+<h3 id="LeetCode-210-课程表-II">LeetCode 210. 课程表 II</h3>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/course-schedule-ii/">210. 课程表 II</a></p>
+<p>现在你总共有 n 门课 <code>0 ~ n-1</code>。想要学习课程 0，要先完成课程 1，用 <code>[0,1]</code> 表示。给定课程总量以及它们的先决条件，返回学完所有课程的顺序（返回一种即可），如果不可能完成所有课程，返回空数组。</p>
+<h3 id="Kahn-算法">Kahn 算法</h3>
+<h4 id="流程">流程</h4>
+<ol>
+<li>将入度为0的节点保存到集合S中（入度为0说明不依赖其他节点）。</li>
+<li>从集合S中取出<strong>任意</strong>一个节点n，放到结果List中。</li>
+<li>将n的后继节点入度减少1，如果入度变为0，则添加到集合S中（可以理解为从图中删除节点n及其出边，因此后继节点的入度减少了；节点入度变为0时，说明它的依赖节点都已经放好了）。</li>
+<li>不断循环直到集合S为空。</li>
+<li>检查是否所有节点都已经处理。如果有节点没处理，说明有环，无法排序。</li>
+</ol>
+<h4 id="复杂度">复杂度</h4>
+<p>时间复杂度 <code>O(E + V)</code></p>
+<h4 id="图解">图解</h4>
+<p>0、A的入度为0，添加到集合S中。</p>
+<ul>
+<li>集合S： <code>[A]</code></li>
+<li>排序结果： <code>[]</code></li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn1.png" alt=""></p>
+<p>1、移除A。同时B、C的入度也会变为0，添加到集合中。</p>
+<ul>
+<li>集合S： <code>[B, C]</code></li>
+<li>排序结果： <code>[A]</code></li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn2.png" alt=""></p>
+<p>2、移除B，同时D的入度变为1，E的入度变为0，添加E到集合S中。</p>
+<ul>
+<li>集合S： <code>[C, E]</code></li>
+<li>排序结果： <code>[A, B]</code></li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn3.png" alt=""></p>
+<p>3、移除C，同时D的入度变为0，添加到集合S中。</p>
+<ul>
+<li>集合S： <code>[E, D]</code></li>
+<li>排序结果： <code>[A, B, C]</code></li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn4.png" alt=""></p>
+<p>4、移除E。</p>
+<ul>
+<li>集合S： <code>[D]</code></li>
+<li>排序结果： <code>[A, B, C, E]</code></li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn5.png" alt=""></p>
+<p>5、移除D，集合S变为空，且所有节点都已经放到了排序结果列表中，排序完成。</p>
+<ul>
+<li>集合S： <code>[]</code></li>
+<li>排序结果： <code>[A, B, C, E, D]</code></li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/kahn6.png" alt=""></p>
+<h4 id="代码">代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] findOrder(<span class="keyword">int</span> numCourses, <span class="keyword">int</span>[][] prerequisites) &#123;</span><br><span class="line">        Map&lt;Integer, List&lt;Integer&gt;&gt; graph = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span>[] indegree = <span class="keyword">new</span> <span class="keyword">int</span>[numCourses];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] e : prerequisites) &#123;</span><br><span class="line">            <span class="comment">// e[0] depends on e[1]</span></span><br><span class="line">            <span class="comment">// e[1] --&gt; e[0]</span></span><br><span class="line">            <span class="keyword">int</span> pre = e[<span class="number">1</span>], cur = e[<span class="number">0</span>];</span><br><span class="line">            List&lt;Integer&gt; list = graph.get(pre);</span><br><span class="line">            <span class="keyword">if</span> (list == <span class="keyword">null</span>) &#123;</span><br><span class="line">                list = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">                graph.put(pre, list);</span><br><span class="line">            &#125;</span><br><span class="line">            list.add(cur);</span><br><span class="line">            indegree[cur]++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Queue&lt;Integer&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (indegree[i] == <span class="number">0</span>) &#123;</span><br><span class="line">                queue.add(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[numCourses];</span><br><span class="line">        <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (queue.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> node = queue.poll();</span><br><span class="line">            result[size++] = node;</span><br><span class="line">            List&lt;Integer&gt; next = graph.get(node);</span><br><span class="line">            <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> n : next) &#123;</span><br><span class="line">                    indegree[n]--;</span><br><span class="line">                    <span class="keyword">if</span> (indegree[n] == <span class="number">0</span>) &#123;</span><br><span class="line">                        queue.offer(n);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (size != numCourses) <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="深度优先算法-DFS">深度优先算法 DFS</h3>
+<h4 id="流程-2">流程</h4>
+<ul>
+<li>从每个<strong>未访问</strong>的节点开始深度优先遍历。</li>
+<li>访问完一个节点的所有后继节点后，将该节点添加到栈中（类似树的<strong>后序遍历</strong>）。</li>
+<li>最后将栈反转即可得到结果。</li>
+</ul>
+<h4 id="图解-2">图解</h4>
+<p>例如下面的例子：</p>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/dfs-sort1.png" alt=""></p>
+<p>深度优先可以想象成将图分割为多个树，先后遍历每棵树，且后遍历的树依赖先遍历的树。</p>
+<ol>
+<li><code>DFS(A)</code>：访问了 <code>A, B, D, E</code> ，栈：<code>[E, D, B, A]</code></li>
+<li><code>DFS(C)</code>：访问了 <code>C, G</code>，栈：<code>[E, D, B, A; G, C]</code></li>
+<li><code>DFS(F)</code>：访问了 <code>F, H</code>，栈：<code>[E, D, B, A, G, C; H, F]</code></li>
+</ol>
+<p>排序结果：<code>F H C G A B D E</code> 。</p>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/dfs-sort2.png" alt=""></p>
+<h4 id="代码-2">代码</h4>
+<p>DFS实现如下，其中：</p>
+<ul>
+<li><code>graph</code> 为邻接表。</li>
+<li><code>globalVisited</code> 用于标记所有访问过的节点，已经访问过的不再重复访问。</li>
+<li><code>localVisited</code> 用于标记本轮DFS访问过的节点，如果某一轮DFS重复访问到了某个节点，说明图中有环。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] findOrder(<span class="keyword">int</span> numCourses, <span class="keyword">int</span>[][] prerequisites) &#123;</span><br><span class="line">    <span class="comment">// adjacency list</span></span><br><span class="line">    Set&lt;Integer&gt;[] graph = <span class="keyword">new</span> Set[numCourses];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span>[] e : prerequisites) &#123;</span><br><span class="line">        <span class="comment">// e[0] depends on e[1]</span></span><br><span class="line">        <span class="comment">// e[1] --&gt; e[0]</span></span><br><span class="line">        <span class="keyword">if</span> (graph[e[<span class="number">1</span>]] == <span class="keyword">null</span>) &#123;</span><br><span class="line">            graph[e[<span class="number">1</span>]] = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        graph[e[<span class="number">1</span>]].add(e[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;(numCourses);</span><br><span class="line">    <span class="keyword">boolean</span>[] globalVisited = <span class="keyword">new</span> <span class="keyword">boolean</span>[numCourses];</span><br><span class="line">    <span class="keyword">boolean</span>[] localVisited = <span class="keyword">new</span> <span class="keyword">boolean</span>[numCourses]; <span class="comment">// to check cycle</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!dfs(graph, i, globalVisited, localVisited, list)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// copy and reverse</span></span><br><span class="line">    <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[numCourses];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCourses; ++i) &#123;</span><br><span class="line">        result[i] = list.get(numCourses - i - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// return: can finish</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dfs</span><span class="params">(Set&lt;Integer&gt;[] graph, <span class="keyword">int</span> node, <span class="keyword">boolean</span>[] globalVisited, <span class="keyword">boolean</span>[] localVisited, List&lt;Integer&gt; list)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (localVisited[node]) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (globalVisited[node]) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    localVisited[node] = <span class="keyword">true</span>;</span><br><span class="line">    globalVisited[node] = <span class="keyword">true</span>;</span><br><span class="line">    Set&lt;Integer&gt; next = graph[node];</span><br><span class="line">    <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (Integer n : next) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!dfs(graph, n, globalVisited, localVisited, list)) &#123;</span><br><span class="line">                <span class="comment">// return false and exit, no need to reset localVisited</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    localVisited[node] = <span class="keyword">false</span>; <span class="comment">// reset</span></span><br><span class="line">    list.add(node);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="最短路径问题">最短路径问题</h2>
+<p>对于边权为正的图，任意两个结点之间的最短路：</p>
+<ul>
+<li>
+<p>不会经过重复的结点。</p>
+</li>
+<li>
+<p>不会经过重复的边。</p>
+</li>
+<li>
+<p>结点数不超过 n ，边数不会超过 n - 1。</p>
+</li>
+</ul>
+<p><strong>单源最短路</strong>：指定源点，求它到其余各个结点的最短路。</p>
+<h3 id="LeetCode-743-网络延迟时间">LeetCode 743. 网络延迟时间</h3>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/network-delay-time/">743. 网络延迟时间</a></p>
+<p>有 N 个网络节点 <code>1 ~ N</code>。给定列表 times，表示信号经过有向边的传递时间。 <code>times[i] = (u, v, w)</code>，其中 u 是源节点，v 是目标节点， w 是一个信号从源节点传递到目标节点的时间。</p>
+<p>从节点 K 发送信号，多久才能使所有节点都收到信号？如果不能使所有节点收到信号，返回 -1。</p>
+<h3 id="深度优先算法-DFS-2">深度优先算法 DFS</h3>
+<p>流程：</p>
+<ul>
+<li>使用数组保存到达每个节点的最小耗时。初始化时节点 K 耗时为0，其他节点均为 <code>-1</code>，表示未访问。</li>
+<li>从节点 K 开始深度优先搜索。每当遇到一个节点，且节点<strong>未访问</strong> 或 <strong>新的时间小于节点保存的时间</strong>，就更新这个节点的时间（一方面不需要更新为更大的时间，另一方面避免遇到环，导致死循环）。</li>
+<li>遍历节点时间数组，如果仍有未访问的节点，说明从节点 K 到该节点不可达，返回 <code>-1</code>；否则返回数组中的最大值。</li>
+</ul>
+<p>使用DFS解题（489 ms），性能很差。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">networkDelayTime</span><span class="params">(<span class="keyword">int</span>[][] times, <span class="keyword">int</span> N, <span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// time[i]: node [i] receive time</span></span><br><span class="line">        <span class="keyword">int</span>[] time = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>];</span><br><span class="line">        Arrays.fill(time, -<span class="number">1</span>);</span><br><span class="line">        time[K] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// graph[i]: List&lt;int[]&gt;, [to node, w]</span></span><br><span class="line">        List&lt;<span class="keyword">int</span>[]&gt;[] graph = <span class="keyword">new</span> List[N+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            graph[i] = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] t : times) &#123;</span><br><span class="line">            <span class="keyword">int</span> from = t[<span class="number">0</span>], to = t[<span class="number">1</span>], w = t[<span class="number">2</span>];</span><br><span class="line">            graph[from].add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;to, w&#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dfs(graph, time, K);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> max = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (time[i] == -<span class="number">1</span>) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            max = Math.max(max, time[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(List&lt;<span class="keyword">int</span>[]&gt;[] graph, <span class="keyword">int</span>[] time, <span class="keyword">int</span> node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] t : graph[node]) &#123;</span><br><span class="line">            <span class="keyword">int</span> to = t[<span class="number">0</span>], w = t[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">int</span> newTime = time[node] + w;</span><br><span class="line">            <span class="keyword">if</span> (time[to] != -<span class="number">1</span> &amp;&amp; newTime &gt;= time[to]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            time[to] = newTime;</span><br><span class="line">            dfs(graph, time, to);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="弗洛伊德算法-Floyd-Warshall-Algorithm">弗洛伊德算法 Floyd-Warshall Algorithm</h3>
+<p>特点：</p>
+<ul>
+<li>
+<p>可以求任意两个结点之间的最短路。</p>
+</li>
+<li>
+<p>复杂度较高，但容易实现。</p>
+</li>
+<li>
+<p>适用于任何图，不管有向无向，边权正负，但是最短路必须存在（不能有个负环）。</p>
+</li>
+</ul>
+<p>思路：</p>
+<ul>
+<li>使用矩阵表示节点 <code>u → v</code> 之间的最短路径。</li>
+<li>初始化时，<code>w[i][i]</code> 为0， <code>w[i][j]</code> 为边 <code>i → j</code> 的权重，没有边的元素设置为无穷大。</li>
+<li>节点 <code>i → j</code> 可能通过 <code>k</code> 中转而缩短距离，遍历计算点 <code>i → k → j</code> 的路径，如果比现有的 <code>i → j</code> 小，则更新，即<strong>松弛</strong>操作。</li>
+</ul>
+<p>复杂度：</p>
+<ul>
+<li>时间复杂度 <code>O( N^3 )</code></li>
+<li>空间复杂度 <code>O( N^2 )</code></li>
+</ul>
+<p>使用Floyd算法求解（18ms）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">networkDelayTime</span><span class="params">(<span class="keyword">int</span>[][] times, <span class="keyword">int</span> N, <span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// w[i][j]: time from [i] to [j], Integer.MAX_VALUE: inf</span></span><br><span class="line">        <span class="keyword">int</span>[][] w = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>][N+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            Arrays.fill(w[i], Integer.MAX_VALUE);</span><br><span class="line">            w[i][i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] e : times) &#123;</span><br><span class="line">            <span class="keyword">int</span> u = e[<span class="number">0</span>], v = e[<span class="number">1</span>], t = e[<span class="number">2</span>];</span><br><span class="line">            w[u][v] = t;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt;= N; ++k) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= N; ++j) &#123;</span><br><span class="line">                    <span class="keyword">int</span> sum;</span><br><span class="line">                    <span class="keyword">if</span> (w[i][k] == Integer.MAX_VALUE  w[k][j] == Integer.MAX_VALUE) &#123;</span><br><span class="line">                        sum = Integer.MAX_VALUE;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        sum = w[i][k] + w[k][j];</span><br><span class="line">                    &#125;</span><br><span class="line">                    w[i][j] = Math.min(w[i][j], sum);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> max = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= N; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (w[K][j] == Integer.MAX_VALUE) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            max = Math.max(max, w[K][j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="迪杰斯特拉算法-Dijkstra-Algorithm">迪杰斯特拉算法 Dijkstra Algorithm</h3>
+<p>特点：</p>
+<ul>
+<li>求单源最短路径。</li>
+<li>只适用于非负权图。</li>
+<li>时间复杂度优秀。</li>
+<li>使用了贪心思想。</li>
+</ul>
+<p>步骤：</p>
+<ul>
+<li>初始：
+<ul>
+<li>已确定最短路的节点为集合P，未确定最短路的节点为集合Q。</li>
+<li>保存源节点 K 到每个节点的距离，初始化时距离为无穷大。</li>
+<li>将源节点 K 放入Q，其距离为0。</li>
+</ul>
+</li>
+<li>循环：
+<ul>
+<li>从Q取出一个距离最短的节点 u，其最短路径已经确定，因此移到P（贪心思想，因为 K 到其他点的距离更远，不可能找到一个经过其他点再到 u 的更短路径）。</li>
+<li>松弛 u 的<strong>未确定最短路的</strong>出节点，即判断经过 u 能否缩短距离。将这些节点放到Q中等待下一轮循环处理。</li>
+<li>继续循环，直到Q为空。</li>
+</ul>
+</li>
+</ul>
+<p>具体实现：</p>
+<ol>
+<li>可以用 int 数组保存每个节点的距离，boolean 数组表示节点是否已经加入到P。</li>
+<li>优化：Java中使用 <code>PriorityQueue</code> 实现Q，这样每次取出距离最短节点时性能更好。</li>
+</ol>
+<p>图解1，来自 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%88%B4%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95">维基百科</a>：</p>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/Dijkstra_Animation.gif" alt=""></p>
+<p>图解2，来自 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/thousfeet/p/9229395.html">博客</a>：</p>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/dijkstra.jpg" alt=""></p>
+<p>图解2的执行步骤分析：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">第一行为节点，第二行为距离，.表示无穷大∞，加中括号表示已经确定最短路径</span><br><span class="line"></span><br><span class="line"> 1    2    3    4    5    6</span><br><span class="line"> 0    ·    ·    ·    ·    ·</span><br><span class="line"> ↑                             选1，松弛2、3</span><br><span class="line"></span><br><span class="line"> 1    2    3    4    5    6</span><br><span class="line">[0]   1   12    ·    ·    ·</span><br><span class="line">      ↑                        选2，松弛3、4</span><br><span class="line"></span><br><span class="line"> 1    2    3    4    5    6</span><br><span class="line">[0]  [1]  10    4    ·    ·</span><br><span class="line">                ↑              选4，松弛3、5、6...</span><br></pre></td></tr></table></figure>
+<p>使用Dijkstra算法求解（24 ms）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">networkDelayTime</span><span class="params">(<span class="keyword">int</span>[][] times, <span class="keyword">int</span> N, <span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// graph[i]: List&lt;int[]&gt;, [to node, w]</span></span><br><span class="line">        List&lt;<span class="keyword">int</span>[]&gt;[] graph = <span class="keyword">new</span> List[N+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            graph[i] = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] e : times) &#123;</span><br><span class="line">            <span class="keyword">int</span> from = e[<span class="number">0</span>], to = e[<span class="number">1</span>], w = e[<span class="number">2</span>];</span><br><span class="line">            graph[from].add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;to, w&#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// [distance, node]</span></span><br><span class="line">        PriorityQueue&lt;<span class="keyword">int</span>[]&gt; heap = <span class="keyword">new</span> PriorityQueue&lt;&gt;((a, b) -&gt; a[<span class="number">0</span>] - b[<span class="number">0</span>]);</span><br><span class="line">        <span class="comment">// node --&gt; min distance</span></span><br><span class="line">        HashMap&lt;Integer, Integer&gt; dist = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        heap.offer(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>, K&#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (heap.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span>[] n = heap.poll();</span><br><span class="line">            <span class="keyword">int</span> distance = n[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> node = n[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (dist.containsKey(node)) <span class="keyword">continue</span>; <span class="comment">// already determined</span></span><br><span class="line">            dist.put(node, distance); <span class="comment">// node determined</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span>[] g : graph[node]) &#123;</span><br><span class="line">                <span class="keyword">int</span> nextNode = g[<span class="number">0</span>];</span><br><span class="line">                <span class="keyword">int</span> w = g[<span class="number">1</span>];</span><br><span class="line">                <span class="comment">// K --&gt; ... --&gt; node --&gt; nextNode</span></span><br><span class="line">                <span class="keyword">if</span> (dist.containsKey(nextNode)) <span class="keyword">continue</span>; <span class="comment">// alreay determined</span></span><br><span class="line">                heap.offer(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;distance + w, nextNode&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dist.size() != N) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> max = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> d : dist.values()) &#123;</span><br><span class="line">            max = Math.max(max, d);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="并查集-Disjoint-set">并查集 Disjoint-set</h2>
+<p>故事：</p>
+<blockquote>
+<p>几个家族进行宴会，但是家族普遍长寿，所以人数众多。由于长时间的分离以及年龄的增长，这些人逐渐忘掉了自己的亲人，只记得自己的爸爸是谁了，而最长者（称为「祖先」）的父亲已经去世，他只知道自己是祖先。</p>
+<p>为了确定自己是哪个家族，他们想出了一个办法，只要问自己的爸爸是不是祖先，一层一层的向上问，直到问到祖先。如果要判断两人是否在同一家族，只要看两人的祖先是不是同一人就可以了。</p>
+</blockquote>
+<h3 id="初始化">初始化</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] parent = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        parent[i] = i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="查找">查找</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findRoot</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x_root = parent[x];</span><br><span class="line">    <span class="keyword">while</span> (x_root != x) &#123;</span><br><span class="line">        x_root = parent[x_root];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x_root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/dsu1.png" alt=""></p>
+<h3 id="路径压缩">路径压缩</h3>
+<p>查找过程中，同时把每个节点都直接连接到根上。这样可以大大提高效率。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 迭代写法</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findRoot</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (parent[x] != x) &#123;</span><br><span class="line">        parent[x] = parent[parent[x]];</span><br><span class="line">        x = parent[x];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 递归写法</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findRoot</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (x != parent[x])</span><br><span class="line">    parent[x] = find(parent, parent[x]);</span><br><span class="line">  <span class="keyword">return</span> parent[x];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/dsu2.png" alt=""></p>
+<h3 id="合并">合并</h3>
+<blockquote>
+<p>宴会上，一个家族的祖先突然对另一个家族说：我们两个家族交情这么好，不如合成一家好了。另一个家族也欣然接受了。由于并不在意祖先究竟是谁，所以只要其中一个祖先变成另一个祖先的儿子就可以了。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// x 与 y 所在家族合并</span></span><br><span class="line">    x = find(x);</span><br><span class="line">    y = find(y);</span><br><span class="line">    <span class="keyword">if</span> (x == y) &#123;  <span class="comment">// 原本就在一个家族里就不管了</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    parent[x] = y;  <span class="comment">// 把 x 的祖先变成 y 的祖先的儿子</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/dsu3.png" alt=""></p>
+<h3 id="启发式合并（按秩合并）">启发式合并（按秩合并）</h3>
+<blockquote>
+<p>一个祖先突然抖了个机灵：“你们家族人比较少，搬家到我们家族里比较方便，我们要是搬过去的话太费事了。”</p>
+</blockquote>
+<p>路径压缩有时不适用，可以用启发式合并。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] rank = <span class="keyword">new</span> <span class="keyword">int</span>[n]; <span class="comment">// initial value: 0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    x = find(x);</span><br><span class="line">    y = find(y);</span><br><span class="line">    <span class="keyword">if</span> (x == y) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (rank[x] &gt; rank[y]) &#123;</span><br><span class="line">        parent[x] = y;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rank[x] &lt; rank[y]) &#123;</span><br><span class="line">        parent[y] = x;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        parent[x] = y;</span><br><span class="line">        rank[y]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="并查集应用">并查集应用</h3>
+<ul>
+<li><strong>求连通分量</strong>：依次对每个边的两个顶点进行并查集合并，可以使得每个连通分量的root相同，从而得出每个连通分量。</li>
+<li><strong>查找环</strong>：合并过程中，如果发现一条边的两个顶点已经合并过，说明这两个顶点之前已经通过其他路径合并，再加上这条边，图中就出现了环。</li>
+<li><strong>求最小生成树</strong>：贪心思想，从小到大排序所有边，使用并查集依次合并，并跳过形成环的边，即可得到最小生成树。</li>
+</ul>
+<h3 id="LeetCode-684-冗余连接">LeetCode 684. 冗余连接</h3>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/redundant-connection/">684. 冗余连接</a></p>
+<p>输入一个<strong>无向图</strong>，该图由有N个节点的树及一条附加的边构成。返回一条可以删去的边，使得结果图是有N个节点的树。如果有多个答案，则返回二维数组中最后出现的边。</p>
+<h4 id="分析">分析</h4>
+<ul>
+<li>
+<p>依次对每个边的两个顶点进行并查集合并。</p>
+</li>
+<li>
+<p>当遇到一个边的两个顶点已经合并过，发现了环，返回这条边。</p>
+</li>
+<li>
+<p>输出参数只有 <code>edges</code> 而没有N。对于有 <code>N</code> 个节点的树，应该有 <code>N-1</code> 条边，再加上附加的一条边，得到N条边。因此 <code>edges</code> 的size即为N。</p>
+</li>
+</ul>
+<h4 id="图解-3">图解</h4>
+<p>输入边 <code>[AB, AC, AE, CD, CF, EF]</code>，<strong>删掉环路中的每个边都可以组成树</strong>，例如AC、AE、CF、EF，按照题目要求，取最后一个即 EF 即可。</p>
+<p>遍历过程如下：</p>
+<ul>
+<li>遍历AB：合并AB</li>
+<li>遍历AC：合并ABC</li>
+<li>遍历AE：合并ABCE</li>
+<li>遍历CD：合并ABCED</li>
+<li>遍历CF：合并ABCEDF</li>
+<li>遍历EF：发现节点 E、F 已经合并过了（经过AC、AE、CF合并），说明有环，返回EF。</li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/redundant-connection.png" alt=""></p>
+<h4 id="代码-3">代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span>[] parent;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] findRedundantConnection(<span class="keyword">int</span>[][] edges) &#123;</span><br><span class="line">        <span class="comment">// N = edges.length</span></span><br><span class="line">        parent = <span class="keyword">new</span> <span class="keyword">int</span>[edges.length + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; parent.length; ++i) &#123;</span><br><span class="line">            parent[i] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] edge : edges) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!union(edge[<span class="number">0</span>], edge[<span class="number">1</span>])) &#123;</span><br><span class="line">                <span class="keyword">return</span> edge;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;-<span class="number">1</span>,-<span class="number">1</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findRoot</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (x != parent[x]) &#123;</span><br><span class="line">            parent[x] = parent[parent[x]];</span><br><span class="line">            x = parent[x];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">        x = findRoot(x);</span><br><span class="line">        y = findRoot(y);</span><br><span class="line">        <span class="keyword">if</span> (x == y) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        parent[x] = y;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="最小生成树">最小生成树</h2>
+<p><strong>最小生成树（Minimum Spanning Tree，MST）</strong>：无向连通图中边权和最小的生成树（最短路径连接所有节点）。</p>
+<p>注意：只有连通图才有生成树，而对于非连通图，只存在生成森林。</p>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/mst.jpg" alt=""></p>
+<h3 id="LeetCode-1135-最低成本联通所有城市">LeetCode 1135. 最低成本联通所有城市</h3>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/connecting-cities-with-minimum-cost/">1135. 最低成本联通所有城市</a></p>
+<ul>
+<li>地图上有 N 座城市 <code>1 ~ N</code>。</li>
+<li>给出一些 <code>conections</code>，其中 <code>conections[i] = [city1, city2, cost]</code> 表示将城市 <code>city1</code> 和城市 <code>city2</code> 连接所要的成本，连接是双向的。</li>
+<li>返回连接所有城市的最小成本，如果无法连接所有城市，返回 <code>-1</code>。</li>
+</ul>
+<h3 id="Kruskal算法">Kruskal算法</h3>
+<p>Kruskal算法 = 贪心 + 并查集</p>
+<p>流程：将所有边按cost从小到大排序，然后使用并查集依次尝试合并每个边：</p>
+<ul>
+<li>如果合并成功，则加入这条边。</li>
+<li>如果合并失败（边的两个节点已经合并过），说明产生了环，则丢弃这条边。</li>
+</ul>
+<p>通过并查集合并后，每个连通分量节点都会有相同的root，因此检查所有节点的root：</p>
+<ul>
+<li>如果检查到只有一个root，说明这个图只有一个连通分量，是连通图，返回cost。</li>
+<li>如果检查到超过一个root，说明这个图有多个连通分量，不是一个连通图，返回-1。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minimumCost</span><span class="params">(<span class="keyword">int</span> N, <span class="keyword">int</span>[][] connections)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// sort connections by cost from small to large</span></span><br><span class="line">        Arrays.sort(connections, (a,b) -&gt; a[<span class="number">2</span>]-b[<span class="number">2</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span>[] parent = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            parent[i] = i;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cost = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] edge : connections) &#123;</span><br><span class="line">            <span class="keyword">if</span> (union(edge[<span class="number">0</span>], edge[<span class="number">1</span>], parent)) &#123;</span><br><span class="line">                cost += edge[<span class="number">2</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// check if all the roots are the same</span></span><br><span class="line">        <span class="keyword">int</span> p = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            <span class="keyword">int</span> root = findRoot(i, parent);</span><br><span class="line">            <span class="keyword">if</span> (p == -<span class="number">1</span>) &#123;</span><br><span class="line">                p = root;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (p != root) &#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cost;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findRoot</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span>[] parent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (x != parent[x]) &#123;</span><br><span class="line">            parent[x] = parent[parent[x]];</span><br><span class="line">            x = parent[x];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span>[] parent)</span> </span>&#123;</span><br><span class="line">        a = findRoot(a, parent);</span><br><span class="line">        b = findRoot(b, parent);</span><br><span class="line">        <span class="keyword">if</span> (a == b) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        parent[a] = b;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Prim算法">Prim算法</h3>
+<p>Kruskal算法每次添加一个最小的边，而Prim算法则是每次添加一个距离已选取节点集最近的点。</p>
+<p>流程：</p>
+<ol>
+<li>集合S表示已选取的节点集。</li>
+<li>选任意一个节点作为起始节点 <code>a</code>，放到集合S中，并更新其他节点到集合S的最近距离。因为当前S中只有一个节点 <code>a</code>，因此更新为到节点 <code>a</code> 的距离。</li>
+<li>选取距离S最近的一个节点 <code>b</code>，放到集合S中，并更新其他节点到集合S的最近距离。也就是节点 <code>i</code> 的距离更新为 <code>min &#123; adj[a][i], adj[b][i] &#125;</code>。</li>
+<li>继续选取、更新，直到N个节点都被选取。</li>
+</ol>
+<p>实际提交发现，Prim算法效果远不如Kruskal好。</p>
+<ul>
+<li>
+<p>题目给的是边（connections），而使用Prim算法，需要快速得到两个节点之间的距离。如果每次都直接遍历connections，复杂度太高，因此需要先转换成邻接矩阵或邻接表。选择合适的邻接矩阵或邻接表，是解决本题的一个关键。</p>
+</li>
+<li>
+<p>另外一个关键点就是，获取距离最小的节点，可以直接遍历，也可以借助 <code>PriorityQueue</code> 实现。</p>
+</li>
+</ul>
+<h4 id="解法1：超出内存限制">解法1：超出内存限制</h4>
+<p>最基础的Prim算法实现，使用二维数组保存邻接矩阵，暴力搜索查找距离最小的节点。</p>
+<p>代码应该是正确的，在简单的测试用例中运行是正确的。但是由于邻接矩阵太大，导致超出了内存限制，提交未通过。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minimumCost</span><span class="params">(<span class="keyword">int</span> N, <span class="keyword">int</span>[][] connections)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> INF = Integer.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// graph[i][j]:</span></span><br><span class="line">        <span class="comment">//     INF: not reachable</span></span><br><span class="line">        <span class="comment">//     x: distance</span></span><br><span class="line">        <span class="keyword">int</span>[][] graph = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>][N+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= N; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (i == j) graph[i][j] = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">else</span> graph[i][j] = INF;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] edge : connections) &#123;</span><br><span class="line">            <span class="keyword">int</span> u = edge[<span class="number">0</span>], v = edge[<span class="number">1</span>], w = edge[<span class="number">2</span>];</span><br><span class="line">            graph[u][v] = graph[v][u] = w;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// dist[i]</span></span><br><span class="line">        <span class="comment">//     d: current min distance from one of added nodes</span></span><br><span class="line">        <span class="comment">//     INF: distance is inf, not reachable</span></span><br><span class="line">        <span class="keyword">int</span>[] dist = <span class="keyword">new</span> <span class="keyword">int</span>[N+<span class="number">1</span>];</span><br><span class="line">        Arrays.fill(dist, INF);</span><br><span class="line">        <span class="comment">// added nodes</span></span><br><span class="line">        <span class="keyword">boolean</span>[] added = <span class="keyword">new</span> <span class="keyword">boolean</span>[N+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// set node [1] as candidates</span></span><br><span class="line">        dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cost = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; N; ++k) &#123; <span class="comment">// N nodes to add</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// find node with min distance</span></span><br><span class="line">            <span class="keyword">int</span> min = INF;</span><br><span class="line">            <span class="keyword">int</span> node = -<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!added[i] &amp;&amp; dist[i] &lt; min) &#123;</span><br><span class="line">                    min = dist[i];</span><br><span class="line">                    node = i;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// no reachable node found</span></span><br><span class="line">            <span class="keyword">if</span> (node == -<span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// add [node]</span></span><br><span class="line">            cost += dist[node];</span><br><span class="line">            added[node] = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// update dist[i] with distance from [node] to [i]</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span> (added[i]) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span> (graph[node][i] == INF) <span class="keyword">continue</span>;</span><br><span class="line">                dist[i] = Math.min(dist[i], graph[node][i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cost;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="解法2：超出时间限制">解法2：超出时间限制</h4>
+<p>优化Prim算法，使用HashMap数组保存领接表，借助PriorityQueue选取距离最小的节点。</p>
+<p>超出时间限制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minimumCost</span><span class="params">(<span class="keyword">int</span> N, <span class="keyword">int</span>[][] connections)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// graph[i].get(j):</span></span><br><span class="line">        <span class="comment">//     x: distance</span></span><br><span class="line">        <span class="comment">//     null: not reachable</span></span><br><span class="line">        Map&lt;Integer, Integer&gt;[] graph = <span class="keyword">new</span> HashMap[N+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">            graph[i] = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] edge : connections) &#123;</span><br><span class="line">            <span class="keyword">int</span> u = edge[<span class="number">0</span>], v = edge[<span class="number">1</span>], w = edge[<span class="number">2</span>];</span><br><span class="line">            graph[u].put(v, w);</span><br><span class="line">            graph[v].put(u, w);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// heap: candidates</span></span><br><span class="line">        <span class="comment">//     int[0]: distance from added nodes</span></span><br><span class="line">        <span class="comment">//     int[1]: node</span></span><br><span class="line">        PriorityQueue&lt;<span class="keyword">int</span>[]&gt; heap = <span class="keyword">new</span> PriorityQueue&lt;&gt;((a,b) -&gt; a[<span class="number">0</span>] - b[<span class="number">0</span>]);</span><br><span class="line">        <span class="comment">// added nodes</span></span><br><span class="line">        <span class="keyword">boolean</span>[] added = <span class="keyword">new</span> <span class="keyword">boolean</span>[N+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add node [1] to the candidate collection</span></span><br><span class="line">        heap.offer(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">0</span>, <span class="number">1</span>&#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cost = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; N; ++k) &#123; <span class="comment">// N nodes to add</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// find node with min distance</span></span><br><span class="line">            <span class="keyword">int</span>[] min = findMin(heap, added);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// no reachable node found</span></span><br><span class="line">            <span class="keyword">if</span> (min == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> dist = min[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> node = min[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="comment">// add [node]</span></span><br><span class="line">            cost += dist;</span><br><span class="line">            added[node] = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// add candidates with distance from [node]</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= N; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span> (added[i]) <span class="keyword">continue</span>;</span><br><span class="line">                Integer d = graph[node].get(i);</span><br><span class="line">                <span class="keyword">if</span> (d != <span class="keyword">null</span>) &#123; <span class="comment">// d == null: not reachable</span></span><br><span class="line">                    heap.offer(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;d, i&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cost;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] findMin(PriorityQueue&lt;<span class="keyword">int</span>[]&gt; heap, <span class="keyword">boolean</span>[] added) &#123;</span><br><span class="line">        <span class="keyword">while</span> (heap.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span>[] n = heap.poll();</span><br><span class="line">            <span class="keyword">int</span> node = n[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (!added[node]) &#123;</span><br><span class="line">                <span class="keyword">return</span> n;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="解法3：通过，67-ms">解法3：通过，67 ms</h4>
+<p>正在怀疑是不是自己写错了Prim算法的时候，借鉴了评论区的思路，重新优化了邻接表的表示方法，使用 <code>HashMap -&gt; List -&gt; int[]</code> 的形式。</p>
+<p>这样在更新距离时，不需要再进行复杂的遍历，也不需要创建很多数组（HashMap邻接表和PriorityQueue中的元素格式是相同的，都是 <code>[node, distance]</code>），大大提高了性能。</p>
+<p>终于提交通过，耗时67ms。作为对比，Kruskal算法的耗时是27ms，且写起来更容易。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minimumCost</span><span class="params">(<span class="keyword">int</span> N, <span class="keyword">int</span>[][] connections)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// graph.get(i).get(x):</span></span><br><span class="line">        <span class="comment">//     int[0]: node</span></span><br><span class="line">        <span class="comment">//     int[1]: distance from [i] to [node]</span></span><br><span class="line">        Map&lt;Integer, List&lt;<span class="keyword">int</span>[]&gt;&gt; graph = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span>[] edge : connections) &#123;</span><br><span class="line">            <span class="keyword">int</span> u = edge[<span class="number">0</span>], v = edge[<span class="number">1</span>], w = edge[<span class="number">2</span>];</span><br><span class="line">            List&lt;<span class="keyword">int</span>[]&gt; list1 = graph.get(u);</span><br><span class="line">            <span class="keyword">if</span> (list1 == <span class="keyword">null</span>) &#123;</span><br><span class="line">                list1 = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">                graph.put(u, list1);</span><br><span class="line">            &#125;</span><br><span class="line">            list1.add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;v,w&#125;);</span><br><span class="line"></span><br><span class="line">            List&lt;<span class="keyword">int</span>[]&gt; list2 = graph.get(v);</span><br><span class="line">            <span class="keyword">if</span> (list2 == <span class="keyword">null</span>) &#123;</span><br><span class="line">                list2 = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">                graph.put(v, list2);</span><br><span class="line">            &#125;</span><br><span class="line">            list2.add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;u,w&#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// heap: candidates</span></span><br><span class="line">        <span class="comment">//     int[0]: node</span></span><br><span class="line">        <span class="comment">//     int[1]: distance from one of added nodes</span></span><br><span class="line">        PriorityQueue&lt;<span class="keyword">int</span>[]&gt; heap = <span class="keyword">new</span> PriorityQueue&lt;&gt;((a,b) -&gt; a[<span class="number">1</span>] - b[<span class="number">1</span>]);</span><br><span class="line">        <span class="comment">// added nodes</span></span><br><span class="line">        <span class="keyword">boolean</span>[] added = <span class="keyword">new</span> <span class="keyword">boolean</span>[N+<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// add node [1] to the candidate collection</span></span><br><span class="line">        heap.offer(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">0</span>&#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cost = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; N; ++k) &#123; <span class="comment">// N nodes to add</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// find node with min distance</span></span><br><span class="line">            <span class="keyword">int</span>[] min = findMin(heap, added);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// no reachable node found</span></span><br><span class="line">            <span class="keyword">if</span> (min == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> node = min[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">int</span> dist = min[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="comment">// add [node]</span></span><br><span class="line">            cost += dist;</span><br><span class="line">            added[node] = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// add candidates with distance from [node]</span></span><br><span class="line">            List&lt;<span class="keyword">int</span>[]&gt; list = graph.get(node);</span><br><span class="line">            <span class="keyword">if</span> (list != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span>[] e : list) &#123;</span><br><span class="line">                    heap.offer(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cost;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] findMin(PriorityQueue&lt;<span class="keyword">int</span>[]&gt; heap, <span class="keyword">boolean</span>[] added) &#123;</span><br><span class="line">        <span class="keyword">while</span> (heap.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span>[] n = heap.poll();</span><br><span class="line">            <span class="keyword">int</span> node = n[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">if</span> (!added[node]) &#123;</span><br><span class="line">                <span class="keyword">return</span> n;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二分图-Bipartite-graph">二分图 Bipartite graph</h2>
+<p><strong>二分图 (Bipartite graph)</strong>：节点由两个集合组成，且两个集合内部没有边的图（或者说所有边的两个点刚好分别在两个集合中）。</p>
+<p><strong>完全二分图 (Complete bipartite graph / Biclique)</strong>：任何两个不在同一部分的点之间都有连边（例如两部分分别有 <code>x,y</code> 个点，则图总共有<code>x*y</code>个边）</p>
+<p>性质：</p>
+<ul>
+<li>
+<p>如果两个集合中的点分别染成黑色和白色，可以发现二分图中的每一条边都一定是连接一个黑色点和一个白色点。</p>
+</li>
+<li>
+<p>二分图不存在奇环（长度为奇数的环）。</p>
+<blockquote>
+<p>因为每一条边都是从一个集合走到另一个集合，只有走偶数次才可能回到同一个集合。</p>
+</blockquote>
+</li>
+</ul>
+<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/bi-graph.png" alt=""></p>
+<h3 id="LeetCode-785-判断二分图">LeetCode 785. 判断二分图</h3>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/is-graph-bipartite/">785. 判断二分图</a></p>
+<p>以二维数组形式的邻接表方式给出无向图，判断是否为二分图。</p>
+<p>思路：</p>
+<ol>
+<li>对节点进行着色，<code>color == 0</code> 表示未着色，<code>color == 1</code> 或 <code>color == -1</code>表示着色。</li>
+<li>从每个未着色的节点开始，将其着色，并进行深度优先搜索（每次深度优先搜索都会遍历完一个连通分量）。</li>
+<li>每遇到一条边，判断其另一个点的颜色：
+<ul>
+<li>如果没有着色，就设置成相反的颜色，并继续深入搜索。</li>
+<li>如果已经着色，并且和当前点颜色相同，说明不是二分图。</li>
+<li>如果已经着色，并且和当前点颜色不同，忽略（继续循环）。</li>
+</ul>
+</li>
+</ol>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isBipartite</span><span class="params">(<span class="keyword">int</span>[][] graph)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 0: uncolored.  1,-1: two oppsite colors</span></span><br><span class="line">        <span class="keyword">int</span>[] colors = <span class="keyword">new</span> <span class="keyword">int</span>[graph.length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.length; ++i) &#123;</span><br><span class="line">            <span class="comment">// skip already colored node</span></span><br><span class="line">            <span class="keyword">if</span> (colors[i] != <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="comment">// set color to 1</span></span><br><span class="line">            colors[i] = <span class="number">1</span>;</span><br><span class="line">            <span class="comment">// dfs, visit connected components</span></span><br><span class="line">            <span class="keyword">if</span> (!dfs(graph, colors, i)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span>[][] graph, <span class="keyword">int</span>[] colors, <span class="keyword">int</span> node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> color = colors[node];</span><br><span class="line">        <span class="keyword">int</span>[] nodes = graph[node];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> n : nodes) &#123;</span><br><span class="line">            <span class="comment">// found uncolored node, set color to oppsite and search deep</span></span><br><span class="line">            <span class="keyword">if</span> (colors[n] == <span class="number">0</span>) &#123;</span><br><span class="line">                colors[n] = -color;</span><br><span class="line">                <span class="keyword">if</span> (!dfs(graph, colors, n)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// found node with same color, return false</span></span><br><span class="line">            <span class="keyword">if</span> (colors[n] == color) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// found node with oppsite color, loop continue</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料与扩展学习">参考资料与扩展学习</h2>
+<p><a target="_blank" rel="noopener" href="https://oi-wiki.org/graph/">OI Wiki：图论部分简介</a></p>
+<p><a target="_blank" rel="noopener" href="https://cuigeg.github.io/2017/06/27/Graph-theory/">这一点点的图论基础</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cxyxiaowu.com/1293.html">数据结构与算法——图论基础与图存储结构</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av38498175">【算法】并查集（Disjoint Set）- Bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34922624">最小生成树：Prim算法和Kruskal算法</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Leetcode%20%E9%A2%98%E8%A7%A3%20-%20%E5%9B%BE.md">Leetcode 题解 - 图</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.graphviz.org/">Graphviz</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.shellcodes.org/Unix/%E4%BD%BF%E7%94%A8Graphviz%E7%BB%98%E5%9B%BE.html">使用Graphviz绘图</a></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/leetcode-intervals/" rel="bookmark">LeetCode：区间类题目总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/largest-bst-subtree/" rel="bookmark">LeetCode：最大二叉搜索子树</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/leetcode-next-permutation/" rel="bookmark">LeetCode：下一个排列</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/leetcode-integer-break/" rel="bookmark">LeetCode：整数拆分问题</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/leetcode-top-k/" rel="bookmark">LeetCode：Top K问题</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/leetcode-word-ladder/" rel="bookmark">LeetCode：单词接龙算法实现与优化</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/leetcode-place-flowers/" rel="bookmark">LeetCode：种花问题实现与优化</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/quick-sort/" rel="bookmark">快速排序算法分析与实现</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag"># 图论</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/leetcode-intervals/" rel="prev" title="LeetCode：区间类题目总结">
+      <i class="fa fa-chevron-left"></i> LeetCode：区间类题目总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/how-to-write-a-resume/" rel="next" title="技术岗位如何写简历">
+      技术岗位如何写简历 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E9%99%90%E5%9B%BE%E4%B8%8E%E6%97%A0%E9%99%90%E5%9B%BE"><span class="nav-number">1.1.</span> <span class="nav-text">有限图与无限图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE%E4%B8%8E%E6%97%A0%E5%90%91%E5%9B%BE"><span class="nav-number">1.2.</span> <span class="nav-text">有向图与无向图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E9%82%BB"><span class="nav-number">1.3.</span> <span class="nav-text">相邻</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%A6"><span class="nav-number">1.4.</span> <span class="nav-text">度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E7%8E%AF%E4%B8%8E%E9%87%8D%E8%BE%B9"><span class="nav-number">1.5.</span> <span class="nav-text">自环与重边</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%9B%BE%E4%B8%8E%E5%A4%9A%E9%87%8D%E5%9B%BE"><span class="nav-number">1.6.</span> <span class="nav-text">简单图与多重图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84"><span class="nav-number">1.7.</span> <span class="nav-text">路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E9%80%9A"><span class="nav-number">1.8.</span> <span class="nav-text">连通</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%80%E7%96%8F%E5%9B%BE%E4%B8%8E%E7%A8%A0%E5%AF%86%E5%9B%BE"><span class="nav-number">1.9.</span> <span class="nav-text">稀疏图与稠密图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84%E5%9B%BE"><span class="nav-number">1.10.</span> <span class="nav-text">特殊的图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="nav-number">2.</span> <span class="nav-text">图的表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%AD%98%E8%BE%B9"><span class="nav-number">2.1.</span> <span class="nav-text">直接存边</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5-Adjacency-Matrix"><span class="nav-number">2.2.</span> <span class="nav-text">邻接矩阵 Adjacency Matrix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%BB%E6%8E%A5%E8%A1%A8-Adjacency-Table"><span class="nav-number">2.3.</span> <span class="nav-text">邻接表 Adjacency Table</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">3.</span> <span class="nav-text">图的遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98%EF%BC%88%E6%9C%89%E5%90%91%E6%97%A0%E7%8E%AF%E5%9B%BE%E3%80%81AOV%E7%BD%91%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">拓扑排序问题（有向无环图、AOV网）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LeetCode-210-%E8%AF%BE%E7%A8%8B%E8%A1%A8-II"><span class="nav-number">4.1.</span> <span class="nav-text">LeetCode 210. 课程表 II</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kahn-%E7%AE%97%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">Kahn 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-number">4.2.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">4.2.2.</span> <span class="nav-text">复杂度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E8%A7%A3"><span class="nav-number">4.2.3.</span> <span class="nav-text">图解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">4.2.4.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95-DFS"><span class="nav-number">4.3.</span> <span class="nav-text">深度优先算法 DFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B-2"><span class="nav-number">4.3.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E8%A7%A3-2"><span class="nav-number">4.3.2.</span> <span class="nav-text">图解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-2"><span class="nav-number">4.3.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">最短路径问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LeetCode-743-%E7%BD%91%E7%BB%9C%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4"><span class="nav-number">5.1.</span> <span class="nav-text">LeetCode 743. 网络延迟时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95-DFS-2"><span class="nav-number">5.2.</span> <span class="nav-text">深度优先算法 DFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B7%E7%AE%97%E6%B3%95-Floyd-Warshall-Algorithm"><span class="nav-number">5.3.</span> <span class="nav-text">弗洛伊德算法 Floyd-Warshall Algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95-Dijkstra-Algorithm"><span class="nav-number">5.4.</span> <span class="nav-text">迪杰斯特拉算法 Dijkstra Algorithm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E6%9F%A5%E9%9B%86-Disjoint-set"><span class="nav-number">6.</span> <span class="nav-text">并查集 Disjoint-set</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">6.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE"><span class="nav-number">6.2.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84%E5%8E%8B%E7%BC%A9"><span class="nav-number">6.3.</span> <span class="nav-text">路径压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E5%B9%B6"><span class="nav-number">6.4.</span> <span class="nav-text">合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6%EF%BC%88%E6%8C%89%E7%A7%A9%E5%90%88%E5%B9%B6%EF%BC%89"><span class="nav-number">6.5.</span> <span class="nav-text">启发式合并（按秩合并）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E6%9F%A5%E9%9B%86%E5%BA%94%E7%94%A8"><span class="nav-number">6.6.</span> <span class="nav-text">并查集应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LeetCode-684-%E5%86%97%E4%BD%99%E8%BF%9E%E6%8E%A5"><span class="nav-number">6.7.</span> <span class="nav-text">LeetCode 684. 冗余连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">6.7.1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E8%A7%A3-3"><span class="nav-number">6.7.2.</span> <span class="nav-text">图解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-3"><span class="nav-number">6.7.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-number">7.</span> <span class="nav-text">最小生成树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LeetCode-1135-%E6%9C%80%E4%BD%8E%E6%88%90%E6%9C%AC%E8%81%94%E9%80%9A%E6%89%80%E6%9C%89%E5%9F%8E%E5%B8%82"><span class="nav-number">7.1.</span> <span class="nav-text">LeetCode 1135. 最低成本联通所有城市</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kruskal%E7%AE%97%E6%B3%95"><span class="nav-number">7.2.</span> <span class="nav-text">Kruskal算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prim%E7%AE%97%E6%B3%95"><span class="nav-number">7.3.</span> <span class="nav-text">Prim算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E6%B3%951%EF%BC%9A%E8%B6%85%E5%87%BA%E5%86%85%E5%AD%98%E9%99%90%E5%88%B6"><span class="nav-number">7.3.1.</span> <span class="nav-text">解法1：超出内存限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E6%B3%952%EF%BC%9A%E8%B6%85%E5%87%BA%E6%97%B6%E9%97%B4%E9%99%90%E5%88%B6"><span class="nav-number">7.3.2.</span> <span class="nav-text">解法2：超出时间限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E6%B3%953%EF%BC%9A%E9%80%9A%E8%BF%87%EF%BC%8C67-ms"><span class="nav-number">7.3.3.</span> <span class="nav-text">解法3：通过，67 ms</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%88%86%E5%9B%BE-Bipartite-graph"><span class="nav-number">8.</span> <span class="nav-text">二分图 Bipartite graph</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LeetCode-785-%E5%88%A4%E6%96%AD%E4%BA%8C%E5%88%86%E5%9B%BE"><span class="nav-number">8.1.</span> <span class="nav-text">LeetCode 785. 判断二分图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E4%B8%8E%E6%89%A9%E5%B1%95%E5%AD%A6%E4%B9%A0"><span class="nav-number">9.</span> <span class="nav-text">参考资料与扩展学习</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

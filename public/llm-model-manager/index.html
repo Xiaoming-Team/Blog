@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="多个大模型API的烦恼 不知道大家在平时用AI大模型API的时候，有没有遇到和我一样的烦恼。为了权衡模型效果和省钱，买了很多不同类型的模型API搭配使用，但是：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="买了很多大模型配置不过来？我花100块用AI做了个开源工具">
+<meta property="og:url" content="https://www.xiaoming.io/llm-model-manager/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="多个大模型API的烦恼 不知道大家在平时用AI大模型API的时候，有没有遇到和我一样的烦恼。为了权衡模型效果和省钱，买了很多不同类型的模型API搭配使用，但是：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/2dd96624fab1d33092cfa8f7418a1eec.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/2e687b3028a25207aa2ef6d8a7ac5b5f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/0ff4ca292be1b2665b89985992070c04.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/82ffcf32ffc5332803e213f16f1704a5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/088b0c68acdb668068b58c17fd2229af.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/1636f7e0e05d70c734a34864f350cf3f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/f41e6b3924bb4a032300bd4fbe1ebc46.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/3cf18ac59b2406c4bdf3c7488c53442e.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/7b6275462ca3cb904e2ee8561282e6d4.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/c7f6d6b51a773391aac1b68c361be0b5.png">
+<meta property="article:published_time" content="2026-04-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-02T09:16:04.934Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="LLM管理">
+<meta property="article:tag" content="开源工具">
+<meta property="article:tag" content="OpenAI">
+<meta property="article:tag" content="Anthropic">
+<meta property="article:tag" content="配置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/2dd96624fab1d33092cfa8f7418a1eec.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/llm-model-manager/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>买了很多大模型配置不过来？我花100块用AI做了个开源工具 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "买了很多大模型配置不过来？我花100块用AI做了个开源工具",
+      "description": "多个大模型API的烦恼 不知道大家在平时用AI大模型API的时候，有没有遇到和我一样的烦恼。为了权衡模型效果和省钱，买了很多不同类型的模型API搭配使用，但是：",
+      "datePublished": "2026-04-01T16:00:00.000Z",
+      "dateModified": "2026-04-02T09:16:04.934Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/llm-model-manager/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/llm-model-manager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          买了很多大模型配置不过来？我花100块用AI做了个开源工具
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-04-02 00:00:00" itemprop="dateCreated datePublished" datetime="2026-04-02T00:00:00+08:00">2026-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/llm-model-manager/" class="post-meta-item leancloud_visitors" data-flag-title="买了很多大模型配置不过来？我花100块用AI做了个开源工具" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/llm-model-manager/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/llm-model-manager/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="多个大模型API的烦恼">多个大模型API的烦恼</h2>
+<p>不知道大家在平时用AI大模型API的时候，有没有遇到和我一样的烦恼。为了权衡模型效果和省钱，买了很多不同类型的模型API搭配使用，但是：</p>
+<p>1、有些大模型供应商没有清晰的文档，不确定配置的对不对。特别是普通用户，不太接触Agent开发，很容易遇到这样的困扰。</p>
+<p>2、买的大模型很多，配置各不相同，记不住，经常要去他们的官方网站找信息。</p>
+<p>3、有些供应商是做转发的，或者要走代理，因为封号、网络等原因，稳定性不好，可能时不时就用不了。需要经常检查模型是不是可用的。</p>
+<p>4、有些AI软件不稳定，特别是OpenClaw，配置还比较复杂。经常配置上了没效果，也不确定是模型的问题还是OpenClaw的问题。</p>
+<p>5、同一个模型可能要用在很多不同的软件中，都需要分别配置。</p>
+<p>6、有些软件只支持配置一个模型，还得经常切换。CC Switch可以解决这个问题，但是它只能针对某几个常见软件，没办法自己扩展更多软件。</p>
+<p>我做的这个开源小工具 <strong>LLM Model Manager</strong> 就是想要解决这种问题，它的功能就是辅助用户把买的所有大模型全都添加进去，可以一键检查所有模型的可用性，也可以一键导入到常用的AI工具中。</p>
+<p>目标就是：<strong>开源免费</strong>（逻辑透明，功能好扩展），<strong>功能简单</strong>（相对稳定），<strong>细节完善</strong>（增加提示信息，降低上手门槛）。</p>
+<p>这个项目是基于Electron实现的，所以原生就是跨平台的，支持Mac、Linux、Windows，不过在Windows上，由于不能运行通用的脚本，导出功能是受限的。为了方便使用，里面内置了很多现成的大模型的信息，方便一键填入，并且会有一些提示信息，告诉你应该怎么填参数。</p>
+<h2 id="主界面（列表页）">主界面（列表页）</h2>
+<p>这个应用的主界面就是一个供应商 - 模型的列表页。列表分为两级，第一级是供应商，也就是Provider。Provider里面有模型，也就是Model。</p>
+<p>供应商和模型右边都有编辑、删除、复制之类按钮，还有一个拖拽按钮，可以调整上下位置。</p>
+<p>每个供应商右边有添加模型的按钮，可以添加子模型。加载模型列表的按钮，获取供应商的所有可用模型，可以批量添加。</p>
+<p>每个模型右边有测试按钮，点击测试按钮可以测试这个模型当前是否可用。</p>
+<p>也可以批量选择多个模型，点击右上角的测试选中模型，就会同时测试这些模型是否正常。还可以点击导出选中模型，导出到常用AI APP。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/2dd96624fab1d33092cfa8f7418a1eec.png" alt=""></p>
+<h2 id="添加供应商">添加供应商</h2>
+<p>在主界面左下角点击添加供应商，每个供应商对应一个API key。如果同一个供应商设置了多个API key，对应不同的配置，那就多创建几个。</p>
+<p>供应商ID，这里面有很多预设值的候选下拉选项，都是一些目前比较知名的供应商。<strong>为了减少输入工作量，也是为了引导用户输入正确的值</strong>。</p>
+<p>也可以输入自己的ID，格式就按照界面里面的提示，小写加连字符就好了。这个ID只是在同一个软件里面区分不同的供应商，它并不是固定值。即使你是OpenAI官方供应商，也可以随便写ID（取决于每个AI软件怎么处理）。</p>
+<p>接口类型里面，目前支持OpenAI和Anthropic两种类型，后续可以扩展。反正代码都是开源的，又有AI辅助，很好改。</p>
+<p>如果选OpenAI接口，一般会把地址里的 <code>/v1</code> 放在BaseURL里，然后Endpoint是<code>/chat/completions</code>。如果是Anthropic接口，则Base URL不带版本，Endpoint一般是<code>v1/messages</code>。同样，Base URL和Endpoint里面也有很多预定义下拉候选项。<strong>这个是很多新手怎么配置都不对的原因，我在配置OpenClaw的时候。也被坑到了</strong>。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/2e687b3028a25207aa2ef6d8a7ac5b5f.png" alt=""></p>
+<p>在这里顺便分享一下我目前用的几个供应商产品。说明：我没有收广告费，只是我觉得用起来确实还行。</p>
+<p>一个是性价比API，<a target="_blank" rel="noopener" href="https://xingjiabiapi.org">https://xingjiabiapi.org</a></p>
+<p>朋友推荐的，做国外大模型中转服务的。有点像代理，调用的时候不用梯子，并且<strong>价格比官方还便宜</strong>（批量采购有优惠）。我们只管使用，怎么注册、怎么避免封号的问题都交给专业的人去解决了。提供国外<strong>多种大模型</strong>的中转，稳定性相对还行，但是也会因为上游封号等原因导致不可用。</p>
+<p>另一个是ByteClaude，<a target="_blank" rel="noopener" href="https://claude.bestswifter.com">https://claude.bestswifter.com</a></p>
+<p>这个是我好友列表里的字节大佬做的，也是做中转服务的。因为是个人项目规模有限，稳定性相对差一点，能选的模型主要就是目前最好用的Claude Opus 4.6，但是<strong>胜在价格更划算，有问题在群里也可以得到更及时的回复</strong>。并且大佬做了一个<strong>自研的缓存</strong>，可以有效降低Token消耗。</p>
+<p>当然还有一些常规知名的，比如，火山方舟CodingPlan、Minimax、Cursor这种，要么是国产模型，要么是对国内用户比较友好的国外产品，比如Cursor甚至官网就可以用支付宝支付，这和某些极度反华、经常封号的公司形成了强烈反差。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/0ff4ca292be1b2665b89985992070c04.png" alt=""></p>
+<h2 id="批量添加模型">批量添加模型</h2>
+<p>填好供应商以后，点击右边的加载模型列表按钮，就会尝试调用它的接口，<strong>加载供应商支持的全部模型列表</strong>。</p>
+<p>通常必须是填了API key才能调用这个接口。如果模型列表能加载出来，说明你的供应商肯定没问题。如果模型列表加载失败了，也不一定就有问题，可能有些供应商不支持这个接口。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/82ffcf32ffc5332803e213f16f1704a5.png" alt=""></p>
+<h2 id="添加单个模型">添加单个模型</h2>
+<p>添加模型的另一种方式就是点击供应商右边的添加模型按钮，单独添加一个模型。</p>
+<p>在这个界面同样有下拉框可以选择预设值。注意，和Provider ID不一样，这里的模型ID不可以乱填，这个ID格式取决于供应商，它会作为一个参数，在调用模型的时候发送出去。</p>
+<p><strong>模型能力与参数是可选的</strong>，这个目前主要是给OpenClaw使用的，不填也能用。如果你知道这个模型的这几项参数，填上去会更好。我是想通过调用接口自动获取这几个参数的，但是目前测试的提供商接口，返回值里面都没有这几个参数信息。</p>
+<ul>
+<li>Context Window，上下文窗口大小，对于上下文窗口很大的模型比较有用，不填OpenClaw就会用一个默认值。</li>
+<li>Max Tokens，最大的token数量。</li>
+<li>Reasoning，是否开启推理。</li>
+<li>输入类型是文字text、图片image这种类型。如果模型支持图片输入，但是你只填了text，可能OpenClaw就不会把图片发给大模型。</li>
+</ul>
+<p><img data-src="/blog-imgs/2026/ai/images/088b0c68acdb668068b58c17fd2229af.png" alt=""></p>
+<h2 id="模型测试">模型测试</h2>
+<p>点击一个模型的测试按钮，或者选中多个模型，点击右上角的测试选中模型，就会对这些模型做测试。</p>
+<p>实际原理就是调用这个模型发送一个Hello消息，看它会不会回应。</p>
+<p>图中我有一个模型就测试成功了，而另一个OpenAI的模型没有测试成功，因为这只是一个空的Provider用于演示，我根本都没有填API key，所以OpenAI接口也明确给我返回了报错信息，说我没有API Key。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/1636f7e0e05d70c734a34864f350cf3f.png" alt=""></p>
+<h2 id="模型导出">模型导出</h2>
+<p>在主界面选择某几个模型，然后点右上角的导出按钮，就可以导出到常用APP。目前的导出方式主要有几种：</p>
+<ul>
+<li>文档形式的，会生成一个文档告诉你要怎么配置，文档中的代码也是自动从模型参数生成的。</li>
+<li>DeepLink形式的，有很多APP包括CC Switch、Cherry Studio等，都可以通过DeepLink直接调起，把参数导进去，并且这种方式是全平台兼容的。</li>
+<li>命令行形式的，如果是给本机配置，你可以直接点按钮就可以调起Terminal运行。这个目前只支持Linux和Mac，Windows不行，暂时也没有精力开发。如果有需求可以提出来。</li>
+<li>环境变量形式的，比如Claude Code，Codex就可以直接设置环境变量。这个软件里面会维护一个专门的环境变量文件<code>~/.llm_model_mgr_env</code>，当你要导出的时候，也是点击一下按钮运行，就会自动写这个环境变量到专门的环境变量文件，处理Bashrc的引用。</li>
+</ul>
+<p>具体举例，如果你想把这几个模型配置给OpenClaw使用，我推荐你用这个手动的方式，也是我自己平时用的方式，这个文档是根据你填的参数生成的，直接复制、粘贴就好了。</p>
+<p>当然也有用命令行配置OpenClaw的方式，不是很推荐，因为OpenClaw一直在升级，可能他们会改命令行参数。而且你在这个APP里设置的Provider ID有可能会和OpenClaw里已有的Provider有出入或者冲突，这都需要你人工检查一下。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/f41e6b3924bb4a032300bd4fbe1ebc46.png" alt=""></p>
+<p>如果要导出到Chery Studio，就是直接用这个DeepLink调起应用，Chery Studio就会弹窗让你确认信息，点确认就能添加好了。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/3cf18ac59b2406c4bdf3c7488c53442e.png" alt=""></p>
+<h2 id="其他功能">其他功能</h2>
+<p>另外，这个APP还可以把你设置的所有模型参数导出到JSON和从JSON导入，点击主界面右下角的按钮即可，导入的时候也会检查冲突，让你选择合并还是覆盖。</p>
+<p>除了调用模型接口要用API，这个APP其他功能都是完全本地运行的。你的API Key是保存在Electron默认的配置目录里，不会上传到任何第三方服务器，确保安全。</p>
+<h2 id="还需继续完善">还需继续完善</h2>
+<p>我不确定这个项目是否是大家想要的，目前也只是做了一个粗略的版本，有些功能也没有做完整的测试，但是至少能解决我自己的需要。如果确实有很多人想要用这个东西，虽然它的功能不完善，但是已经起了个头，可以继续开发。</p>
+<p>例如现在就有个已知的问题：模型的供应商很多，每个供应商的模型也很多，供应商和模型都有很多细节参数，目前我没有找到什么靠谱渠道可以批量获取这种信息的。</p>
+<p>理论上至少每个供应商自己的官网应该提供，实际上可能是AI发展太快了，很多供应商自己的文档都不完善。我暂时是从Open Router还有OpenClaw里面提取到了一些信息，也有些是让AI帮我整理的。这里面难免有各种错误和缺失，需要完善。如果谁对这方面比较了解，也可以给我一些参考。</p>
+<p>另外这个预设配置是几个JSON写死在代码里的，后续可以考虑增加启动后从GitHub拉取最新版本的功能。</p>
+<p>我让AI帮我调研类似产品，发现现在已经有一些模型聚合的工具，例如LiteLLM。它们也是解决各种模型格式配置不兼容的问题，这也证实了我上面说的问题，现在的各种模型配置方式似乎挺混乱的。不过它们一般都是运行一个后台进程，把这些模型翻译成统一格式，还会提供自动选择模型、计费统计之类的功能，主要针对企业用户做开发时使用。</p>
+<p>而我这个工具更轻量化一点，直接帮你把这些模型配置给需要的APP，<strong>主要针对个人用户日常使用</strong>，实际上也就是从解决我自己的需求来出发的。</p>
+<p>如果你有什么问题，可以给我提Issue或者PR，直接在公众号里评论也行，比如你常用的AI APP都有哪些？我看能不能添加到导出功能里。还有比如你的大模型用的是什么供应商，看能不能给它加到预设里。</p>
+<h2 id="开发成本">开发成本</h2>
+<p>这个软件全程花了一天多的时间。花掉了差不多2亿+的Token，Cursor 20刀一个月的套餐额度用掉了50+%，这么算下来就是接近100块钱的Token成本了。</p>
+<p>全程都用的Auto模式，基本上也就是Cursor自带的Composer 2模型。Composer 2速度非常快，这一点体验很不错。虽然据说它背后调的主要是国产大模型，但是我实际使用感觉它的智商也比较在线，可能是Cursor从Agent层面做了优化。</p>
+<p>觉得这个Token消耗比我预想的要多了不少。原因是我使用AI全程开发一个工具的经验还不够。而且这个项目一开始我没有完全想清楚它要做成什么样，也没打算好好做，但是后来觉得这个东西还是可以稍微多打磨一下细节的。</p>
+<p>所以中间花了很多时间改设计，重构代码。甚至连技术架构都没提前设计好，从最原始的Electron + JS，改成了Electron-vite + TS，这个也是让AI帮我完成的，效率很高，但是真的很费Token。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/7b6275462ca3cb904e2ee8561282e6d4.png" alt=""></p>
+<p><img data-src="/blog-imgs/2026/ai/images/c7f6d6b51a773391aac1b68c361be0b5.png" alt=""></p>
+<p>就说这么多吧，希望对和我有同样困扰的人有所帮助，有需要的话，可以去安装我这个小工具实时。</p>
+<p>GitHub地址在这里，直接按照文档里的链接，点到Release页面，下载最新版本就可以了。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/jzj1993/llm-model-manager">https://github.com/jzj1993/llm-model-manager</a></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" rel="tag"># 大模型</a>
+              <a href="/tags/LLM%E7%AE%A1%E7%90%86/" rel="tag"># LLM管理</a>
+              <a href="/tags/%E5%BC%80%E6%BA%90%E5%B7%A5%E5%85%B7/" rel="tag"># 开源工具</a>
+              <a href="/tags/OpenAI/" rel="tag"># OpenAI</a>
+              <a href="/tags/Anthropic/" rel="tag"># Anthropic</a>
+              <a href="/tags/%E9%85%8D%E7%BD%AE/" rel="tag"># 配置</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/why-ai-replace-programmers/" rel="prev" title="为什么AI最先“吃掉”的是它的创造者——程序员？">
+      <i class="fa fa-chevron-left"></i> 为什么AI最先“吃掉”的是它的创造者——程序员？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/openclaw-nat/" rel="next" title="普通人养龙虾必会的心法口诀：内网穿透">
+      普通人养龙虾必会的心法口诀：内网穿透 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E5%A4%A7%E6%A8%A1%E5%9E%8BAPI%E7%9A%84%E7%83%A6%E6%81%BC"><span class="nav-number">1.</span> <span class="nav-text">多个大模型API的烦恼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E7%95%8C%E9%9D%A2%EF%BC%88%E5%88%97%E8%A1%A8%E9%A1%B5%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">主界面（列表页）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BE%9B%E5%BA%94%E5%95%86"><span class="nav-number">3.</span> <span class="nav-text">添加供应商</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E6%B7%BB%E5%8A%A0%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">批量添加模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%8D%95%E4%B8%AA%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.</span> <span class="nav-text">添加单个模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%B5%8B%E8%AF%95"><span class="nav-number">6.</span> <span class="nav-text">模型测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%AF%BC%E5%87%BA"><span class="nav-number">7.</span> <span class="nav-text">模型导出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8A%9F%E8%83%BD"><span class="nav-number">8.</span> <span class="nav-text">其他功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%98%E9%9C%80%E7%BB%A7%E7%BB%AD%E5%AE%8C%E5%96%84"><span class="nav-number">9.</span> <span class="nav-text">还需继续完善</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%88%90%E6%9C%AC"><span class="nav-number">10.</span> <span class="nav-text">开发成本</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

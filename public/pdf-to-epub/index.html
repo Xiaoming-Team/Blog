@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="PDF转EPUB格式电子书经验总结 根据本人将PDF转换为EPUB电子书的经验，总结整理了这篇文章，因本人水平有限，难免有错误和不足之处，望大家及时批评指正。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PDF转EPUB格式电子书经验总结">
+<meta property="og:url" content="https://www.xiaoming.io/pdf-to-epub/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="PDF转EPUB格式电子书经验总结 根据本人将PDF转换为EPUB电子书的经验，总结整理了这篇文章，因本人水平有限，难免有错误和不足之处，望大家及时批评指正。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ebbe0cac82a09fd72a0e2323357a29de.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c08bc148b87b33296219e8292a912c7d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6b901a76413cecbe48ad1d4d5d4f320a.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5b5eb19b6ad4abf33af93bb8f0fe9a40.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/684b959240d1317e21c386628b5719af.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9d9bb8afd9636c5d0a5abc8c1c430fca.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5e38b0ba43a2d7bc68f3c60d04265622.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/73fa808bcf518dad52462c1b1e535771.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/eb6d351e74a5ec50879882bfb96c3f20.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/b6e9eb8289c841ab0a3026000ccbbc67.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ba240cd310019f5272b4daaf6c8bea2e.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/381d09ccf19026b5987335ef7c25764e.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/68079d702e90faca212ae6d6cc3b7402.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3d343a0883d7271e8dfd74cb1fadc9f9.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6026abbd56c635be6605d1d00b335351.jpg">
+<meta property="article:published_time" content="2014-10-08T15:38:17.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.662Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="技巧">
+<meta property="article:tag" content="电子书">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ebbe0cac82a09fd72a0e2323357a29de.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/pdf-to-epub/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PDF转EPUB格式电子书经验总结 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "PDF转EPUB格式电子书经验总结",
+      "description": "PDF转EPUB格式电子书经验总结 根据本人将PDF转换为EPUB电子书的经验，总结整理了这篇文章，因本人水平有限，难免有错误和不足之处，望大家及时批评指正。",
+      "datePublished": "2014-10-08T15:38:17.000Z",
+      "dateModified": "2025-06-17T13:33:21.662Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/pdf-to-epub/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/pdf-to-epub/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PDF转EPUB格式电子书经验总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-08 23:38:17" itemprop="dateCreated datePublished" datetime="2014-10-08T23:38:17+08:00">2014-10-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/pdf-to-epub/" class="post-meta-item leancloud_visitors" data-flag-title="PDF转EPUB格式电子书经验总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/pdf-to-epub/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/pdf-to-epub/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>PDF转EPUB格式电子书经验总结</p>
+<p>根据本人将PDF转换为EPUB电子书的经验，总结整理了这篇文章，因本人水平有限，难免有错误和不足之处，望大家及时批评指正。</p>
+<p>写这篇文章时，假定读者已经会使用文中所列出软件的基本操作，比如怎样用Notepad++打开HTML文件，如何使用PDF Password<br>
+Remover（这个软件很简单，稍有电脑操作基础的人打开后就知道怎么做）。另外读者需要对ePubBuilder的操作比较了解。</p>
+<p>本文主要讨论图文并茂、非扫描版的PDF文档。对于扫描版PDF文件，如果是漫画一类的，可以直接用Adobe<br>
+Acrobat转化为图片制作EPUB，如果是文字形式的扫描电子书，可以使用OCR软件识别以转化成文字(ABBYY<br>
+FineReader识别效果相对较好)，但OCR识别中文准确率不够高，部分无法识别的汉字需要人工输入。对于纯文本形式的PDF，直接保存为TXT，然后转换就可以。如果文字无法复制，可以用PDF<br>
+Password Remover解密，具体请参考本文的PDF解密部分。</p>
+<p>以下摘自百度百科：</p>
+<p>PDF是Portable Document Format（便携文件格式）的缩写，是一种电子文件格式，与操作系统平台无关，由Adobe<br>
+公司开发而成。PDF<br>
+文件是以PostScript语言图象模型为基础，无论在哪种打印机上都可保证精确的颜色和准确的打印效果，即PDF会忠实地再现原稿的每一个字符、颜色以及图象。</p>
+<p>PDF主要由三项技术组成：</p>
+<p>· 衍生自PostScript，可以说是PostScript的缩小版；</p>
+<p>· 字型嵌入系统，可使字型随文件一起传输；</p>
+<p>· 资料压缩及传输系统。</p>
+<p>PDF文件结构主要可以分为四个部分：</p>
+<p>1．首部</p>
+<p>2．文件体</p>
+<p>3. 交叉引用表</p>
+<p>4．尾部</p>
+<p>一方面，PDF格式作为印前出版的工业标准，由于其排版相对复杂，文件内容也有比较复杂，比如PDF可以内嵌特殊字体，可以很自由的保存每个图片、文本对象的绝对位置，而另一方面，EPUB采用类似网页格式的XML标准，即使增加了CSS样式表的支持，排版效果还是远难及PDF，因此想把排版优良的PDF电子书完美地转换成EPUB格式，相对比较复杂。一些正版收费阅读器会推出一些排版质量很高的EPUB，我试用过，排版确实不错，但是那只有在非常精心的制作下才能得出，对于我们转换PDF的人来说，是很不现实的，而且那些电子书一般收费是比较高的，应该还有授权限制，不可能共享出来让大家都能用（这些文件只有在特定应用中登录特定账号后才能打开，复制给别人就打不开了）。</p>
+<p>可能要用到的所有软件：</p>
+<p>PDF Password Remover 3.0</p>
+<p>Adobe Acrobat</p>
+<p>Chrome浏览器（其他浏览器应该也行）</p>
+<p>Notepad++</p>
+<p>Microsoft Word</p>
+<p>WPS</p>
+<p>数码照片压缩大师</p>
+<p>ePubBuilder</p>
+<p>大致思路是首先解除密码限制，然后导出为HTML格式，去除无关信息、修正乱码等，然后用ePubBuilder导入，完善书籍信息，分章节，自己用阅读器打开检查有无严重错误，然后发布。为什么要转为HTML，因为这种格式完全开源，好处理，出错率低，也和EPUB内部保存格式一致。</p>
+<p>具体步骤如下：</p>
+<p>首先指明一点，以下的步骤最后要达到的排版上的目标是：所有图片都能正常显示，但都默认靠左（有些阅读器可以设定图片强制居中显示）。文字段落和图片分开，文字不会环绕图片，也就是不会左边一半是图，右边一半是文字。虽然那样效果更好，但难度太大，不易实现。</p>
+<p>1、如果加密了，使用PDF Password Remover移除PDF文件加密限制。加密问题后面还会具体讨论。</p>
+<p><img data-src="/blog-imgs/tech/images/ebbe0cac82a09fd72a0e2323357a29de.png" alt=""></p>
+<p>2、用Acrobat打开，菜单中<br>
+文件，另存为（或导出），选择生成HTML3.2格式（无CSS）。生成的时候可能比较慢，一定要耐心等，不要乱点鼠标，容易死机。根据经验，这里不选择HTML4.0（CSS1.0），尽管后者有CSS的支持，排版按理说会更好，但事实上导入ePubBuilder中出错率大增，效果也并不好。</p>
+<p>3、在浏览器中查看，有没有明显的错误，比如根本打不开，全是乱码，没有中文，没有图片等。全是乱码可能是HTML编码的问题，没有中文可能是PDF字体、编码的问题，没有图片或许是HTML链接的问题，解决起来很麻烦，也不一定对。如果真遇到这样的严重问题，我也无能为力了。不过幸运地是，只要PDF比较正常，不会出现这种问题。</p>
+<p>这里简要说明一下，HTML一般由源文件和数据文件夹组成，如“摄影.html”和对应文件夹“摄影_files”，文件夹也有可能是其他名称，如images，源码和数据文件夹通常要放在同一父文件夹下，文件夹中主要为图片等多媒体文件，可能还有CSS样式表、Javascript脚本一类的东西，在PDF导出的HTML3.2中，基本上只会是图片。而html源文件其实是文本文件，用记事本就可以打开，后面我们会用Notepad++直接操作HTML源文件。</p>
+<p>4、从这一步开始，我们需要修正HTML的各种问题，会涉及一些可能不好懂得知识。对于了解HTML和正则表达式的人，应该能很快明白。不懂的话照着做就可以了。如果你在上一步打开HTML时感觉排版已经很好了，而且没有多余的东西，可以直接跳过HTML修正的这些步骤，直接导入到ePubBuilder看效果如果。</p>
+<p>5、用Notepad++打开HTML文件，我们可以看到其源码如图。</p>
+<p><img data-src="/blog-imgs/tech/images/c08bc148b87b33296219e8292a912c7d.png" alt=""></p>
+<p>6、替换删去html源码中align代码以去除图片文字指定的对齐，使其默认左对齐。具体方法是，按Ctrl+H，或菜单中  搜索 -<br>
+替换，“查找模式”为“普通”，“查找目标”为align=“center”，，“替换为”这个框不填，勾选“循环查找”，然后点击“全部替换”。如果一次处理多个文件，则全部打开，点击“替换所有打开文件”即可。同样，“查找目标”分别改为align=“left”，align=“right”，align=“justify”，全部替换。再次打开HTML时，你会发现原先位置有些混乱的图片看上去好多了。如果有些图片确实是居中更合适，可以不全部替换，或者在后文还会利用Word来修改。</p>
+<p>这个版式就有点乱，原因就在于有些图片靠右对齐，有些靠左，还有的文字设定了两端对齐。</p>
+<p><img data-src="/blog-imgs/tech/images/6b901a76413cecbe48ad1d4d5d4f320a.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/5b5eb19b6ad4abf33af93bb8f0fe9a40.png" alt=""></p>
+<p>7、替换删去页眉等干扰图文（使用正则表达式）</p>
+<p>一般的图书都会有页眉和页脚，例如图中红色框出的部分，还有像页码一类的标注。这些信息在生成EPUB后完全没有意义，因为EPUB在不同情况下页码分布并不一样。了解Word的人知道，在图书编辑时，页眉是可以批量编辑修改的，但是生成PDF之后页眉页脚变成了分别独立的对象，没办法同时删除。</p>
+<p><img data-src="/blog-imgs/tech/images/684b959240d1317e21c386628b5719af.jpg" alt=""></p>
+<p>如果页眉是文字，将在下一步处理，源码中有可能文本采用的是转义字符，看不懂的情况下也不便修改。如果页眉含有图片，如图中的数字02，需要通过HTML源码进行替换。方法如下。用Chrome和Notepad++同时打开HTML文件，在Chrome中右击页眉图片，审查元素，底下会有个显示源码的窗口，看清width和height后面对应的表示图片宽高的数字，切换到Notepad++，还是使用替换功能，首先把“查找模式”改为“正则表达式”，取消勾选“匹配大小写”，勾选“.<br>
+matches newline”，其他选项不变，查找目标为</p>
+<p>&lt;[^&lt;&gt;]*IMG[^&lt;&gt;]*width=“39”[^&lt;&gt;]*height=“71”[^&lt;&gt;]*&gt;</p>
+<p>注意中间没有任何空格，width和height后面的数字是刚刚在Chrome中看到的数字，然后全部替换，保存文件，但不要关闭Notepad++。这时，宽度和高度符合要求的图片就没有了。然后在Chrome中刷新，看修改后有没有问题，如果有问题，在Notepad++中撤销更改，然后得针对实际情况具体分析（此处略去）。一般在Chrome中还能看到一些页眉没有被替换掉，原因是他们的宽高可能与之前的有所差距，这时只需重复前面动作就行了。</p>
+<p><img data-src="/blog-imgs/tech/images/9d9bb8afd9636c5d0a5abc8c1c430fca.jpg" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/5e38b0ba43a2d7bc68f3c60d04265622.png" alt=""></p>
+<p>采用转义字符（形如&amp; # 20154 ；）表示的汉字，很难看明白：</p>
+<p><img data-src="/blog-imgs/tech/images/73fa808bcf518dad52462c1b1e535771.png" alt=""></p>
+<p>8、用word进一步编辑</p>
+<p>这一步完成后HTML就会接近完美了，所以也很关键。用Word打开HTML（不推荐其他软件，因为包含整本书的HTML文件一般很大，很多软件打开很容易死机，如WPS、DreamWeaver，而Word2010在这方面优化的不错，2003版的不清楚），打开后可以全选修改字体等，然后替换，去除少量无法显示的字符乱码，即显示为问号（同样注意尽量不要把原文问号替换没了），替换掉重复出现的网站信息、广告等，还有就是文字形式的页眉页脚（再次强调，注意尽量不要把原文中和页眉相同内容替换没了，Word中可以根据指定字体来替换，这样比较方便），对于不是很规则的页码如：第x页，这样的信息去除，则交给ePubBuilder来完成。然后用Word把图文中排版不当的进行适度修改，不需要的目录则去除，没有严重问题即可。注意这里有个问题，如果PDF比较完整，有目录，要把目录中对应页码删除。就像这样：前言………………………………………………………………1，这个第一页在转换为HTML时就已失去意义了，没有必要保留。</p>
+<p>另外此处注意一种常见的问题，就是个别文字是图片形式保存的，将在后文常见问题中详细说明。</p>
+<p>Word强大的替换功能，可以指定替换前后的文字格式。</p>
+<p><img data-src="/blog-imgs/tech/images/eb6d351e74a5ec50879882bfb96c3f20.png" alt=""></p>
+<p>9、如果有必要的话，优化HTML文件，以便正确导入ePubBuilder。</p>
+<p>这一步事实上可以说应该还是ePubBuilder不够完善造成的吧，用Word编辑保存后的HTML文件头部会加入很多特殊信息，如图中&lt;meta…&gt;，还有绿色的<!--..........-->部分（在标准的HTML中这种形式的文本为注释，删除后没有影响）等，另外还有图片的链接问题。这些问题有时会影响ePubBuilder导入，出现一些错误。如果出现了错误，请尝试使用浏览器打开另存，用Notepad++删除绿色的<!--..........-->部分。</p>
+<p>如果还是不行，使用用WPS新建文档（Word不行，WPS生成时会重新链接图片，Word则不会），用浏览器打开HTML，全选并复制网页内容，粘贴到WPS，保存为HTML。此时HTML文件会完全重新生成，但图片可能会被WPS转为png，占用空间一般会增大，不推荐。</p>
+<p><img data-src="/blog-imgs/tech/images/b6e9eb8289c841ab0a3026000ccbbc67.png" alt=""></p>
+<p>10、如果用了WPS重新保存，请查看HTML文件的图片文件夹大小，如果过大，有必要压缩一下</p>
+<p>压缩方法如下：</p>
+<p>用数码照片压缩大师添加文件夹，输出jpg保存到另一文件夹，然后用Notepad++打开HTML源码，可以找到类似</p>
+<p>&lt;IMG 。。。 width=“711” height=“911” src=“images/img_0.png”<br>
+。。。&gt;</p>
+<p>这样的图片标签，然后用普通模式替换“.png”为“.jpg”。然后把图片文件夹的png图片删除，将压缩后的jpg移进去。最后用浏览器打开后确认一下。</p>
+<p>11、用ePubBuilder导入，编辑书籍信息，分章节，智能排版等</p>
+<p>看有没有错误，有错的话修改一下。前面可能还遗留了一个问题，页脚形如“第x页”的去除，可以使用删除特征行的功能实现。</p>
+<p>这里我还是提出ePubBuilder的一个缺陷。你可能会发现，原先的HTML排版很好，还有字体信息等，但导入后都没有了，有些图片也会有些小问题，比如我的HTML如图，但导入后，字体格式没有了，文字、图片居中没有了而且原先在“摄影大师之道”左边的那个红框位置就完全乱了，这个我目前还没有好的对策，期待着ePubBuilder功能继续完善吧。</p>
+<p><img data-src="/blog-imgs/tech/images/ba240cd310019f5272b4daaf6c8bea2e.jpg" alt=""></p>
+<p>12、导出EPUB，用掌上书苑或者其他查看器再查看一下是否正常。然后发布，等着审核通过拿书币吧^_^。是不是觉得这书币拿的格外开心呢？</p>
+<p>容易出现的问题，我分析了以下，大致有这些吧：</p>
+<p>一是PDF的加密版权保护。很多PDF由于涉及版权问题，采用了一定的加密手段，最严格的一种是打开文件时要求输入密码，如图所示。对于这种情况，我们只能使用Advanced<br>
+PDF Password Recovery一类软件暴力破解，这里就不详细介绍了，成功率不高，需要大量时间。</p>
+<p><img data-src="/blog-imgs/tech/images/381d09ccf19026b5987335ef7c25764e.jpg" alt=""></p>
+<p>更常见的加密方式是，文件可以打开，但不能复制其中的文本，或者复制的是乱码，这样的情况，我们使用PDF Password<br>
+Remover一般就能很快移除加密限制，从而复制其中的文本。</p>
+<p><img data-src="/blog-imgs/tech/images/68079d702e90faca212ae6d6cc3b7402.png" alt=""></p>
+<p>二是PDF内嵌的字体。很多PDF内嵌一些字体，会导致复制出来出现乱码现象。如果整个文档导出的文件错字连篇，我也不知有什么好办法，但是如果只有少量错字，还是可以手工修改的，或者某几个字出错，可以采用替换的方式解决，当然自动替换全部文字时很可能把正确的字给替换错了。举个例子，假设文中所有“的”字变成了“癿”，我们可以放心的替换回来，因为这个字很少见。但是如果“的”字全部变成了“白”字，盲目替换会把“明白”替换成“明的”，就出问题了。对于这样的情况，确实没有好办法解决。这一点尤其要注意。</p>
+<p>还有一种情况，个别文字的字体系统中没有（通常是因为其他文字使用的字体不支持这几个字，这几个字就会换成其他字体），然后会被转换成图片，如图。这就需要在Word中耐心一点手动改正了。</p>
+<p><img data-src="/blog-imgs/tech/images/3d343a0883d7271e8dfd74cb1fadc9f9.png" alt=""></p>
+<p>三是排版的问题。比如下面这边排版精美的摄影电子书，图文并茂，文字在图片中间，转换成HTML后会怎样呢？最后如你所料，有些混乱。这个也不好解决，如果你想制作优质的书，那就在Word中手动修改吧^_^。（很可惜我实在没有这般的耐心。）</p>
+<p>还有一种情况，很奇特。在PDF中，文字也是一个个对象，通常一段字体相同的文字是一个对象。而每张图片是一个对象。但是，PDF编辑器有个很有意思的地方，比如说，两段文字原先是一个对象，你在其中插入一个空行，可能它就被分成两个对象了，反过来，两个同一性质的对象（都是文字或都是文字），靠得比较近时，又会自动并成一个对象。奇迹就发生了。试想，下图中假设中间的图和下面的图靠得很近，宽度也一致，然后就奇迹般地组合成一个对象了，然后输出的HTML中，他们成为了“连体婴儿”，成了一张图片，然后，你就不知道该怎么安排旁边那些描述性的文字了（除非手工又把图片分割开）。所以只好希望读者将就着看吧。哎，PDF转EPUB的无奈在此也可见一斑了。</p>
+<p><img data-src="/blog-imgs/tech/images/6026abbd56c635be6605d1d00b335351.jpg" alt=""></p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/online-video-download/" rel="bookmark">网页视频通用下载方法(支持网易云音乐MV、优酷等)</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/trustedinstaller/" rel="bookmark">修改TrustedInstaller权限文件（删除无法删除的文件）</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/optical-fiber-communication/" rel="bookmark">光纤通信和家用万兆网络布线知识总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/network-learning/" rel="bookmark">计算机网络相关知识学习</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/desktop-computer-knowledge/" rel="bookmark">台式机组装知识系统梳理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chromium-print-cpp-stack/" rel="bookmark">Chromium打印C++ Stack Trace</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openwrt-godaddy-ddns/" rel="bookmark">OpenWRT Godaddy DDNS设置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/pve-config-nic/" rel="bookmark">PVE换网卡后重新设置网络</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+              <a href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag"># 技巧</a>
+              <a href="/tags/%E7%94%B5%E5%AD%90%E4%B9%A6/" rel="tag"># 电子书</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/win7-file-assoc/" rel="prev" title="Windows7设置文件打开方式（文件关联）">
+      <i class="fa fa-chevron-left"></i> Windows7设置文件打开方式（文件关联）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/adc0832/" rel="next" title="ADC0832程序完整版 源码+Proteus仿真">
+      ADC0832程序完整版 源码+Proteus仿真 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

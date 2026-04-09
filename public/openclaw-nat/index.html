@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="师傅口诀点拨，徒弟反杀强敌 武侠电视剧里经常有这样的桥段：徒弟出门意外遇到了敌人，交手没多久，就被人打得口吐鲜血。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="普通人养龙虾必会的心法口诀：内网穿透">
+<meta property="og:url" content="https://www.xiaoming.io/openclaw-nat/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="师傅口诀点拨，徒弟反杀强敌 武侠电视剧里经常有这样的桥段：徒弟出门意外遇到了敌人，交手没多久，就被人打得口吐鲜血。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/08af291f227f77d7ec69eb413fcf36af.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/dcf7c447cb2014355cd4e0faf08e426f.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/0215ef698d4e79b06c61b6741ed73c4c.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/f6fe044c632272920b0db894fcb5ad5c.jpg">
+<meta property="article:published_time" content="2026-04-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-03T08:05:29.074Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="OpenClaw">
+<meta property="article:tag" content="内网穿透">
+<meta property="article:tag" content="火山方舟">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/08af291f227f77d7ec69eb413fcf36af.jpg">
+
+<link rel="canonical" href="https://www.xiaoming.io/openclaw-nat/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>普通人养龙虾必会的心法口诀：内网穿透 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "普通人养龙虾必会的心法口诀：内网穿透",
+      "description": "师傅口诀点拨，徒弟反杀强敌 武侠电视剧里经常有这样的桥段：徒弟出门意外遇到了敌人，交手没多久，就被人打得口吐鲜血。",
+      "datePublished": "2026-04-02T16:00:00.000Z",
+      "dateModified": "2026-04-03T08:05:29.074Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/openclaw-nat/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/openclaw-nat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          普通人养龙虾必会的心法口诀：内网穿透
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-04-03 00:00:00" itemprop="dateCreated datePublished" datetime="2026-04-03T00:00:00+08:00">2026-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/openclaw-nat/" class="post-meta-item leancloud_visitors" data-flag-title="普通人养龙虾必会的心法口诀：内网穿透" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/openclaw-nat/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/openclaw-nat/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="师傅口诀点拨，徒弟反杀强敌">师傅口诀点拨，徒弟反杀强敌</h2>
+<p>武侠电视剧里经常有这样的桥段：徒弟出门意外遇到了敌人，交手没多久，就被人打得口吐鲜血。</p>
+<p>这时师傅及时赶到，大喊一声：“竟敢伤我徒儿！”</p>
+<p>徒弟虚弱喊道：“师傅，快救我！”</p>
+<p>师傅却没有上前动手，而是隔空喊话：“徒儿莫慌，还记得为师平日教你的那套内功心法吗？”</p>
+<p>镜头切到全身是伤的徒弟，趁着打斗间隙艰难回头，对师傅点了点头。</p>
+<p>“好，听我口诀！” 随后师傅盘腿坐下，在一旁念起口诀，气势十足。</p>
+<p><strong>徒弟的功力突然开始大增</strong>，没过多久，就把敌人打倒在地。</p>
+<p>这种桥段看起来是编出来的，但<strong>其实它是真的</strong>。</p>
+<p>在AI时代，很多不懂技术的人，突然也会写代码了，但是时不时会遇到一些解决不了的困难。而这个时候，如果有一个懂技术的师傅说几句口诀，也可以马上功力大增。</p>
+<p>这篇文章我要说的口诀就是内网穿透。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/08af291f227f77d7ec69eb413fcf36af.jpg" alt=""></p>
+<h2 id="ArkClaw-帮我做好了游戏，却玩不了">ArkClaw 帮我做好了游戏，却玩不了</h2>
+<p>前阵子我尝试了火山方舟的ArkClaw，也就是火山方舟版本的OpenClaw。</p>
+<p>我想到的第一个任务就是让它帮我做一个好玩的小游戏。</p>
+<p>几分钟后，他就把游戏做出来，并且运行起来了，给了我一个网址，但是这个网址我打不开。当时他给我的回复类似下面这样。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/dcf7c447cb2014355cd4e0faf08e426f.jpg" alt=""></p>
+<p>我想知道小龙虾对非技术背景的外行人是否友好。所以 <strong>我假设自己是一个完全不懂技术的外行人</strong>，问他为什么打不开，他就开始给我一顿分析，给我说了各种技术术语，让我排查。我还是模仿技术小白的身份跟他交流了很久，然后<strong>他说的技术术语越来越多，但问题始终没有解决</strong>。</p>
+<p>本来我只有一个疑问，就是为什么我打不开这个游戏。经过他这一顿分析并没有解决，<strong>现在好了，我有10个问题了</strong>。</p>
+<h2 id="当我跟他说了一句口诀，他马上就搞定了">当我跟他说了一句口诀，他马上就搞定了</h2>
+<p>为了测试它，我决定<strong>恢复自己本来的程序员身份</strong>。我跟他说，我访问不了这个游戏，你能不能帮我做一个<strong>内网穿透</strong>？</p>
+<p>他尝试了多种内网穿透的工具，终于有一个工具（Servo）可以工作，给了我一个URL链接。我点开就可以玩游戏了。</p>
+<p>当时的聊天截图我没存。后来为了再次确认，我重置了小龙虾，又复现了一遍类似的聊天，下面是截图（为了节约时间，我直接指定他用Servo去做内网穿透）。</p>
+<p>这次测试又成功了，它在1分多钟之后就告诉我内网穿透实现了，给了我一个URL链接。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/0215ef698d4e79b06c61b6741ed73c4c.jpg" alt=""></p>
+<p>点开这个URL，确实可以玩他做的2048小游戏了。</p>
+<p><img data-src="/blog-imgs/2026/ai/images/f6fe044c632272920b0db894fcb5ad5c.jpg" alt=""></p>
+<h2 id="如果你想持续做内网穿透">如果你想持续做内网穿透</h2>
+<p>如果你是一个没有技术背景的用户，也遇到了这样的问题，那么你下次就可以试试我这个秘密口诀：内网穿透。</p>
+<p>但是你按前面的方式做内网穿透，会发现几个小时后它就用不了了。为了让有需求的人能<strong>持续使用内网穿透</strong>，我还是得简单科普几个要点。</p>
+<p><strong>内网</strong></p>
+<p>首先，我之所以访问不了他那个地址，是因为我的手机和他运行游戏的电脑不在一个内网里。</p>
+<p>用通俗但不严谨的说法，是因为我的手机和ArcClaw所在的电脑（准确说是服务器，和电脑差不多意思），连的不是同一个路由器。我手机连的是我家里的路由器，而ArcClaw连接在了火山方舟团队的机房里。</p>
+<p><strong>内网穿透</strong></p>
+<p>为了能访问他这个电脑上的小游戏网站，就需要做一个内网穿透。原理就是找个中间商，把他电脑上的网址绑定到一个公共的网址上。于是我访问这个网址，就可以打开他电脑上的东西了：</p>
+<p>我的手机 -&gt; 我家路由器 -&gt; 互联网 -&gt; 内网穿透中间商 -&gt; 火山方舟机房路由器 -&gt; ArcClaw所在电脑（服务器）</p>
+<p>这里你会发现，我们需要一个中间商。而这个中间商，要花钱买服务器，还有网费、电费，所以肯定不会一直免费给大家用，通常免费试用不稳定且有各种限制。</p>
+<p>这也是为什么，第一次小龙虾尝试了好几个内网穿透工具，最后只有Servo成功了。</p>
+<p>如果你用Servo免费版做内网穿透，每次它都会生成一个随机的临时网址，且这个网址几小时后就失效了。</p>
+<p><strong>稳定的内网穿透</strong></p>
+<p>如果想要稳定、长期可用的内网穿透，我的建议是用Cloudflare，它的免费额度很多，个人使用完全足够，但是需要有一个自己的域名。</p>
+<p><strong>域名</strong></p>
+<p>怎么有一个自己的域名呢？我最推荐全球最大的域名网站GoDaddy，是一个国外网站。当然你也可以在国内的网站比如腾讯云、阿里云买域名。</p>
+<p>如果一个域名被别人买下来，你就买不了了，除非你找到买了那个域名的人卖给你。比如OpenClaw这个产品，之前改名就有原因是域名被人抢先注册了。</p>
+<p>还有一些公司名字已经想好了，但是发现域名被人注册了，甚至会不惜重金把域名从别人手里买过来，比如马斯克就花了500万美金买下了 <a target="_blank" rel="noopener" href="http://x.com">x.com</a>。</p>
+<p>也有人靠批量注册可能有用的域名，期待哪一天有公司买他的域名的大赚一笔。但是好域名维护成本很高，也不知道哪天会有人要买。</p>
+<p>因为域名一般是一年交一次钱，大部分普通域名一年就几十到几百人民币，而长度短、含义明确的好域名每年费用没有上限。</p>
+<p>比如我现在的博客用的是 <a href="http://www.xiaoming.io">www.xiaoming.io</a> 这个域名，一年要700多块钱。有点贵，但是说实话，这么通俗易懂又不长的域名竟然能被我买到，还挺幸运的。</p>
+<p><strong>具体操作</strong></p>
+<p>至于具体怎么买域名，以及怎么把域名配置到Cloudflare，怎么让OpenClaw使用Cloudflare做内网穿透，现在这种AI时代，随便找个AI一问就能解决了。</p>
+<p>甚至你可以手机跟豆包视频通话，摄像头对着电脑屏幕，让它一步步指导你。我试过，还挺好用的。所以这些细节就不讲了。</p>
+<h2 id="重要提醒">重要提醒</h2>
+<p><strong>最后还有两个重要提醒</strong>。</p>
+<p>如果你做了内网穿透，就相当于搭建了个网站。</p>
+<p>第一点，你能访问这个网址，别人也就能访问。如果里面有个人隐私等内容，一定要让小龙虾帮你给这个网站设置<strong>登录密码</strong>。</p>
+<p>第二点，如果网站只是你个人或者几个熟人私下使用，一般是没问题的。但如果你想把它做成公开网站让很多人用，并且你的OpenClaw在大陆地区，按有关规定需要做<strong>ICP备案</strong>。如果没备案而之后被发现了，可能会有严重的后果，切记。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-why-and-future/" rel="bookmark">为什么是 OpenClaw？AI对软件行业的影响和未来趋势</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-practice/" rel="bookmark">使用OpenClaw一周后，我给自己建了个团队</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-control-ui-remote-access/" rel="bookmark">远程访问 OpenClaw Control UI 的避坑指南与两种方案</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OpenClaw/" rel="tag"># OpenClaw</a>
+              <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag"># 内网穿透</a>
+              <a href="/tags/%E7%81%AB%E5%B1%B1%E6%96%B9%E8%88%9F/" rel="tag"># 火山方舟</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/llm-model-manager/" rel="prev" title="买了很多大模型配置不过来？我花100块用AI做了个开源工具">
+      <i class="fa fa-chevron-left"></i> 买了很多大模型配置不过来？我花100块用AI做了个开源工具
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/llm-wiki-practice/" rel="next" title="油管大神Karpathy的LLM Wiki 值得做吗？我的实测结论">
+      油管大神Karpathy的LLM Wiki 值得做吗？我的实测结论 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%88%E5%82%85%E5%8F%A3%E8%AF%80%E7%82%B9%E6%8B%A8%EF%BC%8C%E5%BE%92%E5%BC%9F%E5%8F%8D%E6%9D%80%E5%BC%BA%E6%95%8C"><span class="nav-number">1.</span> <span class="nav-text">师傅口诀点拨，徒弟反杀强敌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArkClaw-%E5%B8%AE%E6%88%91%E5%81%9A%E5%A5%BD%E4%BA%86%E6%B8%B8%E6%88%8F%EF%BC%8C%E5%8D%B4%E7%8E%A9%E4%B8%8D%E4%BA%86"><span class="nav-number">2.</span> <span class="nav-text">ArkClaw 帮我做好了游戏，却玩不了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E6%88%91%E8%B7%9F%E4%BB%96%E8%AF%B4%E4%BA%86%E4%B8%80%E5%8F%A5%E5%8F%A3%E8%AF%80%EF%BC%8C%E4%BB%96%E9%A9%AC%E4%B8%8A%E5%B0%B1%E6%90%9E%E5%AE%9A%E4%BA%86"><span class="nav-number">3.</span> <span class="nav-text">当我跟他说了一句口诀，他马上就搞定了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E4%BD%A0%E6%83%B3%E6%8C%81%E7%BB%AD%E5%81%9A%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="nav-number">4.</span> <span class="nav-text">如果你想持续做内网穿透</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E8%A6%81%E6%8F%90%E9%86%92"><span class="nav-number">5.</span> <span class="nav-text">重要提醒</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

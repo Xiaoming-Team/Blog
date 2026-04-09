@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文所涉及内容用于技术学习，请勿用于不正当用途，否则后果自负。  酷我音乐ios版下载的音乐文件，通过同步助手等软件查看时，发现音乐文件都是一串数字命名。通过网上查找和自己尝试，发现那些文件都是音频文件改了文件名而已。只要修改回文件名，就能和正常的音乐一样播放了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何从ipad(iphone)的酷我音乐盒中导出已下载的音乐文件（附源码）">
+<meta property="og:url" content="https://www.xiaoming.io/ios-kwmusic-2/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本文所涉及内容用于技术学习，请勿用于不正当用途，否则后果自负。  酷我音乐ios版下载的音乐文件，通过同步助手等软件查看时，发现音乐文件都是一串数字命名。通过网上查找和自己尝试，发现那些文件都是音频文件改了文件名而已。只要修改回文件名，就能和正常的音乐一样播放了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/717515e40580ca7b3f6ddc49b471ee7f.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e0ec4a73c6d3f96b0aa056b7014fbfd6.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/fee2b4d68ec645f737732f4d80a50df5.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/94b9189b56e78fb08579073ac13fdcfc.png">
+<meta property="article:published_time" content="2014-10-17T16:13:08.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.660Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="计算机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/717515e40580ca7b3f6ddc49b471ee7f.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/ios-kwmusic-2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何从ipad(iphone)的酷我音乐盒中导出已下载的音乐文件（附源码） | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "如何从ipad(iphone)的酷我音乐盒中导出已下载的音乐文件（附源码）",
+      "description": "本文所涉及内容用于技术学习，请勿用于不正当用途，否则后果自负。 酷我音乐ios版下载的音乐文件，通过同步助手等软件查看时，发现音乐文件都是一串数字命名。通过网上查找和自己尝试，发现那些文件都是音频文件改了文件名而已。只要修改回文件名，就能和正常的音乐一样播放了。",
+      "datePublished": "2014-10-17T16:13:08.000Z",
+      "dateModified": "2025-06-17T13:33:21.660Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/ios-kwmusic-2/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/ios-kwmusic-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何从ipad(iphone)的酷我音乐盒中导出已下载的音乐文件（附源码）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-18 00:13:08" itemprop="dateCreated datePublished" datetime="2014-10-18T00:13:08+08:00">2014-10-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/ios-kwmusic-2/" class="post-meta-item leancloud_visitors" data-flag-title="如何从ipad(iphone)的酷我音乐盒中导出已下载的音乐文件（附源码）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/ios-kwmusic-2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/ios-kwmusic-2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>本文所涉及内容用于技术学习，请勿用于不正当用途，否则后果自负。</p>
+</blockquote>
+<p>酷我音乐ios版下载的音乐文件，通过同步助手等软件查看时，发现音乐文件都是一串数字命名。通过网上查找和自己尝试，发现那些文件都是音频文件改了文件名而已。只要修改回文件名，就能和正常的音乐一样播放了。</p>
+<blockquote>
+<p>参考网址：<br>
+<a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_4d5428240101enzu.html">http://blog.sina.com.cn/s/blog_4d5428240101enzu.html</a></p>
+</blockquote>
+<p>在网上找到了一个软件，也就是上面参考网址中的软件，但是使用的时候出现了问题，提示subscript out of range，程序不能继续执行。于是就决定自己用Java写一个来处理。</p>
+<p>首先从手机复制出cloud.db数据库文件，为SQLite数据库文件。用SQLite Database Browser打开，看到里面和音乐关系比较密切的主要有三个table，playlistsInfo中保存着播放列表信息，字段title为列表名称，字段id为列表id。playlistMusics保存了音乐和播放列表的对应关系，字段title、artist等为音乐信息，rid为音乐资源id，字段playlist_id对应了所属播放列表id。musicResource中是音乐信息和文件对应关系，字段file为对应的文件名，format为文件格式，rid为音乐资源id。</p>
+<p><img data-src="/blog-imgs/tech/images/717515e40580ca7b3f6ddc49b471ee7f.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/e0ec4a73c6d3f96b0aa056b7014fbfd6.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/fee2b4d68ec645f737732f4d80a50df5.png" alt=""></p>
+<p><img data-src="/blog-imgs/tech/images/94b9189b56e78fb08579073ac13fdcfc.png" alt=""></p>
+<p>于是程序的工作流程是这样的：</p>
+<ol>
+<li>首先从musicResource逐一读取每首音乐的rid；</li>
+<li>通过rid在playlistMusics中查找playlist_id，可能找不到，也可能不止一个，因为同一首音乐可能在多个列表中，这里简单的取最大的playlist_id，通常应该是相对比较新的播放列表；</li>
+<li>然后在playlistsInfo中找到playlist_id对应的播放列表名，作为目标音乐的子文件夹；</li>
+<li>最后把源文件重命名为“歌手名 - 歌曲名.扩展名”，并移动到目标文件夹即可。</li>
+</ol>
+<p>为方便交流学习，这里提供本程序源码，以及完整工程下载。</p>
+<ol>
+<li><code>import java.io.File;</code></li>
+<li><code>import java.sql.Connection;</code></li>
+<li><code>import java.sql.DriverManager;</code></li>
+<li><code>import java.sql.ResultSet;</code></li>
+<li><code>import java.sql.Statement;</code></li>
+<li><code>import java.util.ArrayList;</code></li>
+<li><code>import java.util.List;</code></li>
+<li><code>public class Test &#123;</code></li>
+<li><code>/**</code></li>
+<li><code>* 存储播放列表的数据结构</code></li>
+<li><code>*</code></li>
+<li><code>* @author jzj</code></li>
+<li><code>*/</code></li>
+<li><code>static class PlayList &#123;</code></li>
+<li><code>int id;</code></li>
+<li><code>String name;</code></li>
+<li><code>public PlayList(String name, int id) &#123;</code></li>
+<li><code>this.name = name;</code></li>
+<li><code>this.id = id;</code></li>
+<li><code>&#125;</code></li>
+<li><code>&#125;</code></li>
+<li><code>// 数据库完整路径</code></li>
+<li><code>static final String db_path = &quot;G:\\IOS\\cloud.db&quot;;</code></li>
+<li><code>// 源文件夹</code></li>
+<li><code>static final String src_dir = &quot;G:\\IOS\\Music\\&quot;;</code></li>
+<li><code>// 目标文件夹</code></li>
+<li><code>static final String dst_dir = &quot;G:\\IOS\\Music1\\&quot;;</code></li>
+<li><code>public static void main(String[] args) throws Exception &#123;</code></li>
+<li><code>Class.forName(&quot;org.sqlite.JDBC&quot;);</code></li>
+<li><code>Connection conn = DriverManager.getConnection(&quot;jdbc:sqlite:&quot; + db_path);</code></li>
+<li><code>Statement stat1 = conn.createStatement();</code></li>
+<li><code>Statement stat2 = conn.createStatement();</code></li>
+<li><code>// 读取播放列表</code></li>
+<li><code>List&lt;PlayList&gt; lists = new ArrayList&lt;Test.PlayList&gt;();</code></li>
+<li><code>ResultSet rs_list = stat1.executeQuery(&quot;select * from playlistsInfo;&quot;);</code></li>
+<li><code>while (rs_list.next()) &#123;</code></li>
+<li><code>final int id = rs_list.getInt(&quot;id&quot;);</code></li>
+<li><code>final String name = rs_list.getString(&quot;title&quot;);</code></li>
+<li><code>switch (name) &#123;</code></li>
+<li><code>// 忽略这几个列表</code></li>
+<li><code>case &quot;本地歌曲&quot;:</code></li>
+<li><code>case &quot;默认列表&quot;:</code></li>
+<li><code>case &quot;最近播放&quot;:</code></li>
+<li><code>case &quot;我的电台&quot;:</code></li>
+<li><code>break;</code></li>
+<li><code>case &quot;我喜欢听&quot;:</code></li>
+<li><code>default:</code></li>
+<li><code>lists.add(new PlayList(name, id));</code></li>
+<li><code>&#125;</code></li>
+<li><code>&#125;</code></li>
+<li><code>// 读取音乐信息</code></li>
+<li><code>ResultSet rs_res = stat1.executeQuery(&quot;select * from musicResource;&quot;);</code></li>
+<li><code>while (rs_res.next()) &#123;</code></li>
+<li><code>// 源文件路径</code></li>
+<li><code>String fname = rs_res.getString(&quot;file&quot;);</code></li>
+<li><code>if (fname == null  fname.length() == 0) // 如果file字段为空则跳过</code></li>
+<li><code>continue;</code></li>
+<li><code>String src_path = src_dir + fname;</code></li>
+<li><code>File src = new File(src_path);</code></li>
+<li><code>if (!src.exists()) // 如果源文件不存在则跳过</code></li>
+<li><code>continue;</code></li>
+<li><code>// 获取音乐rid</code></li>
+<li><code>int rid = rs_res.getInt(&quot;rid&quot;);</code></li>
+<li><code>// 查找该音乐所在播放列表id, 如果没有找到则为-1</code></li>
+<li><code>ResultSet rs_pl = stat2.executeQuery(new StringBuilder(</code></li>
+<li><code>&quot;select playlist_id from playlistMusics where rid=&quot;)</code></li>
+<li><code>.append(rid).append(';').toString());</code></li>
+<li><code>int playlist_id = -1;</code></li>
+<li><code>while (rs_pl.next()) &#123; // 默认将一首歌放在编号最大的播放列表中(也就是最新创建的列表)</code></li>
+<li><code>int p_id = rs_pl.getInt(&quot;playlist_id&quot;);</code></li>
+<li><code>if (p_id &gt; playlist_id)</code></li>
+<li><code>playlist_id = p_id;</code></li>
+<li><code>&#125;</code></li>
+<li><code>rs_pl.close();</code></li>
+<li><code>// 目标文件夹路径</code></li>
+<li><code>StringBuilder b2 = new StringBuilder(dst_dir);</code></li>
+<li><code>if (playlist_id &gt;= 0) &#123;</code></li>
+<li><code>String playlist_name = getPlaylist(lists, playlist_id);</code></li>
+<li><code>if (playlist_name != null) &#123;</code></li>
+<li><code>b2.append(playlist_name).append('\\');</code></li>
+<li><code>&#125;</code></li>
+<li><code>&#125;</code></li>
+<li><code>String dir = b2.toString();</code></li>
+<li><code>new File(dir).mkdirs();</code></li>
+<li><code>// 目标文件名: &quot;艺术家 - 歌曲名.扩展名&quot;</code></li>
+<li><code>StringBuilder b3 = new StringBuilder();</code></li>
+<li><code>b3.append(rs_res.getString(&quot;artist&quot;)).append(&quot; - &quot;)</code></li>
+<li><code>.append(rs_res.getString(&quot;title&quot;)).append('.')</code></li>
+<li><code>.append(rs_res.getString(&quot;format&quot;));</code></li>
+<li><code>String dst_path = dir + b3.toString();</code></li>
+<li><code>// 移动和重命名</code></li>
+<li><code>File dst = new File(dst_path);</code></li>
+<li><code>src.renameTo(dst);</code></li>
+<li><code>// 输出信息</code></li>
+<li><code>System.out.println(new StringBuilder(src_path).append(&quot; ---&gt; &quot;)</code></li>
+<li><code>.append(dst_path));</code></li>
+<li><code>&#125;</code></li>
+<li><code>rs_res.close();</code></li>
+<li><code>conn.close();</code></li>
+<li><code>&#125;</code></li>
+<li><code>static String getPlaylist(List&lt;PlayList&gt; lists, int playlist_id) &#123;</code></li>
+<li><code>for (PlayList pl : lists) &#123;</code></li>
+<li><code>if (pl.id == playlist_id)</code></li>
+<li><code>return pl.name;</code></li>
+<li><code>&#125;</code></li>
+<li><code>return null;</code></li>
+<li><code>&#125;</code></li>
+<li><code>&#125;</code></li>
+</ol>
+<blockquote>
+<p>由于涉及数据库操作，需要在Java工程中添加数据库支持包，可参看这篇文章 <a target="_blank" rel="noopener" href="http://ttitfly.iteye.com/blog/143934">http://ttitfly.iteye.com/blog/143934</a><br>
+使用nested包：sqlitejdbc-v037-nested.jar</p>
+</blockquote>
+<p>将音频文件全部复制出来，放到程序中src_dir所指定的目录，数据库文件cloud.db保存在db_path指定的位置，设置好目标文件夹dst_dir，执行程序即可整流导出的音频文件，实测700多首音乐，只需不到一分钟时间即可完成重命名和移动工作。</p>
+<blockquote>
+<p>完整工程可在此下载：<br>
+<a target="_blank" rel="noopener" href="https://github.com/jzj1993/KwMusic-iOS">https://github.com/jzj1993/KwMusic-iOS</a></p>
+</blockquote>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/optical-fiber-communication/" rel="bookmark">光纤通信和家用万兆网络布线知识总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/network-learning/" rel="bookmark">计算机网络相关知识学习</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/desktop-computer-knowledge/" rel="bookmark">台式机组装知识系统梳理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/chromium-print-cpp-stack/" rel="bookmark">Chromium打印C++ Stack Trace</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openwrt-godaddy-ddns/" rel="bookmark">OpenWRT Godaddy DDNS设置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/pve-config-nic/" rel="bookmark">PVE换网卡后重新设置网络</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dont-make-me-think/" rel="bookmark">Don't make me think思想在代码设计中的应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/online-video-download/" rel="bookmark">网页视频通用下载方法(支持网易云音乐MV、优酷等)</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/website-primer-2/" rel="prev" title="网站搭建从零开始（二）服务器空间的选择">
+      <i class="fa fa-chevron-left"></i> 网站搭建从零开始（二）服务器空间的选择
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/website-primer-3/" rel="next" title="网站搭建从零开始（三） 服务器空间的配置">
+      网站搭建从零开始（三） 服务器空间的配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

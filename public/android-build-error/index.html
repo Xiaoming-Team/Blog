@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文总结了在Android实际项目开发（本地编译）和集成（CI环境下编译）过程中，常见编译问题和解决思路。 查看报错信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android常见编译问题与解决思路">
+<meta property="og:url" content="https://www.xiaoming.io/android-build-error/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="本文总结了在Android实际项目开发（本地编译）和集成（CI环境下编译）过程中，常见编译问题和解决思路。 查看报错信息">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-12T10:14:19.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.572Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="安卓">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/android-build-error/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Android常见编译问题与解决思路 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Android常见编译问题与解决思路",
+      "description": "本文总结了在Android实际项目开发（本地编译）和集成（CI环境下编译）过程中，常见编译问题和解决思路。 查看报错信息",
+      "datePublished": "2020-01-12T10:14:19.000Z",
+      "dateModified": "2025-06-17T13:33:21.572Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/android-build-error/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/android-build-error/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android常见编译问题与解决思路
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-12 18:14:19" itemprop="dateCreated datePublished" datetime="2020-01-12T18:14:19+08:00">2020-01-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/android-build-error/" class="post-meta-item leancloud_visitors" data-flag-title="Android常见编译问题与解决思路" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/android-build-error/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/android-build-error/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文总结了在Android实际项目开发（本地编译）和集成（CI环境下编译）过程中，常见编译问题和解决思路。</p>
+<h2 id="查看报错信息">查看报错信息</h2>
+<p>大部分编译问题，通过查看报错信息即可确定原因。例如语法不正确、找不到类、import包名有误、资源文件格式不正确等。不能理解的错误信息，可以在网上搜索、咨询其他人。</p>
+<p>如果Android Studio中并没有给出足够充足的错误信息，可以使用Gradle命令行编译查看更为详细的信息，详见后文说明。</p>
+<h2 id="常规检查">常规检查</h2>
+<p>这里列举一些编译失败时的常规检查项，可以解决大部分问题。</p>
+<ol>
+<li>代码版本：检查代码是否切到正确分支、是否为最新版本。本地推荐使用SourceTree查看Git记录；Jenkins环境下可以通过Log查看代码的commit id。</li>
+<li>对于多工程项目，需要检查依赖的库是AAR还是源码。</li>
+<li>Build Variant：检查Android Studio中的Build Variants窗口，是否选择了正确的Build Variant（BuildType和ProductFlavor）。</li>
+<li>检查Gradle版本：一般使用工程中Gradle Wrapper指定的Gradle版本编译。Android Studio环境下，在<code>Preferences - Build,Execution,Deployment - Gradle</code>设置页选择<code>Use default gradle wrapper(recommended)</code>；命令行环境下使用<code>./gradlew</code>执行Gradle命令。</li>
+<li>检查网络情况：Gradle提示下载依赖项失败时，可能是网络问题。例如网络异常、无法连接国外网站、开启了全局代理不能访问内网，从而没法访问内网中的私有Maven仓库等。</li>
+</ol>
+<h2 id="清缓存">清缓存</h2>
+<p>常规检查一切正常，还没有解决问题时，可以根据实际情况，选用不同程度的清缓存手段然后重试。</p>
+<ol>
+<li>
+<p>清除AS的Cache：执行AS菜单中的<code>File - Invalidate Caches / Restart</code>，可以清除Android Studio的一些缓存。对于XML预览的问题，使用这个方法常常会有效。</p>
+</li>
+<li>
+<p>清除build文件：执行AS菜单中的<code>Build - Clean Project</code>。此操作可以清除build目录中生成的R文件、解压的AAR、生成的APK/AAR等文件。</p>
+</li>
+<li>
+<p>手动删除所有build文件：clean操作并不能删除所有build目录中的内容。可以手动删除主工程和每个子模块下的build目录，也就是所有编译时产生的文件。</p>
+</li>
+<li>
+<p>删除Gradle远程仓库缓存（JAR/AAR）：Gradle会在处理依赖项时，自动下载远程JAR/AAR到本地的Maven仓库，以后使用这些依赖项时不会再重新下载。少数时候，由于网络、服务端异常等原因，下载的文件可能出现损坏或错误导致编译失败，此时即使反复执行Clean操作也解决不了问题，需要清除本地Maven仓库中缓存的文件。以MacOS为例，操作如下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 切换到Gradle使用的本地Maven仓库</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">cd</span> ~/.gradle/caches/modules-2/files-2.1/</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ls</span></span><br><span class="line">com.facebook.fresco</span><br><span class="line">com.facebook.react</span><br><span class="line">com.flurry</span><br><span class="line">com.google.code.gson</span><br><span class="line">...</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 找到工程依赖的AAR模块名，删除该目录</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>清除Project配置信息：删除主工程下的<code>.idea</code>目录、每个模块下的<code>*.iml</code>文件。<code>.idea</code>目录保存了当前工程的各个模块信息、编译参数、当前工程的各种配置等，<code>*.iml</code>文件为每个模块的信息。</p>
+</li>
+<li>
+<p>清除Android Studio缓存和设置：Android Studio本身也有缓存以及设置文件，有时也是编译失败的原因，可以尝试清除。以MacOS为例，操作如下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 切换到Library目录</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">cd</span> ~/Library</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找到所有Android Studio相关的文件夹</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> find . -name <span class="string">&quot;*Android*Studio*&quot;</span></span></span><br><span class="line">./Application Support/AndroidStudio3.0</span><br><span class="line">./Caches/AndroidStudio3.0</span><br><span class="line">./Caches/AndroidStudio3.0/tmp/AndroidStudio.21cd198f-7c25-4d3f-a047-19ee1a86939b</span><br><span class="line">./Logs/AndroidStudio3.0</span><br><span class="line">./Preferences/AndroidStudio3.0</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除相关文件夹，注意Preferences是AS的配置文件，删除后会清除AS的所有配置</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="重试">重试</h2>
+<ol>
+<li>在同步（Sync）阶段发生的错误，可点击Android Studio工具栏中的<code>Sync Project With Gradle Files</code>按钮重试。</li>
+<li>在编译阶段发生的错误，可重新尝试编译。</li>
+<li>命令行直接调用Gradle编译，可以排除所有Android Studio引入的问题，一般可执行<code>./gradlew clean assembleDebug</code>编译，根据实际Gradle配置可能有所不同。</li>
+<li>重启Android Studio、重启电脑、换电脑尝试、重装系统……</li>
+</ol>
+<h2 id="排查">排查</h2>
+<h3 id="代码">代码</h3>
+<p>同样的代码，如果其他人编译正常，说明代码多半没有问题；如果都编译不了，说明代码可能存在问题。</p>
+<p>Gradle命令行环境下能编译，通常说明代码没有问题。</p>
+<h3 id="获取完整错误信息：使用Gradle命令行编译">获取完整错误信息：使用Gradle命令行编译</h3>
+<p>有时候Android Studio提示编译失败，但没有有效的错误信息，此时借助Gradle命令行能看到更详细的信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 切换到主工程根目录</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">cd</span> ~/AndroidStudio/myproject/</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用Gradle命令行编译，clean可清除之前编译生成的文件，assembleDebug可编译Debug版本的APK/AAR，--full-stacktrace表示出错时打印完整的堆栈信息</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ./gradlew clean assembleDebug --full-stacktrace</span></span><br></pre></td></tr></table></figure>
+<h3 id="JAR-AAR反编译">JAR/AAR反编译</h3>
+<p>由于版本覆盖、AAR编译出错、网络等原因，有时候提示找不到JAR/AAR中的Symbol（即引用，包括类、方法、变量等），但源码git记录中有这个Symbol，这时可以尝试反编译JAR/AAR查看其class文件，确定是否引入了错误的JAR/AAR。</p>
+<ol>
+<li>解压AAR得到JAR：通过unzip命令行解压AAR文件；或在桌面环境下，将AAR扩展名改为zip，然后用相关工具解压。AAR解压后通常会得到JAR文件和Android资源文件。</li>
+<li>查看JAR文件：使用JD-GUI工具打开JAR文件（JD-GUI网上可下载；也可以用相应的命令行工具），即可看到反编译后的源码。</li>
+<li>高版本的Android Studio可以直接打开并反编译AAR和JAR文件。</li>
+</ol>
+<h3 id="快速编译插件">快速编译插件</h3>
+<p>尝试关闭快速编译插件，例如Android Studio自带的Instant Run，第三方的编译加速插件等。</p>
+<h3 id="Gradle插件">Gradle插件</h3>
+<p>一些Gradle插件也常会导致编译失败，可以禁用后重试编译。</p>
+<h2 id="常见异常">常见异常</h2>
+<h3 id="找不到R文件">找不到R文件</h3>
+<ol>
+<li>资源文件异常，例如XML的标签不匹配，二进制文件异常（例如图片文件扩展名错误）。这种情况有时Android Studio没有有效报错信息，需要通过Gradle命令行发现问题。</li>
+<li>命令行编译没有问题，但在Android Studio中报错。这个可能是Android Studio的BUG，多尝试几次同步。</li>
+<li>R文件过大，超出了Android Studio中Java文件大小限制。Mac系统下，打开<code>/Applications/Android\ Studio.app/Contents/bin</code>目录，编辑<code>idea.properties</code>文件，修改<code>idea.max.intellisense.filesize</code>的值（通常默认为2500，可以改成25000；如果没有这一项则新增一行）。</li>
+</ol>
+<blockquote>
+<p>备注：在工程同步完成后，R文件保存在<code>build/generated/source/r</code>目录下，可以在这个目录下找是否正常生成了对应包名的R文件。</p>
+</blockquote>
+<h3 id="找不到Symbol">找不到Symbol</h3>
+<ol>
+<li>代码有问题。</li>
+<li>Android Studio代码窗口中报错，但可以编译通过。这个一般是因为同步时在build目录生成的class文件异常，尝试clean/清除build目录/重启AS后重试。</li>
+<li>下载的远程库有错。参考前面的清除远程库缓存。</li>
+</ol>
+<h3 id="电脑卡顿严重">电脑卡顿严重</h3>
+<p>无论是AS还是命令行编译Android工程时，都是由Gradle执行编译任务，Gradle基于Groovy，运行在JVM上，消耗内存较多，因此常会因为内存不足导致电脑卡顿。系统内存不足时，整个电脑都会很卡。实际经验表明，内存16G的MacBook在物理内存占用率达到13G左右，就可能开始卡顿。</p>
+<p>Gradle可配置Deamon，会给每个工程生成一个Deamon进程，Deamon进程会常驻后台处理源码，提高编译速度。有时无用的Gradle Deamon进程没有正常退出，会持续占据内存，因此必要时可以手动终止java进程。在Mac系统中打开“活动监视器”（Spotlight搜索或在LaunchPad找），切换到内存标签，关闭占内存过高的java进程和Android Studio进程，然后重试编译。</p>
+<p>重启电脑常常也可以大幅降低无用进程对内存的消耗。</p>
+<p>更换内存更大的电脑；加内存条……</p>
+<h3 id="Android-Studio卡顿严重">Android Studio卡顿严重</h3>
+<p>编译很慢，Android Studio卡顿严重，但电脑不卡，可能是因为Android Studio最大内存设置的太小。</p>
+<p>Mac系统下，打开<code>/Applications/Android\ Studio.app/Contents/bin</code>目录，编辑<code>studio.vmoptions</code>文件调整内存限制。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-motion-event/" rel="bookmark">Android事件分发知识点整理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/jenkins-android-setup/" rel="bookmark">Linux中配置Jenkins集成Android项目</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dont-make-me-think/" rel="bookmark">Don't make me think思想在代码设计中的应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"># 安卓</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/android-resource-naming/" rel="prev" title="Android项目资源文件命名规范参考">
+      <i class="fa fa-chevron-left"></i> Android项目资源文件命名规范参考
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/dont-make-me-think/" rel="next" title="Don't make me think思想在代码设计中的应用">
+      Don't make me think思想在代码设计中的应用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%8A%A5%E9%94%99%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">查看报错信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E6%A3%80%E6%9F%A5"><span class="nav-number">2.</span> <span class="nav-text">常规检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E7%BC%93%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text">清缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">重试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5"><span class="nav-number">5.</span> <span class="nav-text">排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">5.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%AE%8C%E6%95%B4%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF%EF%BC%9A%E4%BD%BF%E7%94%A8Gradle%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BC%96%E8%AF%91"><span class="nav-number">5.2.</span> <span class="nav-text">获取完整错误信息：使用Gradle命令行编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JAR-AAR%E5%8F%8D%E7%BC%96%E8%AF%91"><span class="nav-number">5.3.</span> <span class="nav-text">JAR&#x2F;AAR反编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E7%BC%96%E8%AF%91%E6%8F%92%E4%BB%B6"><span class="nav-number">5.4.</span> <span class="nav-text">快速编译插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gradle%E6%8F%92%E4%BB%B6"><span class="nav-number">5.5.</span> <span class="nav-text">Gradle插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%BC%82%E5%B8%B8"><span class="nav-number">6.</span> <span class="nav-text">常见异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E4%B8%8D%E5%88%B0R%E6%96%87%E4%BB%B6"><span class="nav-number">6.1.</span> <span class="nav-text">找不到R文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E4%B8%8D%E5%88%B0Symbol"><span class="nav-number">6.2.</span> <span class="nav-text">找不到Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E8%84%91%E5%8D%A1%E9%A1%BF%E4%B8%A5%E9%87%8D"><span class="nav-number">6.3.</span> <span class="nav-text">电脑卡顿严重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-Studio%E5%8D%A1%E9%A1%BF%E4%B8%A5%E9%87%8D"><span class="nav-number">6.4.</span> <span class="nav-text">Android Studio卡顿严重</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

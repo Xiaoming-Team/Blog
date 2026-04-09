@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="有时我们需要使用安卓实现在后台模拟系统按键，比如对音量进行调节（模拟音量键），关闭前台正在运行的App（模拟返回键），或者模拟触屏事件。但是对于原生安卓系统而言，后台进程关闭前台进程，甚至模拟用户事件，进而操控整个系统，是不符合系统安全原则的，如果有这样的漏洞被病毒或恶意软件所利用，会非常危险。 由于一些特殊原因，我恰巧需要实现这样的功能，而又没有条件自行编译安卓系统（但是可以利用Root权限，因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓使用Root权限实现后台模拟全局按键、触屏事件方法（类似按键精灵）">
+<meta property="og:url" content="https://www.xiaoming.io/android-key-simulation/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="有时我们需要使用安卓实现在后台模拟系统按键，比如对音量进行调节（模拟音量键），关闭前台正在运行的App（模拟返回键），或者模拟触屏事件。但是对于原生安卓系统而言，后台进程关闭前台进程，甚至模拟用户事件，进而操控整个系统，是不符合系统安全原则的，如果有这样的漏洞被病毒或恶意软件所利用，会非常危险。 由于一些特殊原因，我恰巧需要实现这样的功能，而又没有条件自行编译安卓系统（但是可以利用Root权限，因">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-10-08T15:30:36.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.573Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="安卓">
+<meta property="article:tag" content="移动开发">
+<meta property="article:tag" content="Root">
+<meta property="article:tag" content="按键">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/android-key-simulation/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>安卓使用Root权限实现后台模拟全局按键、触屏事件方法（类似按键精灵） | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "安卓使用Root权限实现后台模拟全局按键、触屏事件方法（类似按键精灵）",
+      "description": "有时我们需要使用安卓实现在后台模拟系统按键，比如对音量进行调节（模拟音量键），关闭前台正在运行的App（模拟返回键），或者模拟触屏事件。但是对于原生安卓系统而言，后台进程关闭前台进程，甚至模拟用户事件，进而操控整个系统，是不符合系统安全原则的，如果有这样的漏洞被病毒或恶意软件所利用，会非常危险。...",
+      "datePublished": "2014-10-08T15:30:36.000Z",
+      "dateModified": "2025-06-17T13:33:21.573Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/android-key-simulation/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/android-key-simulation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          安卓使用Root权限实现后台模拟全局按键、触屏事件方法（类似按键精灵）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-08 23:30:36" itemprop="dateCreated datePublished" datetime="2014-10-08T23:30:36+08:00">2014-10-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/android-key-simulation/" class="post-meta-item leancloud_visitors" data-flag-title="安卓使用Root权限实现后台模拟全局按键、触屏事件方法（类似按键精灵）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/android-key-simulation/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/android-key-simulation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>有时我们需要使用安卓实现在后台模拟系统按键，比如对音量进行调节（模拟音量键），关闭前台正在运行的App（模拟返回键），或者模拟触屏事件。但是对于原生安卓系统而言，后台进程关闭前台进程，甚至模拟用户事件，进而操控整个系统，是不符合系统安全原则的，如果有这样的漏洞被病毒或恶意软件所利用，会非常危险。</p>
+<p>由于一些特殊原因，我恰巧需要实现这样的功能，而又没有条件自行编译安卓系统（但是可以利用Root权限，因为Root权限的获取相对简单很多，并且很多用户的安卓设备都有Root过）。网上也看到很多人在提类似的问题，很多人讨论了半天，结果都是无解。于是我花了很大精力，最后终于找到了解决方案。</p>
+<p>在网上查找了很多资料，主要找到两种方法：Instrumentation和IWindowManager。</p>
+<h2 id="使用Instrumentation接口：对于非自行编译的安卓系统，无法获取系统签名，只能在前台模拟按键，不能后台模拟。">使用Instrumentation接口：对于非自行编译的安卓系统，无法获取系统签名，只能在前台模拟按键，不能后台模拟。</h2>
+<p>一种是使用Instrumentation接口，这个接口原本是用来对软件进行测试而留出来的。经过尝试，发现这个接口可以模拟按键，但是前提是在应用处于前台时。而应用处于前台时，模拟按键基本上也没有太大的作用（模拟按键操作应用自身似乎没有很大意义）。</p>
+<p>当应用处于后台时，这个Instrumentation接口就失效了。网上找到的解释是，在后台使用这个接口，需要有系统权限，也就是在Manifest中添加android:sharedUserId=“android.uid.system”。而这会导致什么问题呢？声明了系统权限的APK，只有具有系统签名的情况下，才能被安装到安卓设备上，比如系统自带的电话、短信，本质上也就是APK程序，但是这些应用具有系统权限。</p>
+<p>安卓系统有一套签名机制，APK只有有了数字签名，才能被安装。通常调试时默认Eclipse自动对其进行签名，使用的是Debug签名。当发布应用时，开发者则使用自己独有的数字签名文件对APK进行签名（这个文件可以用Eclipse生成，签名也可以让Eclipse完成）。APK有新版本的安装时，如果检测到签名不一致，系统会提示签名不一致，只有卸载旧版本才能安装。这一机制从一定程度上避免了第三方对官方发布的APK进行修改甚至非法植入病毒等行为（当然如果用户主动卸载旧版本的官方应用、安装新版本的非官方APK也是可以的）。而具有同一签名的不同App，它们之间可以共享一些数据。</p>
+<p>而系统签名怎么获取呢？在编译安卓系统的时候，会将一个系统签名的数字签名文件放到一起编译。对于一个已经编译完成的系统，或者为了适配不同系统，必然无法获取到这个数字签名文件，于是也无法对APK进行系统签名。最后就导致具有uid.system属性的APK无法被安装，于是Instrumentation接口后台模拟按键的方法，只能在自行编译系统的情况下才可以使用。</p>
+<h2 id="使用反射方法调用系统IWindowManager隐藏API：兼容性较差，稳定性不好，容易出错。另外实际编译时发生错误，原因暂时不明。">使用反射方法调用系统IWindowManager隐藏API：兼容性较差，稳定性不好，容易出错。另外实际编译时发生错误，原因暂时不明。</h2>
+<p>网上还有一种方法。安卓系统中有一些隐藏API，通常是利用Java的权限限制，使得这些API无法被调用。但通过反射的方式，可以突破Java的权限限制。在IWindowManager中就隐藏了可以模拟按键和触屏事件的API。尝试网上的方法，下载到一个由安卓源码编译好的jar文件，添加到工程中，然后使用发射编写了一些代码，尝试调用隐藏API。结果编译的时候Eclipse直接不响应了，可能是因为电脑配置不够，jar文件太大。尝试了几次没有成功，又考虑到这种方法有很多弊端，并且很可能最后还是需要系统权限（网上不少文章说得不是很清楚），于是就放弃了这个方法。</p>
+<p>android模拟按键问题总结[使用IWindowManager.injectKeyEvent方法]</p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/xudongdong99/article/details/8857173">http://blog.csdn.net/xudongdong99/article/details/8857173</a></p>
+<p>Android中使用隐藏API(大量图解)</p>
+<p><a target="_blank" rel="noopener" href="http://163liufuliang.blog.163.com/blog/static/331651862013119114431760/">http://163liufuliang.blog.163.com/blog/static/331651862013119114431760/</a></p>
+<h2 id="JNI调用C程序模拟按键：仍然是权限问题。">JNI调用C程序模拟按键：仍然是权限问题。</h2>
+<p>参考了网上一些资料所提出的可能的思路，发现剩下能想到的方法就是用JNI实现，通过调用C/C++程序来模拟按键。对Linux底层编程不熟悉，网上参考了一些代码，在Ubuntu下编写了一个按键模拟程序，很顺利的编译运行通过。然后又开始学习JNI的编译方法，先在C程序层写了个简单的加法运算，编译运行测试通过，然后就把模拟按键的代码贴了进去。满怀期待的写好安卓Java层代码，编译、下载、执行程序，却发现完全没有效果。</p>
+<p>想看一下到底是哪一步出错了，就在C程序里面改了改，用LogCat打印出C程序的返回值，发现在打开按键设备的时候出错，看来肯定又是权限的问题了。</p>
+<p>尽管系统已经Root，APK也允许使用Root权限，但是Root权限没法传递给C程序，权限不够，程序无法执行。在网上找了一通有关Linux、安卓权限的资料，也没找出来什么思路。其实当时很疑惑，在Linux系统中，Root权限是最高的权限，安卓也不例外，有文章指出，Root权限&gt;系统权限&gt;用户权限。尽管能获取到Root权限，却不能完成系统权限所能完成的任务，总感觉不应该。</p>
+<h2 id="安卓按键精灵：使用Root权限而不需系统签名，实现后台模拟按键和触屏等事件是可行的。">安卓按键精灵：使用Root权限而不需系统签名，实现后台模拟按键和触屏等事件是可行的。</h2>
+<p>当时很绝望，感觉估计只有自行编译系统才能解决问题了。就在那时候，突然想起了按键精灵软件。以前用过电脑版，在安卓市场一找，果然也有安卓版。下载使用发现，按键精灵就可以实现在后台模拟按键操作，需要Root权限，但是是什么原理却不得而知。本想尝试反编译源码查看，但是当时出了一些问题，反编译没有成功。在网上搜索安卓按键精灵的原理，除了之前的那两种依赖源码环境才能使用的API，也没有找到结果。不过至少说明了，使用Root权限而不需要系统签名，实现模拟按键、并且兼容大量安卓设备是可行的。</p>
+<h2 id="最终解决问题：使用Shell调用ADB指令实现。">最终解决问题：使用Shell调用ADB指令实现。</h2>
+<p>继续在网上搜索安卓按键模拟（其实那时都不知道用什么关键字好了，能想到的关键字都用遍了，但是搜索出来的结果，都是之前提到的那几个依赖源码环境和系统权限的方案）。发现有很多介绍ADB调试，向手机发送按键事件的文章。刚好之前做过在Root权限下，用Java调用安卓底层的Linux Shell，然后执行pm指令进行APK的安装卸载。这时我突发奇想，能否用Shell调用ADB指令呢？</p>
+<p>于是就进行了尝试，使用Java执行Runtime.getRuntime().exec(“su”).getOutputStream()，获取了一个具有Root权限的Process的输出流对象，向其中写入字符串即可以Root权限被Shell执行，ADB模拟按键的指令为 “input keyevent keyCode”，keyCode为按键的键值，例如KeyEvent.KEYCODE_VOLUME_UP表示音量加。</p>
+<p>编译完程序安装执行，终于实现了预期的效果，当时非常高兴。至于触屏或鼠标事件，只要调用相应的ADB指令即可。但是有一点问题，就是反应速度非常慢，尤其是连续模拟多个按键的时候，甚至会死机。而按键精灵运行的就相当流畅，我又开始好奇按键精灵是怎么实现的。</p>
+<p>后来终于还是找到了原因，模拟按键时，不应每次都调用Runtime.getRuntime().exec(“su”)，因为每次调用这个代码的时候，都会获取Runtime实例，并且执行&quot;su&quot;请求Root权限，反应就会很慢（我的理解是相当于每次都新开一个命令行窗口）；而应该只是在一开始执行一次，并获取一个OutputStream实例，后来每次执行一条Shell指令，只需向其中写入相应字符串，这样就快了很多。</p>
+<p>下面贴出可用的代码。要求设备已经Root，不需要其他任何特殊权限或签名。由于用的是ADB指令，兼容性也不会有太大问题。首次运行程序时（其实也就是执行Runtime.exec(“su”)的时候），会请求Root权限。</p>
+<p>/**<br>
+* 用root权限执行Linux下的Shell指令<br>
+*<br>
+* @author jzj<br>
+* @since 2014-09-09<br>
+*/<br>
+public class RootShellCmd {</p>
+<p>private OutputStream os;</p>
+<p>/**<br>
+* 执行shell指令<br>
+*<br>
+* @param cmd<br>
+*            指令<br>
+*/<br>
+public final void exec(String cmd) {<br>
+try {<br>
+if (os == null) {<br>
+os = Runtime.getRuntime().exec(“su”).getOutputStream();<br>
+}<br>
+os.write(cmd.getBytes());<br>
+os.flush();<br>
+} catch (Exception e) {<br>
+e.printStackTrace();<br>
+}<br>
+}</p>
+<p>/**<br>
+* 后台模拟全局按键<br>
+*<br>
+* @param keyCode<br>
+*            键值<br>
+*/<br>
+public final void simulateKey(int keyCode) {<br>
+exec(&quot;input keyevent &quot; + keyCode + “\n”);<br>
+}<br>
+}</p>
+<p>写这篇文章的主要目的，并不是要强调这件事的难度，也不只是为了提出问题的解决方案（那样就没必要写前面那么多过程了）。而是想把我解决问题的过程完整的写出来，对我而言算是一个记录，对读者而言，没准能从中找到一些东西。</p>
+<p>解决这个问题之后，后来意外的发现，这个问题其实有人已经解决了，并且发了博客。不幸的是，那篇博客被大量使用前两种思路的博客掩埋了，当时我怎么也没找到。这篇博客地址在此：</p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/aminfo/article/details/7785975">http://blog.csdn.net/aminfo/article/details/7785975</a></p>
+<p>顺便说明一点，这篇博客中作者提到的缺点：反应速度较慢。前面提到我也越到了同样的问题，也已经给出了解决方案。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/gradle-develop-basics/" rel="bookmark">Gradle开发快速入门——DSL语法原理与常用API介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-gradle-basics/" rel="bookmark">Android Gradle配置快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-bitmap/" rel="bookmark">Android Bitmap操作内存问题总结(图片处理、截屏等)</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/glide-study/" rel="bookmark">Glide使用简介与源码分析</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-7-ratingbar-bug/" rel="bookmark">Android 7.0中RatingBar评星点击区域不准确的解决</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"># 安卓</a>
+              <a href="/tags/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="tag"># 移动开发</a>
+              <a href="/tags/Root/" rel="tag"># Root</a>
+              <a href="/tags/%E6%8C%89%E9%94%AE/" rel="tag"># 按键</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/tech-study-in-college/" rel="prev" title="大学期间如何成为技术大神">
+      <i class="fa fa-chevron-left"></i> 大学期间如何成为技术大神
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/win7-file-assoc/" rel="next" title="Windows7设置文件打开方式（文件关联）">
+      Windows7设置文件打开方式（文件关联） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Instrumentation%E6%8E%A5%E5%8F%A3%EF%BC%9A%E5%AF%B9%E4%BA%8E%E9%9D%9E%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E7%9A%84%E5%AE%89%E5%8D%93%E7%B3%BB%E7%BB%9F%EF%BC%8C%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%AD%BE%E5%90%8D%EF%BC%8C%E5%8F%AA%E8%83%BD%E5%9C%A8%E5%89%8D%E5%8F%B0%E6%A8%A1%E6%8B%9F%E6%8C%89%E9%94%AE%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%8B%9F%E3%80%82"><span class="nav-number">1.</span> <span class="nav-text">使用Instrumentation接口：对于非自行编译的安卓系统，无法获取系统签名，只能在前台模拟按键，不能后台模拟。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E7%B3%BB%E7%BB%9FIWindowManager%E9%9A%90%E8%97%8FAPI%EF%BC%9A%E5%85%BC%E5%AE%B9%E6%80%A7%E8%BE%83%E5%B7%AE%EF%BC%8C%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8D%E5%A5%BD%EF%BC%8C%E5%AE%B9%E6%98%93%E5%87%BA%E9%94%99%E3%80%82%E5%8F%A6%E5%A4%96%E5%AE%9E%E9%99%85%E7%BC%96%E8%AF%91%E6%97%B6%E5%8F%91%E7%94%9F%E9%94%99%E8%AF%AF%EF%BC%8C%E5%8E%9F%E5%9B%A0%E6%9A%82%E6%97%B6%E4%B8%8D%E6%98%8E%E3%80%82"><span class="nav-number">2.</span> <span class="nav-text">使用反射方法调用系统IWindowManager隐藏API：兼容性较差，稳定性不好，容易出错。另外实际编译时发生错误，原因暂时不明。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JNI%E8%B0%83%E7%94%A8C%E7%A8%8B%E5%BA%8F%E6%A8%A1%E6%8B%9F%E6%8C%89%E9%94%AE%EF%BC%9A%E4%BB%8D%E7%84%B6%E6%98%AF%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98%E3%80%82"><span class="nav-number">3.</span> <span class="nav-text">JNI调用C程序模拟按键：仍然是权限问题。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%8D%93%E6%8C%89%E9%94%AE%E7%B2%BE%E7%81%B5%EF%BC%9A%E4%BD%BF%E7%94%A8Root%E6%9D%83%E9%99%90%E8%80%8C%E4%B8%8D%E9%9C%80%E7%B3%BB%E7%BB%9F%E7%AD%BE%E5%90%8D%EF%BC%8C%E5%AE%9E%E7%8E%B0%E5%90%8E%E5%8F%B0%E6%A8%A1%E6%8B%9F%E6%8C%89%E9%94%AE%E5%92%8C%E8%A7%A6%E5%B1%8F%E7%AD%89%E4%BA%8B%E4%BB%B6%E6%98%AF%E5%8F%AF%E8%A1%8C%E7%9A%84%E3%80%82"><span class="nav-number">4.</span> <span class="nav-text">安卓按键精灵：使用Root权限而不需系统签名，实现后台模拟按键和触屏等事件是可行的。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98%EF%BC%9A%E4%BD%BF%E7%94%A8Shell%E8%B0%83%E7%94%A8ADB%E6%8C%87%E4%BB%A4%E5%AE%9E%E7%8E%B0%E3%80%82"><span class="nav-number">5.</span> <span class="nav-text">最终解决问题：使用Shell调用ADB指令实现。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

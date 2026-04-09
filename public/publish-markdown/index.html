@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="背景 WordPress 是一种被广泛使用的博客框架，功能强大，拥有丰富的主题和插件生态。无论是专业的软件工程师，还是不了解软件开发技术的其他人员，WordPress都可以很方便的使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WordPress+PublishMarkdown快速构建个人博客">
+<meta property="og:url" content="https://www.xiaoming.io/publish-markdown/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="背景 WordPress 是一种被广泛使用的博客框架，功能强大，拥有丰富的主题和插件生态。无论是专业的软件工程师，还是不了解软件开发技术的其他人员，WordPress都可以很方便的使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c2bcd94b06f128a34523c4f6feeab994.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/599514c90b385597a96511c7ef9cb024.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9b4f19cfcda26e18911e0c64b4ff0d74.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/664b57985ae72e4dfbc9729188450e5d.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1ef1f653a0f4c757549da16b0bfb9822.png">
+<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9842a3d5a5c5de1359e4629aa323c688.png">
+<meta property="article:published_time" content="2020-02-03T17:43:51.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:19:11.397Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="Markdown">
+<meta property="article:tag" content="WordPress">
+<meta property="article:tag" content="开源">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c2bcd94b06f128a34523c4f6feeab994.png">
+
+<link rel="canonical" href="https://www.xiaoming.io/publish-markdown/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WordPress+PublishMarkdown快速构建个人博客 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "WordPress+PublishMarkdown快速构建个人博客",
+      "description": "背景 WordPress 是一种被广泛使用的博客框架，功能强大，拥有丰富的主题和插件生态。无论是专业的软件工程师，还是不了解软件开发技术的其他人员，WordPress都可以很方便的使用。",
+      "datePublished": "2020-02-03T17:43:51.000Z",
+      "dateModified": "2026-01-09T08:19:11.397Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/publish-markdown/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/publish-markdown/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WordPress+PublishMarkdown快速构建个人博客
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-04 01:43:51" itemprop="dateCreated datePublished" datetime="2020-02-04T01:43:51+08:00">2020-02-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/publish-markdown/" class="post-meta-item leancloud_visitors" data-flag-title="WordPress+PublishMarkdown快速构建个人博客" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/publish-markdown/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/publish-markdown/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="背景">背景</h2>
+<p><a href="http://www.xiaoming.io/tag/wordpress">WordPress</a> 是一种被广泛使用的博客框架，功能强大，拥有丰富的主题和插件生态。无论是专业的软件工程师，还是不了解软件开发技术的其他人员，WordPress都可以很方便的使用。</p>
+<p><a href="http://www.xiaoming.io/tag/markdown">Markdown</a> 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，通过工具导出为HTML 、Word、图像、PDF等文件格式，大大节约了写文章的排版耗时。特别是扩展的Markdown语法，还能支持代码高亮、MathJax数学公式、流程图等功能，对相关领域的人员使用非常友好。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/jzj1993/PublishMarkdown">PublishMarkdown</a> 是由本人开发的一款将本地Markdown文件发布到博客的开源工具，基于Electron实现，支持中英文，兼容Windows、Linux、MacOS平台。功能特点如下。</p>
+<ol>
+<li>支持主流Markdown语法、TOC、代码高亮、MathJax数学公式，支持本地预览和简易编辑功能（建议使用Haroopad、Typora等工具编写好后，再使用本工具发布）。</li>
+<li>全自动博客发布。文章可设置标题、摘要、固定链接、作者、发布时间、标签、分类等属性，自动批量上传文章中的本地图片。支持多站点同时发布。目前支持MetaWeblog接口，兼容WordPress、csdn、cnblogs、oschina等博客，源码中保留了继续开发其他博客接口的扩展性。</li>
+<li>已经通过本工具发布到远程的博客，可以使用本工具更新(博客使用固定链接即url区分)，且更新时相同图片无需重复上传(图片使用文件md5区分)。</li>
+</ol>
+<h3 id="本地编辑器-or-在线编辑器？">本地编辑器 or 在线编辑器？</h3>
+<p><strong>WordPress的Markdown支持</strong>。WordPress一直有个问题，就是对Markdown的支持并不完善。WordPress虽然有一些Markdown插件，但都是基于WordPress的在线文章编辑环境。</p>
+<p>使用在线编辑器的体验并不是很好。在线编辑器的功能比较简陋。需要在有网络的环境下才能写，网络状况、浏览器故障等各种问题都可能会打断写文章的思路，甚至导致文章草稿丢失，<strong>容易分散注意力</strong>。另外写好后本地也没有文章备份，一旦网站故障，<strong>文章存在彻底丢失的风险</strong>。</p>
+<p>因此相当一部分用户在使用Markdown写文章时，都会使用本地Markdown编辑器，例如跨平台的Typora、Haroopad等。</p>
+<p><strong>本地Markdown的发布问题</strong>。然而，本地写好的Markdown文件，如何快速发布到WordPress博客，成了一个头疼的问题。虽然Typora等编辑器可以复制Markdown生成的HTML，然后粘贴到WordPress文章编辑后台中，但是这种方式对于文章中包含较多本地图片等情况，就显得很不友好了，需要手动上传图片到WordPress中，然后逐一替换到文章中。</p>
+<p><strong>写文章时图片上传图床</strong>。对于本地图片的上传问题，一些用户会选择在写文章时直接把图片上传到图床，获得图片外链（URL），插入到Markdown。发布到博客时也是通过外链直接引用图床中的图片，因此发布博客时直接粘贴HTML代码即可，不需要再传图。图床传图工具有成熟的工具iPic、PicGo等，单张图上传后可以自动复制图片外链到剪贴板，然后粘贴到Markdown编辑器即可。除了发布博客时更加容易，这种方式对于个人博客站点来说，还可以节约图片带来的服务器存储和流量消耗。</p>
+<p>任何事情都是有利有弊。写文章时直接传图，和使用在线编辑器写文章有着相似的缺点。首先是写文章的同时需要完成图片上传的任务，<strong>容易分散注意力</strong>，并且必须在良好的网络环境下写文章，网络故障、传图太慢、传图工具故障等都可能打断写文章的思路。图片在本地没有备份，并且使用了第三方图床，一旦图床出现问题，可能导致所有博客配图挂掉，甚至图片源文件彻底丢失。图片一旦上传后，就没法享受本地各种图片编辑工具的批量编辑功能，除非逐一下载下来修改后再上传。还有时候文章图片可能是批量生成的，例如有些Word、PDF等格式的文章，可以输出为HTML+本地图片，再转换为Markdown（Typora可以直接粘贴HTML富文本，会自动转成Markdown），此时如果自己传图就需要逐一替换图片外链了。</p>
+<h2 id="基于为知笔记的博客方案">基于为知笔记的博客方案</h2>
+<p>基于以上种种问题，就需要有一套<strong>全自动本地Markdown发布方案</strong>。15年初的时候，经过了不少研究和实践，我实现了一套基于WordPress+为知笔记的博客方案，并发表文章<a href="http://www.xiaoming.io/wp-markdown-wiz-blog">WordPress+Markdown+为知笔记，实现高质量笔记和博客</a>。个人博客没太花时间推广，但是这篇文章有了累计2w+的阅读量。</p>
+<h2 id="基于Hexo的博客方案">基于Hexo的博客方案</h2>
+<p>在我使用了为知笔记方案之后，发现开始流行用免费的GitHub Pages和Hexo搭建静态博客。Hexo原生就是用Markdown编辑的，在本地渲染成静态HTML后直接同步到GitHub Pages即可。</p>
+<p>这种方案现在已经被广泛使用，但也存在一些问题。</p>
+<p>首先是有一定的技术门槛，更适合软件工程师群体使用，因为需要用到git、命令行等工具，相比很多空间服务商直接提供开箱即用的WordPress环境，后台直接图形化界面安装各种主题和插件，Hexo的配置流程要复杂不少。</p>
+<p>静态博客的功能远不如动态博客，例如比较基本的评论、搜索、访问量统计，要么得借助第三方服务，要么使用比较Hack的做法，要么难以实现。</p>
+<p>另外如果之前已经用了WordPress，已经发布的博客迁移成本比较高，当然这不能算Hexo的问题，不同博客框架不能互相导入文章很正常。</p>
+<h2 id="为知笔记的问题">为知笔记的问题</h2>
+<p>为知笔记博客方案我使用了几年，但是后来又遇到了一些问题。</p>
+<p>为知笔记目前只有Windows版本才能支持发布博客，工作后我逐渐转移到了Mac系统，每次发布博客只能启动Windows虚拟机，再用Windows版为知笔记发布。</p>
+<p>对于一篇已经发布的文章，为知笔记虽然支持本地编辑然后同步更改到远程，但是每次编辑时都会重复上传文章中的相同图片，导致WordPress后台有很多重复图片。所以每次编辑带图文章，我都是分别在本地和WordPress后台编辑，而不用为知笔记的编辑功能。</p>
+<p>必须在为知笔记里写文章，或者写好了复制到为知笔记。工作后我开始习惯直接用Markdown文件写博客，用git管理文件版本，相比常规笔记软件的版本管理更加强大。但是这样就需要先转移到为之笔记里再发布，遇到图片多的情况就费劲了。另外为知笔记现在已经开始收费了，对于一些没有用过为知笔记的用户，如果单纯为了博客发布功能付费似乎不太能接受。</p>
+<p>为知笔记是商业软件，能不能用、怎么用，主要取决于为知笔记团队（虽然他们的客户服务其实还不错）。为知笔记博客发布功能中的代码高亮和MathJax渲染方案发生过一次大的调整，导致我之前的为知笔记博客方案失效了。具体细节是发布时不再渲染，需要在博客中配置插件。好在自己有一定的开发能力，对WordPress主题源码做了一些修改才解决问题。</p>
+<h2 id="PublishMarkdown的诞生">PublishMarkdown的诞生</h2>
+<p>因为为知笔记的种种问题，一个跨平台、开源免费、使用门槛不高的全自动Markdown发布工具就很有需要了。</p>
+<p>在网上尝试找过很多，然而没有找到合适的可以直接用的。主要找到了几个命令行工具，但是有些只是Demo级别的代码，或者支持的Markdown语法不完善，不支持图片自动批量上传，命令行环境配置比较繁琐，用起来也不直观，本地看不到渲染后的效果，因此也不确定Markdown写的对不对。所以一直想自行开发一个这样的图形化工具。</p>
+<p>因为涉及到的技术比较多，也没做过桌面应用，有一定难度，同时工作繁忙，一直没有时间尝试。直到最近一年，终于有了一段空闲时间开发出了这个工具，取名简单直白，就叫PublishMarkdown。比较完美的解决了前文中的问题。</p>
+<ol>
+<li>
+<p>PublishMarkdown基于Electron构建，原生就是跨平台的，兼容Windows、MacOS、Linux。</p>
+</li>
+<li>
+<p>PublishMarkdown在编辑已有文章时会自动判断，不会重复上传相同图片。</p>
+</li>
+<li>
+<p>PublishMarkdown可以直接发布独立的Markdown文件，而Markdown文件的编辑，可以使用任何Markdown编辑器。PublishMarkdown自身也提供了简易的Markdown编辑功能，但还是建议使用其他更好用的编辑器。</p>
+</li>
+<li>
+<p>PublishMarkdown是开源软件，Markdown中代码高亮、MathJax渲染的逻辑清晰明确，方便用户使用。未来如果需要调整，会增加配置选项，而不是直接改掉。</p>
+</li>
+<li>
+<p>对于WordPress用户，使用PublishMarkdown发布博客，只需安装配置代码高亮插件和MathJax插件即可，不需要自己开发WordPress主题，不需要软件开发能力。</p>
+</li>
+</ol>
+<h2 id="基于PublishMarkdown-WordPress的博客方案">基于PublishMarkdown+WordPress的博客方案</h2>
+<p>和为知笔记相同，PublishMarkdown目前支持广泛使用的MetaWeblog接口发布博客，兼容WordPress以及其他支持此接口的博客（据说CSDN、CNBlogs、OSChina等都可以，但是没有实际测试，可以自行研究）。这里只介绍PublishMarkdown配合WordPress实现博客的典型方案。</p>
+<h3 id="WordPress搭建">WordPress搭建</h3>
+<p>WordPress的搭建网上有很多文章。对于没有技术开发基础但有一定动手能力的人，或者不想花很多时间折腾的人，可以考虑直接用现成的WordPress空间，或者用 <a target="_blank" rel="noopener" href="https://www.linode.com/?r=baff17e0c1775a672155224968a18a59f17a1292">Linode</a> 等提供一键配置WordPress的主机服务商。一些相关基础知识例如域名、主机，也可以参考我写过的系列文章 <a href="http://www.xiaoming.io/tag/website-primer">网站搭建从零开始</a>。</p>
+<h3 id="WordPress配置">WordPress配置</h3>
+<p>1、固定链接设置（可选）</p>
+<p>PublishMarkdown支持为文章设置固定链接，即url参数，详见下文Markdown的编写。建议在WordPress后台设置固定链接为<code>%postname%</code>，如图所示。</p>
+<p><img data-src="/blog-imgs/tech/images/c2bcd94b06f128a34523c4f6feeab994.png" alt=""></p>
+<p>2、代码高亮和MathJax插件（可选）</p>
+<p>如果需要代码高亮和MathJax功能，就需要在WordPress中安装相应的插件。</p>
+<p>代码高亮直接安装<code>WP Code Highlight.js</code>即可，不需要特殊配置。</p>
+<p>MathJax插件可以安装<code>Simple Mathjax</code>，设置<code>Custom mathjax config</code>参数如下。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> MathJax !== <span class="string">&#x27;undefined&#x27;</span>) &#123;</span><br><span class="line">    MathJax.Hub.Config(&#123;</span><br><span class="line">        <span class="attr">tex2jax</span>: &#123;</span><br><span class="line">            <span class="attr">inlineMath</span>: [[<span class="string">&#x27;\\(&#x27;</span>, <span class="string">&#x27;\\)&#x27;</span>]],</span><br><span class="line">            <span class="attr">displayMath</span>: [[<span class="string">&#x27;\\[&#x27;</span>,<span class="string">&#x27;\\]&#x27;</span>]]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果配置后博客加载慢，可尝试设置<code>Custom mathjax CDN</code>参数为<code>https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML</code></p>
+<h3 id="PublishMarkdown安装与设置">PublishMarkdown安装与设置</h3>
+<p>PublishMarkdown下载地址：<br>
+<a target="_blank" rel="noopener" href="https://github.com/jzj1993/PublishMarkdown/releases">https://github.com/jzj1993/PublishMarkdown/releases</a></p>
+<p>下载安装后，使用默认设置即可。主要是渲染设置中，需要将代码高亮和MathJax公式都设置为“仅预览”，如图所示。</p>
+<p><img data-src="/blog-imgs/tech/images/599514c90b385597a96511c7ef9cb024.png" alt=""></p>
+<h3 id="Markdown的编写">Markdown的编写</h3>
+<p>Markdown源文件应该是扩展名为<code>.md</code>、编码为<code>UTF-8</code>的文本文件。</p>
+<p>Markdown可以使用任何编辑器编写，但是要符合PublishMarkdown支持的语法。建议用Typora编写，PublishMarkdown中的某些语法格式和Typora中是基本一致的。</p>
+<p>支持基本Markdown语法、TOC、代码高亮、MathJax公式，文件开头使用YAML语法格式定义文章的信息。</p>
+<p>详细的语法规则可以查看工具中的示例文档，或者GitHub上的<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/jzj1993/PublishMarkdown/master/static/sample.md">源文件</a>。下面给出一个删减的源码示例，重点要注意的是<strong>建议给文章配置url参数</strong>，编辑已发布文章时根据这个参数区分不同的文章。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section"># 注释：文件开头使用YAML语法配置文章信息，之后是正常的Markdown语法</span></span><br><span class="line"></span><br><span class="line"><span class="section"># 此处如果不配置标题，则提取Markdown中的一级标题，或使用文件名</span></span><br><span class="line">title: 示例标题</span><br><span class="line"></span><br><span class="line"><span class="section"># 此处如果不配置摘要，则从正文提取开头若干文字</span></span><br><span class="line">abstract: 你好！这是一篇示例文档！</span><br><span class="line"></span><br><span class="line"><span class="section"># URL用于固定链接、编辑文章功能，建议所有文章都配置，建议用小写字母+数字+连字符</span></span><br><span class="line">url: sample-docs-1</span><br><span class="line"></span><br><span class="line"><span class="section"># 文章发布时间，使用的时区和系统设置一致，不设置则使用当前时间</span></span><br><span class="line">date: 2020-02-01 18:35:43</span><br><span class="line"></span><br><span class="line"><span class="section"># 文章分类</span></span><br><span class="line">category:</span><br><span class="line"><span class="bullet">-</span> 分类1</span><br><span class="line"><span class="bullet">-</span> 分类2</span><br><span class="line"></span><br><span class="line"><span class="section"># 文章标签</span></span><br><span class="line">tags:</span><br><span class="line"><span class="bullet">-</span> 标签1</span><br><span class="line"><span class="bullet">-</span> 标签2</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section"># Markdown内容</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"></span><br><span class="line">段落</span><br><span class="line"></span><br><span class="line">代码块</span><br><span class="line">​<span class="code">```js</span></span><br><span class="line"><span class="code">const axios = require(&quot;axios&quot;);</span></span><br><span class="line"><span class="code">// ...</span></span><br><span class="line"><span class="code">​```</span></span><br><span class="line"></span><br><span class="line">MathJax分隔符和Pandoc中规定的一致。行内公式在单个美元符号之间 $\frac&#123;a&#125;&#123;b&#125;$。如果美元符号紧跟数字，不会识别为行内公式 $20,000 and $30,000。如果起始美元符号紧跟空格，或终止美元符号前面是空格，也不会识别为公式 $ \frac&#123;a&#125;&#123;b&#125; $。</span><br><span class="line"></span><br><span class="line">行内代码不识别为公式 <span class="code">`$\frac&#123;a&#125;&#123;b&#125;$`</span>。</span><br><span class="line"></span><br><span class="line">行间公式在两个美元符号之间。同样，代码块不识别为公式。</span><br><span class="line">$$ U<span class="emphasis">_o = A^2 * ( U_</span>+ - U<span class="emphasis">_- ) $$</span></span><br></pre></td></tr></table></figure>
+<p>在PublishMarkdown中的效果如下。</p>
+<p><img data-src="/blog-imgs/tech/images/9b4f19cfcda26e18911e0c64b4ff0d74.png" alt=""><br>
+<img data-src="/blog-imgs/tech/images/664b57985ae72e4dfbc9729188450e5d.png" alt=""></p>
+<h3 id="Markdown的发布">Markdown的发布</h3>
+<p>在菜单中打开设置页面，添加需要发布的博客。WordPress博客的URL格式为<code>http://www.example.com/xmlrpc.php</code>。</p>
+<p><img data-src="/blog-imgs/tech/images/1ef1f653a0f4c757549da16b0bfb9822.png" alt=""></p>
+<p>在菜单中打开要发布的<code>.md</code>文件，确认渲染后的结果是否正确，然后在菜单中点击发布，勾选要发布的博客，点击发布即可。PublishMarkdown会自动渲染文章，上传文章中的所有本地图到WordPress，最后将文章发布到博客，发布完成后会弹出系统通知提示。</p>
+<p><img data-src="/blog-imgs/tech/images/9842a3d5a5c5de1359e4629aa323c688.png" alt=""></p>
+<h2 id="PublishMarkdown的技术实现">PublishMarkdown的技术实现</h2>
+<p>如果对PublishMarkdown的技术实现有兴趣，或者想了解更细节的原理，以及开发过程中遇到的问题，可访问我的另一篇博客<a href="http://www.xiaoming.io/publish-markdown-tech">PublishMarkdown技术实现</a>，也欢迎到<a target="_blank" rel="noopener" href="https://github.com/jzj1993/PublishMarkdown/">GitHub</a>提交<a target="_blank" rel="noopener" href="https://github.com/jzj1993/PublishMarkdown/issues">Issue</a>和<a target="_blank" rel="noopener" href="https://github.com/jzj1993/PublishMarkdown/pulls">PullRequest</a>。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/publish-markdown-tech/" rel="bookmark">PublishMarkdown技术实现</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/java-collections/" rel="bookmark">Java数据结构与集合学习笔记</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dynamic-proxy-java-bus/" rel="bookmark">一种基于动态代理实现的Android/Java总线通信组件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/code-design/" rel="bookmark">代码设计的三重境界</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/infer/" rel="bookmark">空指针静态代码检查工具Infer</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/dont-make-me-think/" rel="bookmark">Don't make me think思想在代码设计中的应用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-resource-naming/" rel="bookmark">Android项目资源文件命名规范参考</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/android-lint-2-implements/" rel="bookmark">Android Lint：自定义Lint调试与开发</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+              <a href="/tags/Markdown/" rel="tag"># Markdown</a>
+              <a href="/tags/WordPress/" rel="tag"># WordPress</a>
+              <a href="/tags/%E5%BC%80%E6%BA%90/" rel="tag"># 开源</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/constraint-layout/" rel="prev" title="Android ConstraintLayout实例学习（含源码）">
+      <i class="fa fa-chevron-left"></i> Android ConstraintLayout实例学习（含源码）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/publish-markdown-tech/" rel="next" title="PublishMarkdown技术实现">
+      PublishMarkdown技术实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%BC%96%E8%BE%91%E5%99%A8-or-%E5%9C%A8%E7%BA%BF%E7%BC%96%E8%BE%91%E5%99%A8%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">本地编辑器 or 在线编辑器？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E4%B8%BA%E7%9F%A5%E7%AC%94%E8%AE%B0%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">基于为知笔记的博客方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EHexo%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">基于Hexo的博客方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E7%9F%A5%E7%AC%94%E8%AE%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">为知笔记的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PublishMarkdown%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="nav-number">5.</span> <span class="nav-text">PublishMarkdown的诞生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EPublishMarkdown-WordPress%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%96%B9%E6%A1%88"><span class="nav-number">6.</span> <span class="nav-text">基于PublishMarkdown+WordPress的博客方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WordPress%E6%90%AD%E5%BB%BA"><span class="nav-number">6.1.</span> <span class="nav-text">WordPress搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WordPress%E9%85%8D%E7%BD%AE"><span class="nav-number">6.2.</span> <span class="nav-text">WordPress配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PublishMarkdown%E5%AE%89%E8%A3%85%E4%B8%8E%E8%AE%BE%E7%BD%AE"><span class="nav-number">6.3.</span> <span class="nav-text">PublishMarkdown安装与设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Markdown%E7%9A%84%E7%BC%96%E5%86%99"><span class="nav-number">6.4.</span> <span class="nav-text">Markdown的编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Markdown%E7%9A%84%E5%8F%91%E5%B8%83"><span class="nav-number">6.5.</span> <span class="nav-text">Markdown的发布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PublishMarkdown%E7%9A%84%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="nav-number">7.</span> <span class="nav-text">PublishMarkdown的技术实现</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

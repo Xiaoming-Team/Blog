@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="关键字：WordPress，用户，评论，注册，登录，社交化登录，社交化评论，个人博客，公共博客 以前我在QQ空间或CSDN写文章，后来自己搭建了一个网站。初次使用WordPress就发现和CSDN等网站相比，有一个很大的不同，就是网站用户系统的设计。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WordPress的用户系统总结">
+<meta property="og:url" content="https://www.xiaoming.io/wordpress-user-module/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="关键字：WordPress，用户，评论，注册，登录，社交化登录，社交化评论，个人博客，公共博客 以前我在QQ空间或CSDN写文章，后来自己搭建了一个网站。初次使用WordPress就发现和CSDN等网站相比，有一个很大的不同，就是网站用户系统的设计。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-10-21T14:30:21.000Z">
+<meta property="article:modified_time" content="2025-06-17T13:33:21.664Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="社交">
+<meta property="article:tag" content="Web开发">
+<meta property="article:tag" content="WordPress">
+<meta property="article:tag" content="网站">
+<meta property="article:tag" content="用户体验">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/wordpress-user-module/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WordPress的用户系统总结 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">297</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">152</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "WordPress的用户系统总结",
+      "description": "关键字：WordPress，用户，评论，注册，登录，社交化登录，社交化评论，个人博客，公共博客 以前我在QQ空间或CSDN写文章，后来自己搭建了一个网站。初次使用WordPress就发现和CSDN等网站相比，有一个很大的不同，就是网站用户系统的设计。",
+      "datePublished": "2014-10-21T14:30:21.000Z",
+      "dateModified": "2025-06-17T13:33:21.664Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/wordpress-user-module/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/wordpress-user-module/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WordPress的用户系统总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-21 22:30:21" itemprop="dateCreated datePublished" datetime="2014-10-21T22:30:21+08:00">2014-10-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/wordpress-user-module/" class="post-meta-item leancloud_visitors" data-flag-title="WordPress的用户系统总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/wordpress-user-module/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/wordpress-user-module/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关键字：WordPress，用户，评论，注册，登录，社交化登录，社交化评论，个人博客，公共博客</p>
+<p>以前我在QQ空间或CSDN写文章，后来自己搭建了一个网站。初次使用WordPress就发现和CSDN等网站相比，有一个很大的不同，就是网站用户系统的设计。</p>
+<h3 id="1、默认的用户逻辑">1、默认的用户逻辑</h3>
+<p>WordPress默认的用户逻辑是，建站时设置一个管理员账号，这个账号可以对网站进行管理，并且可以在后台界面发表文章。而默认是不开放新用户注册功能的，除非管理员自己在后台添加用户。而发表的文章，读者在评论时，不需要注册，但需要填写昵称和邮箱。</p>
+<h3 id="2、最简化操作：用户可匿名评论">2、最简化操作：用户可匿名评论</h3>
+<p>对于我们常用的博客、社交等网站，需要用户进行注册才能发言。有些网站有社交化的第三方登录功能，即直接可以用QQ、微博等进行登录。实际上不少网站还是要求填写用户名、邮箱和密码，过程比较繁琐，没有体现第三方登录免注册的操作简化。</p>
+<p>当我了解到注册比较繁琐的情况，感觉填写昵称和邮箱也有点麻烦，能不能直接可以评论呢？就尝试在设置中取消了“评论者必须填写姓名和电子邮件”“用户必须注册并登录才可以发表评论”的选项。然后发现这样就很没意思了，因为大家的身份完全就没有了，每个人都是匿名的，相互之间完全分不清谁是谁，即使在后台也只能看到一个IP地址。</p>
+<h3 id="3、第三方登录插件">3、第三方登录插件</h3>
+<p>后来我又在网上看到所谓的第三方登录插件，直接用社交账号就能登录，例如Open Social for China，实际试了感觉还行，直接登录不需要注册。但是还是有一些缺陷。</p>
+<p>很多人会用QQ进行登录，对于电脑用户来说，QQ客户端在线的情况下，由于有腾讯的浏览器插件支持，直接在浏览器中点击快速登录QQ就可以了，不需要输入任何额外信息，方便快捷。而对于手机用户，使用QQ登录则要输入用户名、密码，往往还得输一遍验证码，中间要跳转好几个页面，登录过程太繁琐。</p>
+<p>用这款插件的第三方登录，用户名、邮箱和密码是自动生成的，很长很复杂，在WordPress中又不能随意进行修改。这意味着以后每次用户都必须从第三方登录，而没法直接用昵称或邮箱登录。总得来说就是尤其对于手机用户比较麻烦。</p>
+<h3 id="4、社交化评论插件">4、社交化评论插件</h3>
+<p>还有一些社交评论插件，如多说、畅言、友言、灯鹭之类，则是把用户管理和用户评论全部集成好了。发表评论时可以选择丰富的表情、各种工具，还能绑定多个社交账号，并在评论时同步发表到社交账号中，而评论被回复时，也会在社交账号中被通知到。</p>
+<p>使用这些插件，最大的好处是增加了用户黏性。而和社交账号绑定了，也有机会吸引更多的用户来访问网站。而缺点有两方面，一是减慢了网页的加载速度，影响用户体验；二是有用户数据泄露和博客文章被盗用的风险。网上有人就表示使用了某款这类插件后，发现自己发表的博文全部被上传到别人的服务器了，很是郁闷。具体什么情况我没有去做深入研究，也是因此不想用这类插件了。</p>
+<h3 id="5、回归到最朴实简单的WordPress自带评论系统">5、回归到最朴实简单的WordPress自带评论系统</h3>
+<p>后来我又做了一些了解，很多WordPress搭建的知名博客和网站，使用的都是WordPress自带的评论系统，并且用的是默认设置，通过填写昵称和邮箱进行评论。</p>
+<p>我在这个基础上做了一点小的改进，允许用户进行注册和登录，但是也可以直接填写昵称和邮箱评论。当检测到用户没有登录，也没有填写过昵称和邮箱的身份（用户填写昵称和邮箱评论了一次后，其身份就被保存在Cookies中了，下次评论不需要再填写），就提示用户“发表评论前，您需要填写昵称和邮箱，或进行登录 注册”。</p>
+<p>这样的好处是，有些用户可能习惯了注册账号，直接填写用户名和邮箱可能会觉得心里不踏实，这样的设计满足了愿意注册账号的用户需求。</p>
+<h3 id="6、WordPress后台的用户系统控制选项">6、WordPress后台的用户系统控制选项</h3>
+<p>常规菜单中“任何人都可以注册”、“新用户默认角色可选：订阅者、投稿者、作者、编辑、管理员”。“任何人都可以注册”选项被勾选，同时将外观-小工具菜单中的“功能”添加到主题中，这时可以在网页前台看到“功能”小工具中有注册的选项，用户点此即可进行注册。注册成功后，用户角色就是设置的默认值，除非管理员手动进行修改。从订阅者到管理员，权限一个比一个高，管理员权限可以在后台管理整个网站的内容。如果新用户的默认权限比较高，则可以直接在网站发表文章，这时网站的功能就有点像CSDN这种公共博客了，而不再是个人博客网站。当然一个WordPress站点如果能做到让用户主动注册并发表博客，一定是难度很大的。而且据了解，WordPress的设计初衷就是个人博客网站，其架构决定了它不太适合大规模的网站。</p>
+<p>讨论菜单中的“评论者必须填写姓名和电子邮件”“用户必须注册并登录才可以发表评论”。默认前者是选中的，后者未选中。用户需填写昵称和邮件进行评论，而已经注册并登陆的用户，则不需要填写。而如果后者被勾选，则用户必须注册并登录了才能评论。</p>
+<h3 id="7、WordPress用户系统">7、WordPress用户系统</h3>
+<p>这里再介绍一下WordPress自带的用户系统。</p>
+<p>新用户在注册时，填写用户名和邮箱，点击确定就会自动将随机生成的密码发送到邮箱，然后进行登录。登录时如果忘记密码，可以在登录界面点击忘记密码，密码将直接发送到邮箱。默认登录后会进入后台界面，和管理员的后台界面一样，只是少了一些选项，在后台界面，普通用户可以对账号进行一些简单的设置。</p>
+<p>有些网站管理员觉得这样很别扭，不希望普通用户看到后台界面，这个可以通过在主题模板中添加代码实现。但是这样用户一旦注册，就不能进入后台修改自己的账号信息了，包括密码都只能使用默认的随机密码。</p>
+<p>总体来说，WordPress自带的用户模块，完全是按照个人博客的思路进行设计的。如果一定要对比，相对我们常见的博客和社交网站用户系统来说，还是比较简陋的。WordPress默认的用户系统不适合搭建用户比较庞大的站点，只能自行设计用户模块或者使用其他的框架来实现了。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/wordpress-send-email-via-plugins/" rel="bookmark">WordPress通过插件发送邮件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-8/" rel="bookmark">网站搭建从零开始（八） 网站加速技术</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-7/" rel="bookmark">网站搭建从零开始（七） WordPress站点的完善</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-6/" rel="bookmark">网站搭建从零开始（六） WordPress快速入门</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/website-primer-5/" rel="bookmark">网站搭建从零开始（五） WordPress的安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/social-media/" rel="bookmark">社交和相亲平台的研究：如何借助社交平台交朋友和找对象？</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nginx-config/" rel="bookmark">Nginx常用配置整理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/node-sharp/" rel="bookmark">sharp图片库用法总结</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%A4%BE%E4%BA%A4/" rel="tag"># 社交</a>
+              <a href="/tags/Web%E5%BC%80%E5%8F%91/" rel="tag"># Web开发</a>
+              <a href="/tags/WordPress/" rel="tag"># WordPress</a>
+              <a href="/tags/%E7%BD%91%E7%AB%99/" rel="tag"># 网站</a>
+              <a href="/tags/%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/" rel="tag"># 用户体验</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/wordpress-send-email-via-plugins/" rel="prev" title="WordPress通过插件发送邮件">
+      <i class="fa fa-chevron-left"></i> WordPress通过插件发送邮件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/safety-shutter/" rel="next" title="安全快门">
+      安全快门 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E9%BB%98%E8%AE%A4%E7%9A%84%E7%94%A8%E6%88%B7%E9%80%BB%E8%BE%91"><span class="nav-number">1.</span> <span class="nav-text">1、默认的用户逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%9C%80%E7%AE%80%E5%8C%96%E6%93%8D%E4%BD%9C%EF%BC%9A%E7%94%A8%E6%88%B7%E5%8F%AF%E5%8C%BF%E5%90%8D%E8%AF%84%E8%AE%BA"><span class="nav-number">2.</span> <span class="nav-text">2、最简化操作：用户可匿名评论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E5%BD%95%E6%8F%92%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">3、第三方登录插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E7%A4%BE%E4%BA%A4%E5%8C%96%E8%AF%84%E8%AE%BA%E6%8F%92%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">4、社交化评论插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E5%9B%9E%E5%BD%92%E5%88%B0%E6%9C%80%E6%9C%B4%E5%AE%9E%E7%AE%80%E5%8D%95%E7%9A%84WordPress%E8%87%AA%E5%B8%A6%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.</span> <span class="nav-text">5、回归到最朴实简单的WordPress自带评论系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81WordPress%E5%90%8E%E5%8F%B0%E7%9A%84%E7%94%A8%E6%88%B7%E7%B3%BB%E7%BB%9F%E6%8E%A7%E5%88%B6%E9%80%89%E9%A1%B9"><span class="nav-number">6.</span> <span class="nav-text">6、WordPress后台的用户系统控制选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81WordPress%E7%94%A8%E6%88%B7%E7%B3%BB%E7%BB%9F"><span class="nav-number">7.</span> <span class="nav-text">7、WordPress用户系统</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">297</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
