@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="前阵子龙虾特别火，几乎人手一个，我也装了一个。但是小龙虾有一些比较坑的地方，比如稳定性特别差，比如我不知道AI到底做了什么，我很担心它会不会把我的文件给删了等等。 当时我想的是小龙虾还不成熟，或许等它版本更新了以后就会慢慢成熟，所以我也一直在紧跟着升级小龙虾版本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hermes 快速体验：比「小龙虾」更透明、更可控的本地 Agent">
+<meta property="og:url" content="https://www.xiaoming.io/hermes-agent-first-look/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="前阵子龙虾特别火，几乎人手一个，我也装了一个。但是小龙虾有一些比较坑的地方，比如稳定性特别差，比如我不知道AI到底做了什么，我很担心它会不会把我的文件给删了等等。 当时我想的是小龙虾还不成熟，或许等它版本更新了以后就会慢慢成熟，所以我也一直在紧跟着升级小龙虾版本。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-11T11:15:22.433Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="AI Agent">
+<meta property="article:tag" content="Hermes">
+<meta property="article:tag" content="OpenClaw">
+<meta property="article:tag" content="本地开发">
+<meta property="article:tag" content="飞书">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.xiaoming.io/hermes-agent-first-look/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Hermes 快速体验：比「小龙虾」更透明、更可控的本地 Agent | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Hermes 快速体验：比「小龙虾」更透明、更可控的本地 Agent",
+      "description": "前阵子龙虾特别火，几乎人手一个，我也装了一个。但是小龙虾有一些比较坑的地方，比如稳定性特别差，比如我不知道AI到底做了什么，我很担心它会不会把我的文件给删了等等。 当时我想的是小龙虾还不成熟，或许等它版本更新了以后就会慢慢成熟，所以我也一直在紧跟着升级小龙虾版本。",
+      "datePublished": "2026-04-10T16:00:00.000Z",
+      "dateModified": "2026-04-11T11:15:22.433Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/hermes-agent-first-look/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/hermes-agent-first-look/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hermes 快速体验：比「小龙虾」更透明、更可控的本地 Agent
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-04-11 00:00:00" itemprop="dateCreated datePublished" datetime="2026-04-11T00:00:00+08:00">2026-04-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/hermes-agent-first-look/" class="post-meta-item leancloud_visitors" data-flag-title="Hermes 快速体验：比「小龙虾」更透明、更可控的本地 Agent" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/hermes-agent-first-look/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/hermes-agent-first-look/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前阵子龙虾特别火，几乎人手一个，我也装了一个。但是小龙虾有一些比较坑的地方，比如稳定性特别差，比如我不知道AI到底做了什么，我很担心它会不会把我的文件给删了等等。</p>
+<p>当时我想的是小龙虾还不成熟，或许等它版本更新了以后就会慢慢成熟，所以我也一直在紧跟着升级小龙虾版本。</p>
+<p>但是没想到最近又出来一个叫Hermes的Agent，还挺火的，所以花了点时间去试了一下，发现确实挺好用的。</p>
+<h2 id="安装配置">安装配置</h2>
+<p>安装方式很简单，官方就有文档，一条命令就能安装上去。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nousresearch/hermes-agent">https://github.com/nousresearch/hermes-agent</a></p>
+<p>安装后主要配置两个东西，一个是大模型，一个是通道（Channel）。</p>
+<p>运行 <code>hermes model</code> 可以配置大模型，Hermes里的大模型预设没有OpenClaw那么多，但是这不重要，因为可以选择自定义模型，先输入Base URL和API Key，然后它会调用接口加载出可选模型列表，选择你要的模型就可以了。</p>
+<p>运行 <code>hermes gateway setup</code> 就可以设置Channel，Channel原生就带了飞书、微信，不需要单独安装插件。受限于微信本身的支持，微信通道还是用的原先OpenClaw的接口。如果你把微信绑定到Hermes上面，原先的OpenClaw就会被挤掉。它这个设置Channel的界面比小龙虾做的要友好一点，会告诉你大概有哪几步操作，不过我觉得如果他直接给出一个更详细的文档链接就更好了，特别是飞书的机器人权限设置还是挺费劲的，我又找了一遍OpenClaw的文章参考才设置上。</p>
+<p>另外hermes还有个WebUI项目在这里，需要单独安装，类似OpenClaw的Control UI。通过WebUI也可以直接和Hermes聊天。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nesquena/hermes-webui">https://github.com/nesquena/hermes-webui</a></p>
+<p>这个WebUI安装后默认在8787端口，为了安全只能本机访问，其他设备上无法访问，这个和OpenClaw类似。如果你需要在局域网内访问，可以让你的Bot直接运行我这个项目，把这个端口转发到本机的另一个端口：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Xiaoming-Team/flux-port">https://github.com/Xiaoming-Team/flux-port</a></p>
+<p>如果你需要在外网访问这个界面，还可以使用我另一个项目，这个项目用于管理子域名到内网设备的转发，可以在网页里动态配置子域名和局域网内的设备端口绑定（需要配合Cloudflare和自己的域名使用）：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Xiaoming-Team/flux-gate">https://github.com/Xiaoming-Team/flux-gate</a></p>
+<p>Hermes还可以直接从OpenClaw导入内容（运行 <code>hermes claw migrate</code>）。但是我想体验全新的Hermes到底是怎么工作的，所以我并没有选择导入，后续我可以自己导入我想要的东西。</p>
+<h2 id="体验总结">体验总结</h2>
+<p>用了一下午之后，我简单总结一下目前感受到的Hermes和OpenClaw的区别。总的来说，我感觉<strong>体验提升很多</strong>。</p>
+<p>首先是网上说的Hermes用Python写的，上下文管理比小龙虾做得更好，这个我暂时还没法清晰的辨别，也没有实际去看代码。这种我就不讲了，主要讲我实际的体验。</p>
+<p><strong>实时显示AI执行过程。</strong></p>
+<p>最直接的一个感受就是，它在操作的过程中，会实时地把它做的事情给列出来，一目了然。这个非常有用，因为之前我不知道小龙虾卡在那很久到底是在做什么，而且很担心它会把我的东西给删掉之类的。</p>
+<p>而且它长时间不回应，我担心它是不是又卡死了，所以我经常会跑到它的ControlUI里面去看它到底在干什么。但是ControlUI bug也很多，比如它到现在还是需要手动刷新聊天记录，不能自动刷新。</p>
+<p><strong>随时追加发送消息。</strong></p>
+<p>在小龙虾里面，你给它发一个比较费时的任务，它就会开始执行任务。但是在任务执行结束之前，你给它发消息都是完全不会有反应的。并且这些消息不仅是当时没有反应，当它完成任务以后，这些之前发送的消息也会直接被无视，完全不会得到处理。</p>
+<p>有时候我同时想到好几件事要让它处理，就不得不让它去开子任务处理。但是尽管我把“耗时操作要开子任务”的规则写到了Memory里面，它还是经常会忽略这个规则，而且子任务会有失败的时候。</p>
+<p>更重要的是，有时候我可能会一句话没有描述清楚我的要求，又想到了新的要求或者想更正。在小龙虾里面，如果它发现子任务做的事情需要更新或者更正，它就会直接把现有的子任务全部关掉，重新开一个完整的子任务去处理。</p>
+<p>但是在Hermes里面并没有这样的问题。无论什么时候我给它发消息，无论它在处理什么，它都会马上给我回复一个OK的Reaction表情，表明它收到了消息，而且它会及时地帮我处理我补充的内容。在所有的任务都处理完成后，它会给出一个完整的总结，告诉我做了什么事情。详见截图。</p>
+<p>![[images/Hermes快速体验-1775904763340.webp]]</p>
+<p><strong>危险操作会让用户确认。</strong></p>
+<p>这一点也是让我感觉非常安心的一个设计。在之前用小龙虾的时候，为了方便，我几乎把所有的能开的权限都给它开通了。但是我一直担心他会不会哪天就把我的文件给删了，实际上也确实出现过几次这样的事情。</p>
+<p>而这个Hermes它在执行命令行或者各种特殊操作时，会让用户确认。并且它确认的方式有只批准此次操作、当前会话都批准，和永远同意三种选项。所以对于一些不危险的操作，例如CURL，我就是直接回复 <code>/approve always</code>，对于一些很危险的操作，例如 <code>rm</code> 删除，我会回复 <code>/approve</code> 只批准当前这次操作。</p>
+<p>不过要提出来的是，它在飞书上面给出来的界面是有bug的。如果我直接点图中这四个按钮，飞书会报错。我还没有仔细去研究，有可能是飞书的权限问题，也可能是它本身发送的信息有问题。所以暂时我是直接回复命令来确认的。</p>
+<p>![[images/Hermes快速体验-1775904717357.webp]]</p>
+<p>另外我还注意到，当它的这个上下文快满了的时候，它会显示出来告诉我。当它更新Memory的时候，也会显示出来。它还会自动创建一些skill，我没有做任何提示。</p>
+<p>![[images/Hermes快速体验-1775904684143.webp]]</p>
+<p>![[images/Hermes快速体验-1775904650187.webp]]</p>
+<p>总的来说，Hermes给我的感受就是更加稳定、可控、透明。后续我会继续使用这个东西，OpenClaw可能就不再用了。大家感兴趣的也可以迁移到Hermes试一下。</p>
+
+            
+
+<p>原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-nat/" rel="bookmark">普通人养龙虾必会的心法口诀：内网穿透</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-why-and-future/" rel="bookmark">为什么是 OpenClaw？AI对软件行业的影响和未来趋势</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-practice/" rel="bookmark">使用OpenClaw一周后，我给自己建了个团队</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/openclaw-control-ui-remote-access/" rel="bookmark">远程访问 OpenClaw Control UI 的避坑指南与两种方案</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OpenClaw/" rel="tag"># OpenClaw</a>
+              <a href="/tags/Hermes/" rel="tag"># Hermes</a>
+              <a href="/tags/AI-Agent/" rel="tag"># AI Agent</a>
+              <a href="/tags/%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91/" rel="tag"># 本地开发</a>
+              <a href="/tags/%E9%A3%9E%E4%B9%A6/" rel="tag"># 飞书</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/llm-wiki-practice/" rel="prev" title="油管大神Karpathy的LLM Wiki 值得做吗？我的实测结论">
+      <i class="fa fa-chevron-left"></i> 油管大神Karpathy的LLM Wiki 值得做吗？我的实测结论
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">安装配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%93%E9%AA%8C%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">体验总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
