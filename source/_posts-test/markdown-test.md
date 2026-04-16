@@ -76,6 +76,9 @@ mathjax: true
 ![本地图](img/markdown-test-image.jpg)
 
 
+![本地 WebP 图片](img/markdown-test-image.webp)
+
+
 自动链接
 
 测试 http://www.baidu.com 测试
