@@ -278,7 +278,7 @@ follow_me:
 # Display WeChat QR code at the end of each post
 wechat_subscribe:
   enable: true
-  description: 原创不易，如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号：搬砖的小明
+  description: 如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号“搬砖的小明”，及时获取更新
   qrcode: /about/wechat-qrcode.jpg
   qrcode_alt: 公众号：搬砖的小明
 
