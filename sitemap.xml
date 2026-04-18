@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.xiaoming.io/win7-file-assoc/</loc>
-    
-    <lastmod>2026-04-18</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.xiaoming.io/android-lint-3-application/</loc>
     
     <lastmod>2026-04-18</lastmod>
@@ -30,6 +21,15 @@
   
   <url>
     <loc>https://www.xiaoming.io/android-lint-1-usage/</loc>
+    
+    <lastmod>2026-04-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.xiaoming.io/win7-file-assoc/</loc>
     
     <lastmod>2026-04-18</lastmod>
     
