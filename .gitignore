@@ -6,13 +6,3 @@ node_modules/
 public/
 remote/
 .deploy*/
-
-# Yarn
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-.yarn/install-state.gz
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/pnp.*
