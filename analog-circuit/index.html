@@ -28,10 +28,10 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="在电子类专业中，模拟电路是一门非常重要，并且不少人觉得很难的一门课。这里我来说一说我对模拟电路这门课的理解，希望能对大家有所帮助。 工程思想">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/e50125fc8191a738ded41d25c1763c7a.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/c3202166d1c6c86a095de64b1107f90f.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/2cb9230901234bf2dca3fdd6b6088114.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/learn/images/d6ef7b9e4f2d6862168f04b07cd2fa5e.png">
+<meta property="og:image" content="https://www.xiaoming.io/analog-circuit/images/e50125fc8191a738ded41d25c1763c7a.png">
+<meta property="og:image" content="https://www.xiaoming.io/analog-circuit/images/c3202166d1c6c86a095de64b1107f90f.png">
+<meta property="og:image" content="https://www.xiaoming.io/analog-circuit/images/2cb9230901234bf2dca3fdd6b6088114.png">
+<meta property="og:image" content="https://www.xiaoming.io/analog-circuit/images/d6ef7b9e4f2d6862168f04b07cd2fa5e.png">
 <meta property="article:published_time" content="2014-10-07T13:58:49.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.399Z">
 <meta property="article:author" content="小明">
@@ -41,7 +41,7 @@
 <meta property="article:tag" content="硬件开发">
 <meta property="article:tag" content="课程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/learn/images/e50125fc8191a738ded41d25c1763c7a.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/analog-circuit/images/e50125fc8191a738ded41d25c1763c7a.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/analog-circuit/">
 
@@ -139,12 +139,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -336,7 +336,7 @@
 <p>三极管基本电路就是<strong>放大器</strong>，例如功放就是一个放大器，输入的声音很小，输出的声音却很大。放大器的输出和输入电压（或电流）之比称为<strong>放大倍数</strong>，又叫做<strong>增益</strong>。</p>
 <p>对于一个电压来说，如果以时间为横轴、电压为纵轴作图，这个图形则为这个电压的<strong>波形</strong>。</p>
 <p>如果一个放大倍数为5的放大器，输入恒定的1V电压（波形如下左图），则输出应该始终是5V（波形如下中图），既不会随时间改变，也不会随温度而变化，输出和输入的电压形状完全一样。但如果放大倍数不稳定，不断变化，原先输入的信号就会变形（如下右图），信号可能由一条水平直线变成了一条曲线。这种波形变化叫做<strong>失真</strong>。</p>
-<p><img data-src="/blog-imgs/learn/images/e50125fc8191a738ded41d25c1763c7a.png" alt=""></p>
+<p><img data-src="images/e50125fc8191a738ded41d25c1763c7a.png" alt=""></p>
 <p>一个理想的放大器，希望其放大倍数是恒定值。如果功放的放大倍数不稳定，声音就会忽大忽小，波形变化还会导致声音发生变化，即失真。</p>
 <p>现实总是和理想相违背。很不幸，三极管的特性并不理想，它在放大电路中工作时，放大倍数不仅受输入电压、电源电压影响，而且自身发热导致温度变化，也会影响它的放大倍数。这实在是让很多工程师头疼，如果不能找到有效的方法，减少这一特性带来的影响，三极管很难应用到实际中来。</p>
 <h2 id="负反馈">负反馈</h2>
@@ -354,14 +354,14 @@
 <h3 id="负反馈放大器">负反馈放大器</h3>
 <p>我们忽略具体电路，只画一个简单的框图，来说明三极管放大电路是如何利用负反馈的。</p>
 <p>下面三角形表示一个三极管构成的放大器，放大倍数为$A$，输入为$I$，则输出$O=I*A$，<strong>由于放大倍数$A$不稳定，所以输出波形会有失真</strong>。</p>
-<p><img data-src="/blog-imgs/learn/images/c3202166d1c6c86a095de64b1107f90f.png" alt=""></p>
+<p><img data-src="images/c3202166d1c6c86a095de64b1107f90f.png" alt=""></p>
 <p>在电路中添加了一些器件如下。</p>
 <ul>
 <li>紫色的圆形是<strong>相加器</strong>，结合紫色的“+”、“-”符号，表示其输出$Y=(+I)+(-X) = I-X$，在实际电路中用电阻就可以实现；</li>
 <li>方框$F$是<strong>反馈</strong>器件，表示从输出$O$取出信号，并将其与$F$相乘，得到$X$，所以$X=O*F$，这里$F&lt;1$（这个部分在实际电路中可以用电阻实现）；</li>
 <li>三角形表示的<strong>放大器</strong>A，主要用三极管构成，满足$O=A*Y$，且A的放大倍数不稳定，很容易受干扰。</li>
 </ul>
-<p><img data-src="/blog-imgs/learn/images/2cb9230901234bf2dca3fdd6b6088114.png" alt=""></p>
+<p><img data-src="images/2cb9230901234bf2dca3fdd6b6088114.png" alt=""></p>
 <p>可以列出方程组：</p>
 <p>$$ Y = I - X $$<br>
 $$ O = Y * A $$<br>
@@ -391,7 +391,7 @@ $$ X = O * F $$</p>
 <p>$$ U_o = A * ( U_+ - U_- ) $$</p>
 <p>运放开环增益$A$常常高达几十万~几百万，但运放的输出电压受电源电压限制，不能超出电源电压。于是运放的输入-输出关系类似下图形状。</p>
 <p>图中横轴是$(U_+ - U_- )$，纵轴是$U_o$。</p>
-<p><img data-src="/blog-imgs/learn/images/d6ef7b9e4f2d6862168f04b07cd2fa5e.png" alt=""></p>
+<p><img data-src="images/d6ef7b9e4f2d6862168f04b07cd2fa5e.png" alt=""></p>
 <p>在中间那一段直线区域，运放在正常放大状态，称为<strong>线性区</strong>，满足</p>
 <p>$$ U_o = A * ( U_+ - U_- ) $$</p>
 <p>而当输入的绝对值稍大一点时，输出就会受到电源限制，不再满足上述关系式，$U_o$的值通常比电源电压范围略小（注意运放可以用双电源，即电源电压范围可以在一个负值和一个正值之间），称为<strong>非线性区</strong>。</p>
@@ -469,6 +469,12 @@ $$ X = O * F $$</p>
   <div class="popular-posts-header">相关文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/self-made-pcb/" rel="bookmark">热转印法手工自制单面PCB流程和技巧总结</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/nuedc/" rel="bookmark">2013电赛总结【西电专用】</a></div>
+    </li>
+    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/mcu-primer-23/" rel="bookmark">单片机小白学步(23) IO口原理知识补充：双向IO口、互补推挽、高阻态</a></div>
     </li>
     <li class="popular-posts-item">
@@ -486,19 +492,13 @@ $$ X = O * F $$</p>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/mcu-primer-18/" rel="bookmark">单片机小白学步(18) 单片机/计算机系统概述：通信接口与协议</a></div>
     </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/mcu-primer-17/" rel="bookmark">单片机小白学步(17) 单片机/计算机系统概述：核心模块</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/mcu-primer-16/" rel="bookmark">单片机小白学步(16) 单片机/计算机系统概述：模块化思想</a></div>
-    </li>
   </ul>
 
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
               <a href="/tags/%E6%80%BB%E7%BB%93/" rel="tag"># 总结</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
               <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
               <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
               <a href="/tags/%E8%AF%BE%E7%A8%8B/" rel="tag"># 课程</a>
@@ -594,7 +594,7 @@ $$ X = O * F $$</p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -607,7 +607,7 @@ $$ X = O * F $$</p>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

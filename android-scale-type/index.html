@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="等比缩放：即缩放时保持原图片长宽比 拉伸：这里特指可能改变长宽比的缩放操作 以长宽为1:1的ImageView为例说明，图片来自 http:&#x2F;&#x2F;jameszhao84.iteye.com&#x2F;blog&#x2F;1397611">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/304e0dd29d54d251a400df0b3a8ff698.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/c3e4433dcc2f915f42034495d0b4147a.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/d433f376c25e9a608d76bcdc46310c33.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/a4ece23a6172c5ceaee9c752abf63e17.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/ea2c3ac5e6458c13c85b4a691dc9ddd7.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/c121985edf124d3cbd00de2ec68deaf7.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/4ea23c8c621562c7529f2d5d3441b520.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-scale-type/images/304e0dd29d54d251a400df0b3a8ff698.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-scale-type/images/c3e4433dcc2f915f42034495d0b4147a.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-scale-type/images/d433f376c25e9a608d76bcdc46310c33.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-scale-type/images/a4ece23a6172c5ceaee9c752abf63e17.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-scale-type/images/ea2c3ac5e6458c13c85b4a691dc9ddd7.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-scale-type/images/c121985edf124d3cbd00de2ec68deaf7.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-scale-type/images/4ea23c8c621562c7529f2d5d3441b520.png">
 <meta property="article:published_time" content="2016-11-25T14:37:29.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.573Z">
 <meta property="article:author" content="小明">
@@ -43,7 +43,7 @@
 <meta property="article:tag" content="移动开发">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/304e0dd29d54d251a400df0b3a8ff698.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/android-scale-type/images/304e0dd29d54d251a400df0b3a8ff698.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/android-scale-type/">
 
@@ -141,12 +141,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -323,31 +323,31 @@
 <ol>
 <li>
 <p>CENTER：图片不缩放，小图直接显示在ImageView中间，大图则取中心区域显示进ImageView。<br>
-<img data-src="/blog-imgs/tech/android/images/304e0dd29d54d251a400df0b3a8ff698.png" alt=""></p>
+<img data-src="images/304e0dd29d54d251a400df0b3a8ff698.png" alt=""></p>
 </li>
 <li>
 <p>CENTER_CROP：取图片中间最大的正方形区域，等比缩放后展示，填满ImageView。<br>
-<img data-src="/blog-imgs/tech/android/images/c3e4433dcc2f915f42034495d0b4147a.png" alt=""></p>
+<img data-src="images/c3e4433dcc2f915f42034495d0b4147a.png" alt=""></p>
 </li>
 <li>
 <p>CENTER_INSIDE：大于ImageView的图片等比缩小，直到整幅图能够居中显示；小于ImageView的图不缩放，直接居中显示。<br>
-<img data-src="/blog-imgs/tech/android/images/d433f376c25e9a608d76bcdc46310c33.png" alt=""></p>
+<img data-src="images/d433f376c25e9a608d76bcdc46310c33.png" alt=""></p>
 </li>
 <li>
 <p>FIT_CENTER：大图等比缩小，使整幅图居中显示在ImageView中；小图等比例放大，整体居中显示在ImageView中。<br>
-<img data-src="/blog-imgs/tech/android/images/a4ece23a6172c5ceaee9c752abf63e17.png" alt=""></p>
+<img data-src="images/a4ece23a6172c5ceaee9c752abf63e17.png" alt=""></p>
 </li>
 <li>
 <p>FIT_END：缩放同FIT_CENTER，但将图片靠右下方显示，而不是居中。<br>
-<img data-src="/blog-imgs/tech/android/images/ea2c3ac5e6458c13c85b4a691dc9ddd7.png" alt=""></p>
+<img data-src="images/ea2c3ac5e6458c13c85b4a691dc9ddd7.png" alt=""></p>
 </li>
 <li>
 <p>FIT_START：缩放同FIT_CENTER，但将图片靠左上方显示，而不是居中。<br>
-<img data-src="/blog-imgs/tech/android/images/c121985edf124d3cbd00de2ec68deaf7.png" alt=""></p>
+<img data-src="images/c121985edf124d3cbd00de2ec68deaf7.png" alt=""></p>
 </li>
 <li>
 <p>FIT_XY：将图片拉伸到与ImageView相同尺寸。<br>
-<img data-src="/blog-imgs/tech/android/images/4ea23c8c621562c7529f2d5d3441b520.png" alt=""></p>
+<img data-src="images/4ea23c8c621562c7529f2d5d3441b520.png" alt=""></p>
 </li>
 </ol>
 
@@ -491,7 +491,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -504,7 +504,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

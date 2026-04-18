@@ -28,21 +28,21 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="**写在前面：**本篇是在本系列之前文章《装系统不求人——硬盘的秘密》的基础上，对一些技术细节的补充。有利于对装系统过程中一些问题的理解，不看的话对学习装系统影响不大。难度略大，也难以举出一些通俗易懂的例子什么的，全靠个人理解力了，适合对计算机技术很感兴趣的读者看。 还要说明的是，这篇文章里面介绍的内容以MBR硬盘为主，部分内容适用于GPT硬盘。GPT硬盘目前还没有完全普及，资料较少，也没有去做详">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/9e7add7fe482fef1e2f7372ab1f923f4.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/734aa14d36f7c11787c555f2323f19be.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/145b18b21ec1c54b1b8e285e46ed1789.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/23d6b09b21b6e7537307b52b3bbdf508.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/99d34148d36836a1aeb57541e0859b90.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/e42364064e37b46610222c9cc96d94aa.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/83d919f8647fae6b8b8fc82846376faa.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/414ac43a6d0f8647e827dcb3e64378ad.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/9e7add7fe482fef1e2f7372ab1f923f4.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/734aa14d36f7c11787c555f2323f19be.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/145b18b21ec1c54b1b8e285e46ed1789.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/23d6b09b21b6e7537307b52b3bbdf508.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/99d34148d36836a1aeb57541e0859b90.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/e42364064e37b46610222c9cc96d94aa.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/83d919f8647fae6b8b8fc82846376faa.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/414ac43a6d0f8647e827dcb3e64378ad.png">
 <meta property="article:published_time" content="2015-04-02T09:07:36.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.403Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="#装系统不求人#">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/9e7add7fe482fef1e2f7372ab1f923f4.jpg">
+<meta name="twitter:image" content="https://www.xiaoming.io/sysinst-harddisk-details/images/9e7add7fe482fef1e2f7372ab1f923f4.jpg">
 
 <link rel="canonical" href="https://www.xiaoming.io/sysinst-harddisk-details/">
 
@@ -140,12 +140,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -327,12 +327,12 @@
 <li>磁道按照一定的弧度被分割成一个一个的扇形区域，称为扇区（Sector）</li>
 </ul>
 <p>硬盘的读写以扇区为基本单位，为了确定扇区位置，可以使用CHS寻址方式来表示，即柱面（C）、磁头（H）、扇区（S）序号。</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/9e7add7fe482fef1e2f7372ab1f923f4.jpg" alt=""></p>
+<p><img data-src="images/9e7add7fe482fef1e2f7372ab1f923f4.jpg" alt=""></p>
 <h2 id="ZBR（区位记录）">ZBR（区位记录）</h2>
 <p>ZBR = Zoned-bit Recording，区位记录</p>
 <p>在前面的示意图中，每个磁道包含的扇区数相同，因此外圈的扇区弧长远比内圈大，好处是硬盘的控制技术实现容易，坏处是没有充分利用存储空间。于是就有了ZBR技术，将硬盘从内到外分成多个区，同一个区每个磁道有相同数目的扇区，但靠外的区包含的扇区要比靠内的区多。示意图如下。</p>
 <p>对于现代磁盘，CHS方式已经不能满足需要，常使用LBA模式来进行寻址。具体可自行学习。</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/734aa14d36f7c11787c555f2323f19be.jpg" alt=""></p>
+<p><img data-src="images/734aa14d36f7c11787c555f2323f19be.jpg" alt=""></p>
 <h2 id="详细解释MBR">详细解释MBR</h2>
 <p>典型的扇区容量为512字节。MBR格式硬盘的第一个扇区，称为主引导扇区。在这512字节中，保存了这些内容：</p>
 <ul>
@@ -342,9 +342,9 @@
 <li>2字节的分区有效标志，即十六进制的0x55AA。它是硬盘被正确识别的前提，通过修改这个标志位，可以让硬盘无法被常规软件识别，从而实现硬盘加密。</li>
 </ul>
 <p><strong>习惯性的也用MBR指代整个主引导扇区（即广义的理解）</strong>。主引导扇区示意图如下：</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/145b18b21ec1c54b1b8e285e46ed1789.png" alt=""></p>
+<p><img data-src="images/145b18b21ec1c54b1b8e285e46ed1789.png" alt=""></p>
 <p>用DiskGenius软件打开硬盘，选择扇区编辑，就能看到主引导扇区了。而在地址为0x1FE的地方，就是硬盘分区的有效标志55AA了，如图右下角。</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/23d6b09b21b6e7537307b52b3bbdf508.png" alt=""></p>
+<p><img data-src="images/23d6b09b21b6e7537307b52b3bbdf508.png" alt=""></p>
 <p>在BIOS设置中，我们已经说了系统开机的过程：BIOS --&gt; BootLoader --&gt; 操作系统。对于MBR格式的硬盘来说，MBR本身就保存了BootLoader，例如我们可以将grub安装到MBR中。</p>
 <blockquote>
 <p>由于MBR空间较小，实际上grub只是部分被安装进去，另外一部分grub则会在MBR执行完成后，被加载到内存中继续运行，之后再由BootLoader启动操作系统。</p>
@@ -394,18 +394,18 @@
 <li>开机提示&quot;Missing operating system&quot;，是因为OBR末尾没有标志位0x55AA</li>
 </ul>
 <p>下图是我的硬盘活动分区中的OBR信息：</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/99d34148d36836a1aeb57541e0859b90.png" alt=""><br>
-<img data-src="/blog-imgs/tech/sysinst/images/e42364064e37b46610222c9cc96d94aa.png" alt=""></p>
+<p><img data-src="images/99d34148d36836a1aeb57541e0859b90.png" alt=""><br>
+<img data-src="images/e42364064e37b46610222c9cc96d94aa.png" alt=""></p>
 <h2 id="EBR与逻辑分区">EBR与逻辑分区</h2>
 <p>EBR = Extended Boot Record，扩展分区引导记录</p>
 <p>EBR是和MBR相对应的概念。主引导扇区的分区表DPT中只有四项，因此主/扩展分区最多只能有四个。扩展分区只能有一个、逻辑分区最大数量限制，都是受到操作系统的限制。</p>
 <p>主/扩展分区的分区表，保存在硬盘的主引导扇区的DPT中；而逻辑分区的分区信息是链式的。</p>
 <p>每个逻辑分区前都有一个扇区，格式类似主引导扇区，称为扩展引导记录EBR。其分区表的第一项指向该逻辑分区本身的引导扇区PBR，第二项指向下一个逻辑分区前面的EBR，第三、第四项没有用到。</p>
 <p>下图是我的硬盘中的第一个EBR，可以看出前面446字节对应主引导扇区中MBR的区域均为空，而后面64字节的分区表只用了前两项，结束符为0x55AA。</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/83d919f8647fae6b8b8fc82846376faa.png" alt=""></p>
+<p><img data-src="images/83d919f8647fae6b8b8fc82846376faa.png" alt=""></p>
 <h2 id="完整硬盘结构图">完整硬盘结构图</h2>
 <p>Windows下完整的硬盘结构图如下。</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/414ac43a6d0f8647e827dcb3e64378ad.png" alt=""></p>
+<p><img data-src="images/414ac43a6d0f8647e827dcb3e64378ad.png" alt=""></p>
 <h2 id="完整的Windows启动过程">完整的Windows启动过程</h2>
 <p>根据前面的介绍，最后完整的Windows启动过程通常如下：</p>
 <ul>
@@ -581,7 +581,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -594,7 +594,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

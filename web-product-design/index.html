@@ -28,21 +28,21 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="很多互联网产品有个共性，就是其业务核心在数据库中，各种客户端包括网页、桌面、手机App，本质上只是将数据库中的数据，按照一定的结构和组织呈现在用户面前。 因此对于一款互联网产品的初期开发，数据库模型的设计是非常重要的。并且数据库的模型设计与产品需求有直接的关联，通过设计数据库模型，能将产品需求与实现有效的结合起来。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a29b96734de4e451eed8302b93d83bde.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3383780691502922636285919564df75.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/06d50a9e8daad0718975f5b4c5c4e263.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/f78ebc5b03660d8e7386d8dac3eebbda.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/39f2cc5a15988a4c8afc4211414920c3.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/efc8471df39a4fd5f0b1079c6841b22f.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/638133d554d04ce31d532b512a5d5a8a.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c6295994352c5801048869dea142f83c.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/4ceb711c4d591b300dbff0dbefd21a47.png">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/a29b96734de4e451eed8302b93d83bde.png">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/3383780691502922636285919564df75.png">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/06d50a9e8daad0718975f5b4c5c4e263.png">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/f78ebc5b03660d8e7386d8dac3eebbda.png">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/39f2cc5a15988a4c8afc4211414920c3.png">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/efc8471df39a4fd5f0b1079c6841b22f.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/638133d554d04ce31d532b512a5d5a8a.png">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/c6295994352c5801048869dea142f83c.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/web-product-design/images/4ceb711c4d591b300dbff0dbefd21a47.png">
 <meta property="article:published_time" content="2015-02-08T08:12:08.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.398Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Web开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a29b96734de4e451eed8302b93d83bde.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/web-product-design/images/a29b96734de4e451eed8302b93d83bde.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/web-product-design/">
 
@@ -140,12 +140,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -336,36 +336,36 @@
 <p>据此，可以利用Visio的数据流图绘制关系图如下。我们用单向箭头表示一对多关系，用双向箭头表示多对多关系。</p>
 <p>Visio的使用可参考文章《Microsoft Visio绘图工具快速入门》</p>
 <p><a href="http://www.xiaoming.io/visio-quick-start">http://www.xiaoming.io/visio-quick-start</a></p>
-<p><img data-src="/blog-imgs/tech/images/a29b96734de4e451eed8302b93d83bde.png" alt=""></p>
+<p><img data-src="images/a29b96734de4e451eed8302b93d83bde.png" alt=""></p>
 <p>图例如下</p>
-<p><img data-src="/blog-imgs/tech/images/3383780691502922636285919564df75.png" alt=""></p>
+<p><img data-src="images/3383780691502922636285919564df75.png" alt=""></p>
 <p>从实现的角度来看，对于一对多的关系，例如User和Post，只需要在Post表中添加一个外键指向User即可。而对于多对多的关系，例如User和Post，则需要用一个新的表Comment，并设置两个外键分别指向User和Post实现。因此，我们把图中多对多关系画成下面的形式。</p>
 <p>在这个图中，每个圆形代表一个数据表。并且很巧的是，每个圆形上的箭头刚好标示了每个数据表所包含的外键，例如Friend表有两个外键，均指向User，Img有一个指向Post的外键。</p>
-<p><img data-src="/blog-imgs/tech/images/06d50a9e8daad0718975f5b4c5c4e263.png" alt=""></p>
+<p><img data-src="images/06d50a9e8daad0718975f5b4c5c4e263.png" alt=""></p>
 <p>在关系型数据库中，还有一种关系是一对一的关系。这种关系用的不多，因为一对一的两张表，可以将他们的字段直接合到一张表中。但是由于各种原因，处于安全性、性能等的考虑，就可能会用到。</p>
 <p>这里举一个可能不是很恰当的例子。原先User表中只保存了用户的基本信息，而产品已经投入运营。由于产品更新，产生了新的数据需求。用户可以付费申请VIP用户权限，VIP用户可以保存更多个性化的个人信息进行展示。这时VIP用户只是所有用户的一个子集。</p>
 <p>虽然我们可以修改User表，给每条记录都添加VIP用户专用的字段，但是这样可能会造成一定的空间浪费，另外可能会使得User表的大小增加很多，引起一些问题。</p>
 <p>这时我们可以考虑直接新建一张表VipUserInfo，专门用户存储VIP用户的附加信息，并设置一个外键指向User。此时，VipUserInfo和User就构成了一种一对一的关系，每条VipUserInfo记录对应一条User记录，且每条User记录最多只对应一条VipUserInfo记录。于是我们可以把整个数据表画成下面的样子。</p>
-<p><img data-src="/blog-imgs/tech/images/f78ebc5b03660d8e7386d8dac3eebbda.png" alt=""></p>
+<p><img data-src="images/f78ebc5b03660d8e7386d8dac3eebbda.png" alt=""></p>
 <p>新的图例如下</p>
-<p><img data-src="/blog-imgs/tech/images/39f2cc5a15988a4c8afc4211414920c3.png" alt=""></p>
+<p><img data-src="images/39f2cc5a15988a4c8afc4211414920c3.png" alt=""></p>
 <p>至此，数据库的关系模型已经画好了。可以很清晰的看到每个产品功能在数据层面的实现。</p>
 <h2 id="产品详细需求-界面概念图-数据表字段模型的设计">产品详细需求 / 界面概念图 / 数据表字段模型的设计</h2>
 <p>数据库的表级设计完成了，就可以根据产品的详细需求，进行字段级的设计了。字段级设计的同时，确定和完善产品的详细需求。由于细节很容易漏掉，后期再去做太多本可以避免的修改，会比较费时间和混乱，可以结合客户端的界面概念图或交互原型进行考虑，这样就不会很抽象，更容易想清楚每个细节。</p>
 <p>由于这里着重于产品功能设计，因此概念图的设计不需要花费很多精力做的非常精美，只需要初步确定有哪些界面，每个界面大概有哪些元素即可。不关注元素之间的排版，也不关注用于的操作，更不需要画的很精致，可以直接手工绘制简单的草图。这个过程应该由商业和市场人员、产品人员、交互设计人员、技术架构实现人员共同参与讨论，并且要明确讨论的主题。需要记住，概念草图的使用，只是为了方便直观的分析产品有哪些细节需求，而不是为了设计出最终的界面；界面后期的完善美化，由美工和交互设计人员完成就可以了。</p>
-<p><img data-src="/blog-imgs/tech/images/efc8471df39a4fd5f0b1079c6841b22f.jpg" alt=""></p>
+<p><img data-src="images/efc8471df39a4fd5f0b1079c6841b22f.jpg" alt=""></p>
 <p>最终确定出一系列的详细产品需求，例如用户信息相关的需求如下：</p>
 <p>用户通过用户名、密码、邮箱进行注册和登陆，可用邮箱找回密码</p>
 <p>登陆后，可以设置昵称、头像，也可以修改邮箱绑定</p>
 <p>其他……</p>
 <p>根据详细的产品需求，就可以对数据库模型进行细节设计了。</p>
 <p>这里使用简单易用的思维导图软件Xmind进行设计。最终设计图大致如下。</p>
-<p><img data-src="/blog-imgs/tech/images/638133d554d04ce31d532b512a5d5a8a.png" alt=""></p>
+<p><img data-src="images/638133d554d04ce31d532b512a5d5a8a.png" alt=""></p>
 <p>数据库的每张表和每个字段都设计完成后，实现起来就非常明确了，能大大节省后期的实现成本。下图是我为一个实际项目设计的数据库原型图（由于涉及商业敏感信息，用字母代替了每张表的名称）。</p>
-<p><img data-src="/blog-imgs/tech/images/c6295994352c5801048869dea142f83c.jpg" alt=""></p>
+<p><img data-src="images/c6295994352c5801048869dea142f83c.jpg" alt=""></p>
 <h2 id="总结">总结</h2>
 <p>至此，产品的需求已经基本确定，且数据库的原型也非常清晰的展现出来了。总结起来，本方法的思路大致如下：</p>
-<p><img data-src="/blog-imgs/tech/images/4ceb711c4d591b300dbff0dbefd21a47.png" alt=""></p>
+<p><img data-src="images/4ceb711c4d591b300dbff0dbefd21a47.png" alt=""></p>
 
             
 
@@ -505,7 +505,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -518,7 +518,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

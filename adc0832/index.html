@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="前段时间一直在为ADC0832的程序感到疑惑，从网上找了很多的代码，用Proteus仿真，最后都出现了一些奇怪的问题，有的根本没法读取数据，有的数据有错误。 当参考电压为5V时，如果把输入电压从0一直调到5V，读取的数据应该是从0到255，2.5V时应该是128。但是我发现一些源码在输入0~2.5V时读取出来的是0~255，到2.5V时读取的数据为0，从2.5到5V，读出的值又从0增加到255，始">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ff855ecf18a7748380fa1cf8ab739727.png">
+<meta property="og:image" content="https://www.xiaoming.io/adc0832/images/ff855ecf18a7748380fa1cf8ab739727.png">
 <meta property="article:published_time" content="2014-10-08T15:45:20.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.607Z">
 <meta property="article:author" content="小明">
@@ -40,7 +40,7 @@
 <meta property="article:tag" content="电路设计">
 <meta property="article:tag" content="硬件开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ff855ecf18a7748380fa1cf8ab739727.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/adc0832/images/ff855ecf18a7748380fa1cf8ab739727.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/adc0832/">
 
@@ -138,12 +138,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -317,7 +317,7 @@
         <p>前段时间一直在为ADC0832的程序感到疑惑，从网上找了很多的代码，用Proteus仿真，最后都出现了一些奇怪的问题，有的根本没法读取数据，有的数据有错误。</p>
 <p>当参考电压为5V时，如果把输入电压从0一直调到5V，读取的数据应该是从0到255，2.5V时应该是128。但是我发现一些源码在输入0~2.5V时读取出来的是0~255，到2.5V时读取的数据为0，从2.5到5V，读出的值又从0增加到255，始终不正确。今天下午特地查阅的ADC0832英文原版的DataSheet，又参考了一篇中文文档，终于写出了其完整的程序，并且先后读取了MSB FIRST DATA和LSB FIRST DATA，进行比较，如果两个数据相等，返回读取的数据，否则返回0，这样可以避免读取发生错误，更稳定可靠。并通过了Proteus仿真。</p>
 <p>下图是ADC0832的时序图：</p>
-<p><img data-src="/blog-imgs/tech/images/ff855ecf18a7748380fa1cf8ab739727.png" alt=""></p>
+<p><img data-src="images/ff855ecf18a7748380fa1cf8ab739727.png" alt=""></p>
 <p>其中T-SetUp为250ns，由于使用的是51单片机，晶振11.0592MHz，机器周期比这个值大，可以不考虑，但为了防止出现异常，还是延时了两个机器周期。注意在第11个时钟下降沿之后，DO上的电平既是MSB FIRST输出的最后一位，又是LSB FIRST输出的第一位。以下是读取ADC0832的代码。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">sbit CS_0832 = P1^0;</span><br><span class="line">sbit CLK_0832 = P1^1;</span><br><span class="line">sbit DO_0832 = P1^2;    // DI、DO不同时有效，可共用一个接口</span><br><span class="line">sbit DI_0832 = P1^2;</span><br><span class="line"></span><br><span class="line">extern void _nop_ ( void );</span><br><span class="line">#define pulse0832() _nop_();_nop_();CLK_0832=1;_nop_();_nop_();CLK_0832=0</span><br><span class="line"></span><br><span class="line">//把模拟电压值转换成8位二进制数并返回</span><br><span class="line">unsigned char read0832()</span><br><span class="line">&#123;</span><br><span class="line">    unsigned char i, ch = 0, ch1 = 0;</span><br><span class="line">    CS_0832=0;      // 片选，DO为高阻态</span><br><span class="line"></span><br><span class="line">    DI_0832=1;</span><br><span class="line">    // 此处暂停T-SetUp: 250ns (由pulse0832完成)</span><br><span class="line">    pulse0832();    // 第一个脉冲，起始位，DI置高</span><br><span class="line"></span><br><span class="line">    DI_0832=1;</span><br><span class="line">    pulse0832();    // 第二个脉冲，DI=1表示双通道单极性输入</span><br><span class="line"></span><br><span class="line">    DI_0832=1;</span><br><span class="line">    pulse0832();    // 第三个脉冲，DI=1表示选择通道1（CH2）</span><br><span class="line"></span><br><span class="line">    // 51单片机为准双向IO口：应先写入1再读取</span><br><span class="line">    DI_0832=1;</span><br><span class="line"></span><br><span class="line">    // MSB FIRST DATA</span><br><span class="line">    for(i = 0; i &lt; 8; ++i) &#123;</span><br><span class="line">        pulse0832();</span><br><span class="line">        ch &lt;&lt;= 1;</span><br><span class="line">        if(DO_0832==1)</span><br><span class="line">            ch = 0x01;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // MSB FIRST输出的最后一位与LSB FIRST输出的第一位是在</span><br><span class="line">    // 同一个时钟下降沿之后，故此处先执行读取，后执行pulse</span><br><span class="line">    // LSB FIRST DATA</span><br><span class="line">    for(i = 0; i &lt; 8; ++i) &#123;</span><br><span class="line">        ch1 &gt;&gt;= 1;</span><br><span class="line">        if(DO_0832==1)</span><br><span class="line">            ch1 = 0x80;</span><br><span class="line">        pulse0832();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    CS_0832=1;      // 取消片选，一个转换周期结束</span><br><span class="line">    return (ch==ch1) ? ch : 0;      // 返回转换结果</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Proteus仿真文件以及英文DataSheet、中文介绍请点击此处下载。</p>
@@ -466,7 +466,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -479,7 +479,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

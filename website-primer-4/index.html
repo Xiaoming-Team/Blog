@@ -28,18 +28,18 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="系列博客说明  《网站搭建从零开始》系列博客 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;tag&#x2F;website-primer 对于完整的学习，强烈建议先阅读《网站搭建从零开始（〇） 内容概要与学习方法》 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;website-primer-0">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/6933b914d47de32d081b93dd26199e58.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/ea94c959be5a8735f7ebc65960032edb.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/f57c3ec62e4891a8ac06b1962407740f.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/2647e269f7c98d36abf2f5d0801702f1.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/2486edde887c5bbab4d1c02c2c5d4228.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-4/images/6933b914d47de32d081b93dd26199e58.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-4/images/ea94c959be5a8735f7ebc65960032edb.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-4/images/f57c3ec62e4891a8ac06b1962407740f.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-4/images/2647e269f7c98d36abf2f5d0801702f1.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-4/images/2486edde887c5bbab4d1c02c2c5d4228.png">
 <meta property="article:published_time" content="2014-10-18T08:33:43.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.405Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="#网站搭建从零开始#">
 <meta property="article:tag" content="网站">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/6933b914d47de32d081b93dd26199e58.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/website-primer-4/images/6933b914d47de32d081b93dd26199e58.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/website-primer-4/">
 
@@ -137,12 +137,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -335,9 +335,9 @@
 <h2 id="给域名设置DNS服务器">给域名设置DNS服务器</h2>
 <p>DNS服务常见的都是可以免费使用的，提供DNS服务的如Godaddy，国内的DNSPOD等。如果你是从Godaddy购买的域名，可以直接使用Godaddy的DNS服务，也可以设置成国内的DNSPOD。</p>
 <p>下图是Godaddy购买了域名之后登陆账号显示的信息，点击域名产品右侧的Launch即可进入设置界面。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/6933b914d47de32d081b93dd26199e58.png" alt=""></p>
+<p><img data-src="images/6933b914d47de32d081b93dd26199e58.png" alt=""></p>
 <p>设置界面最常用的一项就是下图中的Nameservers，默认的是Godaddy自己的DNS域名服务器网址，图中我修改成了DNSPOD的地址。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/ea94c959be5a8735f7ebc65960032edb.png" alt=""></p>
+<p><img data-src="images/ea94c959be5a8735f7ebc65960032edb.png" alt=""></p>
 <p>如果使用Godaddy的域名服务器，不需要修改Nameservers，直接点击进入DNS Zone File进行设置。不同的域名服务提供商的设置方法基本相同。</p>
 <h2 id="设置DNS服务器的域名解析">设置DNS服务器的域名解析</h2>
 <p>下面是DNSPOD中域名解析的设置方法。</p>
@@ -348,7 +348,7 @@
 <li>主机记录、记录值。设置由 <em>主机记录</em> 指向 <em>记录值</em>。</li>
 <li>TTL。TTL是DNS服务器上刷新记录的时间间隔，如果需要频繁更改IP，记录时间可以短一些，否则应该设置长一点，这样一定程度上会加快访问速度。不了解的话，直接用默认值即可。</li>
 </ul>
-<p><img data-src="/blog-imgs/tech/website-primer/images/f57c3ec62e4891a8ac06b1962407740f.png" alt=""></p>
+<p><img data-src="images/f57c3ec62e4891a8ac06b1962407740f.png" alt=""></p>
 <p>我们添加两条记录。</p>
 <ul>
 <li>记录类型：<code>A记录</code>；主机记录：<code>@</code>，表示<code>http://xiaoming.io</code>；记录值：服务器空间的IP地址（空间提供商会给出这个IP地址）。</li>
@@ -356,7 +356,7 @@
 <li>第2条记录也可以写成：<code>CNAME</code>类型，由<code>www</code>指向<code>@</code>。</li>
 </ul>
 <p>如果不需要别的子域名、邮件等服务，DNS就已经设置好了。如图，其中有两项是NS类型记录，即域名记录。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/2647e269f7c98d36abf2f5d0801702f1.png" alt=""></p>
+<p><img data-src="images/2647e269f7c98d36abf2f5d0801702f1.png" alt=""></p>
 <h2 id="服务器空间对域名的绑定">服务器空间对域名的绑定</h2>
 <h3 id="URL解析与重定向">URL解析与重定向</h3>
 <p>假设域名 <code>www.xiaoming.io</code> 绑定了服务器空间，且网站根目录为空间中的<code>/mysite/</code>目录。</p>
@@ -375,7 +375,7 @@
 <li>即使只有一个网站，也推荐使用后者。因为在空间根目录下可能还有备份等其他文件，使用前者则这些文件暴漏在网站根目录下，则通过网址可以访问，不够安全。</li>
 </ul>
 <p>下图是我的网站设置。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/2486edde887c5bbab4d1c02c2c5d4228.png" alt=""></p>
+<p><img data-src="images/2486edde887c5bbab4d1c02c2c5d4228.png" alt=""></p>
 <h2 id="测试域名解析是否成功">测试域名解析是否成功</h2>
 <p>设置完成后记得保存。如果你很激动的马上访问你的域名，可能会发现提示域名错误等，这是因为这些设置并没有立即刷新，需要等待几分钟直到全球的DNS服务器都进行了刷新才行。</p>
 <p>如果你只设置了DNS，把域名指向服务器IP，没有设置空间绑定域名，这时可以用cmd的ping命令ping到服务器IP，但不能访问网页。</p>
@@ -522,7 +522,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -535,7 +535,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

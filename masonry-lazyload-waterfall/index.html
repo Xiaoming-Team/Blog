@@ -28,18 +28,18 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="瀑布流布局 我们常能在网上看到很多瀑布流布局的页面，尤其是很多图片网站，例如百度图片。这种最典型的瀑布流布局，每个元素的宽度是固定的，但图片长度各不相同，于是通过下图这种样子竖着排列了下来，达到了最大的页面空间利用率。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/575b490c53c977bf8d321b8e82cbf859.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/67cebaa87f3064dce52f5b5f2aa9c174.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a681c52cf8a5a6b01951c3572e892e5b.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1c833133de3ac1c22eab3677b168c40f.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c456551a34aaa96dfd66c06d063dce61.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a07fd3e1f73f787714546915c8746e34.png">
+<meta property="og:image" content="https://www.xiaoming.io/masonry-lazyload-waterfall/images/575b490c53c977bf8d321b8e82cbf859.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/masonry-lazyload-waterfall/images/67cebaa87f3064dce52f5b5f2aa9c174.png">
+<meta property="og:image" content="https://www.xiaoming.io/masonry-lazyload-waterfall/images/a681c52cf8a5a6b01951c3572e892e5b.png">
+<meta property="og:image" content="https://www.xiaoming.io/masonry-lazyload-waterfall/images/1c833133de3ac1c22eab3677b168c40f.png">
+<meta property="og:image" content="https://www.xiaoming.io/masonry-lazyload-waterfall/images/c456551a34aaa96dfd66c06d063dce61.png">
+<meta property="og:image" content="https://www.xiaoming.io/masonry-lazyload-waterfall/images/a07fd3e1f73f787714546915c8746e34.png">
 <meta property="article:published_time" content="2015-03-18T03:29:10.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.661Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Web开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/575b490c53c977bf8d321b8e82cbf859.jpg">
+<meta name="twitter:image" content="https://www.xiaoming.io/masonry-lazyload-waterfall/images/575b490c53c977bf8d321b8e82cbf859.jpg">
 
 <link rel="canonical" href="https://www.xiaoming.io/masonry-lazyload-waterfall/">
 
@@ -137,12 +137,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -318,13 +318,13 @@
 <blockquote>
 <p>因为对前端开发不了解，一开始为了找到这种布局叫什么名字也是花了我好久时间o(╯□╰)o</p>
 </blockquote>
-<p><img data-src="/blog-imgs/tech/images/575b490c53c977bf8d321b8e82cbf859.jpg" alt=""></p>
+<p><img data-src="images/575b490c53c977bf8d321b8e82cbf859.jpg" alt=""></p>
 <p>瀑布流布局不局限于等宽布局，例如下面这种形式也可以，来自<code>Masonry</code>官网截图。</p>
 <blockquote>
 <p>Masonry官网 <a target="_blank" rel="noopener" href="http://masonry.desandro.com/">http://masonry.desandro.com/</a></p>
 </blockquote>
-<p><img data-src="/blog-imgs/tech/images/67cebaa87f3064dce52f5b5f2aa9c174.png" alt=""></p>
-<p><img data-src="/blog-imgs/tech/images/a681c52cf8a5a6b01951c3572e892e5b.png" alt=""></p>
+<p><img data-src="images/67cebaa87f3064dce52f5b5f2aa9c174.png" alt=""></p>
+<p><img data-src="images/a681c52cf8a5a6b01951c3572e892e5b.png" alt=""></p>
 <p>瀑布流布局作为一种响应式布局，网页元素会自动根据页面宽度进行调整。按住Ctrl键并滚动鼠标滚轮，对网页进行缩放，我们就能看到网页元素之间的排版位置会不断变化，如上图所示。</p>
 <h2 id="瀑布流布局实现">瀑布流布局实现</h2>
 <p>对于上面的等宽瀑布流布局，看起来其实似乎很容易实现。但是由于HTML文档流的原理，网页元素的排列是先从左往右的，超出了才会换行，而不能直接控制成从上往下，因此直接利用HTML和CSS不太好处理，完美的瀑布流布局需要借助<code>javascript</code>或<code>jQuery</code>插件实现。这里说的不是很清楚，可以看下文中详细的图文解释。瀑布流布局的实现有很多种方式，这篇文章写得也很详细。</p>
@@ -334,9 +334,9 @@
 <h2 id="Masonry插件">Masonry插件</h2>
 <p><code>Masonry</code>插件是用的比较多的瀑布流布局插件。下面两张图展示了插件使用前后的网页布局，很容易看出其作用。</p>
 <p>没使用<code>Masonry</code>时，网页元素按照HTML文档流排列，先从左到右，超出再换行，中间会有很多空隙，如下图所示。</p>
-<p><img data-src="/blog-imgs/tech/images/1c833133de3ac1c22eab3677b168c40f.png" alt=""></p>
+<p><img data-src="images/1c833133de3ac1c22eab3677b168c40f.png" alt=""></p>
 <p>使用了<code>Masonry</code>之后，每个元素位置会自动被调整，空隙少了很多，如图所示。</p>
-<p><img data-src="/blog-imgs/tech/images/c456551a34aaa96dfd66c06d063dce61.png" alt=""></p>
+<p><img data-src="images/c456551a34aaa96dfd66c06d063dce61.png" alt=""></p>
 <h2 id="Masonry的基本使用">Masonry的基本使用</h2>
 <p>Masonry插件有两个版本，一个用的原生<code>javascript</code>，一个用的<code>jQuery</code>，如果你的网页刚好用到了其他<code>jQuery</code>库，建议用后者，因为代码量会少很多。两个版本的插件都可以在附件中的Demo里找到。</p>
 <blockquote>
@@ -358,7 +358,7 @@
 </ol>
 <h2 id="Masonry与Lazyload插件冲突">Masonry与Lazyload插件冲突</h2>
 <p>同时使用<code>Masonry</code>和<code>Lazyload</code>插件，会造成冲突。因为<code>Masonry</code>需要获取每个元素的尺寸从而计算出元素的位置，但是在网页滚动过程中，由于<code>Lazyload</code>动态加载图片会导致元素尺寸变化，而此时<code>Masonry</code>并不会重新计算，于是排列就混乱了，如图所示。</p>
-<p><img data-src="/blog-imgs/tech/images/a07fd3e1f73f787714546915c8746e34.png" alt=""></p>
+<p><img data-src="images/a07fd3e1f73f787714546915c8746e34.png" alt=""></p>
 <p>解决思路是每次<code>Lazyload</code>加载好一张图片就让<code>Masonry</code>重新排版。但找了很久也没找到<code>Lazyload</code>的回调参数……</p>
 <p>先后考虑或尝试了滚动网页事件、IMG加载完成事件、DIV尺寸变化事件、延时等来触发<code>Masonry</code>，还考虑过提前在后台计算好图片标签的尺寸、把<code>Lazyload</code>换成其他插件，但是怎么做都感觉不好，效率低或是很麻烦等问题。</p>
 <p>最后感觉最好的办法还是干脆自己改一下<code>Lazyload</code>的源码好了。但在看源码的时候意外发现了<code>Lazyload</code>其实有回调函数，也就是<code>load</code>参数。</p>
@@ -564,7 +564,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -577,7 +577,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

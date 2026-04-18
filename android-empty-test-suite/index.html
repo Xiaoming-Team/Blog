@@ -28,10 +28,10 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="最近在入门学习Android测试，感觉对于入门来说，最艰难的大概就是配置环境了，出现问题了完全没有思路，网上找了很多资料，说法各不相同，也经常不能解决问题。 对于新创建的工程，如果默认使用的gradle插件版本就在1.1.0以上，默认就可以支持单元测试，最顺利的情况下，几乎什么都不需要配置就能直接运行测试。但是不顺利的时候，各种奇怪的报错都会发生。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/e0562acd7b9b1da3582930b2fc9dde4e.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/3f28955a2f215b14c57780f6d7ac9718.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/ef7d2190ed7c0b304ba7549fcb0b1505.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/8202ca1c56145e4fb9a71cb5f600ecf7.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-empty-test-suite/images/e0562acd7b9b1da3582930b2fc9dde4e.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-empty-test-suite/images/3f28955a2f215b14c57780f6d7ac9718.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-empty-test-suite/images/ef7d2190ed7c0b304ba7549fcb0b1505.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-empty-test-suite/images/8202ca1c56145e4fb9a71cb5f600ecf7.png">
 <meta property="article:published_time" content="2016-02-15T11:31:50.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.572Z">
 <meta property="article:author" content="小明">
@@ -40,7 +40,7 @@
 <meta property="article:tag" content="移动开发">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/e0562acd7b9b1da3582930b2fc9dde4e.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/android-empty-test-suite/images/e0562acd7b9b1da3582930b2fc9dde4e.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/android-empty-test-suite/">
 
@@ -138,12 +138,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -334,7 +334,7 @@
 <p><code>Empty Test Suite.</code></p>
 </li>
 </ol>
-<p><img data-src="/blog-imgs/tech/android/images/e0562acd7b9b1da3582930b2fc9dde4e.png" alt=""></p>
+<p><img data-src="images/e0562acd7b9b1da3582930b2fc9dde4e.png" alt=""></p>
 <p>网上找了各种解决方案，但是回答基本上都是针对还没搞清单元测试基本写法和配置的情况。例如下面这些资料可供参考。</p>
 <p><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/14381694/why-is-the-android-test-runner-reporting-empty-test-suite">http://stackoverflow.com/questions/14381694/why-is-the-android-test-runner-reporting-empty-test-suite</a></p>
 <p><a target="_blank" rel="noopener" href="http://mtdevuk.com/2014/10/07/solution-for-test-running-failed-unable-to-find-instrumentation-info-for-componentinfo-com-google-android-apps-common-testing-testrunner-googleinstrumentationtestrunner/">http://mtdevuk.com/2014/10/07/solution-for-test-running-failed-unable-to-find-instrumentation-info-for-componentinfo-com-google-android-apps-common-testing-testrunner-googleinstrumentationtestrunner/</a></p>
@@ -348,9 +348,9 @@
 <a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/16591504/android-studio-import-existing-unit-tests-unable-to-find-instrumentation-info">http://stackoverflow.com/questions/16591504/android-studio-import-existing-unit-tests-unable-to-find-instrumentation-info</a></p>
 <p>自己创建的工程使用的Module Build Variants是默认的debug，而已有的项目选择的是gradle中配置的*Develop，从而导致不能运行。</p>
 <p>之后进行对比可以发现，如果使用的不是Debug，而是例如Release，Android Studio右下角显示的Task只有一个assembleRelease</p>
-<p><img data-src="/blog-imgs/tech/android/images/3f28955a2f215b14c57780f6d7ac9718.png" alt=""></p>
+<p><img data-src="images/3f28955a2f215b14c57780f6d7ac9718.png" alt=""></p>
 <p>如果使用Debug，就会显示assembleDebug和assembleDebugAndroidTest两项。</p>
-<p><img data-src="/blog-imgs/tech/android/images/ef7d2190ed7c0b304ba7549fcb0b1505.png" alt=""></p>
+<p><img data-src="images/ef7d2190ed7c0b304ba7549fcb0b1505.png" alt=""></p>
 <p>在Run窗口可以看到，先后安装了两个APK，前一个是被测试的APK，后者则是Test Runner。</p>
 <ol>
 <li>
@@ -396,7 +396,7 @@
 <p><code>Test running startedFinish</code></p>
 </li>
 </ol>
-<p><img data-src="/blog-imgs/tech/android/images/8202ca1c56145e4fb9a71cb5f600ecf7.png" alt=""></p>
+<p><img data-src="images/8202ca1c56145e4fb9a71cb5f600ecf7.png" alt=""></p>
 
             
 
@@ -538,7 +538,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -551,7 +551,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

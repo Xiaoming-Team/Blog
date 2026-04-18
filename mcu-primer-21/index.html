@@ -28,10 +28,10 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="本篇我们先介绍最基础的几个IO口操作。学完本篇，大家要能自己独立完成下面几个实验。 1、点亮LED">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/3e53d0a38e1b039bd4268811d8c3f8ce.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/217677b5e7598911ad58cbf30c43d291.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/a5773cba353697360e3bd1ce4e4097ec.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/d173bd58d61e33841eeaf613653acf41.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-21/images/3e53d0a38e1b039bd4268811d8c3f8ce.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-21/images/217677b5e7598911ad58cbf30c43d291.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-21/images/a5773cba353697360e3bd1ce4e4097ec.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-21/images/d173bd58d61e33841eeaf613653acf41.jpg">
 <meta property="article:published_time" content="2014-11-14T08:35:16.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.773Z">
 <meta property="article:author" content="小明">
@@ -46,7 +46,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/3e53d0a38e1b039bd4268811d8c3f8ce.jpg">
+<meta name="twitter:image" content="https://www.xiaoming.io/mcu-primer-21/images/3e53d0a38e1b039bd4268811d8c3f8ce.jpg">
 
 <link rel="canonical" href="https://www.xiaoming.io/mcu-primer-21/">
 
@@ -144,12 +144,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -332,11 +332,11 @@
 <p>第一句定义LED为sbit型变量，对应了P1.0口的高低电平，具体应该写哪个IO口，和实际电路有关。第二句设置LED对应的P1.0管脚输出低电平，从而点亮LED。</p>
 <h2 id="实验二：按键开关">实验二：按键开关</h2>
 <p>讲第二个实验前，先简单介绍下常用的按键开关。下图就是最常见的按键开关，有四个引脚，图中的1、2连在一起，3、4连接在一起。按下按键时，四个引脚就全部导通了。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/3e53d0a38e1b039bd4268811d8c3f8ce.jpg" alt=""></p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/217677b5e7598911ad58cbf30c43d291.jpg" alt=""></p>
+<p><img data-src="images/3e53d0a38e1b039bd4268811d8c3f8ce.jpg" alt=""></p>
+<p><img data-src="images/217677b5e7598911ad58cbf30c43d291.jpg" alt=""></p>
 <h2 id="实验二：搭建电路">实验二：搭建电路</h2>
 <p>根据前面讲的IO口原理，我把按键开关一端接在P2.0端口了，另一端接到GND。因为P2.0有内部上拉电阻，我就不用自己外接了。最小系统和LED还是之前的电路不变，如下图所示。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/a5773cba353697360e3bd1ce4e4097ec.jpg" alt=""></p>
+<p><img data-src="images/a5773cba353697360e3bd1ce4e4097ec.jpg" alt=""></p>
 <h2 id="实验二：程序实现">实验二：程序实现</h2>
 <p>程序首先定义了LED和KEY，分别表示发光二极管和按键开关。如果你用的是成品开发板，或者电路和我的不一样，就定义你的电路中对应的管脚。开发板可以从电路图查看独立按键所在的管脚。</p>
 <p>主函数刚开始时，设置KEY输出高电平，因为后面要读取KEY所在端口的电平。在程序的主循环中，读取KEY的值，这里我们直接把KEY当做一个一位变量去判断就可以了，它有值0和1。如果KEY为1，即KEY==1，说明按键没有按下，设置LED=1即熄灭。注意这里使用两个等号表示比较而不能用一个等号，那样就成赋值了。在else中，设置LED=0即点亮。于是就能实现我们需要的效果了。</p>
@@ -355,7 +355,7 @@
 <p>}</p>
 <p>}</p>
 <p>这是我按下按键，灯亮时的情形。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/d173bd58d61e33841eeaf613653acf41.jpg" alt=""></p>
+<p><img data-src="images/d173bd58d61e33841eeaf613653acf41.jpg" alt=""></p>
 <h2 id="实验二：程序分析">实验二：程序分析</h2>
 <p>注意这里我们读取按键和开关LED的代码应该放在主循环里面，也就是不断的读取按键状态并开关灯。如果放在主循环前面，主函数写成下面这样，是不能工作的。因为单片机执行速度很快，放在循环前面只会读取按键执行一次，执行完了进入while(1)主循环，单片机就不会再读取按键的状态，这时无论如何按键，它都不会帮你开关LED了。</p>
 <p>void main()</p>
@@ -438,15 +438,15 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
-              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
               <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
               <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
               <a href="/tags/C/" rel="tag"># C</a>
-              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
           </div>
 
         
@@ -539,7 +539,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -552,7 +552,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="前面介绍了几种准备实验板的方案。这里先介绍方案一，我将同大家一起搭建一块简易的单片机实验板，一起感受动手实践的乐趣。 我们有两种自己搭建实验板的方案，一是用面包板，二是用万用焊板。本篇我们介绍面包板搭建电路。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/6383370c412d4850fa26197972b242b3.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/07c792136fdb41f23a81860cd32659c8.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/1bf39713c51fc938ecde08f2147b00c6.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/4c217e7a7603ddb3203f8f98ca69f895.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/3481cadcd3c0bae7747c8e61104a36ba.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/2423fd2fe8ffd53cf8bbbd6a966103f4.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/6f9d0dea2b154efcc5e201f74eeaca3f.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-8/images/6383370c412d4850fa26197972b242b3.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-8/images/07c792136fdb41f23a81860cd32659c8.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-8/images/1bf39713c51fc938ecde08f2147b00c6.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-8/images/4c217e7a7603ddb3203f8f98ca69f895.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-8/images/3481cadcd3c0bae7747c8e61104a36ba.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-8/images/2423fd2fe8ffd53cf8bbbd6a966103f4.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-8/images/6f9d0dea2b154efcc5e201f74eeaca3f.jpg">
 <meta property="article:published_time" content="2014-10-07T12:03:33.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.774Z">
 <meta property="article:author" content="小明">
@@ -49,7 +49,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/6383370c412d4850fa26197972b242b3.jpg">
+<meta name="twitter:image" content="https://www.xiaoming.io/mcu-primer-8/images/6383370c412d4850fa26197972b242b3.jpg">
 
 <link rel="canonical" href="https://www.xiaoming.io/mcu-primer-8/">
 
@@ -147,12 +147,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -330,7 +330,7 @@
 <p>面包板搭建电路简单易行，节省时间和材料。但是缺点在于，面包板只能搭建一些比较简单的电路，而且是对电气连接要求不高的电路。如果电路太复杂，面包板上全是各种导线，出现某些导线或元件松动的情况，不容易找到；如果有些电路对电气连接要求比较高，比如要通过很大电流，微弱信号处理，高频电路等，由于元件是简单的插进去的，与面包板之间的电阻值较大等原因，效果就不理想了。</p>
 <p>下图展示了面包板线和一种常用的面包板。面包板线可以用粗细合适的普通硬导线，也可以使用图中所示的专用线，会更方便。</p>
 <p>图中的面包板，外侧标有红线和蓝线的整个竖排是分别连在一起的，一般用于接电源。中间每一横排五个孔分别连在一起的，用于插接各种元件。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/6383370c412d4850fa26197972b242b3.jpg" alt=""></p>
+<p><img data-src="images/6383370c412d4850fa26197972b242b3.jpg" alt=""></p>
 <h2 id="准备材料">准备材料</h2>
 <p>下面转入正题，搭建简易单片机实验板。前面介绍了单片机最小系统电路是单片机正常运行的最小电路，这里我们就要从最小系统开始搭建。需要准备如下工具材料：</p>
 <p>面包板，面包板线、导线、杜邦线若干</p>
@@ -339,19 +339,19 @@
 <p>10uF电容、10k电阻（用于复位电路）</p>
 <p>USB-TTL下载线（用于程序烧写，后面文章会详细介绍）</p>
 <p>六脚自锁开关（作为电源开关，可以省略，而使用插拔导线的方式代替）</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/07c792136fdb41f23a81860cd32659c8.jpg" alt=""></p>
+<p><img data-src="images/07c792136fdb41f23a81860cd32659c8.jpg" alt=""></p>
 <p>图中的元件用于复位电路和时钟电路。上面是10k色环电阻，具体读法请自行学习；然后是10uF点解电容，电解电容有正负极，图中表皮上标有白色箭头的管脚为负极，如果是如图所示全新的电解电容，正极的引脚更长；下面左边是两个瓷片电容，没找到30pF我用比较接近的27pF代替，具体容量读法也请自行学习；右下角是晶振，正面标注了11.0592，即晶振的频率为11.0592MHz。</p>
 <h2 id="搭建好的电路">搭建好的电路</h2>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/1bf39713c51fc938ecde08f2147b00c6.jpg" alt=""></p>
+<p><img data-src="images/1bf39713c51fc938ecde08f2147b00c6.jpg" alt=""></p>
 <p>图中是搭建好的最小系统，两根白线用来把两侧的正负极连接到一起。</p>
 <h2 id="USB-TTL转接板和程序下载电路">USB-TTL转接板和程序下载电路</h2>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/4c217e7a7603ddb3203f8f98ca69f895.jpg" alt=""></p>
+<p><img data-src="images/4c217e7a7603ddb3203f8f98ca69f895.jpg" alt=""></p>
 <p>一端公头（插针），一端母头（插孔）的杜邦线</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/3481cadcd3c0bae7747c8e61104a36ba.jpg" alt=""></p>
+<p><img data-src="images/3481cadcd3c0bae7747c8e61104a36ba.jpg" alt=""></p>
 <p>USB-TTL转接板正面</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/2423fd2fe8ffd53cf8bbbd6a966103f4.jpg" alt=""></p>
+<p><img data-src="images/2423fd2fe8ffd53cf8bbbd6a966103f4.jpg" alt=""></p>
 <p>USB-TTL转接板反面（连接了杜邦线母头）</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/6f9d0dea2b154efcc5e201f74eeaca3f.jpg" alt=""></p>
+<p><img data-src="images/6f9d0dea2b154efcc5e201f74eeaca3f.jpg" alt=""></p>
 <p>杜邦线母头连接了USB-TTL转接板（以下简称转接板），杜邦线的公头插在面包板上和单片机最小系统相连接。转接板上5V连接面包板的电源（我的转接板上有5V和3.3V两个供电电压，有的转接板只有一个VCC，就接VCC），GND连接面包板负极，即单片机的GND，这两根线可以给单片机供电；转接板上的TXD连接单片机的RXD（P3.0）、RXD连接单片机的TXD（P3.1）（可参考之前介绍的51单片机管脚分布图），这两根线是用来进行串口通信和下载程序的，后面会详细介绍。</p>
 <p>图中我已经连接好了电路，并且在P1.0上接了一个LED和电阻，用电脑下载了LED闪烁的程序。可以看到照片中绿色LED正处于点亮的状态。</p>
 <p>搭建好实验板后，我将带大家安装相关软件，编写第一个单片机程序，并把它下载到我们的实验板上运行，我们不见不散哦。</p>
@@ -402,15 +402,15 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
-              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
               <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
               <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
               <a href="/tags/C/" rel="tag"># C</a>
-              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
           </div>
 
         
@@ -503,7 +503,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -516,7 +516,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

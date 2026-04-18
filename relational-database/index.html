@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="本文对关系型数据库的概念做个基本介绍，主要是逻辑问题，并不需要涉及太多技术问题。 关系型数据库中存储一张张的表，类似Excel表格。如图，id、姓名、性别等称为字段，每个字段为一列，而每行的数据称为一条记录，例如小明的所有信息。另外图中有一个主键id，其值对应一个数字，每条记录的主键不同，这样就可以通过id唯一确定一条记录了。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/f414956047d2f0bad284b1f0149efc66.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c4d5a88217f91834a393c1e7bb9bd93f.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/d0ba6547571cc4a5df96a40c09ec835b.png">
+<meta property="og:image" content="https://www.xiaoming.io/relational-database/images/f414956047d2f0bad284b1f0149efc66.png">
+<meta property="og:image" content="https://www.xiaoming.io/relational-database/images/c4d5a88217f91834a393c1e7bb9bd93f.png">
+<meta property="og:image" content="https://www.xiaoming.io/relational-database/images/d0ba6547571cc4a5df96a40c09ec835b.png">
 <meta property="article:published_time" content="2015-02-08T07:13:18.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.662Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/f414956047d2f0bad284b1f0149efc66.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/relational-database/images/f414956047d2f0bad284b1f0149efc66.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/relational-database/">
 
@@ -134,12 +134,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -312,13 +312,13 @@
       
         <p>本文对关系型数据库的概念做个基本介绍，主要是逻辑问题，并不需要涉及太多技术问题。</p>
 <p>关系型数据库中存储一张张的表，类似Excel表格。如图，id、姓名、性别等称为字段，每个字段为一列，而每行的数据称为一条记录，例如小明的所有信息。另外图中有一个主键id，其值对应一个数字，每条记录的主键不同，这样就可以通过id唯一确定一条记录了。</p>
-<p><img data-src="/blog-imgs/tech/images/f414956047d2f0bad284b1f0149efc66.png" alt=""></p>
+<p><img data-src="images/f414956047d2f0bad284b1f0149efc66.png" alt=""></p>
 <p>现在又有一些选修课，数据表如图</p>
-<p><img data-src="/blog-imgs/tech/images/c4d5a88217f91834a393c1e7bb9bd93f.png" alt=""></p>
+<p><img data-src="images/c4d5a88217f91834a393c1e7bb9bd93f.png" alt=""></p>
 <p>假设每个学生可以任意选择选修课，为了表示学生和选修课的对应关系，可以再建一张表如下。</p>
 <p>这张表中的两个字段student_id和class_id，分别代表student表中的id和class表中的id，我们将这样的字段称为外键。由于这张表中外键的存在，将学生和选修课联系起来了，即关系数据表中“关系”的含义所在。</p>
 <p>根据这张表可以看出，id为0的学生选修了id为0和1的选修课，id为1的学生选修课id为1的选修课。也可以看出，id为1的选修课被id为0和1的学生选了。</p>
-<p><img data-src="/blog-imgs/tech/images/d0ba6547571cc4a5df96a40c09ec835b.png" alt=""></p>
+<p><img data-src="images/d0ba6547571cc4a5df96a40c09ec835b.png" alt=""></p>
 <p>更进一步，如果学生选课记录的表，与其他表也有关系，例如需要记录选课是被哪个老师确认的，可以有一张teacher的表，然后在student_class中在添加一个comfirm_teacher_id的外键，指向teacher数据表。</p>
 
             
@@ -458,7 +458,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -471,7 +471,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

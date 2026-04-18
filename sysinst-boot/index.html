@@ -28,19 +28,19 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="首先下载附件中的boot-tools，引导记录编辑和修复工具，包括NTBootAutoFix和EasyBCD软件。  http:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1c08NJs0">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/3c0d0872309bee871a8099c8f51c15e2.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/3a46e037cf1ddeb6e079769e97aaf205.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/c1e9ff53d4d1310b38d3f02c8fc6f3c2.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/6f23196003a0e7a72dec0d605de7c81c.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/3b54543b9c6aa95ecd727555f29fd75b.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/6a9463803ce2419556c8c1a00ca019bf.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-boot/images/3c0d0872309bee871a8099c8f51c15e2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-boot/images/3a46e037cf1ddeb6e079769e97aaf205.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-boot/images/c1e9ff53d4d1310b38d3f02c8fc6f3c2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-boot/images/6f23196003a0e7a72dec0d605de7c81c.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-boot/images/3b54543b9c6aa95ecd727555f29fd75b.png">
+<meta property="og:image" content="https://www.xiaoming.io/sysinst-boot/images/6a9463803ce2419556c8c1a00ca019bf.png">
 <meta property="article:published_time" content="2015-04-08T06:27:38.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.402Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="#装系统不求人#">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/sysinst/images/3c0d0872309bee871a8099c8f51c15e2.jpg">
+<meta name="twitter:image" content="https://www.xiaoming.io/sysinst-boot/images/3c0d0872309bee871a8099c8f51c15e2.jpg">
 
 <link rel="canonical" href="https://www.xiaoming.io/sysinst-boot/">
 
@@ -138,12 +138,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -352,24 +352,24 @@
 <li><code>multi(0)disk(0)rdisk(0)partition(1)\WINDOWS=&quot;Microsoft Windows XP Professional&quot; /noexecute=optin /fastdetect</code></li>
 </ol>
 <p>下图就是NTLDR输出的系统选择界面：</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/3c0d0872309bee871a8099c8f51c15e2.jpg" alt=""></p>
+<p><img data-src="images/3c0d0872309bee871a8099c8f51c15e2.jpg" alt=""></p>
 <h2 id="BootMgr与BCD">BootMgr与BCD</h2>
 <p>对于常见的Win 7/8系统，其BootLoader是BootMgr，配置文件是BCD。BootMgr通常放在活动分区根目录，BCD则放在相应的Boot子目录下。</p>
 <p>BCD文件不能直接进行编辑，一般用微软提供的bcdedit命令编辑，这里也不细说。</p>
 <p>在Win7中，右击计算机，属性，打开如下页面，依次选择“高级系统设置”、“启动和故障恢复”下的“设置”，可以打开界面，可以编辑部分BCD设置，如默认启动的操作系统、显示操作系统列表的时间等。</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/3a46e037cf1ddeb6e079769e97aaf205.jpg" alt=""></p>
+<p><img data-src="images/3a46e037cf1ddeb6e079769e97aaf205.jpg" alt=""></p>
 <p>下图是BootMgr输出的系统选择界面：</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/c1e9ff53d4d1310b38d3f02c8fc6f3c2.jpg" alt=""></p>
+<p><img data-src="images/c1e9ff53d4d1310b38d3f02c8fc6f3c2.jpg" alt=""></p>
 <h2 id="NTBootAutoFix工具">NTBootAutoFix工具</h2>
 <p>NTBootAutoFix工具在附件中，这个工具可以自动修复Windows NT5.x / NT6.x的引导，并且在Windows和PE环境下都可以运行。</p>
 <p>软件需要以管理员身份运行。打开后，显示界面如下。通常我们鼠标点击自动修复，NTBootAutoFix就可以自动识别硬盘分区中的Windows系统，并修复其引导设置，其他的我们什么都不用操心。</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/6f23196003a0e7a72dec0d605de7c81c.png" alt=""></p>
+<p><img data-src="images/6f23196003a0e7a72dec0d605de7c81c.png" alt=""></p>
 <h2 id="EasyBCD软件">EasyBCD软件</h2>
 <p>NTBootAutoFix用于自动修复NT5.x / 6.x的引导，而EasyBCD软件则可以用图形化的方式编辑NT6.x的BCD配置。EasyBCD只能运行在Windows下，在PE环境中是无法运行的。</p>
 <p>打开软件后界面如下：</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/3b54543b9c6aa95ecd727555f29fd75b.png" alt=""></p>
+<p><img data-src="images/3b54543b9c6aa95ecd727555f29fd75b.png" alt=""></p>
 <p>点击左边的编辑引导菜单，可以编辑启动菜单项。可以设置默认启动的系统、倒计时时间，还可以修改排列顺序。</p>
-<p><img data-src="/blog-imgs/tech/sysinst/images/6a9463803ce2419556c8c1a00ca019bf.png" alt=""></p>
+<p><img data-src="images/6a9463803ce2419556c8c1a00ca019bf.png" alt=""></p>
 <p>还有一些其他的功能，这里暂不做介绍。</p>
 
             
@@ -511,7 +511,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -524,7 +524,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

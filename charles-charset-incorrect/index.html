@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="Charles是Mac系统中相对比较好用的抓包工具。用Charles抓包时，常会用MapLocal功能，把不同的接口映射到不同的本地Json文件，方便测试。我会把一些常用的接口Response数据放到一个文件夹里，有需要的时候随时可以重复利用。 但是Charles设置MapLocal总是会出现乱码，包括网上很多Charles教程中的截图也可以看到乱码，但是网上没有找到解决方案，没有人提出怎么解决这">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/d28e76bc4ca018f7a7bb1d24e04a8f4b.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8f7d413c7cd185c670eeb8fd43b224d8.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/655e1b318d2ffb3ad423ef203b0c1eae.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/ae0426708f3be4cc83c1c2ab10c9ec4f.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/40e14a37d60f1c6303e79b3a4605f894.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/02ff4c3cfb0393bfa6ca9742eb6c6b9d.png">
+<meta property="og:image" content="https://www.xiaoming.io/charles-charset-incorrect/images/d28e76bc4ca018f7a7bb1d24e04a8f4b.png">
+<meta property="og:image" content="https://www.xiaoming.io/charles-charset-incorrect/images/8f7d413c7cd185c670eeb8fd43b224d8.png">
+<meta property="og:image" content="https://www.xiaoming.io/charles-charset-incorrect/images/655e1b318d2ffb3ad423ef203b0c1eae.png">
+<meta property="og:image" content="https://www.xiaoming.io/charles-charset-incorrect/images/ae0426708f3be4cc83c1c2ab10c9ec4f.png">
+<meta property="og:image" content="https://www.xiaoming.io/charles-charset-incorrect/images/40e14a37d60f1c6303e79b3a4605f894.png">
+<meta property="og:image" content="https://www.xiaoming.io/charles-charset-incorrect/images/02ff4c3cfb0393bfa6ca9742eb6c6b9d.png">
 <meta property="article:published_time" content="2016-06-16T10:31:15.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.607Z">
 <meta property="article:author" content="小明">
@@ -42,7 +42,7 @@
 <meta property="article:tag" content="移动开发">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/d28e76bc4ca018f7a7bb1d24e04a8f4b.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/charles-charset-incorrect/images/d28e76bc4ca018f7a7bb1d24e04a8f4b.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/charles-charset-incorrect/">
 
@@ -140,12 +140,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -324,18 +324,18 @@
 <p>在Response的Header中如果没有指定编码，Volley会默认使用ISO-8859-1，不支持中文，导致乱码（其他网络框架可能也会有同样问题）。解决思路是，让返回的数据Header中<code>Content-Type</code>字段声明<code>charset=UTF-8</code>。</p>
 <p>参考：<a target="_blank" rel="noopener" href="http://my.oschina.net/u/1247737/blog/393959">http://my.oschina.net/u/1247737/blog/393959</a></p>
 <p>看了下Charles中MapLocal，<code>Content-Type</code>中果然没有声明编码。<br>
-<img data-src="/blog-imgs/tech/images/d28e76bc4ca018f7a7bb1d24e04a8f4b.png" alt=""></p>
+<img data-src="images/d28e76bc4ca018f7a7bb1d24e04a8f4b.png" alt=""></p>
 <p>在菜单中找了找，有个Rewrite功能，尝试了一下，顺利解决了问题。</p>
 <p>1、选择Tools – Rewrite<br>
-<img data-src="/blog-imgs/tech/images/8f7d413c7cd185c670eeb8fd43b224d8.png" alt=""></p>
+<img data-src="images/8f7d413c7cd185c670eeb8fd43b224d8.png" alt=""></p>
 <p>2、勾选Enable Rewrite启用Rewrite功能。点击左侧Sets中的Add按钮，添加一条Rewrite规则，可以设置一个名字。<br>
-<img data-src="/blog-imgs/tech/images/655e1b318d2ffb3ad423ef203b0c1eae.png" alt=""></p>
+<img data-src="images/655e1b318d2ffb3ad423ef203b0c1eae.png" alt=""></p>
 <p>3、点击右侧Locations中的Add，弹出窗口如下。可以全部留空匹配所有请求。也可以根据需要过滤指定的接口，然后点击OK确认。<br>
-<img data-src="/blog-imgs/tech/images/ae0426708f3be4cc83c1c2ab10c9ec4f.png" alt=""></p>
+<img data-src="images/ae0426708f3be4cc83c1c2ab10c9ec4f.png" alt=""></p>
 <p>4、点击Rules中的Add按钮，添加一条规则，弹出窗口中设置如下。修改Response的Header，匹配<code>Content-Type = text/plain</code>的项，并将其替换成<code>Content-Type = application/json;charset=UTF-8</code>（根据实际情况进行设置）。点击OK保存。<br>
-<img data-src="/blog-imgs/tech/images/40e14a37d60f1c6303e79b3a4605f894.png" alt=""></p>
+<img data-src="images/40e14a37d60f1c6303e79b3a4605f894.png" alt=""></p>
 <p>5、最终设置好后的效果如下。再次使用MapLocal功能时，发现乱码问题已经解决了（前提是所映射的本地文件也是UTF-8编码，通常在Mac系统中，默认支持中文的编码就是UTF-8）。<br>
-<img data-src="/blog-imgs/tech/images/02ff4c3cfb0393bfa6ca9742eb6c6b9d.png" alt=""></p>
+<img data-src="images/02ff4c3cfb0393bfa6ca9742eb6c6b9d.png" alt=""></p>
 
             
 
@@ -477,7 +477,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -490,7 +490,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

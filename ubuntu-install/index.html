@@ -28,8 +28,8 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="解压文件 使用WinRAR等软件，Ubuntu ISO镜像文件中的casper文件夹解压到硬盘中的任意分区根目录，把ISO镜像也放在那个分区根目录。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/777138ed62b0cfa722a0461b7ef3e9f8.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6c67a978ba68f627e4b351be03cc84d1.png">
+<meta property="og:image" content="https://www.xiaoming.io/ubuntu-install/images/777138ed62b0cfa722a0461b7ef3e9f8.png">
+<meta property="og:image" content="https://www.xiaoming.io/ubuntu-install/images/6c67a978ba68f627e4b351be03cc84d1.png">
 <meta property="article:published_time" content="2015-01-10T09:29:45.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.663Z">
 <meta property="article:author" content="小明">
@@ -37,7 +37,7 @@
 <meta property="article:tag" content="Ubuntu">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/777138ed62b0cfa722a0461b7ef3e9f8.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/ubuntu-install/images/777138ed62b0cfa722a0461b7ef3e9f8.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/ubuntu-install/">
 
@@ -135,12 +135,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -315,7 +315,7 @@
 <p>使用WinRAR等软件，Ubuntu ISO镜像文件中的casper文件夹解压到硬盘中的任意分区根目录，把ISO镜像也放在那个分区根目录。</p>
 <h2 id="使用Grub4dos启动Ubuntu">使用Grub4dos启动Ubuntu</h2>
 <p>使用grub4dos启动Ubuntu，menu.lst写法如下。其中root命令指定了硬盘分区编号，如果不了解，可以用DiskGenius软件查看。kernel，initrd和filename后面的参数，分别对应了刚刚解压的casper文件夹，以及ISO文件的路径。如果这两个路径就在root命令指定的分区中，可以像下面一样使用相对路径；否则可以使用完整的路径，例如(hd0,4)/casper/initrd.lz。</p>
-<p><img data-src="/blog-imgs/tech/images/777138ed62b0cfa722a0461b7ef3e9f8.png" alt=""></p>
+<p><img data-src="images/777138ed62b0cfa722a0461b7ef3e9f8.png" alt=""></p>
 <p>title Install Ubuntu</p>
 <p>root (hd0,8)</p>
 <p>kernel /casper/vmlinuz.efi boot=casper iso-scan/filename=/ubuntu-12.04.4-desktop-amd64.iso</p>
@@ -328,7 +328,7 @@
 <p>安装过程中进行分区设置时，如果已经安装Win7，应选择将启动器安装在整个硬盘上而不是BootMgr，否则Win7不能启动。</p>
 <p>安装完成后，默认开机进入Ubuntu的紫色grub选择界面，默认进入Ubuntu，最后一项为Win7。</p>
 <p>如果用Win7比较多，每次选择会比较麻烦。希望默认进入Windows启动的BootLoader（即开机选择系统的界面，Win7为BootMgr，Ubuntu为grub），可先在Windows或PE下用NTBootAutofix修复Windows的Bootloader，然后用EasyBCD向BootMgr的配置文件BCD中添加Ubuntu的启动项如下：</p>
-<p><img data-src="/blog-imgs/tech/images/6c67a978ba68f627e4b351be03cc84d1.png" alt=""></p>
+<p><img data-src="images/6c67a978ba68f627e4b351be03cc84d1.png" alt=""></p>
 <h2 id="可能遇到的问题">可能遇到的问题</h2>
 <p>安装过程中或安装完，启动Linux时出现花屏、黑屏等现象，或显示&quot;nouveau E[        PMC] [10000:01:0] unknown intr 0x44000000&quot;，根据显卡，可在grub启动配置文件的kernel命令末尾添加以下语句，尝试设置显卡工作模式使其正常启动（启动后可以安装响应的显卡驱动）。对于grub4dos，就是修改menu.lst文件，而对于Linux系统，此配置文件一般为/boot/grub/grub.conf。</p>
 <p># radeon.modeset=0 xforcevesa #ATI显卡</p>
@@ -474,7 +474,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -487,7 +487,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

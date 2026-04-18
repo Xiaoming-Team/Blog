@@ -28,8 +28,8 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="基本介绍 IDEA中提供了Infer Nullity静态代码检查工具，可用于分析Java代码中的潜在的NullPointerException。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/87ab31de98c0f357602b3fe5cc89bc10.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a0ab4f6fa1e91e9eb3505723f827f17e.png">
+<meta property="og:image" content="https://www.xiaoming.io/infer/images/87ab31de98c0f357602b3fe5cc89bc10.png">
+<meta property="og:image" content="https://www.xiaoming.io/infer/images/a0ab4f6fa1e91e9eb3505723f827f17e.png">
 <meta property="article:published_time" content="2020-01-17T08:53:46.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.660Z">
 <meta property="article:author" content="小明">
@@ -39,7 +39,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="软件工程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/87ab31de98c0f357602b3fe5cc89bc10.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/infer/images/87ab31de98c0f357602b3fe5cc89bc10.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/infer/">
 
@@ -137,12 +137,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -334,10 +334,10 @@
 <h2 id="示例代码">示例代码</h2>
 <p>示例代码和在Android Studio中效果如下</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    Object nullable;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// NonNull变量应该在类初始化时赋非空值</span></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    Object nonnull;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">f1</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// NonNull参数不能传空值</span></span><br><span class="line">        f(<span class="literal">null</span>);</span><br><span class="line">        <span class="comment">// NonNull参数不能传可能为空的值</span></span><br><span class="line">        f(nullable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">f</span><span class="params">(<span class="meta">@NonNull</span> Object nonnullArg)</span> &#123;</span><br><span class="line">        <span class="comment">// NonNull变量不必要的判空</span></span><br><span class="line">        <span class="keyword">if</span> (nonnullArg == <span class="literal">null</span>) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Nullable变量没做判空</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> nullable.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SubClass</span> <span class="keyword">extends</span> <span class="title class_">Test</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 继承的方法，参数没加NonNull注解</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">f</span><span class="params">(Object nonnullArg)</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img data-src="/blog-imgs/tech/images/87ab31de98c0f357602b3fe5cc89bc10.png" alt=""></p>
+<p><img data-src="images/87ab31de98c0f357602b3fe5cc89bc10.png" alt=""></p>
 <h2 id="检查">检查</h2>
 <p>可以在IDEA / Android Studio中，通过Infer Nullity功能检查。</p>
-<p><img data-src="/blog-imgs/tech/images/a0ab4f6fa1e91e9eb3505723f827f17e.png" alt=""></p>
+<p><img data-src="images/a0ab4f6fa1e91e9eb3505723f827f17e.png" alt=""></p>
 <h2 id="Nullity的问题">Nullity的问题</h2>
 <p>由于Java代码中，并不一定所有变量都有Nullity标注，因此Nullity检查并不完全可靠。例如给NonNull变量赋一个可能为空、但没有Nullity标注的成员变量，并不一定能检查出来问题。</p>
 <p>例如：</p>
@@ -507,7 +507,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -520,7 +520,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

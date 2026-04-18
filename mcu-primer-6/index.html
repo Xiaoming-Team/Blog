@@ -28,9 +28,9 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="前面介绍了集成电路的管脚编号识别，这里我们简单了解下51单片机的40个管脚具体的作用。对于没有接触过复杂电子元器件的读者来说，或许会感觉非常难，但实际上完全不需要有畏惧心理。 单片机管脚">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/e726df54bd0728a3b3687d075e245168.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/15298985857f3a8f1c1bab7a33eddc17.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/3c82ca4f8f0aff857e38effeae362cc5.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-6/images/e726df54bd0728a3b3687d075e245168.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-6/images/15298985857f3a8f1c1bab7a33eddc17.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-6/images/3c82ca4f8f0aff857e38effeae362cc5.png">
 <meta property="article:published_time" content="2014-10-07T12:01:04.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.773Z">
 <meta property="article:author" content="小明">
@@ -45,7 +45,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/e726df54bd0728a3b3687d075e245168.jpg">
+<meta name="twitter:image" content="https://www.xiaoming.io/mcu-primer-6/images/e726df54bd0728a3b3687d075e245168.jpg">
 
 <link rel="canonical" href="https://www.xiaoming.io/mcu-primer-6/">
 
@@ -143,12 +143,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -321,13 +321,13 @@
       
         <p>前面介绍了集成电路的管脚编号识别，这里我们简单了解下51单片机的40个管脚具体的作用。对于没有接触过复杂电子元器件的读者来说，或许会感觉非常难，但实际上完全不需要有畏惧心理。</p>
 <h2 id="单片机管脚">单片机管脚</h2>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/e726df54bd0728a3b3687d075e245168.jpg" alt=""></p>
+<p><img data-src="images/e726df54bd0728a3b3687d075e245168.jpg" alt=""></p>
 <p>按照集成电路的管脚识别方法，缺口朝上，逆时针转一圈，单片机的引脚编号从1到40，如图所示。图中同时给出了各个管脚的名称。我们完全不需要刻意去记这些管脚顺序和名称，在需要的时候查一下就好了，如果用的比较多，后来自然就记住了。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/15298985857f3a8f1c1bab7a33eddc17.jpg" alt=""></p>
+<p><img data-src="images/15298985857f3a8f1c1bab7a33eddc17.jpg" alt=""></p>
 <p>按照图中的大括号的提示，我们把P0.0~P0.7这样八个管脚称为一组IO口，叫做P0，同样有P1、P2和P3。IO口（IO = Input / Output），顾名思义，就是输入输出接口，它是单片机与外界进行信息交流的途径。之后我们主要的学习内容，也是围绕IO口进行的。另外这32个IO口又有一些在括号中标注的管脚名称，叫做第二功能；第二功能在特定的情况下会被启用，没有启用第二功能时，它们就只是起到IO口的作用。例如P3.0和P3.1又叫做RXD和TXD，它们有串口的作用，可以用来给单片机下载程序，也可以用来和电脑进行数据的收发，即串口通信。除32个IO口外，还有八个管脚：其中29~31号脚一般用得不多，暂不做介绍；40脚VCC、20脚GND、9号脚RST以及18、19号脚XTAL1、XTAL2很快就会在下面的单片机最小系统中进行详细讲解。</p>
 <h2 id="单片机最小系统电路">单片机最小系统电路</h2>
 <p>什么是单片机最小系统呢？最小系统，就是指单片机能正常工作最简单的电路。对51单片机来说，最小系统一般包括：电源、单片机、时钟电路和复位电路。其电路图如下：</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/3c82ca4f8f0aff857e38effeae362cc5.png" alt=""></p>
+<p><img data-src="images/3c82ca4f8f0aff857e38effeae362cc5.png" alt=""></p>
 <p>现在向大家介绍下这些电路的作用。</p>
 <h2 id="电源电路">电源电路</h2>
 <p>电源电路：作为电子器件，51单片机当然少不了电源供电，它一般使用5V电源，我们可以从大家所熟悉的USB接口获取5V电源。在图中，每个VCC符号都是共同连接在5V电源正极的；而所有的GND符号连接在一起，共同接到电源负极。图中之所以没有把它们连接到一起，而是使用多个VCC和GND符号，是为了让电路图看起来更清晰简洁（VCC = Volt Current Condenser，表示供电电压；GND = Ground，接地的意思，可以简单理解为连接到电源负极，并且我们以GND作为参考电压，GND的电压值始终为0V）。</p>
@@ -394,15 +394,15 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
-              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
               <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
               <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
               <a href="/tags/C/" rel="tag"># C</a>
-              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
           </div>
 
         
@@ -495,7 +495,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -508,7 +508,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

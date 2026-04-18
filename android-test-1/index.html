@@ -28,8 +28,8 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="本系列文章共六篇，如下。 《Android测试初探（一） Android测试技术简介和原理浅析》 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;android-test-1">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/7dadcafb31497082ca3707a3b6a0d0ef.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/9fa5d026d583cbe27937435cccc50e52.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-test-1/images/7dadcafb31497082ca3707a3b6a0d0ef.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-test-1/images/9fa5d026d583cbe27937435cccc50e52.png">
 <meta property="article:published_time" content="2016-02-15T11:43:39.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.392Z">
 <meta property="article:author" content="小明">
@@ -38,7 +38,7 @@
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/7dadcafb31497082ca3707a3b6a0d0ef.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/android-test-1/images/7dadcafb31497082ca3707a3b6a0d0ef.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/android-test-1/">
 
@@ -136,12 +136,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -364,7 +364,7 @@
 <p>在支持测试的环境下，Android Studio创建完工程，默认会使用Android Instrumentation Test。</p>
 <p>将Project窗口切换到Project视图，可以看到在app模块的src目录下，除了默认的源码目录main/java，还会自动创建一个测试文件夹androidTest/java，这两个java文件夹分别被标记为蓝色和绿色。在测试文件夹下还生成了一个ApplicationTest示例测试类，后面我们会创建自己的测试类。</p>
 <p>如果没有测试文件夹，可以手动创建。</p>
-<p><img data-src="/blog-imgs/tech/android-test/images/7dadcafb31497082ca3707a3b6a0d0ef.png" alt=""></p>
+<p><img data-src="images/7dadcafb31497082ca3707a3b6a0d0ef.png" alt=""></p>
 <h3 id="Test-Artifact、Build-Type与Build-Variant">Test Artifact、Build Type与Build Variant</h3>
 <p>打开Build Variants窗口，可以看到里面有Test Artifact和模块的Build Variant选项。</p>
 <p>Test Artifact有两种，Android Instrumentation Tests和Unit Tests，默认选中的是前者。在本文中，我们也始终使用前者。</p>
@@ -373,7 +373,7 @@
 <p>由于Java是跨平台的，所以理论上JUnit测试在哪个设备上运行的结果都是一致的。</p>
 <p>一个Android模块默认有两种buildType，debug和release，同时gradle允许给项目配置渠道即Flavor参数。窗口中模块app的Build Variant则为Flavor+BuildType的所有组合，默认没有Flavor所以就只有debug和release两种，如果配置了Flavor，则类似baiduDebug，baiduRelease，huaweiDebug，huaweiRelease。</p>
 <p>需要注意的事，Android测试一定要选择*Debug类型的Build Variant，否则不能运行测试，会报错Empty Test Suits，这个问题我找了快一周才终于搞清楚。</p>
-<p><img data-src="/blog-imgs/tech/android-test/images/9fa5d026d583cbe27937435cccc50e52.png" alt=""></p>
+<p><img data-src="images/9fa5d026d583cbe27937435cccc50e52.png" alt=""></p>
 <h2 id="安卓测试原理">安卓测试原理</h2>
 <h3 id="Test-Runner">Test Runner</h3>
 <p>测试时，需要有一个Test Runner可执行文件来运行测试代码。具体而言，对于Android测试来说，Runner本质上是一个没有界面的APK应用，通过一定的权限，Test Runner可以直接调用被测试APK的类、方法、资源，以及向其发送用户事件。</p>
@@ -532,7 +532,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -545,7 +545,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

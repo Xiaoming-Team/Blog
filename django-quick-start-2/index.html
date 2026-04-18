@@ -28,30 +28,30 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="继续上一篇的内容，这篇快速介绍Django的数据库模型。 Django支持4种数据库，PostgreSQL，SQLite3，MySQL，Oracle。这里我们忽略数据库的配置，直接使用默认已经配置完成的SQLite3数据库，重点关注Python代码的实现。Django已经将数据库进行了完善的封装，通过同样的代码，就可以操作多种数据库，会自动生成对应的SQL等语句操作数据库。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/04ffd24529967452851a6eb09c9658b3.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/921fbb025d57d35e47799a993bdf40cd.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/d295e42b35a824aaf7a495c5bd065033.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3cf4259fa8fd8ad5ec9be9034cd9e072.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6325692fc1ec6d409d9633ec0e6989b1.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6a596f5117bb00a5bbe67ccc51345458.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6b4106e2747664d78e2c1d0ffb877804.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/7f4240d2c56e37fb9934303c687bc2cd.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/05bc076dfa46ca161cd9f95ea1bf4792.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/50d00ffdd3ae34e77c79e26ab0ceb7d9.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8fc2d6e82f253d73e4c8cd0c05bc568b.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/81070cfa3db44f8755780973ceed37f7.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/4cc6ae233f432c48db515b4d5b6e3c65.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/3c8fdb9b13e4acec68b5b4e5a174622d.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1464cbf7d55c36939dff473cca554716.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5facff12b7fb1698167a1693a58cc099.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/397f6dd8445b2d99f43911caced3abce.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a580ef6898e8bd6c0a17ec13c711ed33.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/04ffd24529967452851a6eb09c9658b3.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/921fbb025d57d35e47799a993bdf40cd.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/d295e42b35a824aaf7a495c5bd065033.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/3cf4259fa8fd8ad5ec9be9034cd9e072.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/6325692fc1ec6d409d9633ec0e6989b1.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/6a596f5117bb00a5bbe67ccc51345458.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/6b4106e2747664d78e2c1d0ffb877804.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/7f4240d2c56e37fb9934303c687bc2cd.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/05bc076dfa46ca161cd9f95ea1bf4792.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/50d00ffdd3ae34e77c79e26ab0ceb7d9.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/8fc2d6e82f253d73e4c8cd0c05bc568b.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/81070cfa3db44f8755780973ceed37f7.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/4cc6ae233f432c48db515b4d5b6e3c65.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/3c8fdb9b13e4acec68b5b4e5a174622d.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/1464cbf7d55c36939dff473cca554716.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/5facff12b7fb1698167a1693a58cc099.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/397f6dd8445b2d99f43911caced3abce.png">
+<meta property="og:image" content="https://www.xiaoming.io/django-quick-start-2/images/a580ef6898e8bd6c0a17ec13c711ed33.png">
 <meta property="article:published_time" content="2015-02-09T09:39:53.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.607Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Web开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/04ffd24529967452851a6eb09c9658b3.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/django-quick-start-2/images/04ffd24529967452851a6eb09c9658b3.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/django-quick-start-2/">
 
@@ -149,12 +149,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -329,24 +329,24 @@
 <p>Django支持4种数据库，PostgreSQL，SQLite3，MySQL，Oracle。这里我们忽略数据库的配置，直接使用默认已经配置完成的SQLite3数据库，重点关注Python代码的实现。Django已经将数据库进行了完善的封装，通过同样的代码，就可以操作多种数据库，会自动生成对应的SQL等语句操作数据库。</p>
 <h2 id="定义数据库模型">定义数据库模型</h2>
 <p>在app/modules.py中输入以下代码，模型即定义完成。通常一个应用对应了一个数据库，而modules中的每个class对应数据库的一个表，每个成员变量对应了一个字段。这几个类都是继承自models.Model父类的，在父类中已经实现了各种数据库的操作。其中有一些特例，在Book中的authors是一个多对多的关系类型，表示每本书（Book）可以对应多个作者（Author），反过来，每个作者也可以对应多本书（在SQL中，这种对应关系通过一张表实现）；Book中的publisher对应了一个Publisher外键。</p>
-<p><img data-src="/blog-imgs/tech/images/04ffd24529967452851a6eb09c9658b3.png" alt=""></p>
+<p><img data-src="images/04ffd24529967452851a6eb09c9658b3.png" alt=""></p>
 <h2 id="添加应用">添加应用</h2>
 <p>在settings中INSTALLED_APPS添加一行，将创建的应用app添加进去（使用数据库模型时需要安装应用，否则可以不用）</p>
-<p><img data-src="/blog-imgs/tech/images/921fbb025d57d35e47799a993bdf40cd.png" alt=""></p>
+<p><img data-src="images/921fbb025d57d35e47799a993bdf40cd.png" alt=""></p>
 <h2 id="同步数据库">同步数据库</h2>
 <p><a target="_blank" rel="noopener" href="http://xn--manage-hp7it6dq38ag1e734bow7brg8bu8v8v3a.py">在项目文件夹下运行manage.py</a> validate，可以验证模型的有效性</p>
-<p><img data-src="/blog-imgs/tech/images/d295e42b35a824aaf7a495c5bd065033.png" alt=""></p>
+<p><img data-src="images/d295e42b35a824aaf7a495c5bd065033.png" alt=""></p>
 <p><a target="_blank" rel="noopener" href="http://xn--manage-2w2r549b.py">运行manage.py</a> sqlall app，可以看到生成的SQL语句。如果发生图中错误，提示</p>
 <p>CommandError: App ‘app’ has migrations. Only the sqlmigrate and sqlflush commands can be used when an app has migrations.</p>
 <p>这句话的意思是应用’app’被改动了，只能使用sqlmigrate和sqlflush命令，而不能新建数据表。</p>
 <p>解决方法是，删除app对应文件夹下的migrations子文件夹即可（因为我们的模型之前并没有创建，所以也不存在模型被修改的问题）。</p>
-<p><img data-src="/blog-imgs/tech/images/3cf4259fa8fd8ad5ec9be9034cd9e072.png" alt=""></p>
+<p><img data-src="images/3cf4259fa8fd8ad5ec9be9034cd9e072.png" alt=""></p>
 <p>正常执行sqlall语句结果如下：</p>
-<p><img data-src="/blog-imgs/tech/images/6325692fc1ec6d409d9633ec0e6989b1.png" alt=""></p>
+<p><img data-src="images/6325692fc1ec6d409d9633ec0e6989b1.png" alt=""></p>
 <p>生成的是SQL语句，只是用来预览的，但还没有被实际执行。<a target="_blank" rel="noopener" href="http://xn--manage-vh7lp71wncoyxa.py">通过执行manage.py</a> syncdb指令即可创建数据库。由于在INSTALLED_APPS中还有默认生成的后台管理App，所以会提示是否创建管理员账户，如图所示。</p>
-<p><img data-src="/blog-imgs/tech/images/6a596f5117bb00a5bbe67ccc51345458.png" alt=""></p>
+<p><img data-src="images/6a596f5117bb00a5bbe67ccc51345458.png" alt=""></p>
 <p>输入yes，然后按提示输入管理员用户名和密码即可创建管理员账户。</p>
-<p><img data-src="/blog-imgs/tech/images/6b4106e2747664d78e2c1d0ffb877804.png" alt=""></p>
+<p><img data-src="images/6b4106e2747664d78e2c1d0ffb877804.png" alt=""></p>
 <p>需要注意的是，syncdb命令根据INSTALLED_APPS创建之前没有创建过的表，但不会将模型的修改和删除同步到数据库。</p>
 <h2 id="在shell中操作模型">在shell中操作模型</h2>
 <p><a target="_blank" rel="noopener" href="http://xn--manage-vh7lp71w.py">执行manage.py</a> shell可以进入shell操作模型。输入Python代码新建对象，即可插入模型数据库，代码如下。</p>
@@ -358,31 +358,31 @@
 <p>输入的是object，显示形式如下。不能很直观的看到具体的数据。</p>
 <p>[, ]</p>
 <p>为了显示效果更好，可以给modules.py中的每个类添加__unicode__()方法。写法如下：</p>
-<p><img data-src="/blog-imgs/tech/images/7f4240d2c56e37fb9934303c687bc2cd.png" alt=""></p>
+<p><img data-src="images/7f4240d2c56e37fb9934303c687bc2cd.png" alt=""></p>
 <p>为了使代码更改生效，需要重新进入shell（按Ctrl+Z然后回车退出shell，<a target="_blank" rel="noopener" href="http://xn--manage-vh7l50tlq1gc4ta.py">重新执行manage.py</a> shell进入shell）。执行from app.models import Publisher语句，并再次调用Publisher.objects.all()，显示效果如下。</p>
-<p><img data-src="/blog-imgs/tech/images/05bc076dfa46ca161cd9f95ea1bf4792.png" alt=""></p>
+<p><img data-src="images/05bc076dfa46ca161cd9f95ea1bf4792.png" alt=""></p>
 <h2 id="管理页面的查看">管理页面的查看</h2>
 <p><a target="_blank" rel="noopener" href="http://xn--manage-2w4o.py">用manage.py</a> runserver 0.0.0.0:8000命令启动服务器，浏览器中输入</p>
 <p><a target="_blank" rel="noopener" href="http://localhost:8000/admin/">http://localhost:8000/admin/</a></p>
 <p>即可进入管理页面</p>
-<p><img data-src="/blog-imgs/tech/images/50d00ffdd3ae34e77c79e26ab0ceb7d9.png" alt=""></p>
+<p><img data-src="images/50d00ffdd3ae34e77c79e26ab0ceb7d9.png" alt=""></p>
 <p>输入之前设定的管理员账号和密码，即可登录。页面中可以显示并管理用户组和用户。</p>
-<p><img data-src="/blog-imgs/tech/images/8fc2d6e82f253d73e4c8cd0c05bc568b.png" alt=""></p>
+<p><img data-src="images/8fc2d6e82f253d73e4c8cd0c05bc568b.png" alt=""></p>
 <h2 id="注册数据库模型">注册数据库模型</h2>
 <p>修改app/admin.py，向管理页面注册数据库模型，代码如下：</p>
-<p><img data-src="/blog-imgs/tech/images/81070cfa3db44f8755780973ceed37f7.png" alt=""></p>
+<p><img data-src="images/81070cfa3db44f8755780973ceed37f7.png" alt=""></p>
 <p>刷新后台页面，即可用图形化界面管理数据库模型了，非常方便。</p>
-<p><img data-src="/blog-imgs/tech/images/4cc6ae233f432c48db515b4d5b6e3c65.png" alt=""></p>
-<p><img data-src="/blog-imgs/tech/images/3c8fdb9b13e4acec68b5b4e5a174622d.png" alt=""></p>
+<p><img data-src="images/4cc6ae233f432c48db515b4d5b6e3c65.png" alt=""></p>
+<p><img data-src="images/3c8fdb9b13e4acec68b5b4e5a174622d.png" alt=""></p>
 <h2 id="用网页输出模型中的数据">用网页输出模型中的数据</h2>
 <p>在app/views.py中，添加函数如下。该函数用于从数据模型Publisher中搜索名字中包含name的项，并显示</p>
-<p><img data-src="/blog-imgs/tech/images/1464cbf7d55c36939dff473cca554716.png" alt=""></p>
+<p><img data-src="images/1464cbf7d55c36939dff473cca554716.png" alt=""></p>
 <p>设置路由如下：</p>
-<p><img data-src="/blog-imgs/tech/images/5facff12b7fb1698167a1693a58cc099.png" alt=""></p>
+<p><img data-src="images/5facff12b7fb1698167a1693a58cc099.png" alt=""></p>
 <p>输入以下网址可以显示搜索出的一条结果</p>
-<p><img data-src="/blog-imgs/tech/images/397f6dd8445b2d99f43911caced3abce.png" alt=""></p>
+<p><img data-src="images/397f6dd8445b2d99f43911caced3abce.png" alt=""></p>
 <p>输入以下网址，没有结果</p>
-<p><img data-src="/blog-imgs/tech/images/a580ef6898e8bd6c0a17ec13c711ed33.png" alt=""></p>
+<p><img data-src="images/a580ef6898e8bd6c0a17ec13c711ed33.png" alt=""></p>
 <p>第二版的Django项目也完成了，提供源码下载。</p>
 <p>可在github下载源码：<a target="_blank" rel="noopener" href="https://github.com/jzj1993/Django-Quick-Start/">https://github.com/jzj1993/Django-Quick-Start/</a></p>
 
@@ -524,7 +524,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -537,7 +537,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

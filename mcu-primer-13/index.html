@@ -28,25 +28,25 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="前面介绍了很多概念知识，做了很多准备工作，从这一节开始，我们正式开始单片机的学习。我们将使用单片机完成一项非常简单的工作：点亮一个发光二极管（即LED：Light-Emitting Diode）。 LED简介">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/fe3cccfcd353e809e32d7a01b5b481ba.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/e990e93817d8479f8274d15803ebc59d.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/ce33acb4a73d59144c7f1d625b38ff97.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/fbc6677eae921e642bb2376c6ac5f895.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/117b27213ecf574e052004974bf76abd.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/0d4dbd369d52a90d784972776d6f1bc9.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/c4c222d1f4113580b5986fdfb32a389b.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/60a04b6c7041a9f2ad8e8a4639a2a4db.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/2face3b72d7a33d4c4963b0b0644bf65.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/f647aa0eaf9cf28072ae6d87e5379113.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/8cf5780ce2de06f838ba17ba7a29e4a2.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/b84ebc571a21d341421505dfb32a5ed4.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/e4ad8a451663c44847bee42ff5070397.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/12bda3777161ad810ebdc7c02cb09cbc.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/146f5b28a303d652221dfad7bfd744a2.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/20d727b549b72d10d618dbe81292493d.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/50a07f164e435ad5780b8ed55db1835e.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/ab572c5b48c62e5e992ea6eea24c0ad1.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/f4f58fc151bc62900f3e5e33501ac434.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/fe3cccfcd353e809e32d7a01b5b481ba.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/e990e93817d8479f8274d15803ebc59d.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/ce33acb4a73d59144c7f1d625b38ff97.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/fbc6677eae921e642bb2376c6ac5f895.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/117b27213ecf574e052004974bf76abd.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/0d4dbd369d52a90d784972776d6f1bc9.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/c4c222d1f4113580b5986fdfb32a389b.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/60a04b6c7041a9f2ad8e8a4639a2a4db.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/2face3b72d7a33d4c4963b0b0644bf65.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/f647aa0eaf9cf28072ae6d87e5379113.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/8cf5780ce2de06f838ba17ba7a29e4a2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/b84ebc571a21d341421505dfb32a5ed4.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/e4ad8a451663c44847bee42ff5070397.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/12bda3777161ad810ebdc7c02cb09cbc.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/146f5b28a303d652221dfad7bfd744a2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/20d727b549b72d10d618dbe81292493d.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/50a07f164e435ad5780b8ed55db1835e.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/ab572c5b48c62e5e992ea6eea24c0ad1.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-13/images/f4f58fc151bc62900f3e5e33501ac434.jpg">
 <meta property="article:published_time" content="2014-11-06T11:59:52.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.773Z">
 <meta property="article:author" content="小明">
@@ -61,7 +61,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/fe3cccfcd353e809e32d7a01b5b481ba.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/mcu-primer-13/images/fe3cccfcd353e809e32d7a01b5b481ba.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/mcu-primer-13/">
 
@@ -159,12 +159,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -344,13 +344,13 @@
 <p>顺便附上电阻阻值的计算过程：</p>
 <p>1、电阻和LED串联，LED点亮时总电压5V，LED上需要3V，所以电阻上电压是5-3=2V。</p>
 <p>2、LED的电流为2~5mA，如果算成2mA，电阻上电压为2V，电流为2mA，根据欧姆定律，所以阻值应该为2V/2mA=1kΩ。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/fe3cccfcd353e809e32d7a01b5b481ba.png" alt=""></p>
+<p><img data-src="images/fe3cccfcd353e809e32d7a01b5b481ba.png" alt=""></p>
 <h2 id="面包板搭建电路">面包板搭建电路</h2>
 <p>我们在自己的面包板上搭建的电路如下，我把LED连接在P1.0端口上（万用板焊接的电路这里没有提供，大家可以自己去搭建）：</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/e990e93817d8479f8274d15803ebc59d.jpg" alt=""></p>
+<p><img data-src="images/e990e93817d8479f8274d15803ebc59d.jpg" alt=""></p>
 <h2 id="开发板的使用">开发板的使用</h2>
 <p>如果你是用的是开发板并且上面有LED模块，你可以查看电路图。例如我的开发板电路图：</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/ce33acb4a73d59144c7f1d625b38ff97.png" alt=""></p>
+<p><img data-src="images/ce33acb4a73d59144c7f1d625b38ff97.png" alt=""></p>
 <p>图中VCC通过J1接到RP1上，RP1是排阻，图中的1号脚是公共脚，在排阻的内部从1号脚往2~9号每个管脚之间有一个1k电阻，总共8个1k电阻排列起来，所以叫做排阻。J1相当于一个开关，其实是两个排针构成的插座。如果插上跳线帽，就可以导通；拔下跳线帽，就断开了。这样设计的好处是，如果我要用LED模块就插上跳线帽；而如果我不用LED模块，而讲IO口用于其他目的，这时LED就不会对我的电路产生干扰，因为LED一端接IO口，另一端接到排阻上，而排阻另一端是悬空的，没有接入电路。</p>
 <p>而图中的标号DB1~DB8又接在单片机最小系统电路中的P1.0~P1.7的IO口，所以在J1导通的情况下，P1.0~P1.7的高低电平就能控制D1~D8这八个LED的亮灭了。</p>
 <h2 id="具体操作">具体操作</h2>
@@ -358,29 +358,29 @@
 <p>我们打开Keil软件，准备给单片机写程序。大家可以按照下面的步骤进行（这里以Keil uv4英文版为例进行说明。如果你使用的是Keil其他版本，操作方式基本相同）。</p>
 <h3 id="一、新建并配置工程">一、新建并配置工程</h3>
 <p>1、首先新建工程：点击菜单中的Project - New uVision Project。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/fbc6677eae921e642bb2376c6ac5f895.jpg" alt=""></p>
+<p><img data-src="images/fbc6677eae921e642bb2376c6ac5f895.jpg" alt=""></p>
 <p>2、然后我们在电脑上为我们的工程新建一个文件夹，这里我用的是Project01 – LED，大家可以自行命名，但最好是英文名。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/117b27213ecf574e052004974bf76abd.jpg" alt=""></p>
+<p><img data-src="images/117b27213ecf574e052004974bf76abd.jpg" alt=""></p>
 <p>3、打开文件夹，输入工程的名称，点击保存。这里我输入的是LED。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/0d4dbd369d52a90d784972776d6f1bc9.jpg" alt=""></p>
+<p><img data-src="images/0d4dbd369d52a90d784972776d6f1bc9.jpg" alt=""></p>
 <p>4、然后弹出一个窗口，让我们选择单片机的型号。我们用到的是STC89C52RC，而这里面可能没有STC单片机，我们只需要选择完全兼容STC的Atmel系列AT89C52单片机，点击OK确认即可。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/c4c222d1f4113580b5986fdfb32a389b.jpg" alt=""></p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/60a04b6c7041a9f2ad8e8a4639a2a4db.jpg" alt=""></p>
+<p><img data-src="images/c4c222d1f4113580b5986fdfb32a389b.jpg" alt=""></p>
+<p><img data-src="images/60a04b6c7041a9f2ad8e8a4639a2a4db.jpg" alt=""></p>
 <p>5、随后会弹出一个窗口，提示我们是否需要添加8051的启动代码到工程中，点击否即可（如果我们需要使用自定义的启动代码，则可以点是，然后修改启动代码。而我们编程用的是C语言，一般情况下不需要修改启动代码。至于启动代码有什么用处，则可以等到我们对单片机了解的比较深入的时候再查找相关资料进行学习）。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/2face3b72d7a33d4c4963b0b0644bf65.png" alt=""></p>
+<p><img data-src="images/2face3b72d7a33d4c4963b0b0644bf65.png" alt=""></p>
 <p>6、下面我们对工程进行简单的设置。右击Target 1，选择第一项Options for Target ‘Target1’…，弹出工程属性设置窗口。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/f647aa0eaf9cf28072ae6d87e5379113.jpg" alt=""></p>
+<p><img data-src="images/f647aa0eaf9cf28072ae6d87e5379113.jpg" alt=""></p>
 <p>7、我们打开Output标签，并勾选Create HEX File，然后点击OK确认即可。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/8cf5780ce2de06f838ba17ba7a29e4a2.jpg" alt=""></p>
+<p><img data-src="images/8cf5780ce2de06f838ba17ba7a29e4a2.jpg" alt=""></p>
 <h3 id="二、新建源文件并添加至工程中">二、新建源文件并添加至工程中</h3>
 <p>1、工程新建并配置完成了，下面我们开始新建程序源文件。点击菜单中的File-New，出现一个新的文件，如图。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/b84ebc571a21d341421505dfb32a5ed4.jpg" alt=""></p>
+<p><img data-src="images/b84ebc571a21d341421505dfb32a5ed4.jpg" alt=""></p>
 <p>2、然后我们点击保存按钮，将其保存到工程文件夹Project01 - LED中，保存为扩展名是“.c”的文件，如main.c。这里大家要注意的是，源文件其实只是一个普通的文本文件，不过扩展名是c而不是txt。我们刚刚新建main.c文件的操作，也可以通过在资源管理器中新建文本文档，然后重命名为main.c的方式进行。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/e4ad8a451663c44847bee42ff5070397.jpg" alt=""></p>
+<p><img data-src="images/e4ad8a451663c44847bee42ff5070397.jpg" alt=""></p>
 <p>3、源文件新建好了。源文件只是一个独立的文本文件，而工程文件现在和刚刚新建的源文件还是完全独立、没有关联的。我们要把刚刚新建的main.c文件添加到我们的工程中来：右击Target 1/Source Group 1，并选择菜单中的Add Files to Group ‘Source Group 1’…来添加文件。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/12bda3777161ad810ebdc7c02cb09cbc.jpg" alt=""></p>
+<p><img data-src="images/12bda3777161ad810ebdc7c02cb09cbc.jpg" alt=""></p>
 <p>4、双击需要添加的文件main.c，或者选中它再点击Add按钮，从左边的Project窗口就可以看到，文件就已经被添加到工程中了。这时弹出的窗口并没有关闭，因为这样可以方便继续添加其他文件。因为我们现在只需添加一个文件并且添加好了，所以点击Close关闭弹出的窗口。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/146f5b28a303d652221dfad7bfd744a2.jpg" alt=""></p>
+<p><img data-src="images/146f5b28a303d652221dfad7bfd744a2.jpg" alt=""></p>
 <h3 id="三、编写程序并编译">三、编写程序并编译</h3>
 <p>1、我们打开main.c，开始正式编写程序了。我们编写的程序如下并保存。至于这个程序是什么含义，之后将详细介绍。注意一点，我给出的程序中设置的LED是P1.0，如果你的开发板或者自己搭建的电路中LED的IO口不是P1.0，你需要照着我给出的格式修改sbit那一行。这一点也充分体现了，单片机编程是和实际硬件电路息息相关的，程序和电路要配套，才能正常运行。</p>
 <p>#include</p>
@@ -390,15 +390,15 @@
 <p>LED = 0;</p>
 <p>while(1);</p>
 <p>}</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/20d727b549b72d10d618dbe81292493d.jpg" alt=""></p>
+<p><img data-src="images/20d727b549b72d10d618dbe81292493d.jpg" alt=""></p>
 <p>2、点击左上方的双箭头按钮编译全部文件，我们看到下方的输出窗口显示编译完成，“creating hex file from ‘LED’”表明已经编译时创建了HEX文件（HEX文件是十六进制文件，将烧写进单片机。相当于Windows中的可执行文件“.exe”），“0 Error(s), 0 Warning(s).”表示编译成功，程序也没有语法错误。如果提示你的程序有错，请细心的检查一下，有没有发生漏掉分号等情况。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/50a07f164e435ad5780b8ed55db1835e.jpg" alt=""></p>
+<p><img data-src="images/50a07f164e435ad5780b8ed55db1835e.jpg" alt=""></p>
 <h3 id="四、烧写程序到单片机中">四、烧写程序到单片机中</h3>
 <p>在工程文件夹下，我们可以看到生成的LED.hex文件，这正是我们所需要的。下面我们将把LED.hex文件烧写进单片机。前面已经介绍了单片机程序下载相关知识，这里我们将介绍下载程序的一般步骤。由于大家使用的电脑、开发板等都不完全一样，有可能会下载失败。希望下载没有成功的读者不要灰心，关于下载失败如何处理，请继续看后面内容。下载程序的操作步骤如下：</p>
 <p>1、设置单片机型号，这里我们设置单片机为STC89C52RC。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/ab572c5b48c62e5e992ea6eea24c0ad1.jpg" alt=""></p>
+<p><img data-src="images/ab572c5b48c62e5e992ea6eea24c0ad1.jpg" alt=""></p>
 <p>2、设置串口端口号，波特率等参数。由于我们一般用的是USB转串口芯片，不是真正的RS232串口，所以串口号不固定，每次插上转接板或单片机学习板时，我们应打开设备管理器如图（XP系统：右击“我的电脑”→“属性”→“硬件”→“设备管理器”；Win7系统：右击“计算机”→“管理”→“设备管理器”）。找到端口（COM和LPT）选项，展开，里面会有一个类似“Prolific USB-to-Serial Comm Port(COM1)”或者“USB-SERIAL CH431(COM1)”的项。括号里面的COMx就是我们要找的端口号。填到STC-ISP中就可以了（如果有多项不知道是哪一个，可以插拔单片机学习板看哪项会刷新）。如果很不幸，你的串口号很大，超出STC-ISP可设置的范围了，可以右击设备管理器中显示的那一项更改COM端口序号。波特率等选项一般按默认即可，不需设置。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/f4f58fc151bc62900f3e5e33501ac434.jpg" alt=""></p>
+<p><img data-src="images/f4f58fc151bc62900f3e5e33501ac434.jpg" alt=""></p>
 <p>3、点击“打开程序文件”，选择要烧写的单片机程序HEX或BIN文件。HEX或BIN文件是编译之后的机器码，打开后可以在STC-ISP右侧程序文件中看到对应的十六进制数字。你可以选择自己写的程序产生的机器码，也可以在STC-ISP的test-hex目录中找一些测试程序。这里我们选择刚刚编译生成的HEX文件。</p>
 <p>4、先点击“下载”，然后再打开电源开关，给单片机上电。稍后STC-ISP就会显示正在烧写程序。如果点击“下载”前忘了先关电源，或者程序没能下载，不需要点击“停止”按钮，直接断电再上电尝试即可。一般几秒钟就能下载完成，STC-ISP中会显示下载成功。</p>
 <h3 id="五、观察程序执行结果，有必要的时调试程序。">五、观察程序执行结果，有必要的时调试程序。</h3>
@@ -450,15 +450,15 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
-              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
               <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
               <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
               <a href="/tags/C/" rel="tag"># C</a>
-              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
           </div>
 
         
@@ -551,7 +551,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -564,7 +564,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

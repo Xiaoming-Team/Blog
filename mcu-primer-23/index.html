@@ -28,11 +28,11 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="由于之前考虑不周，本篇在IO口原理知识的基础上，进一步补充一些知识。 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/cbf5a61286e49efa7c8df99c5df590eb.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/667cb77d8d1674dfafe53e23c7f0aca3.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/6221b5fcc2fc6998936cf48c80817a0c.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/6810ca5bbf714a5ae9cb8967c4400f32.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/1303107872fc9ea2fdc887336ee26aeb.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-23/images/cbf5a61286e49efa7c8df99c5df590eb.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-23/images/667cb77d8d1674dfafe53e23c7f0aca3.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-23/images/6221b5fcc2fc6998936cf48c80817a0c.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-23/images/6810ca5bbf714a5ae9cb8967c4400f32.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-23/images/1303107872fc9ea2fdc887336ee26aeb.png">
 <meta property="article:published_time" content="2014-11-25T09:16:42.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.773Z">
 <meta property="article:author" content="小明">
@@ -47,7 +47,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/cbf5a61286e49efa7c8df99c5df590eb.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/mcu-primer-23/images/cbf5a61286e49efa7c8df99c5df590eb.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/mcu-primer-23/">
 
@@ -145,12 +145,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -326,7 +326,7 @@
 <h2 id="双向IO口的输出：互补推挽">双向IO口的输出：互补推挽</h2>
 <p>在51单片机的P0口工作在普通IO口模式下，为准双向IO口。而工作在第二功能状态下时，则为标准的双向IO口。由于双向IO口的输出，要求能输出高低电平，通常会采用互补推挽电路。</p>
 <p>在第二功能状态下，51单片机P0口采用的是互补推挽的输出方式。何为互补推挽呢？下面是它的等效电路图。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/cbf5a61286e49efa7c8df99c5df590eb.png" alt=""></p>
+<p><img data-src="images/cbf5a61286e49efa7c8df99c5df590eb.png" alt=""></p>
 <p>当P0第二功能作为输出时，K1和K2两个开关轮流打开。K2闭合K1打开，就会输出高电平，并且其驱动能力很大，因为电子开关的阻值小（不像上拉电阻的值那么大）。反之K2打开，K1闭合，就会输出低电平。</p>
 <p>两个开关交替导通，互为补充，“挽”是“拉”的意思，两个电子开关分别负责在IO口输出处“推”和“拉”电流，所以称为互补推挽。</p>
 <p>这种IO口结构的优点很明显，驱动能力强，稳定可靠。缺点在于实现起来比较困难。在切换输出电平的过程中，例如从低电平切换到高电平，当K1断开时，要求尽可能快的输出高电平，也就是K2应该立即闭合；同时，如果K1还没断开，K2就提前闭合了，相同于两个开关同时导通，会直接短路，后果又会很严重。所以需要用电路控制好两个开关的协调工作。</p>
@@ -334,16 +334,16 @@
 <p>双向IO口的输出，只要求能输出高低电平，因此并不是必须采用互补推挽电路。而采用互补推挽电路的好处在于，这种电路同时又可以实现高阻态的输入，从而实现标准双向IO口。</p>
 <p>当图中的K1和K2同时断开时，IO口就可以工作在高阻态的输入状态下。高阻态到底是什么样的一个概念呢？</p>
 <p>当IO口处于高阻态时，也将其称为浮空输入状态，其电平是悬浮不定的，既不是高电平也不是低电平。我们可以想象单片机在检测IO口的电平高低时，相当于在CPU里面有一个类似电压表的东西，并且这个电压表内阻很大，例如图中给出的100MΩ。在这里，我们可以把这个电压表的内阻称为P0.0口此时的输入电阻（也可以近似认为是输出阻抗，电阻是对直流电而言，而阻抗是对交流电来说的。这是模拟电路的知识，这里不做细说）。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/667cb77d8d1674dfafe53e23c7f0aca3.png" alt=""></p>
+<p><img data-src="images/667cb77d8d1674dfafe53e23c7f0aca3.png" alt=""></p>
 <p>现在试想，如果我不小心用手碰到了P0.0端口，而由于人体本身就是阻值很大的导体，周围有很多电磁波干扰，手上可能存在一些很微弱的电流，这个时候，电压表的读数就会发生变化，单片机读取的电平高低就会变。高阻态表现出来的结果就是外界很小的干扰，都可能导致读取的电平变化，甚至即使没有碰这个IO口，它每次读取的结果也可能不一样，因为外界的电磁波等可能会干扰到IO口。稍后我们会利用51单片机做个实验，来体验P0口的高阻态。</p>
 <h2 id="高阻态的意义、输出电阻">高阻态的意义、输出电阻</h2>
 <p>为什么双向IO口输入的时候要求是高阻态呢？</p>
 <p>我们假设有一种装置，等效电路如下图。开关上下切换，它就会输出高低电平，通过电压表可以检测出来。但是其驱动能力很弱，连LED也驱动不了。装置里的100kΩ，可以叫做装置的输出电阻（同样也可以近似认为是输出阻抗）。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/6221b5fcc2fc6998936cf48c80817a0c.png" alt=""></p>
+<p><img data-src="images/6221b5fcc2fc6998936cf48c80817a0c.png" alt=""></p>
 <p>让这个装置输出低电平，然后连接51单片机的P1.0口。这时，VCC经过10kΩ上拉电阻到达IO口，再到装置内部的100kΩ电阻，通过开关K接到GND。根据分压原理，P1.0上的电压值大概是4.55V，于是单片机读取的是高电平。而事实是，装置想输出低电平告知51单片机。这里单片机管脚作为输入功能，却干扰了外界装置的输出值，相当于单片机的这个IO口也在输出。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/6810ca5bbf714a5ae9cb8967c4400f32.png" alt=""></p>
+<p><img data-src="images/6810ca5bbf714a5ae9cb8967c4400f32.png" alt=""></p>
 <p>当单片机的P0口工作在第二功能的输入状态，或者工作在普通IO口的输入状态，且没有外界上下拉电阻，内部的两个电子开关都是断开的，对外部呈现高阻态。从图中可以看出，装置输出的电平能被准确的读取到单片机中。之所以能准确读取，就是因为装置输出电阻比单片机IO口的输入电阻要小。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/1303107872fc9ea2fdc887336ee26aeb.png" alt=""></p>
+<p><img data-src="images/1303107872fc9ea2fdc887336ee26aeb.png" alt=""></p>
 <p>有人可能会说，如果把装置中的电阻换成1000MΩ，这个时候这个单片机又不能准确读取电平了。但是一般情况下，我们不需要考虑这么极端。如果是理想的高阻态，其输入阻抗应该是无穷大，而这有点像超导体一样比较特殊。一般情况下认为导线电阻几乎为0，同样也认为高阻态输入电阻是无穷大。</p>
 <p>总的来说，就是高阻态情况下，IO口输入电阻很大，而不容易干扰那些输出电阻较大、驱动能力弱的装置输出到IO口上的电平。</p>
 <h2 id="用51单片机体验高阻态">用51单片机体验高阻态</h2>
@@ -410,15 +410,15 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
-              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
               <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
               <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
               <a href="/tags/C/" rel="tag"># C</a>
-              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
           </div>
 
         
@@ -511,7 +511,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -524,7 +524,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

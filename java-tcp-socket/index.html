@@ -28,17 +28,17 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="TCP Socket通信是一种比较常用的基于连接的网络通信方式。本文通过Java实现TCP Socket通信，并将其用于计算机端、Android手机端，同时做到代码规范化，实现代码最大化复用。  本文代码可在GitHub下载，建议对照源码阅读文章 https:&#x2F;&#x2F;github.com&#x2F;jzj1993&#x2F;JavaTcpSocket">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9b4bcc32662bdb6502372196cf4d5d5f.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/38b9603f717cbff680be61c3168f90e9.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/bef37312bab7dda9516024721e2ca7dd.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/59f273fd0e8cc8728a0d50731f429d7f.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/java-tcp-socket/images/9b4bcc32662bdb6502372196cf4d5d5f.png">
+<meta property="og:image" content="https://www.xiaoming.io/java-tcp-socket/images/38b9603f717cbff680be61c3168f90e9.png">
+<meta property="og:image" content="https://www.xiaoming.io/java-tcp-socket/images/bef37312bab7dda9516024721e2ca7dd.png">
+<meta property="og:image" content="https://www.xiaoming.io/java-tcp-socket/images/59f273fd0e8cc8728a0d50731f429d7f.jpg">
 <meta property="article:published_time" content="2015-02-23T13:46:49.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.661Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Web开发">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/9b4bcc32662bdb6502372196cf4d5d5f.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/java-tcp-socket/images/9b4bcc32662bdb6502372196cf4d5d5f.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/java-tcp-socket/">
 
@@ -136,12 +136,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -443,7 +443,7 @@
 <li>
 <p>防火墙设置<br>
 在Windows中，需要设置防火墙允许程序访问网络。通常在软件第一次访问网络时，会弹出窗口提示是否允许程序访问网络，勾选允许并点击确定即可。也可以在控制面板设置：控制面板 --&gt; 系统和安全 --&gt; Windows 防火墙 --&gt; 允许程序或功能通过Windows防火墙 --&gt; 更改设置 --&gt; 勾选Java后面的选框并确认即可，如图。</p>
-<p><img data-src="/blog-imgs/tech/images/9b4bcc32662bdb6502372196cf4d5d5f.png" alt=""></p>
+<p><img data-src="images/9b4bcc32662bdb6502372196cf4d5d5f.png" alt=""></p>
 </li>
 <li>
 <p>尝试用管理员权限运行Eclipse<br>
@@ -456,7 +456,7 @@
 <li>默认情况下，多个程序同时在命令行输出时，Eclipse的Console会自动切换到最后输出字符串的程序，点击图钉形状的按钮如图，可以让Console不再切换。</li>
 <li>点击右侧的加号按钮，下拉菜单中选择<code>New Console View</code>，可以新建一个Console命令行窗口，设置每个窗口显示不同程序输出的内容。</li>
 <li>点击Console中的红色方形按钮可以停止程序的运行。<br>
-<img data-src="/blog-imgs/tech/images/38b9603f717cbff680be61c3168f90e9.png" alt=""></li>
+<img data-src="images/38b9603f717cbff680be61c3168f90e9.png" alt=""></li>
 </ul>
 <h3 id="测试">测试</h3>
 <p>将工程<code>SocketServer-Desktop</code>和<code>SocketClient-Desktop</code>导入Eclipse中，先执行服务器端，再执行客户端。如果先执行客户端，会提示连接失败。</p>
@@ -465,8 +465,8 @@
 <p>将安卓版的Client编译并安装到手机，连接网络让安卓端和计算机端在同一个局域网中。让服务器端程序启动，再点击安卓端的“连接”按钮进行连接，如果网络错误、服务器未启动等原因，安卓端会提示“连接失败”。如果连接成功，服务端会输出客户端连接的提示信息。</p>
 <p>同样，可以在安卓客户端向服务器发送数据，服务器会将数据原样返回。</p>
 <p>执行结果如图。</p>
-<p><img data-src="/blog-imgs/tech/images/bef37312bab7dda9516024721e2ca7dd.png" alt=""></p>
-<p><img data-src="/blog-imgs/tech/images/59f273fd0e8cc8728a0d50731f429d7f.jpg" alt=""></p>
+<p><img data-src="images/bef37312bab7dda9516024721e2ca7dd.png" alt=""></p>
+<p><img data-src="images/59f273fd0e8cc8728a0d50731f429d7f.jpg" alt=""></p>
 
             
 
@@ -607,7 +607,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -620,7 +620,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

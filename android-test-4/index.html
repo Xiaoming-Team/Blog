@@ -28,9 +28,9 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="指定Test Runner为Android JUnit Test Runner 前面介绍的JUnit3测试和Android基本测试，都基于Instrumentation Test Runner，之后谷歌又推出了Android JUnit Test Runner。根据官方的资料，前者只支持JUnit3，而后者还可以支持JUnit4。 http:&#x2F;&#x2F;developer.android.com&#x2F;intl">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/9b642311d7c9080a486983f434a70d21.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/c4f4bfb9730ec0714019adf341302eb2.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/c4b93f7d5ce74aa17ac26db2f70f83fc.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-test-4/images/9b642311d7c9080a486983f434a70d21.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-test-4/images/c4f4bfb9730ec0714019adf341302eb2.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-test-4/images/c4b93f7d5ce74aa17ac26db2f70f83fc.png">
 <meta property="article:published_time" content="2016-02-15T11:52:39.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.567Z">
 <meta property="article:author" content="小明">
@@ -39,7 +39,7 @@
 <meta property="article:tag" content="安卓">
 <meta property="article:tag" content="移动开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android-test/images/9b642311d7c9080a486983f434a70d21.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/android-test-4/images/9b642311d7c9080a486983f434a70d21.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/android-test-4/">
 
@@ -137,12 +137,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -367,7 +367,7 @@
 <li><code>instrumentation:com.jzj1993.unittest.test/android.support.test.runner.AndroidJUnitRunner (target=com.jzj1993.unittest)</code></li>
 </ol>
 <p>还是在设置的所有应用中，可以看到Android JUnit Test Runner，其名称为Test-api，如图。</p>
-<p><img data-src="/blog-imgs/tech/android-test/images/9b642311d7c9080a486983f434a70d21.png" alt=""></p>
+<p><img data-src="images/9b642311d7c9080a486983f434a70d21.png" alt=""></p>
 <h2 id="基于Espresso的测试">基于Espresso的测试</h2>
 <p>Android的测试，除了直接调用相关代码，还有个很常见的途径，就是通过交互界面来测试。如果直接用Instrumentation发送点击等事件来测试，实在非常麻烦。这时可以利用谷歌官方推出的开源框架Espresso做测试。</p>
 <p>这里举一个最简单的带UI交互的测试例子。</p>
@@ -653,7 +653,7 @@
 </ol>
 <h3 id="运行测试">运行测试</h3>
 <p>运行测试的方法和前面一样。运行时，可以在Android设备上看到测试效果，按钮被点击，于是文本框展示指定的文本。延时5s测试执行完成后，App退出。Run和Event Log窗口中提示测试通过。</p>
-<p><img data-src="/blog-imgs/tech/android-test/images/c4f4bfb9730ec0714019adf341302eb2.png" alt=""></p>
+<p><img data-src="images/c4f4bfb9730ec0714019adf341302eb2.png" alt=""></p>
 <h3 id="测试失败的情况">测试失败的情况</h3>
 <p>修改测试方法的文本，测试就会失败。</p>
 <ol>
@@ -663,7 +663,7 @@
 <li><code>onView(withId(R.id.text)).check(matches(withText(&quot;Test Failed!&quot;)));</code></li>
 <li><code>}</code></li>
 </ol>
-<p><img data-src="/blog-imgs/tech/android-test/images/c4b93f7d5ce74aa17ac26db2f70f83fc.png" alt=""></p>
+<p><img data-src="images/c4b93f7d5ce74aa17ac26db2f70f83fc.png" alt=""></p>
 
             
 
@@ -806,7 +806,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -819,7 +819,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

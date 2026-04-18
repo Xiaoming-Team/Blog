@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="最近油管大神Karpathy提出的 LLM Wiki 概念很火，我做了一些初步的实践，记录一下过程和我的感受。 作者在GitHub给出了一篇文档，介绍这个东西。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/846fd883624414f376987dfc3630787c.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/132dc3d161f4913816e75e0b9c147499.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/0519cbbcd01c3eb9270f8c365eaa2d6d.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/2bffe81adb2801e2d9ea95b75d97b306.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/5311e6076202ad6c64bac77e48e4007c.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/0b179e0551e073696e949773bf1d6fab.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/a7e8eee52be45bb1377343084536347d.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/a0895d0b905b9c72baef8f3889f16898.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/02334d61b085bf4fa126276cd4b5c379.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/846fd883624414f376987dfc3630787c.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/132dc3d161f4913816e75e0b9c147499.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/0519cbbcd01c3eb9270f8c365eaa2d6d.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/2bffe81adb2801e2d9ea95b75d97b306.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/5311e6076202ad6c64bac77e48e4007c.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/0b179e0551e073696e949773bf1d6fab.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/a7e8eee52be45bb1377343084536347d.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/a0895d0b905b9c72baef8f3889f16898.png">
+<meta property="og:image" content="https://www.xiaoming.io/llm-wiki-practice/images/02334d61b085bf4fa126276cd4b5c379.png">
 <meta property="article:published_time" content="2026-04-07T16:00:00.000Z">
 <meta property="article:modified_time" content="2026-04-08T11:48:02.779Z">
 <meta property="article:author" content="小明">
@@ -45,7 +45,7 @@
 <meta property="article:tag" content="Obsidian">
 <meta property="article:tag" content="大模型实践">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/846fd883624414f376987dfc3630787c.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/llm-wiki-practice/images/846fd883624414f376987dfc3630787c.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/llm-wiki-practice/">
 
@@ -143,12 +143,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -326,7 +326,7 @@
 <h2 id="第一步：LLM-Wiki系统实现">第一步：LLM Wiki系统实现</h2>
 <p>根据原作者的文档实现一个LLM Wiki系统，也就是让AI工具帮你写一些代码，实现这样的系统。</p>
 <p>我用Cursor简单写了一个。我的提示词很简单，就只有一句话，然后Cursor默认给我用纯代码逻辑，而不调用LLM的形式帮我实现了一个雏形，生成了一些Python脚本，代码比较简单，总共只有不到1000行。</p>
-<p><img data-src="/blog-imgs/2026/ai/images/846fd883624414f376987dfc3630787c.png" alt=""></p>
+<p><img data-src="images/846fd883624414f376987dfc3630787c.png" alt=""></p>
 <p>显然，第一版和预期的不一样。我让Cursor接入大模型继续帮我实现这个项目，进行了几轮对话。对话细节就不逐一展示了，主要包括：</p>
 <p>1、一些bug修复。主要是让AI自己运行，自己修复的。</p>
 <p>2、我觉得它在运行耗时命令时没有log，我不知道进度如何，所以让它加了一些log。</p>
@@ -335,26 +335,26 @@
 <h2 id="第二步、构建（Ingest）">第二步、构建（Ingest）</h2>
 <p>这个系统实现之后，就需要构建LLM Wiki，作者原文中说的是Ingest，在我的项目中Cursor说的是编译，都是类似的意思，也就是把原始文档读取进来进行理解，生成它的关键信息。</p>
 <p>在一开始，Cursor实现的第一版是不需要LLM的系统，纯代码逻辑处理，我问的Cursor是怎么实现这个编译过程的，下面是它的解释。</p>
-<p><img data-src="/blog-imgs/2026/ai/images/132dc3d161f4913816e75e0b9c147499.png" alt=""></p>
+<p><img data-src="images/132dc3d161f4913816e75e0b9c147499.png" alt=""></p>
 <p>后面Cursor改进的用LLM实现的系统，提示词大概是这样的：</p>
-<p><img data-src="/blog-imgs/2026/ai/images/0519cbbcd01c3eb9270f8c365eaa2d6d.png" alt=""></p>
+<p><img data-src="images/0519cbbcd01c3eb9270f8c365eaa2d6d.png" alt=""></p>
 <p>我的原始文章是一些Markdown文件。这是我过去就已经养成的习惯，我本身刚好就是用的Obsidian记笔记。参考我之前的文章：</p>
 <p><a href="https://www.xiaoming.io/note-and-blog-system/">构建自己的笔记博客系统（程序员版） | 搬砖的小明</a></p>
 <p>如果你平时习惯用其他的工具记笔记，包括印象笔记、为知笔记、微信收藏等等，你还需要把这些笔记导出到一个AI可以读取的格式，通常也就是Markdown之类的纯文本。</p>
 <p>这个过程会比较麻烦，因为我其实也想把我微信收藏里面的内容导出，但是微信并没有提供这样一个批量导出的功能，挨个复制又太多了，很费时间。以后我不会再使用微信收藏功能去收藏我觉得不错的文章，而是会用OpenClaw帮我收集起来，这样方便我随时导出。</p>
 <p>通过这个Ingest的过程，一篇原始文章就会转成类似下面这样的形式，相当于是对原始文件关键点的索引。</p>
 <p>这个过程需要对每一篇文档分别做索引，每篇文章都需要调用大模型，如果你的文档很多，消耗的token还是不少的，耗时也挺久。当然如果你不在乎token成本，可以调用速度最快的大模型，并且可以并列执行。</p>
-<p><img data-src="/blog-imgs/2026/ai/images/2bffe81adb2801e2d9ea95b75d97b306.png" alt=""></p>
+<p><img data-src="images/2bffe81adb2801e2d9ea95b75d97b306.png" alt=""></p>
 <p>除了这个文档以外，它还会生成一些索引文件。例如，在categories里生成一个索引文件，索引到这个分类下的所有文件。</p>
-<p><img data-src="/blog-imgs/2026/ai/images/5311e6076202ad6c64bac77e48e4007c.png" alt=""></p>
+<p><img data-src="images/5311e6076202ad6c64bac77e48e4007c.png" alt=""></p>
 <p><a target="_blank" rel="noopener" href="http://xn--index-xc5io3qs2ykcs99ryhzd.md">还有最外层的index.md</a>，会索引所有的文件。</p>
 <h2 id="第三步、查询（Query）">第三步、查询（Query）</h2>
 <p>当构建好这个LLM Wiki以后，就可以查询问题了。</p>
 <p>首先是查询的实现逻辑，这是Cursor给出的解释。</p>
-<p><img data-src="/blog-imgs/2026/ai/images/0b179e0551e073696e949773bf1d6fab.png" alt=""></p>
+<p><img data-src="images/0b179e0551e073696e949773bf1d6fab.png" alt=""></p>
 <p>实际查询一个问题，运行下面的命令，得到图中的结果，并且这个查询结果被保存到项目中 <code>wiki/query_answers/query-20260408-182829.md</code>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 scripts/wiki.py query <span class="string">&quot;我怎么健身增肌?&quot;</span> --write-page`</span><br></pre></td></tr></table></figure>
-<p><img data-src="/blog-imgs/2026/ai/images/a7e8eee52be45bb1377343084536347d.png" alt=""></p>
+<p><img data-src="images/a7e8eee52be45bb1377343084536347d.png" alt=""></p>
 <h2 id="第四步、检查（Lint）">第四步、检查（Lint）</h2>
 <p>我认为Lint是作者原文中的精髓。Lint的任务分两部分：</p>
 <p>一方面是比较机械的任务，检查这些文章有没有基本的缺失和错误，比如引用的文件出现了坏链，某个单独的文件没有被其他文件索引到等。</p>
@@ -362,10 +362,10 @@
 <p>但是我让Cursor解释了一下它当前的实现，可以说是差强人意，逻辑过于简单了，详见截图。</p>
 <p>实际上这里要做的事情很复杂，需要一个功能完善的Agent才能搞定，但是Cursor里面的实现只是用了一次大模型调用，这显然是远远不够的。</p>
 <p>我实际让他帮我运行了一次。除了log变化了，其他所有文件都没有更新。由于我的Wiki是刚创建完成的，显然没有什么明显的坏链问题，而更智能的补全，Cursor并没能自动帮我实现。</p>
-<p><img data-src="/blog-imgs/2026/ai/images/a0895d0b905b9c72baef8f3889f16898.png" alt=""></p>
+<p><img data-src="images/a0895d0b905b9c72baef8f3889f16898.png" alt=""></p>
 <h2 id="LLM-Wiki与RAG的对比">LLM Wiki与RAG的对比</h2>
 <p>最后，我还向Cursor提了一个问题，这个思路和常规的RAG有什么不一样？</p>
-<p><img data-src="/blog-imgs/2026/ai/images/02334d61b085bf4fa126276cd4b5c379.png" alt=""></p>
+<p><img data-src="images/02334d61b085bf4fa126276cd4b5c379.png" alt=""></p>
 <h2 id="总结">总结</h2>
 <p>通过这样一个简单的实践，我的理解是，LLM Wiki相当于是给我们的一系列文档建立了一个基于AI的、可以模糊查询的搜索引擎。和传统的搜索引擎一样，它也需要对查询的东西提前进行索引，从而加快查询结果，提高查询准确率。</p>
 <p>但是作者原文里面只是简单的说了核心思想，让你把这些核心思想丢给AI去设计和实现。</p>
@@ -490,7 +490,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -503,7 +503,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

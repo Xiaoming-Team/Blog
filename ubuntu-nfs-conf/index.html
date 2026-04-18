@@ -28,11 +28,11 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="NFS协议允许远程访问Linux主机中的指定目录，并且在Windows 7中，原生支持将NFS文件系统映射到本地，通过资源管理器就可以访问Linux虚拟机或者开发板中的文件，非常方便。 Ubuntu中配置NFS服务方法如下：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1d108e4778d36359c9d09ec067852750.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/5a40c7f97ff7c1430a0c8bbc7d98c1eb.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8c3123ab7a24295fcce1fb66192b8188.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/f2b29986002159c3324dc4290560a66a.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/21c25a4f90da0041ae6a943bf3522e98.png">
+<meta property="og:image" content="https://www.xiaoming.io/ubuntu-nfs-conf/images/1d108e4778d36359c9d09ec067852750.png">
+<meta property="og:image" content="https://www.xiaoming.io/ubuntu-nfs-conf/images/5a40c7f97ff7c1430a0c8bbc7d98c1eb.png">
+<meta property="og:image" content="https://www.xiaoming.io/ubuntu-nfs-conf/images/8c3123ab7a24295fcce1fb66192b8188.png">
+<meta property="og:image" content="https://www.xiaoming.io/ubuntu-nfs-conf/images/f2b29986002159c3324dc4290560a66a.png">
+<meta property="og:image" content="https://www.xiaoming.io/ubuntu-nfs-conf/images/21c25a4f90da0041ae6a943bf3522e98.png">
 <meta property="article:published_time" content="2014-10-30T17:54:46.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.663Z">
 <meta property="article:author" content="小明">
@@ -41,7 +41,7 @@
 <meta property="article:tag" content="计算机">
 <meta property="article:tag" content="运维">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/1d108e4778d36359c9d09ec067852750.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/ubuntu-nfs-conf/images/1d108e4778d36359c9d09ec067852750.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/ubuntu-nfs-conf/">
 
@@ -139,12 +139,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -332,21 +332,21 @@
 <p>sudo mount -t nfs -o nolock 192.168.0.101:/home /mnt</p>
 <p><strong>在Win7下挂载NFS的方法：</strong></p>
 <p>1、首先启用NFS功能（控制面板-&gt;卸载或更改程序-&gt;打开或关闭Windows功能）：</p>
-<p><img data-src="/blog-imgs/tech/images/1d108e4778d36359c9d09ec067852750.png" alt=""></p>
+<p><img data-src="images/1d108e4778d36359c9d09ec067852750.png" alt=""></p>
 <p>2、显示NFS服务器上的所有文件系统（在CMD中运行）：</p>
-<p><img data-src="/blog-imgs/tech/images/5a40c7f97ff7c1430a0c8bbc7d98c1eb.png" alt=""></p>
+<p><img data-src="images/5a40c7f97ff7c1430a0c8bbc7d98c1eb.png" alt=""></p>
 <p>C:\Users\jzj&gt;showmount -e 192.168.0.101</p>
 <p>Exports list on 192.168.0.101:</p>
 <p>/home                              *</p>
 <p>3、挂载NFS文件系统（挂载到本机的Z盘，-o fileaccess=777参数为访问权限）：</p>
-<p><img data-src="/blog-imgs/tech/images/8c3123ab7a24295fcce1fb66192b8188.png" alt=""></p>
+<p><img data-src="images/8c3123ab7a24295fcce1fb66192b8188.png" alt=""></p>
 <p>C:\Users\jzj&gt;mount \\192.168.0.101\work Z: -o fileaccess=777</p>
 <p>Z: is now successfully connected to \\192.168.0.101\work</p>
 <p>The command completed successfully.</p>
 <p>4、挂载后的效果：</p>
-<p><img data-src="/blog-imgs/tech/images/f2b29986002159c3324dc4290560a66a.png" alt=""></p>
+<p><img data-src="images/f2b29986002159c3324dc4290560a66a.png" alt=""></p>
 <p>5、取消挂载：</p>
-<p><img data-src="/blog-imgs/tech/images/21c25a4f90da0041ae6a943bf3522e98.png" alt=""></p>
+<p><img data-src="images/21c25a4f90da0041ae6a943bf3522e98.png" alt=""></p>
 <p>C:\Users\jzj&gt;umount Z:</p>
 <p>Disconnecting           Z:      \\192.168.0.101\work</p>
 <p>The command completed successfully.</p>
@@ -491,7 +491,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -504,7 +504,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

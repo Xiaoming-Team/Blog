@@ -28,9 +28,9 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="学习单片机时，我们通常有必要选择一款合适的成品单片机开发板，毕竟所有的电路都自己搭建学起来很不容易。这一篇简单介绍下成品开发板相关的知识。 成品开发板我们可以很容易的从淘宝或电子市场买到。通常都有配套的学习资料，尤其是配套可以直接下载到板子中使用的程序示例，能大大提高我们的学习效率。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/44a1c59ff194168b515111a7243cb2e6.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/79ff75c1be94074740103ce9021efcda.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/70ddc4db7217449ccdf72b96f734cce1.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-11/images/44a1c59ff194168b515111a7243cb2e6.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-11/images/79ff75c1be94074740103ce9021efcda.png">
+<meta property="og:image" content="https://www.xiaoming.io/mcu-primer-11/images/70ddc4db7217449ccdf72b96f734cce1.png">
 <meta property="article:published_time" content="2014-10-21T11:34:39.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.772Z">
 <meta property="article:author" content="小明">
@@ -45,7 +45,7 @@
 <meta property="article:tag" content="编程">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/mcu-primer/images/44a1c59ff194168b515111a7243cb2e6.jpg">
+<meta name="twitter:image" content="https://www.xiaoming.io/mcu-primer-11/images/44a1c59ff194168b515111a7243cb2e6.jpg">
 
 <link rel="canonical" href="https://www.xiaoming.io/mcu-primer-11/">
 
@@ -143,12 +143,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -323,18 +323,18 @@
 <p>成品开发板我们可以很容易的从淘宝或电子市场买到。通常都有配套的学习资料，尤其是配套可以直接下载到板子中使用的程序示例，能大大提高我们的学习效率。</p>
 <h2 id="电路图的识别">电路图的识别</h2>
 <p>一般成品开发板都有电路图，初学者在看电路图的时候可能会有不少疑惑。下面是某开发板的部分电路图。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/44a1c59ff194168b515111a7243cb2e6.jpg" alt=""></p>
+<p><img data-src="images/44a1c59ff194168b515111a7243cb2e6.jpg" alt=""></p>
 <p>我们可以看到，为了画的简洁好懂，单片机开发板电路图常常会画成图中这样，分成一个个的模块，而不是全部画在一张图中。图中根据功能进行划分每个模块，并且大部分的模块都会有VCC和GND标号。</p>
 <p>在任何一个电路图中，所有相同的标号（例如GND）在实际电路中是连接在一起的。我们可以看到单片机最小系统中的18、19号管脚没有接晶振，但是标注了X1、X2；而在单片机晶振模块中，也有标号X1、X2，意思是他们在实际电路中连接在一起。</p>
 <h2 id="电源相关知识">电源相关知识</h2>
 <p>GND原意为接地，表示的含义是电压0V参考点。通常我们把大地的电压视为0V，在一些电路中，GND也确实和大地直接连在一起，例如一些家用电器的外壳。但是在我们的单片机电路中，实际上没有必要将其直接接地，但是还是把它的标号写为GND。</p>
 <p>学过中学物理就应该知道，电压是一个相对的概念，如果我们把1.5V电池的正极当做0V电压，那么它的负极电压就是-1.5V。这里的GND就是0V电压点，其他点的电压都是相对于这个0V来说的。图中单片机的VCC管脚接到了VCC标号上，在这个图中，VCC就是5V电压，通常电路图中会有说明。如果我们用5V电源给电路供电，就可以把电源负极接到GND，正极接在VCC上。</p>
 <p>一个电路中并不一定只有一种电压，有的电路中不同的器件分别需要多种电压，单片机类电路中最常见的是5V和3.3V。例如下图，GND仍然为0V，而VCC标号表示5V电压，VDD表示的是3.3V电压。5V电压通过AMS1117稳压芯片转换出了3.3V电压（这是比较常用的一种稳压芯片，这类知识需要长期积累，不了解的可以去网上搜索，对于芯片，可以找芯片手册看）。多种电压常用芯片进行转换，这样整个电路就只需要提供一个电源。也有的情况下，不同的电路部分则会使用独立的供电系统（例如继电器电路就可以用低电压控制高电压，而控制端和被控制端电路完全隔离）。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/79ff75c1be94074740103ce9021efcda.png" alt=""></p>
+<p><img data-src="images/79ff75c1be94074740103ce9021efcda.png" alt=""></p>
 <h2 id="一些器件符号">一些器件符号</h2>
 <p>电路图中，除了大家所了解的电阻、电容、电感、二极管三极管等器件，以及前面说的VCC、GND符号和各种标号外，还有一些特别的器件。例如图中的J2、J3这种方块状的东西，其实就是普通的插接件，比如前面说的排针排座之类，因为不是什么标准化的器件，所以通常电路符号画起来也比较随意。</p>
 <p>还有像PCF8591这种符号，其实和前面的51一样，是集成电路，一般电路图中会标注芯片型号，然后用数字标注管脚序号。</p>
-<p><img data-src="/blog-imgs/tech/mcu-primer/images/70ddc4db7217449ccdf72b96f734cce1.png" alt=""></p>
+<p><img data-src="images/70ddc4db7217449ccdf72b96f734cce1.png" alt=""></p>
 <h2 id="芯片手册">芯片手册</h2>
 <p>看开发板电路图时，我们就发现上面有很多集成电路芯片。集成电路前面也提到了很多次。前文我就说到AMS1117是一种常用的稳压芯片，但是怎么知道这种芯片的使用方法呢？</p>
 <p>最准确有效的做法就是查看芯片厂商给出的官方资料，相当于说明书，对于芯片来说就是芯片手册。会获取和查看芯片手册是电子制作的基本技能之一，我们应该学会如何利用官方资料学习。所有的芯片官方都会给出对应的DataSheet(数据手册，芯片手册)，有些还会有ApplicationNote(应用笔记)。</p>
@@ -393,15 +393,15 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
-              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag"># 电路设计</a>
               <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/" rel="tag"># 硬件开发</a>
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag"># 计算机</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag"># 单片机</a>
               <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
               <a href="/tags/C/" rel="tag"># C</a>
-              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
               <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA%E5%B0%8F%E7%99%BD%E5%AD%A6%E6%AD%A5/" rel="tag"># #单片机小白学步#</a>
+              <a href="/tags/%E5%85%A5%E9%97%A8/" rel="tag"># 入门</a>
           </div>
 
         
@@ -494,7 +494,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -507,7 +507,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

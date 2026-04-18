@@ -28,18 +28,18 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="准备： proteus 7(建议安装7.5版，低版本就不推荐安装了，因为proteus不能向上兼容）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/01497a56494651115a410a3eff8e92a8.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/376e49de1afcbc5c8c54dfb1627bc544.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/121ee15e292e47d5eae97b573938eec2.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/0f722eb35817b674ca9a89b71f71fe4b.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/c058b2fcf30fbc27954465c2b5aeb1cc.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/proteus-keil/images/01497a56494651115a410a3eff8e92a8.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/proteus-keil/images/376e49de1afcbc5c8c54dfb1627bc544.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/proteus-keil/images/121ee15e292e47d5eae97b573938eec2.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/proteus-keil/images/0f722eb35817b674ca9a89b71f71fe4b.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/proteus-keil/images/c058b2fcf30fbc27954465c2b5aeb1cc.jpg">
 <meta property="article:published_time" content="2014-10-26T12:05:31.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.662Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="单片机">
 <meta property="article:tag" content="嵌入式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/01497a56494651115a410a3eff8e92a8.jpg">
+<meta name="twitter:image" content="https://www.xiaoming.io/proteus-keil/images/01497a56494651115a410a3eff8e92a8.jpg">
 
 <link rel="canonical" href="https://www.xiaoming.io/proteus-keil/">
 
@@ -137,12 +137,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -323,15 +323,15 @@
 <p>在proteus安装目录中找到vdm51.dll，复制到keil/bin下。</p>
 <p>keil设置：</p>
 <p>1.打开一个项目和文件，在左边目录树中右击，点击&quot;options for target&quot;target1&quot;，点击output选项，将creat hex勾上，选择hex生成的路径和文件名。</p>
-<p><img data-src="/blog-imgs/tech/images/01497a56494651115a410a3eff8e92a8.jpg" alt=""></p>
-<p><img data-src="/blog-imgs/tech/images/376e49de1afcbc5c8c54dfb1627bc544.jpg" alt=""></p>
+<p><img data-src="images/01497a56494651115a410a3eff8e92a8.jpg" alt=""></p>
+<p><img data-src="images/376e49de1afcbc5c8c54dfb1627bc544.jpg" alt=""></p>
 <p>2.点击debug选项，选中右边的use，在下拉菜单中选择proteus vsm simulator（如果没有该选项则要确定有没有安装vdmagdi和将vdm51.dll放入keil/bin下，再重启keil，有些教程要打开keil目录下的tools.ini，在[C51] 栏目下加入 TDRV3=BIN\VDM51.DLL (“Proteus VSM Monitor-51 Driver” ) ，其中“TDRV3” 中的 “3”要根据实际情况写，不要和原来的重复，如果还是没有该选项的话可以试试上述方法），选择seting，如果同一台机IP 名为127.0.0.1,如不是同一台机则填另一 台的 IP地址。端口号一定为8000 。将run to main勾上。</p>
-<p><img data-src="/blog-imgs/tech/images/121ee15e292e47d5eae97b573938eec2.jpg" alt=""></p>
+<p><img data-src="images/121ee15e292e47d5eae97b573938eec2.jpg" alt=""></p>
 <p>proteus设置：</p>
 <p>1，在 proteus 的 debug 菜单中选中 use remote debug monitor 。</p>
 <p>联调设置就完成了，下面以一个简单的例子演示一次proteus与keil的联调。</p>
 <p>51单片机最小系统，在proteus中画好下图：</p>
-<p><img data-src="/blog-imgs/tech/images/0f722eb35817b674ca9a89b71f71fe4b.jpg" alt=""></p>
+<p><img data-src="images/0f722eb35817b674ca9a89b71f71fe4b.jpg" alt=""></p>
 <p>打开keil，新建一个项目，新建文件步骤略，不懂的自己百度。</p>
 <p>写入c程序，程序如下：</p>
 <p>#include</p>
@@ -354,7 +354,7 @@
 <p>}</p>
 <p>}</p>
 <p>编译后调试，再运行。如果在proteus中看到灯亮了，恭喜你，proteus与keil联调成功，看不到灯亮的就要继续努力了。</p>
-<p><img data-src="/blog-imgs/tech/images/c058b2fcf30fbc27954465c2b5aeb1cc.jpg" alt=""></p>
+<p><img data-src="images/c058b2fcf30fbc27954465c2b5aeb1cc.jpg" alt=""></p>
 <p>来源：  <a target="_blank" rel="noopener" href="http://wangchenlin2000.blog.163.com/blog/static/56292571201059638102/">http://wangchenlin2000.blog.163.com/blog/static/56292571201059638102/</a></p>
 
             
@@ -495,7 +495,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -508,7 +508,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

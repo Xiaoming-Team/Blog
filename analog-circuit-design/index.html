@@ -28,16 +28,16 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="本篇结合我的亲身体会，通过简单的举例，来说明模拟电路设计的一些特点，希望对有意从事模拟电路设计相关方向的同学有所帮助。 理论知识">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/07e323fade0faa43620c4e1d55ad38ac.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8c29beca819110a4a8ca2aa9ec88ad28.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/8e5af687a2d6e141274ec6c10af64d2e.png">
+<meta property="og:image" content="https://www.xiaoming.io/analog-circuit-design/images/07e323fade0faa43620c4e1d55ad38ac.png">
+<meta property="og:image" content="https://www.xiaoming.io/analog-circuit-design/images/8c29beca819110a4a8ca2aa9ec88ad28.png">
+<meta property="og:image" content="https://www.xiaoming.io/analog-circuit-design/images/8e5af687a2d6e141274ec6c10af64d2e.png">
 <meta property="article:published_time" content="2014-12-22T13:09:18.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.395Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="电路设计">
 <meta property="article:tag" content="硬件开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/07e323fade0faa43620c4e1d55ad38ac.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/analog-circuit-design/images/07e323fade0faa43620c4e1d55ad38ac.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/analog-circuit-design/">
 
@@ -135,12 +135,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -321,15 +321,15 @@
 <p>协调这两方面的冲突，解决这种难题，就是工程师的任务了；模拟电路的核心正是工程思想。工程师不关注三极管怎么被发明的，只关注三极管有什么特性，关注人们实际生活中需要什么样的电路。然后设法用不完美的器件，制造出尽可能满足人们需要的设备。利用不完美的东西去创造完美，工程很多时候就是在做这件事。</p>
 <p>三极管的特性：学习三极管一般都从PN结基本原理开始，涉及一点化学分子方面的知识。在模拟电路中，主要关注PN结的特性，而不做进一步深入。</p>
 <p>解决难题的方法：三极管放大倍数不稳定，我们可以通过负反馈的形式，牺牲放大倍数，实现放大倍数的稳定。</p>
-<p><img data-src="/blog-imgs/tech/images/07e323fade0faa43620c4e1d55ad38ac.png" alt=""></p>
+<p><img data-src="images/07e323fade0faa43620c4e1d55ad38ac.png" alt=""></p>
 <h2 id="信号与系统">信号与系统</h2>
 <p>信号与系统是一门很重要的基础理论课。信号系统这门课很抽象，基本上就是在学数学。而正是因为它的抽象，能应用到很多学科中来。信号系统不仅能用到电路中，也能用到力学系统中，还能用到声学系统中（例如音箱的声学设计）。信号系统这门理论课有点不好理解，因为不知道它如何应用。我们能做的就是不要过早的问为什么，先踏踏实实把那些理论知识记住，后面再去实践（理论与实践相结合的学习固然更好，但知识很难安排）。</p>
 <p>何为负反馈，以及如何实现了放大器放大倍数的稳定，可参考《我对模拟电路课程的理解》 <a href="http://www.xiaoming.io/analog-circuit">http://www.xiaoming.io/analog-circuit</a></p>
 <h2 id="理论的神话与残酷的现实">理论的神话与残酷的现实</h2>
 <p>模拟电路尤其是高频/射频，难度往往很大，除了需要较多理论知识，还需要大量经验积累。做电赛的时深有体会，模拟电路的设计不容易，即使是最简单的运放积分器。理想情况下，积分器电路如下图，理论分析也比较简单（学过信号系统和模电的人应该能理解，这里不做分析）。</p>
-<p><img data-src="/blog-imgs/tech/images/8c29beca819110a4a8ca2aa9ec88ad28.png" alt=""></p>
+<p><img data-src="images/8c29beca819110a4a8ca2aa9ec88ad28.png" alt=""></p>
 <p>而实际上这样的电路往往不能工作，因为运放等器件的非理想特性使然。即便是最基本的导线都有电阻，理论分析很难考虑那么多非理想因素。实际上一般需要再添加一些器件，如下图。</p>
-<p><img data-src="/blog-imgs/tech/images/8e5af687a2d6e141274ec6c10af64d2e.png" alt=""></p>
+<p><img data-src="images/8e5af687a2d6e141274ec6c10af64d2e.png" alt=""></p>
 <p>即使完善了电路，每个器件参数也不能任意取值，甚至电源、布线也有讲究。特别是在高频/射频中，元器件之间会因为电磁波互相干扰，解决这些问题又需要用到一些类似信号系统的理论课程知识。最后才能实现设想的积分器效果，并且只能在给定的条件下正常工作（可以想象一下收音机，或者以前用天线的电视机，人靠近了都可能会影响电视机的工作）。</p>
 <h2 id="理论分析-软件仿真-实际电路">理论分析/软件仿真/实际电路</h2>
 <p>在模拟电路设计中，通常的设计流程是，先进行理论分析，设计出电路，然后通过仿真软件进行验证，最后制作实际电路，并进行修改和调试。对于简单和要求较低的电路，可以尝试先用面包板搭建，再进行焊接；对于一些要求较高的电路，例如要求大电流，高频率等，面包板就很难实现了；甚至万用焊板焊接的也不能使用，还得设计PCB进行尝试，过程就比较麻烦了。</p>
@@ -486,7 +486,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -499,7 +499,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

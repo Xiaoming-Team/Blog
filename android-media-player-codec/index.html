@@ -28,8 +28,8 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="由于项目需求，要在Android中实现APP启动播放视频的功能。 想起来前段时间装过的Any.Do Cal就有启动视频。实现这个功能不难，主要是有点担心稳定性和可靠性，于是参考了一下Cal（反编译简单分析了一下其代码），发现实现起来比较简单，用的是比较常规的MediaPlayer+TextureView，播放的是mp4视频文件。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/b212b655b235881deb70ca44e9102357.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/8c0f38063799415e26bc170cae9a59a9.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-media-player-codec/images/b212b655b235881deb70ca44e9102357.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-media-player-codec/images/8c0f38063799415e26bc170cae9a59a9.png">
 <meta property="article:published_time" content="2016-11-25T14:17:02.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.573Z">
 <meta property="article:author" content="小明">
@@ -38,7 +38,7 @@
 <meta property="article:tag" content="移动开发">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/android/images/b212b655b235881deb70ca44e9102357.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/android-media-player-codec/images/b212b655b235881deb70ca44e9102357.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/android-media-player-codec/">
 
@@ -136,12 +136,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -320,8 +320,8 @@
 <p>发现Android的MediaPlayer不能播放的视频，在Windows自带的MediaPlayer上也不能播放，时长是对的，但画面是黑的。然后就下载了我熟悉的视频格式转换软件“格式工厂”，尝试转换了好多次，UI那边也帮忙试着转换了好几种格式的视频，但是要么转换出错，要么还是不能播放。</p>
 <p>之后又下载了其他几个视频转换软件，也尝试了很多中转换输出格式，最后发现使用“魔影工厂”转换的通用MP4格式可以被播放，但是一直想不明白为什么。详细查看了这几个视频的参数，也找了一些MP4视频编码相关的文章，还有视频转换软件中的参数设置，最后终于发现了问题。</p>
 <p>因为现在的手机分辨率都比较高，为了保证比较清晰的显示效果，UI给的是1248x2000的高分辨率视频。在魔影工厂中，MP4格式默认的编码方式不是H.264，而是MPEG-4。H.264格式压缩率更高，生成的文件更小，同时解码需要的运算量也会更大。用H.264格式转换出622x1000的低分辨率视频，是可以播放的，MPEG-4格式的高分辨率也可以播放，但是H.264格式的高分辨率视频，可能是解码对性能要求很高，所以Android的MediaPlayer就没法播放了。</p>
-<p><img data-src="/blog-imgs/tech/android/images/b212b655b235881deb70ca44e9102357.png" alt=""></p>
-<p><img data-src="/blog-imgs/tech/android/images/8c0f38063799415e26bc170cae9a59a9.png" alt=""></p>
+<p><img data-src="images/b212b655b235881deb70ca44e9102357.png" alt=""></p>
+<p><img data-src="images/8c0f38063799415e26bc170cae9a59a9.png" alt=""></p>
 
             
 
@@ -463,7 +463,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -476,7 +476,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -28,11 +28,11 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="Projector基本介绍 用JetBrains或者Android Studio开发项目有时候会有一个需求，就是本地的笔记本性能比较弱，或是有便携需求，或是系统不兼容（比如本地习惯用Mac，但是开发必须用Linux编译），或者单纯就是类似WSL的场景但是Linux里没有好用的图形界面，这个时候就希望能在远程机器上编译代码，而在本地机器上开发调试。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/d9d60add30fde82b7a42687db674a361_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/826d4b7073cdee18fa10dce990d53189_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/6b5f7784d658a78a01b2201673ac7ff5_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/61278ed5334141aa71a14389ab4ecf91_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e22cd84fb9ca4701e27759c3bb53aba8_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-studio-projector/images/d9d60add30fde82b7a42687db674a361_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-studio-projector/images/826d4b7073cdee18fa10dce990d53189_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-studio-projector/images/6b5f7784d658a78a01b2201673ac7ff5_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-studio-projector/images/61278ed5334141aa71a14389ab4ecf91_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/android-studio-projector/images/e22cd84fb9ca4701e27759c3bb53aba8_MD5.png">
 <meta property="article:published_time" content="2024-11-22T14:00:00.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.566Z">
 <meta property="article:author" content="小明">
@@ -42,7 +42,7 @@
 <meta property="article:tag" content="JetBrains">
 <meta property="article:tag" content="Projector">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/d9d60add30fde82b7a42687db674a361_MD5.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/android-studio-projector/images/d9d60add30fde82b7a42687db674a361_MD5.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/android-studio-projector/">
 
@@ -140,12 +140,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -331,12 +331,12 @@
 <p>运行下面的命令，在远程启动projector</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">projector run Android_Studio</span><br></pre></td></tr></table></figure>
 <p>然后在本机浏览器输入网址 <code>https://&lt;REMOTE_IP&gt;:9999</code> 即可访问，例如 <code>https://192.168.5.110:9999/</code>。 当然前提是本机可以访问这个地址，我用的是家里的局域网，也没有防火墙，所以直接就能访问。</p>
-<p><img data-src="/blog-imgs/tech/images/d9d60add30fde82b7a42687db674a361_MD5.png" alt=""></p>
+<p><img data-src="images/d9d60add30fde82b7a42687db674a361_MD5.png" alt=""></p>
 <h2 id="HTTPS和PWA">HTTPS和PWA</h2>
 <p>但是有个很烦的问题来了，每次都会提示https的签名不对，每次都要在浏览器里点continue确认继续访问。</p>
 <p>而如果你想长期使用Projector，每次在浏览器里打开，和众多标签混在一起也很烦。于是你想借助Chrome / Edge的创建App的功能，给这个网址生成一个单独的App（我们称之为PWA），有自己独立的窗口和图标，这样就会方便很多。但是，当https证书有问题的时候，PWA就会自动跑到浏览器里打开网页，这让我很不爽。一开始觉得是不是有Bug，好在我就是做Edge浏览器的，在同事群里试着问了一下，结果真就有人指出来了具体代码。看了下发现这个是Chromium有意设计的，不是Bug而是By Design，这里的考虑是PWA比一般的网页有更大的权限，如果有SSL错误就不安全，所以直接转到浏览器打开了。这里把代码也贴出来，注释写的挺明白的。</p>
 <p><a target="_blank" rel="noopener" href="https://source.chromium.org/chromium/chromium/src/+/main:chrome/browser/ssl/ssl_error_controller_client.cc;l=103?q=chrome%2Fbrowser%2Fssl%2Fssl_error_controller_client.cc&amp;ss=chromium">ssl_error_controller_client.cc - Chromium Code Search</a></p>
-<p><img data-src="/blog-imgs/tech/images/826d4b7073cdee18fa10dce990d53189_MD5.png" alt=""></p>
+<p><img data-src="images/826d4b7073cdee18fa10dce990d53189_MD5.png" alt=""></p>
 <h2 id="安装自定义证书">安装自定义证书</h2>
 <p>由于以上两个原因，就必须想办法解决projector https证书的问题。网上找了半天，相关的资料太少了，结果最后发现挺简单的，projector本身的命令行就能搞定，运行下面命令生成一个证书（Certificate）给Android Studio。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Y9000P ➜  ~ projector install-certificate</span><br><span class="line">Checking <span class="keyword">for</span> updates ... <span class="keyword">done</span>.</span><br><span class="line">Installing autogenerated certificate to config Android_Studio</span><br></pre></td></tr></table></figure>
@@ -345,9 +345,9 @@
 <p>直接在本机运行scp把Certificate复制到本机：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ scp jzj@192.168.5.110:/home/jzj/.projector/ssl/ca.crt ./                                                  </span><br><span class="line">ca.crt                                     100% 2063   163.5KB/s   00:00 </span><br></pre></td></tr></table></figure>
 <p>Mac上直接双击，默认会用Keychain安装到系统。然后打开Keychain Access，找到这个证书，右击菜单选Get Info，然后在Trust里选择Always Trust就可以了。重新启动Projector，重新启动浏览器访问，就发现证书已经没问题了。</p>
-<p><img data-src="/blog-imgs/tech/images/6b5f7784d658a78a01b2201673ac7ff5_MD5.png" alt=""></p>
+<p><img data-src="images/6b5f7784d658a78a01b2201673ac7ff5_MD5.png" alt=""></p>
 <p>最终的效果就是我可以安装一个PWA在里面跑Projector。</p>
-<p><img data-src="/blog-imgs/tech/images/61278ed5334141aa71a14389ab4ecf91_MD5.png" alt=""></p>
+<p><img data-src="images/61278ed5334141aa71a14389ab4ecf91_MD5.png" alt=""></p>
 <p>如果嫌每次手工启动Projector需要同时操作Server和本机太麻烦，还可以写个function搞定，保存到 <code>.bashrc</code> ，以后直接运行 <code>startProjector</code> 即可启动或重启Projector。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="title">stopProjectorServer</span></span>() &#123;</span><br><span class="line">  <span class="built_in">local</span> HOST=<span class="variable">$1</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Kill projector on host <span class="variable">$HOST</span>&quot;</span></span><br><span class="line">  (ssh <span class="string">&quot;jzj@<span class="variable">$HOST</span>&quot;</span> <span class="string">&#x27;pkill -f projector&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">startProjectorServer</span></span>() &#123;</span><br><span class="line">  <span class="built_in">local</span> HOST=<span class="variable">$1</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Start projector on host <span class="variable">$HOST</span>&quot;</span></span><br><span class="line">  (ssh <span class="string">&quot;jzj@<span class="variable">$HOST</span>&quot;</span> <span class="string">&#x27;/home/jzj/.local/bin/projector run Android_Studio&#x27;</span> &gt;/dev/null 2&gt;1 &amp;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">restartProjectorServer</span></span>() &#123;</span><br><span class="line">  <span class="built_in">local</span> HOST=<span class="variable">$1</span></span><br><span class="line">  stopProjectorServer <span class="string">&quot;<span class="variable">$HOST</span>&quot;</span></span><br><span class="line">  <span class="built_in">sleep</span> 1</span><br><span class="line">  startProjectorServer <span class="string">&quot;<span class="variable">$HOST</span>&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">startProjectorClient</span></span>() &#123;</span><br><span class="line">  <span class="built_in">local</span> HOST=<span class="variable">$1</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Start projector client&quot;</span></span><br><span class="line">  <span class="built_in">local</span> APP_PATH=<span class="string">&quot;<span class="variable">$HOME</span>/Applications/Edge Apps.localized/Projector Web Client.app&quot;</span></span><br><span class="line">  <span class="keyword">if</span> [ -d <span class="string">&quot;<span class="variable">$APP_PATH</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    open <span class="string">&quot;<span class="variable">$APP_PATH</span>&quot;</span></span><br><span class="line">    <span class="built_in">return</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Projector must be ruuning with https, otherwise copy paste will be blocked by browser and unconvenient</span></span><br><span class="line">  open <span class="string">&quot;https://<span class="variable">$HOST</span>:9999&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">startProjector</span></span>() &#123;</span><br><span class="line">  <span class="built_in">local</span> HOST=<span class="string">&quot;192.168.5.110&quot;</span></span><br><span class="line">  restartProjectorServer <span class="string">&quot;<span class="variable">$HOST</span>&quot;</span></span><br><span class="line">  <span class="built_in">sleep</span> 2</span><br><span class="line">  startProjectorClient <span class="string">&quot;<span class="variable">$HOST</span>&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="自动切换host">自动切换host</h2>
@@ -372,7 +372,7 @@
 <p>如果cert没问题，应该可以看到SAN如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X509v3 extensions:</span><br><span class="line">            X509v3 Subject Alternative Name: </span><br><span class="line">                DNS:develop, DNS:projector, DNS:localhost, IP Address:192.168.8.100, IP Address:192.168.5.211, IP Address:127.0.0.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>实际在浏览器中，也可以看到一个网站的证书详情，点击URL左边的锁，点<code>Connection is secure</code>，再点里面的证书图标就可以了，知道了这个可以更方便的排查问题。比如Google的证书：</p>
-<p><img data-src="/blog-imgs/tech/images/e22cd84fb9ca4701e27759c3bb53aba8_MD5.png" alt=""></p>
+<p><img data-src="images/e22cd84fb9ca4701e27759c3bb53aba8_MD5.png" alt=""></p>
 <p>运行下面的命令把生成的Certificate安装到Projector中：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">projector install-certificate --certificate cert.pem --key key.pem</span><br></pre></td></tr></table></figure>
 <p>然后把 <code>cert.pem</code> 下载到本机，我用的还是Mac，和前面一样用KeyChain App添加到系统，设置成信任就可以了。在系统KeyChain里，同样可以看到一个Cert的详细信息，包括前面我们生成时设置的SAN。</p>
@@ -520,7 +520,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -533,7 +533,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

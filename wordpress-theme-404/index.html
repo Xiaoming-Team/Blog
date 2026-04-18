@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="今天下午发现自己用WordPress搭建的站点主题有一些bug，决定对其进行一些修改。 由于主题原先并不是自己设计的，是在知更鸟的Ality主题基础上修改的，所以对于里面的每个文件之前并没有做过很多深入研究。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/bbf51e0395fe57090eeed1660eb2c926.png">
+<meta property="og:image" content="https://www.xiaoming.io/wordpress-theme-404/images/bbf51e0395fe57090eeed1660eb2c926.png">
 <meta property="article:published_time" content="2015-01-02T16:53:13.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.398Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Web开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/bbf51e0395fe57090eeed1660eb2c926.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/wordpress-theme-404/images/bbf51e0395fe57090eeed1660eb2c926.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/wordpress-theme-404/">
 
@@ -132,12 +132,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -321,7 +321,7 @@
 <p>决定通过文件直接替换的方式找到错误所在。打开WordPress的调试模式（wp-config.php中修改define(‘WP_DEBUG’, true)），设置成修改前可用的主题版本。每次上传若干主题文件的新版本，覆盖旧版本，刷新页面可访问，则初步排除这些文件。最后错误文件定位到了一个子文件夹中的十个文件（也就是这十个新版本文件覆盖进去，网站就打不开了）。再把旧版本文件一个一个替换新版的文件，终于有个文件被替换成旧版本后又能访问了，于是找到了问题文件。</p>
 <p>对比了一下这个文件的两个版本，只有很短的几行，唯一的区别是编码不一样。原先的文件是ANSI编码，我用SublimeText打开时发现显示的是乱码（Sublime默认使用UTF-8编码显示），就用Notepad++将其转换成了UTF-8编码保存，在Sublime中打开就没有乱码了。本来没在意这个，觉得编码应该没啥问题，何况其他的文件也是UTF8编码。</p>
 <p>这次具体的看了一下，发现其他的文件在Notepad++中显示的全部都是UTF-8无BOM格式，而这个文件被我转换的是UTF-8格式。修改了编码格式，再上传，竟然就一切正常了。</p>
-<p><img data-src="/blog-imgs/tech/images/bbf51e0395fe57090eeed1660eb2c926.png" alt=""></p>
+<p><img data-src="images/bbf51e0395fe57090eeed1660eb2c926.png" alt=""></p>
 <p>其实至今也不是很明白是什么原因，在本地使用都很正常，到了远程服务器上就不能用了，可能是服务器配置的原因吧。于是记录下来，没准有人也会遇到这个问题，可以作为参考。</p>
 
             
@@ -461,7 +461,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -474,7 +474,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

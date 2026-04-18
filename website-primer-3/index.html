@@ -28,19 +28,19 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="系列博客说明  《网站搭建从零开始》系列博客 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;tag&#x2F;website-primer 对于完整的学习，强烈建议先阅读《网站搭建从零开始（〇） 内容概要与学习方法》 http:&#x2F;&#x2F;www.xiaoming.io&#x2F;website-primer-0">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/f2226aa9220bac89329a982ff2a7dc95.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/7e2b9371f2174e896842a9e31e972e99.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/50604ab091d01f5b147470517a3dbf95.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/20444bc2661934c3907600598f0e52f0.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/a23e678955c97d75834cde21e42a0cd3.jpg">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/8c2e3fbb6bb0d600485f556f7633f8b9.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-3/images/f2226aa9220bac89329a982ff2a7dc95.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-3/images/7e2b9371f2174e896842a9e31e972e99.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-3/images/50604ab091d01f5b147470517a3dbf95.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-3/images/20444bc2661934c3907600598f0e52f0.png">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-3/images/a23e678955c97d75834cde21e42a0cd3.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/website-primer-3/images/8c2e3fbb6bb0d600485f556f7633f8b9.png">
 <meta property="article:published_time" content="2014-10-17T17:38:42.000Z">
 <meta property="article:modified_time" content="2026-01-09T08:19:11.405Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="#网站搭建从零开始#">
 <meta property="article:tag" content="网站">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/website-primer/images/f2226aa9220bac89329a982ff2a7dc95.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/website-primer-3/images/f2226aa9220bac89329a982ff2a7dc95.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/website-primer-3/">
 
@@ -138,12 +138,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -328,7 +328,7 @@
 <p>另外空间提供商还会给你提供<strong>数据库</strong>，要注意的是，数据库和空间根目录是独立的，你可以通过数据库管理工具操作你的数据库，但数据库文件不能直接访问。</p>
 <h2 id="服务器空间控制面板">服务器空间控制面板</h2>
 <p>申请或购买了服务器空间后，会提供服务器空间管理账号，通常登录即进入服务器空间控制面板。下面是我的服务器所用的zPanel控制面板。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/f2226aa9220bac89329a982ff2a7dc95.png" alt=""></p>
+<p><img data-src="images/f2226aa9220bac89329a982ff2a7dc95.png" alt=""></p>
 <h2 id="文件管理与FTP">文件管理与FTP</h2>
 <p>通过FTP可以管理服务器空间中的文件，也有些空间提供商会提供SSH服务、在线文件管理服务等。</p>
 <p>这里配置FTP的账号、文件根目录、访问权限。FTP账号你可以配置多个，比如多个人在同一个服务器空间管理不同的站点文件。</p>
@@ -338,22 +338,22 @@
 <p>再新建一个账号，其根目录对应空间的<code>&quot;/test2_io/&quot;</code>目录，这个FTP账号就只能管理<code>test2.io</code>网站的文件，但是不能访问<code>test1.io</code>网站文件，以及其他<code>&quot;/test2_io/&quot;</code>目录以外的内容。</p>
 </blockquote>
 <p>至于FTP的访问权限，如果是管理员，一般是设置成读写都可以。如果我想利用服务器搭建一个FTP的资源共享站点，就可以设置一个只读FTP账号并公开，这样大家就可以通过这个账号下载我共享给大家的文件，但是不能删除、修改、添加文件。下图是我设置的FTP账号（我的空间只能设置一个FTP账号）。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/7e2b9371f2174e896842a9e31e972e99.png" alt=""></p>
+<p><img data-src="images/7e2b9371f2174e896842a9e31e972e99.png" alt=""></p>
 <p>用FTP软件如FileZilla，设置好IP地址、用户名、密码后，登录FTP账号，即可打开服务器网站中FTP账号的根目录。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/50604ab091d01f5b147470517a3dbf95.png" alt=""><br>
+<p><img data-src="images/50604ab091d01f5b147470517a3dbf95.png" alt=""><br>
 我的FTP账号直接设置绑定到服务器的根目录，就可以看到test子目录了，也就是我的网站根目录。</p>
 <h3 id="MySQL数据库的配置">MySQL数据库的配置</h3>
 <p>在控制面板里可以看到MySQL数据库的选项，点击进入，可以对MySQL数据库的用户名和密码进行设置。</p>
 <p>MySQL数据库附带了一个phpMyAdmin工具，可以在里面可视化查看和修改数据库。我在zPanel控制面板中点击phpMyAdmin，即可用刚刚设置好的MySQL数据库密码登录，如图所示。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/20444bc2661934c3907600598f0e52f0.png" alt=""></p>
+<p><img data-src="images/20444bc2661934c3907600598f0e52f0.png" alt=""></p>
 <h2 id="如果你的控制面板更加智能">如果你的控制面板更加智能</h2>
 <p>前面说了很复杂的一些建站步骤，配置各种账号。如果你购买服务器的时候，提供商告诉你，他们有所谓的一键快速建站的功能（说的很高大上，实际上如果你搞清楚了WordPress，原理也不复杂）。</p>
 <p>例如国外空间商常用cPanel面板，里面可以安装应用，WordPress就是其中之一。安装好应用，设置绑定的域名，就可以直接进入WordPress界面。新浪SAE也可以这么做。全过程根本没有涉及FTP、数据库等问题。</p>
 <p>例如下图就是新浪SAE的应用中心，可以直接一键安装WordPress。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/a23e678955c97d75834cde21e42a0cd3.jpg" alt=""></p>
+<p><img data-src="images/a23e678955c97d75834cde21e42a0cd3.jpg" alt=""></p>
 <hr>
 <p>2014-11-18：作为补充，这里给出一张服务器到用户网站的完整结构图供参考。</p>
-<p><img data-src="/blog-imgs/tech/website-primer/images/8c2e3fbb6bb0d600485f556f7633f8b9.png" alt=""></p>
+<p><img data-src="images/8c2e3fbb6bb0d600485f556f7633f8b9.png" alt=""></p>
 
             
 
@@ -494,7 +494,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -507,7 +507,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

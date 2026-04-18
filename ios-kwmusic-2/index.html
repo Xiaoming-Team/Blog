@@ -28,16 +28,16 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="本文所涉及内容用于技术学习，请勿用于不正当用途，否则后果自负。  酷我音乐ios版下载的音乐文件，通过同步助手等软件查看时，发现音乐文件都是一串数字命名。通过网上查找和自己尝试，发现那些文件都是音频文件改了文件名而已。只要修改回文件名，就能和正常的音乐一样播放了。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/717515e40580ca7b3f6ddc49b471ee7f.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/e0ec4a73c6d3f96b0aa056b7014fbfd6.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/fee2b4d68ec645f737732f4d80a50df5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/94b9189b56e78fb08579073ac13fdcfc.png">
+<meta property="og:image" content="https://www.xiaoming.io/ios-kwmusic-2/images/717515e40580ca7b3f6ddc49b471ee7f.png">
+<meta property="og:image" content="https://www.xiaoming.io/ios-kwmusic-2/images/e0ec4a73c6d3f96b0aa056b7014fbfd6.png">
+<meta property="og:image" content="https://www.xiaoming.io/ios-kwmusic-2/images/fee2b4d68ec645f737732f4d80a50df5.png">
+<meta property="og:image" content="https://www.xiaoming.io/ios-kwmusic-2/images/94b9189b56e78fb08579073ac13fdcfc.png">
 <meta property="article:published_time" content="2014-10-17T16:13:08.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.660Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="计算机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/717515e40580ca7b3f6ddc49b471ee7f.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/ios-kwmusic-2/images/717515e40580ca7b3f6ddc49b471ee7f.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/ios-kwmusic-2/">
 
@@ -135,12 +135,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -321,10 +321,10 @@
 </blockquote>
 <p>在网上找到了一个软件，也就是上面参考网址中的软件，但是使用的时候出现了问题，提示subscript out of range，程序不能继续执行。于是就决定自己用Java写一个来处理。</p>
 <p>首先从手机复制出cloud.db数据库文件，为SQLite数据库文件。用SQLite Database Browser打开，看到里面和音乐关系比较密切的主要有三个table，playlistsInfo中保存着播放列表信息，字段title为列表名称，字段id为列表id。playlistMusics保存了音乐和播放列表的对应关系，字段title、artist等为音乐信息，rid为音乐资源id，字段playlist_id对应了所属播放列表id。musicResource中是音乐信息和文件对应关系，字段file为对应的文件名，format为文件格式，rid为音乐资源id。</p>
-<p><img data-src="/blog-imgs/tech/images/717515e40580ca7b3f6ddc49b471ee7f.png" alt=""></p>
-<p><img data-src="/blog-imgs/tech/images/e0ec4a73c6d3f96b0aa056b7014fbfd6.png" alt=""></p>
-<p><img data-src="/blog-imgs/tech/images/fee2b4d68ec645f737732f4d80a50df5.png" alt=""></p>
-<p><img data-src="/blog-imgs/tech/images/94b9189b56e78fb08579073ac13fdcfc.png" alt=""></p>
+<p><img data-src="images/717515e40580ca7b3f6ddc49b471ee7f.png" alt=""></p>
+<p><img data-src="images/e0ec4a73c6d3f96b0aa056b7014fbfd6.png" alt=""></p>
+<p><img data-src="images/fee2b4d68ec645f737732f4d80a50df5.png" alt=""></p>
+<p><img data-src="images/94b9189b56e78fb08579073ac13fdcfc.png" alt=""></p>
 <p>于是程序的工作流程是这样的：</p>
 <ol>
 <li>首先从musicResource逐一读取每首音乐的rid；</li>
@@ -590,7 +590,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -603,7 +603,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

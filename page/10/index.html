@@ -134,12 +134,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -198,6 +198,145 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "IE8不支持jQuery问题",
+      "description": "最近做WordPress主题，遇到一个很奇怪的问题，网页在Chrome等浏览器都显示正常，但是到了IE8里面就无法工作。提示“加载完毕，但网页中有错误”。...",
+      "datePublished": "2015-03-18T01:23:04.000Z",
+      "dateModified": "2025-06-17T13:33:21.608Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/ie8-jquery/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/ie8-jquery/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/ie8-jquery/" class="post-title-link" itemprop="url">IE8不支持jQuery问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-03-18 09:23:04" itemprop="dateCreated datePublished" datetime="2015-03-18T09:23:04+08:00">2015-03-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/ie8-jquery/" class="post-meta-item leancloud_visitors" data-flag-title="IE8不支持jQuery问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/ie8-jquery/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/ie8-jquery/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>657</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近做WordPress主题，遇到一个很奇怪的问题，网页在Chrome等浏览器都显示正常，但是到了IE8里面就无法工作。提示“加载完毕，但网页中有错误”。</p>
+<p>尝试修复IE浏览器，但是毫无效果。后来经过反复排查，发现问题在于IE8不能运行jQuery。网上找了很久也没找到相关的文章。而且之前用过一些jQuery插件，在IE中也是能正常使用的。用IE打开之前写的一个jQuery插件的Demo，运行正常，又在想是不是CDN的原因，于是把CDN引用的jQuery换成本地的jQuery文件，还是没有效果。。。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/ie8-jquery/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+
+    </div>
+
+    
+    
+    
+      
+
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -452,7 +591,7 @@
 
       
           <p>最近不少网友在讨论下面这条裙子的颜色，到底是白金还是蓝黑呢？下面我从摄影和平面设计的角度来解释下这个问题。</p>
-<p><img data-src="/blog-imgs/photo/images/3b6d9193eaffae39a21d040d5163e41a.jpg" alt></p>
+<p><img data-src="images/3b6d9193eaffae39a21d040d5163e41a.jpg" alt></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/dress-color/#more" rel="contents">
@@ -1853,7 +1992,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img data-src="/blog-imgs/learn/images/2ced82a76bbacb2937837049bcd836dc.jpg" alt><br>
+          <p><img data-src="images/2ced82a76bbacb2937837049bcd836dc.jpg" alt><br>
 其实我也不想写这么无聊的东西可是学弟一遍一遍问啊，学姐大三了啊很忙啊，不能天天看着你给你分析感情问题啊，学姐觉得应该授之以渔不能授之以鱼啊，于是学姐版把妹课堂开课啦！</p>
 <p>首先，你要有个target，并且很喜欢她。并不是说你想谈恋爱了就随便找个还不错的妹子就上，那种把妹把的不是爱情是寂寞啊亲，我讲的可不似这一种。</p>
           <!--noindex-->
@@ -2854,147 +2993,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "写给大家看的量子力学——量子通信、量子隐形传输技术简介",
-      "description": "本文尝试对量子通信以及量子隐形传输技术进行科普介绍，力求通俗易懂（全篇没有一个公式）。 由于个人水平有限，如有不当或错误之处，望批评指正。有疑问和不确定的地方我也会标注出来。",
-      "datePublished": "2015-01-15T07:39:39.000Z",
-      "dateModified": "2025-06-17T13:33:21.662Z",
-      "author": {
-        "@type": "Person",
-        "name": "小明"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "搬砖的小明",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "/images/logo-32.png"
-        }
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://www.xiaoming.io/quantum-physics/"
-      }
-    }
-    </script>
-    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/quantum-physics/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="小明">
-      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="搬砖的小明">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/quantum-physics/" class="post-title-link" itemprop="url">写给大家看的量子力学——量子通信、量子隐形传输技术简介</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2015-01-15 15:39:39" itemprop="dateCreated datePublished" datetime="2015-01-15T15:39:39+08:00">2015-01-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/quantum-physics/" class="post-meta-item leancloud_visitors" data-flag-title="写给大家看的量子力学——量子通信、量子隐形传输技术简介" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/quantum-physics/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/quantum-physics/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文尝试对量子通信以及量子隐形传输技术进行科普介绍，力求通俗易懂（全篇没有一个公式）。</p>
-<blockquote>
-<p>由于个人水平有限，如有不当或错误之处，望批评指正。有疑问和不确定的地方我也会标注出来。</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/quantum-physics/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-
-    </div>
-
-    
-    
-    
-      
-
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -3068,7 +3066,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -3081,7 +3079,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

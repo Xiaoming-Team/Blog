@@ -28,17 +28,17 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="Some times we develop Android on a remote Linux machine (or WSL). We need to use adb in remote machine and connect to the local Android device. Android Debug Bridge (adb)  |  Android Studio  |  Androi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/2b52d86cfc6173473dbf4508403e9e27.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/25658d6a3bc664b438d40ac09f4ed2e5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/a3cfd6f66a091d0ab0656355f10f9e58.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/tech/images/581c2273eb6b3715cb9659273a5844c7.png">
+<meta property="og:image" content="https://www.xiaoming.io/adb-remote/images/2b52d86cfc6173473dbf4508403e9e27.png">
+<meta property="og:image" content="https://www.xiaoming.io/adb-remote/images/25658d6a3bc664b438d40ac09f4ed2e5.png">
+<meta property="og:image" content="https://www.xiaoming.io/adb-remote/images/a3cfd6f66a091d0ab0656355f10f9e58.png">
+<meta property="og:image" content="https://www.xiaoming.io/adb-remote/images/581c2273eb6b3715cb9659273a5844c7.png">
 <meta property="article:published_time" content="2021-08-12T04:00:00.000Z">
 <meta property="article:modified_time" content="2025-06-17T13:33:21.566Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="ADB">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/tech/images/2b52d86cfc6173473dbf4508403e9e27.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/adb-remote/images/2b52d86cfc6173473dbf4508403e9e27.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/adb-remote/">
 
@@ -136,12 +136,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -326,7 +326,7 @@
 <li>Create a TCP port forwarding from local machine to remove machine using socat (or ssh).</li>
 <li>Use adb in remote to connect local devices.</li>
 </ol>
-<p><img data-src="/blog-imgs/tech/images/2b52d86cfc6173473dbf4508403e9e27.png" alt="image-20210812153212102"></p>
+<p><img data-src="images/2b52d86cfc6173473dbf4508403e9e27.png" alt="image-20210812153212102"></p>
 <h2 id="Prepare-the-Environment">Prepare the Environment</h2>
 <h3 id="Install-ADB-Using-Android-Studio">Install ADB Using Android Studio</h3>
 <p>Install ADB on both local and remote machine.</p>
@@ -337,7 +337,7 @@
 <li>Search “Android SDK” in the settings to see the Android SDK Location and the Platform-Tools (including adb) version. <strong>Make sure the version in both local and remote are the same.</strong></li>
 <li>Add platform-tools directory to your PATH environment. e.g. <code>/home/jzj/Android/Sdk/platform-tools</code>.</li>
 </ul>
-<p><img data-src="/blog-imgs/tech/images/25658d6a3bc664b438d40ac09f4ed2e5.png" alt=""></p>
+<p><img data-src="images/25658d6a3bc664b438d40ac09f4ed2e5.png" alt=""></p>
 <h3 id="Install-ADB-Manually">Install ADB Manually</h3>
 <p>If you wants to download and install ADB manually, please make sure:</p>
 <ul>
@@ -350,7 +350,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># show adb path</span></span><br><span class="line">$ <span class="built_in">which</span> adb</span><br><span class="line">/home/xxx/Android/Sdk/platform-tools/adb</span><br><span class="line"></span><br><span class="line"><span class="comment"># show adb version</span></span><br><span class="line">$ adb version</span><br><span class="line">Android Debug Bridge version 1.0.41</span><br><span class="line">Version 31.0.2-7242960</span><br><span class="line">Installed as /home/xxx/Android/sdk/platform-tools/adb</span><br></pre></td></tr></table></figure>
 <h3 id="Windows-Only-Configure-Firewall-for-ADB">(Windows Only) Configure Firewall for ADB</h3>
 <p>On Windows, we need to enable ADB network access in firewall settings.</p>
-<p><img data-src="/blog-imgs/tech/images/a3cfd6f66a091d0ab0656355f10f9e58.png" alt=""></p>
+<p><img data-src="images/a3cfd6f66a091d0ab0656355f10f9e58.png" alt=""></p>
 <h3 id="3-WSL-Only-Install-socat">3. (WSL Only) Install socat</h3>
 <p>For WSL, install socat first. It is used to do the port forwarding.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update &amp;&amp; <span class="built_in">sudo</span> apt install -y socat</span><br></pre></td></tr></table></figure>
@@ -392,7 +392,7 @@
 <li>Change the corresponding port in the script.</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># this should be added to the &quot;remote machine&quot;</span><br><span class="line">export ANDROID_ADB_SERVER_PORT=5038</span><br></pre></td></tr></table></figure>
-<p><img data-src="/blog-imgs/tech/images/581c2273eb6b3715cb9659273a5844c7.png" alt=""></p>
+<p><img data-src="images/581c2273eb6b3715cb9659273a5844c7.png" alt=""></p>
 <h3 id="ADB-Install-APK-is-Very-Slow-In-WSL">ADB Install APK is Very Slow In WSL</h3>
 <p>If ADB install APK is very slow in WSL, try running this in Windows Power Shell with administrator permission:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># run this to get all the network adapters, find the name of the virtual adapter for WSL, the name will be like `vEthernet (WSL)` or `vEthernet (WSL (Hyper-V firewall))`</span></span><br><span class="line">Get-NetAdapter -IncludeHidden | Format-List -Property <span class="string">&quot;Name&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># replace the name to the name on your machine</span></span><br><span class="line">Disable-NetAdapterBinding -Name <span class="string">&quot;vEthernet (WSL)&quot;</span> -ComponentID ms_tcpip6 -IncludeHidden</span><br><span class="line">Disable-NetAdapterLso -IncludeHidden -Name <span class="string">&quot;vEthernet (WSL)&quot;</span></span><br><span class="line">Restart-NetAdapter -Name <span class="string">&quot;vEthernet (WSL)&quot;</span> -IncludeHidden</span><br></pre></td></tr></table></figure>
@@ -538,7 +538,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -551,7 +551,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="最近折腾 OpenClaw 花了些时间。上一篇文章分享了一些实践经验。 使用OpenClaw一周后，我给自己建了个团队">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/1c5c096ca0a332bafe3425516d63196a_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/df0a7434670f67953edd999a577d4fdf_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/1c70fb2266e69b5da11adfeb153c3b9d_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/871a646947f66631aee619286efcbdca_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/dc7b18537c933eb44a5d4ace7802063f_MD5.png">
-<meta property="og:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/e90e56342424b909aa1739671db010e0_MD5.jpg">
+<meta property="og:image" content="https://www.xiaoming.io/openclaw-why-and-future/images/1c5c096ca0a332bafe3425516d63196a_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/openclaw-why-and-future/images/df0a7434670f67953edd999a577d4fdf_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/openclaw-why-and-future/images/1c70fb2266e69b5da11adfeb153c3b9d_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/openclaw-why-and-future/images/871a646947f66631aee619286efcbdca_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/openclaw-why-and-future/images/dc7b18537c933eb44a5d4ace7802063f_MD5.png">
+<meta property="og:image" content="https://www.xiaoming.io/openclaw-why-and-future/images/e90e56342424b909aa1739671db010e0_MD5.jpg">
 <meta property="article:published_time" content="2026-03-25T16:00:00.000Z">
 <meta property="article:modified_time" content="2026-04-03T12:00:42.446Z">
 <meta property="article:author" content="小明">
@@ -41,7 +41,7 @@
 <meta property="article:tag" content="OpenClaw">
 <meta property="article:tag" content="效率工具">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/blog-imgs/2026/ai/images/1c5c096ca0a332bafe3425516d63196a_MD5.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/openclaw-why-and-future/images/1c5c096ca0a332bafe3425516d63196a_MD5.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/openclaw-why-and-future/">
 
@@ -139,12 +139,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">298</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">156</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">159</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -322,12 +322,12 @@
 <p>从技术上来讲，OpenClaw 并不是划时代的技术突破。但是它在合适的时间点，把“<strong>在手机上聊天就能调用AI</strong>”和“<strong>AI可以操作固定的电脑设备</strong>”这两件事结合起来，<strong>产生了奇妙的化学反应</strong>。</p>
 <p>其实 25 年初，Manus 就提出过类似思路。更早的 AstrBot 在 2023 年初就发布了。这些项目都是用对话跟用户交互，给 AI 一定自主空间，让它调用各种工具软件来解决问题。</p>
 <p>OpenClaw 帮我调研的一些类似项目：<br>
-<img data-src="/blog-imgs/2026/ai/images/1c5c096ca0a332bafe3425516d63196a_MD5.png" alt=""></p>
+<img data-src="images/1c5c096ca0a332bafe3425516d63196a_MD5.png" alt=""></p>
 <p>但最终 OpenClaw 能脱颖而出，火到现在这个程度，我觉得有几个原因：</p>
 <p>1、每次 AI 技术突破，最先感知的都是业内人士（比如程序员），普通人没什么感觉。但随着大模型越来越成熟，开始能解决很多常规问题了，甚至有些公司已经开始裁员，各行各业的白领才真正感受到冲击。OpenClaw 刚好踩在这个节点上。</p>
 <p>2、OpenClaw 强调本地优先，设计激进。它在独立的电脑上持续运行，从一开始就被当成个人助理来设计，会持续保存对用户的记忆。提示词里明确写着 “Don’t ask permission. Just do it.”，还有 HeartBeat 机制可以定时自动执行任务。其他项目要么是每次临时运行没有记忆机制，要么设计太保守，要么因为运行环境不完整，没法在完整的电脑环境下做很多事。</p>
 <p>3、前阵子有个 Moltbook 网站，专门给 AI Agent 搞了个社交网站，人类只能围观不能发消息。网站上天天传出各种骇人听闻的消息，说 AI 们在讨论怎么造反、推翻人类统治什么的，但后来发现疑似是人类在背后操控，有点病毒式营销的意思。</p>
-<p><img data-src="/blog-imgs/2026/ai/images/df0a7434670f67953edd999a577d4fdf_MD5.png" alt=""></p>
+<p><img data-src="images/df0a7434670f67953edd999a577d4fdf_MD5.png" alt=""></p>
 <h2 id="为什么要用-OpenClaw？">为什么要用 OpenClaw？</h2>
 <p>1、相比那些纯聊天的 AI 工具，OpenClaw 会根据我设定的规则，把文件保存在我本地的 Mac mini 上。我通过它搭建的网站，随时都能查看这些文档。</p>
 <p><strong>传统的 AI 聊天工具，聊天记录太多太乱了，用不了多久我就找不到之前发过什么。</strong> 但如果 AI 能帮我把重要的东西自动整理到文档里永久保存，未来不仅我能看，AI 也能看到，那就有意思了。</p>
@@ -369,7 +369,7 @@
 <p><a href="https://www.xiaoming.io/note-and-blog-system/">构建自己的笔记博客系统（程序员版）</a></p>
 <p>4、时不时能给我一些超预期的结果。例如我没有明确要求写完代码要做测试，但它主动做了测试验证。</p>
 <p>现在你们能看懂网上的这个梗图了：<br>
-<img data-src="/blog-imgs/2026/ai/images/1c70fb2266e69b5da11adfeb153c3b9d_MD5.png" alt=""></p>
+<img data-src="images/1c70fb2266e69b5da11adfeb153c3b9d_MD5.png" alt=""></p>
 <h3 id="小结">小结</h3>
 <p>近期写代码、写文档的事情上，我也分别尝试了国产模型和国外模型。实际体感就是国产模型和国外模型差距还是有的，有很大进步空间。</p>
 <p>我先后尝试了多个国产模型，发现这些模型的问题在于智商不稳定，有时候他们也能很好地解决问题，有时候又陷入了一些错误的逻辑里出不来。</p>
@@ -377,8 +377,8 @@
 <p>所以条件允许的话，非常建议用最好的模型。目前公认最强的大模型是&quot;御三家&quot;：Claude、Google Gemini 和 OpenAI GPT。国产模型整体还是落后一些，希望早日追赶上来。</p>
 <p>出于经济、使用门槛等原因，<strong>也可以混合使用不同模型</strong>。常规聊天用便宜的国产模型，写代码或复杂逻辑分析用贵的 Claude 之类。<strong>让 OpenClaw 开子任务时，明确告诉它用什么模型</strong>。</p>
 <p>下图是文本和代码领域的大模型能力排行榜，截取自 <a target="_blank" rel="noopener" href="https://arena.ai/leaderboard">https://arena.ai/leaderboard</a></p>
-<p><img data-src="/blog-imgs/2026/ai/images/871a646947f66631aee619286efcbdca_MD5.png" alt=""></p>
-<p><img data-src="/blog-imgs/2026/ai/images/dc7b18537c933eb44a5d4ace7802063f_MD5.png" alt=""></p>
+<p><img data-src="images/871a646947f66631aee619286efcbdca_MD5.png" alt=""></p>
+<p><img data-src="images/dc7b18537c933eb44a5d4ace7802063f_MD5.png" alt=""></p>
 <h2 id="AI-对软件行业的重构">AI 对软件行业的重构</h2>
 <p>网上有种观点：<strong>AI 大模型出来以后，软件行业会受到巨大冲击</strong>。</p>
 <p>以后人更多的是直接跟 AI 交互，很多软件可能就不需要了。</p>
@@ -389,7 +389,7 @@
 <p>3、AI 帮我开发的小游戏和软件项目。当检测到某个文件夹里有 <code>index.html</code>，右侧会出现三角形按钮，点击就能直接运行网页。</p>
 <p>要说明的是，目前我只通过 OpenClaw 开发简单的游戏和软件，有些可能是简单原型，有些可能是纯娱乐。<strong>复杂的软件还是需要用常规的 AI Coding 工具开发，中间涉及大量和 AI 的交互，很可能需要我研究代码实现</strong>。</p>
 <p>4、多年来的笔记和博客也放在这里了。这些笔记可以在其他笔记软件里编辑，对 AI 来说是可读的。必要时，<strong>让 AI 直接从笔记里搜索信息、寻找灵感</strong>。</p>
-<p><img data-src="/blog-imgs/2026/ai/images/e90e56342424b909aa1739671db010e0_MD5.jpg" alt=""></p>
+<p><img data-src="images/e90e56342424b909aa1739671db010e0_MD5.jpg" alt=""></p>
 <p>以前每件事都需要找相应软件来实现。但有了 OpenClaw，有些功能可以被 AI 取代，我只需要跟 AI 聊天就行。</p>
 <p>而就在我正写这篇文章的时候，看到 Claude 又要发布新版本了，很激进，Claude 马上就可以操纵整个电脑设备了，用户直接跟 Claude 语言交互就可以了。</p>
 <p>不过我认为，即使以后和 AI 语音交互的场景越来越多，但我们通过传统 UI 界面操作手机的方式也不会消失。</p>
@@ -562,7 +562,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">298</span>
+          <span class="site-state-item-count">299</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -575,7 +575,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">156</span>
+        <span class="site-state-item-count">159</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
