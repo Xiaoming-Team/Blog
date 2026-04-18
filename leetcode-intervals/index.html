@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="通用思路 1、区间的定义：二维数组，每个元素长度为2，分别表示起始和终止点。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/leetcode-intervals/img/https://www.xiaoming.io/wp-content/uploads/2020/04/merge-interval.png">
+<meta property="og:image" content="https://www.xiaoming.io/leetcode-intervals/images/merge-interval.png">
 <meta property="article:published_time" content="2020-04-04T08:08:39.000Z">
-<meta property="article:modified_time" content="2026-01-09T08:19:11.402Z">
+<meta property="article:modified_time" content="2026-04-18T14:38:51.014Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="LeetCode">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/leetcode-intervals/img/https://www.xiaoming.io/wp-content/uploads/2020/04/merge-interval.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/leetcode-intervals/images/merge-interval.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/leetcode-intervals/">
 
@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">300</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
@@ -210,7 +210,7 @@
       "headline": "LeetCode：区间类题目总结",
       "description": "通用思路 1、区间的定义：二维数组，每个元素长度为2，分别表示起始和终止点。",
       "datePublished": "2020-04-04T08:08:39.000Z",
-      "dateModified": "2026-01-09T08:19:11.402Z",
+      "dateModified": "2026-04-18T14:38:51.014Z",
       "author": {
         "@type": "Person",
         "name": "小明"
@@ -286,20 +286,6 @@
   </span>
   
   
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
 
         </div>
       </header>
@@ -316,7 +302,7 @@
 <p>2、将区间按照起始点从小到大排序（或者按照终止点排序）。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// anonymous class</span></span><br><span class="line">Arrays.sort(intervals, <span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;&gt;() &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(<span class="type">int</span>[] a, <span class="type">int</span>[] b)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a[<span class="number">0</span>] - b[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// lambda expression</span></span><br><span class="line">Arrays.sort(intervals, (a,b) -&gt; a[<span class="number">0</span>] - b[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
 <p>3、循环遍历处理区间，前一个区间为蓝色，后一个区间为绿色，两者有如下三种情况。</p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/04/merge-interval.png" alt=""></p>
+<p><img data-src="images/merge-interval.png" alt=""></p>
 <h2 id="56-合并区间"><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-intervals/">56. 合并区间</a></h2>
 <h3 id="题目">题目</h3>
 <p>给出一个区间的集合，请合并所有重叠的区间。</p>
@@ -494,7 +480,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">299</span>
+          <span class="site-state-item-count">300</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

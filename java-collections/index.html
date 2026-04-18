@@ -28,10 +28,10 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="常用集合与分类   Collection  List：按顺序保存元素。  ArrayList：数组实现，随机访问性能好。 LinkedList：双向链表实现，插入删除性能好。   Set：不添加重复元素。  HashSet：快速查找元素，由HashMap实现。元素须定义 hashCode() 和 equals() 方法。 LinkedHashSet：快速查找元素+链表维护读写顺序，由LinkedH">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/java-collections/img/https://www.xiaoming.io/wp-content/uploads/2020/03/collection.png">
-<meta property="og:image" content="https://www.xiaoming.io/java-collections/img/https://www.xiaoming.io/wp-content/uploads/2020/03/map.png">
+<meta property="og:image" content="https://www.xiaoming.io/java-collections/images/java-collection.png">
+<meta property="og:image" content="https://www.xiaoming.io/java-collections/images/java-map.png">
 <meta property="article:published_time" content="2020-03-03T11:07:46.000Z">
-<meta property="article:modified_time" content="2026-01-09T08:19:11.396Z">
+<meta property="article:modified_time" content="2026-04-18T14:46:20.903Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="基础知识">
@@ -39,7 +39,7 @@
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/java-collections/img/https://www.xiaoming.io/wp-content/uploads/2020/03/collection.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/java-collections/images/java-collection.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/java-collections/">
 
@@ -137,7 +137,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">300</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
@@ -213,7 +213,7 @@
       "headline": "Java数据结构与集合学习笔记",
       "description": "常用集合与分类 Collection List：按顺序保存元素。 ArrayList：数组实现，随机访问性能好。 LinkedList：双向链表实现，插入删除性能好。 Set：不添加重复元素。 HashSet：快速查找元素，由HashMap实现。元素须定义 hashCode() 和 equals() 方法。...",
       "datePublished": "2020-03-03T11:07:46.000Z",
-      "dateModified": "2026-01-09T08:19:11.396Z",
+      "dateModified": "2026-04-18T14:46:20.903Z",
       "author": {
         "@type": "Person",
         "name": "小明"
@@ -289,20 +289,6 @@
   </span>
   
   
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
-            </span>
 
         </div>
       </header>
@@ -363,9 +349,9 @@
 <h2 id="Java-集合框架类图">Java 集合框架类图</h2>
 <p>黄色为接口，绿色为抽象类，蓝色为具体类。虚线箭头表示实现关系，实线箭头表示继承关系。</p>
 <p>Collection</p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/collection.png" alt=""></p>
+<p><img data-src="images/java-collection.png" alt=""></p>
 <p>Map</p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/map.png" alt=""></p>
+<p><img data-src="images/java-map.png" alt=""></p>
 <h2 id="ArrayList">ArrayList</h2>
 <p>ArrayList内部使用数组实现。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建并指定初始容量</span></span><br><span class="line"><span class="type">int</span> <span class="variable">capacity</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(capacity);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从其他Collection创建</span></span><br><span class="line">Collection&lt;String&gt; collection;</span><br><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(collection);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加item</span></span><br><span class="line">list.add(<span class="string">&quot;item&quot;</span>);</span><br><span class="line"><span class="comment">// 添加到指定位置</span></span><br><span class="line">list.add(<span class="number">1</span>, <span class="string">&quot;item&quot;</span>);</span><br></pre></td></tr></table></figure>
@@ -494,9 +480,9 @@
           <div class="post-tags">
               <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag"># 基础知识</a>
               <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
           </div>
 
         
@@ -589,7 +575,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">299</span>
+          <span class="site-state-item-count">300</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -29,7 +29,7 @@
 <meta property="og:description" content="Java引用类型 Java中有四种引用类型。其中SoftReference、WeakReference、PhantomReference构造时都可以指定ReferenceQueue，当目标对象 (Referent) 被回收时，Reference会被添加到队列中。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-03T11:11:23.000Z">
-<meta property="article:modified_time" content="2025-06-17T13:33:21.660Z">
+<meta property="article:modified_time" content="2026-04-18T14:45:08.798Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Java">
@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">300</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
@@ -210,7 +210,7 @@
       "headline": "Java引用类型简介与应用",
       "description": "Java引用类型 Java中有四种引用类型。其中SoftReference、WeakReference、PhantomReference构造时都可以指定ReferenceQueue，当目标对象 (Referent) 被回收时，Reference会被添加到队列中。",
       "datePublished": "2020-03-03T11:11:23.000Z",
-      "dateModified": "2025-06-17T13:33:21.660Z",
+      "dateModified": "2026-04-18T14:45:08.798Z",
       "author": {
         "@type": "Person",
         "name": "小明"
@@ -286,20 +286,6 @@
   </span>
   
   
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
 
         </div>
       </header>
@@ -312,31 +298,47 @@
       
         <h2 id="Java引用类型">Java引用类型</h2>
 <p>Java中有四种引用类型。其中SoftReference、WeakReference、PhantomReference构造时都可以指定ReferenceQueue，当目标对象 (Referent) 被回收时，Reference会被添加到队列中。</p>
-<p>中文</p>
-<p>英文</p>
-<p>取得目标对象 (Referent) 方式</p>
-<p>垃圾回收条件</p>
-<p>ReferenceQueue构造参数</p>
-<p>强引用</p>
-<p>StrongReference</p>
-<p>直接调用</p>
-<p>不回收</p>
-<p>-</p>
-<p>软引用</p>
-<p>SoftReference</p>
-<p>get方法</p>
-<p>gc且内存不足时回收</p>
-<p>可选参数</p>
-<p>弱引用</p>
-<p>WeakReference</p>
-<p>get方法</p>
-<p>gc时回收</p>
-<p>可选参数</p>
-<p>虚引用</p>
-<p>PhantomReference</p>
-<p>无法取得，get方法始终返回null</p>
-<p>gc时回收</p>
-<p><strong>必传参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>中文</th>
+<th>英文</th>
+<th>取得目标对象 (Referent) 方式</th>
+<th>垃圾回收条件</th>
+<th>ReferenceQueue构造参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强引用</td>
+<td>StrongReference</td>
+<td>直接调用</td>
+<td>不回收</td>
+<td>-</td>
+</tr>
+<tr>
+<td>软引用</td>
+<td>SoftReference</td>
+<td>get方法</td>
+<td>gc且内存不足时回收</td>
+<td>可选参数</td>
+</tr>
+<tr>
+<td>弱引用</td>
+<td>WeakReference</td>
+<td>get方法</td>
+<td>gc时回收</td>
+<td>可选参数</td>
+</tr>
+<tr>
+<td>虚引用</td>
+<td>PhantomReference</td>
+<td>无法取得，get方法始终返回null</td>
+<td>gc时回收</td>
+<td><strong>必传参数</strong></td>
+</tr>
+</tbody>
+</table>
 <h2 id="使用的坑">使用的坑</h2>
 <p>注意软引用 / 弱引用的一个坑：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;string&quot;</span>;</span><br><span class="line">WeakReference&lt;String&gt; ref = <span class="keyword">new</span> <span class="title class_">WeakReference</span>&lt;&gt;(s);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误写法</span></span><br><span class="line"><span class="keyword">if</span> (ref.get() != <span class="literal">null</span>) &#123;</span><br><span class="line">    ref.get().length(); <span class="comment">// 此处可能已经被回收，导致空指针</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确写法 1</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> ref.get(); <span class="comment">// 临时变为强引用</span></span><br><span class="line"><span class="keyword">if</span> (s1 != <span class="literal">null</span>) &#123;</span><br><span class="line">    s1.length();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确写法 2</span></span><br><span class="line">String s2;</span><br><span class="line"><span class="keyword">if</span> ((s2 = ref.get()) != <span class="literal">null</span>) &#123;</span><br><span class="line">    s2.length();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -417,8 +419,8 @@
           <div class="post-tags">
               <a href="/tags/Android/" rel="tag"># Android</a>
               <a href="/tags/Java/" rel="tag"># Java</a>
-              <a href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag"># 基础知识</a>
               <a href="/tags/%E5%86%85%E5%AD%98/" rel="tag"># 内存</a>
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag"># 基础知识</a>
               <a href="/tags/%E6%80%A7%E8%83%BD/" rel="tag"># 性能</a>
           </div>
 
@@ -512,7 +514,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">299</span>
+          <span class="site-state-item-count">300</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

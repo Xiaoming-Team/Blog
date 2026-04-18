@@ -28,9 +28,9 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="说明 本文主要从实现原理和代码层面介绍Gradle开发相关知识。关于本文中提到的、Gradle中的基本概念等内容，可参考">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/gradle-develop-basics/img/http://docs.groovy-lang.org/latest/html/documentation/assets/img/GroovyInterceptions.png">
+<meta property="og:image" content="https://www.xiaoming.io/gradle-develop-basics/images/gradle-groovy-interceptions.png">
 <meta property="article:published_time" content="2017-09-08T12:27:40.000Z">
-<meta property="article:modified_time" content="2026-01-09T08:19:11.394Z">
+<meta property="article:modified_time" content="2026-04-18T14:47:26.446Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Gradle">
@@ -38,7 +38,7 @@
 <meta property="article:tag" content="移动开发">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/gradle-develop-basics/img/http://docs.groovy-lang.org/latest/html/documentation/assets/img/GroovyInterceptions.png">
+<meta name="twitter:image" content="https://www.xiaoming.io/gradle-develop-basics/images/gradle-groovy-interceptions.png">
 
 <link rel="canonical" href="https://www.xiaoming.io/gradle-develop-basics/">
 
@@ -136,7 +136,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">300</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
@@ -212,7 +212,7 @@
       "headline": "Gradle开发快速入门——DSL语法原理与常用API介绍",
       "description": "说明 本文主要从实现原理和代码层面介绍Gradle开发相关知识。关于本文中提到的、Gradle中的基本概念等内容，可参考",
       "datePublished": "2017-09-08T12:27:40.000Z",
-      "dateModified": "2026-01-09T08:19:11.394Z",
+      "dateModified": "2026-04-18T14:47:26.446Z",
       "author": {
         "@type": "Person",
         "name": "小明"
@@ -288,20 +288,6 @@
   </span>
   
   
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>30k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>28 分钟</span>
-            </span>
 
         </div>
       </header>
@@ -401,7 +387,7 @@
 <p>The Groovy language supports two flavors of metaprogramming: runtime and compile-time. The first allows altering the class model and the behavior of a program at runtime while the second only occurs at compile-time.</p>
 </blockquote>
 <p>Groovy拦截机制（Groovy interception mechanism）如下图。</p>
-<p><img data-src="img/http://docs.groovy-lang.org/latest/html/documentation/assets/img/GroovyInterceptions.png" alt=""></p>
+<p><img data-src="images/gradle-groovy-interceptions.png" alt=""></p>
 <h4 id="示例一：propertyMissing和methodMissing">示例一：propertyMissing和methodMissing</h4>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cls1</span> &#123;</span><br><span class="line">    <span class="keyword">def</span> name = <span class="string">&#x27;hello name&#x27;</span></span><br><span class="line"><span class="comment">// 处理未定义的属性调用</span></span><br><span class="line">    Object propertyMissing(String name) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;missing property &#x27;$name&#x27;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 处理未定义的方法调用</span></span><br><span class="line">    <span class="type">void</span> methodMissing(String name, Object args) &#123;</span><br><span class="line">        println <span class="string">&quot;call missing method &#x27;$name()&#x27;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> var1 = <span class="keyword">new</span> Cls1()</span><br><span class="line">println var1.name</span><br><span class="line">println var1.myName</span><br><span class="line">var1.missingFunc()</span><br></pre></td></tr></table></figure>
 <p>执行结果：</p>
@@ -748,10 +734,10 @@
       <div class="popular-posts-title"><a href="/android-lint-1-usage/" rel="bookmark">Android Lint：基本使用与配置</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
+      <div class="popular-posts-title"><a href="/android-lint-3-application/" rel="bookmark">Android Lint应用方案</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/android-bitmap/" rel="bookmark">Android Bitmap操作内存问题总结(图片处理、截屏等)</a></div>
+      <div class="popular-posts-title"><a href="/nine-patch-usage/" rel="bookmark">NinePatch图（9-Patch图，.9图）使用全面介绍</a></div>
     </li>
   </ul>
 
@@ -855,7 +841,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">299</span>
+          <span class="site-state-item-count">300</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

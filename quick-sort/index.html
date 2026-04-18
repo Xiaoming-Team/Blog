@@ -28,24 +28,24 @@
 <meta property="og:site_name" content="搬砖的小明">
 <meta property="og:description" content="基本思路 使用分治思想。选择一个Pivot，把小于Pivot的放到Pivot左边，大于Pivot的放到Pivot右边。之后继续对Pivot分隔开的左右两侧做相同的操作，直到所有元素有序。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/partition-1.gif">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/partition-2.gif">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.1.png">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.2.png">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.3.png">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.4.png">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.5.png">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.6.png">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.7.png">
-<meta property="og:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.8.png">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-partition-1.gif">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-partition-2.gif">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-3.1.png">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-3.2.png">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-3.3.png">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-3.4.png">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-3.5.png">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-3.6.png">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-3.7.png">
+<meta property="og:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-3.8.png">
 <meta property="article:published_time" content="2020-03-03T11:22:08.000Z">
-<meta property="article:modified_time" content="2026-01-09T08:19:11.397Z">
+<meta property="article:modified_time" content="2026-04-18T13:09:00.599Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="LeetCode">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.xiaoming.io/quick-sort/img/https://www.xiaoming.io/wp-content/uploads/2020/03/partition-1.gif">
+<meta name="twitter:image" content="https://www.xiaoming.io/quick-sort/images/quick-sort-partition-1.gif">
 
 <link rel="canonical" href="https://www.xiaoming.io/quick-sort/">
 
@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">299</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">300</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
@@ -219,7 +219,7 @@
       "headline": "快速排序算法分析与实现",
       "description": "基本思路 使用分治思想。选择一个Pivot，把小于Pivot的放到Pivot左边，大于Pivot的放到Pivot右边。之后继续对Pivot分隔开的左右两侧做相同的操作，直到所有元素有序。",
       "datePublished": "2020-03-03T11:22:08.000Z",
-      "dateModified": "2026-01-09T08:19:11.397Z",
+      "dateModified": "2026-04-18T13:09:00.599Z",
       "author": {
         "@type": "Person",
         "name": "小明"
@@ -295,20 +295,6 @@
   </span>
   
   
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
-            </span>
 
         </div>
       </header>
@@ -362,7 +348,7 @@
 <p>最常见的实现，选第一个作为Pivot，然后直接从左到右遍历，把数据分割为两部分。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">partition</span><span class="params">(<span class="type">int</span>[] array, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">    <span class="comment">// 取第一个作为轴</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">pivot</span> <span class="operator">=</span> array[start];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// index为pivot最终的位置，最终要满足 [start~index-1] &lt; [index] &lt; [index+1 ~ end]</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> start;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 循环过程中，先不移动pivot，满足 [start+1 ~ index] &lt; pivot &lt; [index+1 ~ end]</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> start + <span class="number">1</span>; i &lt;= end; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (array[i] &lt; pivot) &#123;</span><br><span class="line">            index++;</span><br><span class="line">            swap(array, index, i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 最终交换 start 和 index，让pivot移动到正确的位置，</span></span><br><span class="line">    <span class="comment">// 使得 [start~index-1] &lt; [index] &lt; [index+1 ~ end]</span></span><br><span class="line">    swap(array, start, index);</span><br><span class="line">    <span class="keyword">return</span> index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>对应的示意图如下：</p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/partition-1.gif" alt=""></p>
+<p><img data-src="images/quick-sort-partition-1.gif" alt=""></p>
 <p>参考： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/onepixel/p/7674659.html">https://www.cnblogs.com/onepixel/p/7674659.html</a></p>
 <h3 id="实现二：两端搜索交换">实现二：两端搜索交换</h3>
 <p>选中最后一个作为Pivot，先从左边找到第一个大于Pivot的元素，再从右边找到第一个小于Pivot的元素，将这两者交换。继续交互步骤直到两端相遇。</p>
@@ -372,17 +358,17 @@
 <p>注意选中一端作为Pivot，就必须先从另一端搜索，因为可能会有一个特殊情况，就是原始数组已经满足条件不需要调整。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">partition</span><span class="params">(<span class="type">int</span>[] array, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">pivot</span> <span class="operator">=</span> array[start];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里有一种特殊情况，</span></span><br><span class="line">    <span class="comment">// 原始数组已经满足 [start] &lt; [start+1 ~ end]，执行循环后，应该得到 i = j = start</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// i必须从start开始，而不是 start + 1</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> start, j = end;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="comment">// 必须先执行--j的操作</span></span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; array[j] &gt;= pivot) --j;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; array[i] &lt;= pivot) ++i;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            swap(array, i, j);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 移动pivot到正确位置</span></span><br><span class="line">    swap(array, start, i);</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>图片示意：</p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/partition-2.gif" alt=""></p>
+<p><img data-src="images/quick-sort-partition-2.gif" alt=""></p>
 <p>还可以参考：<a target="_blank" rel="noopener" href="https://wiki.jikexueyuan.com/project/easy-learn-algorithm/fast-sort.html">https://wiki.jikexueyuan.com/project/easy-learn-algorithm/fast-sort.html</a></p>
 <p>顺便把图片摘录过来了：</p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.1.png" alt=""></p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.2.png" alt=""></p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.3.png" alt=""></p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.4.png" alt=""></p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.5.png" alt=""></p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.6.png" alt=""></p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.7.png" alt=""></p>
-<p><img data-src="img/https://www.xiaoming.io/wp-content/uploads/2020/03/3.8.png" alt=""></p>
+<p><img data-src="images/quick-sort-3.1.png" alt=""></p>
+<p><img data-src="images/quick-sort-3.2.png" alt=""></p>
+<p><img data-src="images/quick-sort-3.3.png" alt=""></p>
+<p><img data-src="images/quick-sort-3.4.png" alt=""></p>
+<p><img data-src="images/quick-sort-3.5.png" alt=""></p>
+<p><img data-src="images/quick-sort-3.6.png" alt=""></p>
+<p><img data-src="images/quick-sort-3.7.png" alt=""></p>
+<p><img data-src="images/quick-sort-3.8.png" alt=""></p>
 <h3 id="实现三：挖坑法">实现三：挖坑法</h3>
 <p>挖坑法。选取第一个作为Pivot，并挖出来形成一个坑。先从右边找到第一个小于Pivot的元素，挖出来填到坑里。再从左边找到第一个大于Pivot的元素，挖出来填到坑里。继续填坑步骤直到两端相遇。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">partition3</span><span class="params">(<span class="type">int</span>[] array, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">pivot</span> <span class="operator">=</span> array[start];</span><br><span class="line">    <span class="comment">// [start] 是第一个坑</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> start, j = end;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; array[j] &gt;= pivot) --j;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            <span class="comment">// [j] 挪到 [i] , [j] 形成了新的坑</span></span><br><span class="line">            array[i] = array[j];</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; array[i] &lt;= pivot) ++i;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            <span class="comment">// [i] 挪到 [j] , [i] 形成了新的坑</span></span><br><span class="line">            array[j] = array[i];</span><br><span class="line">            --j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//退出时，i == j。将 pivot 填到这个坑中。</span></span><br><span class="line">    array[i] = pivot;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -531,7 +517,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">299</span>
+          <span class="site-state-item-count">300</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
