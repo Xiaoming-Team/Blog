@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.xiaoming.io/chatgpt-images-2/</loc>
+    <lastmod>2026-04-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.xiaoming.io/notepad-regexp/</loc>
+    <lastmod>2026-04-19</lastmod>
+  </url>
+  <url>
     <loc>https://www.xiaoming.io/hexo-plugin-ai/</loc>
     <lastmod>2026-04-19</lastmod>
   </url>
@@ -930,10 +938,6 @@
   </url>
   <url>
     <loc>https://www.xiaoming.io/online-video-download/</loc>
-    <lastmod>2025-06-17</lastmod>
-  </url>
-  <url>
-    <loc>https://www.xiaoming.io/notepad-regexp/</loc>
     <lastmod>2025-06-17</lastmod>
   </url>
   <url>

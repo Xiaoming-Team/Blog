@@ -134,12 +134,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">301</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">302</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">162</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">165</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -198,6 +198,131 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "安卓使用Root权限实现后台模拟全局按键、触屏事件方法（类似按键精灵）",
+      "description": "有时我们需要使用安卓实现在后台模拟系统按键，比如对音量进行调节（模拟音量键），关闭前台正在运行的App（模拟返回键），或者模拟触屏事件。但是对于原生安卓系统而言，后台进程关闭前台进程，甚至模拟用户事件，进而操控整个系统，是不符合系统安全原则的，如果有这样的漏洞被病毒或恶意软件所利用，会非常危险。...",
+      "datePublished": "2014-10-08T15:30:36.000Z",
+      "dateModified": "2025-06-17T13:33:21.573Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/android-key-simulation/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/android-key-simulation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/android-key-simulation/" class="post-title-link" itemprop="url">安卓使用Root权限实现后台模拟全局按键、触屏事件方法（类似按键精灵）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-10-08 23:30:36" itemprop="dateCreated datePublished" datetime="2014-10-08T23:30:36+08:00">2014-10-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">开发技术</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/android-key-simulation/" class="post-meta-item leancloud_visitors" data-flag-title="安卓使用Root权限实现后台模拟全局按键、触屏事件方法（类似按键精灵）" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/android-key-simulation/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/android-key-simulation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有时我们需要使用安卓实现在后台模拟系统按键，比如对音量进行调节（模拟音量键），关闭前台正在运行的App（模拟返回键），或者模拟触屏事件。但是对于原生安卓系统而言，后台进程关闭前台进程，甚至模拟用户事件，进而操控整个系统，是不符合系统安全原则的，如果有这样的漏洞被病毒或恶意软件所利用，会非常危险。</p>
+<p>由于一些特殊原因，我恰巧需要实现这样的功能，而又没有条件自行编译安卓系统（但是可以利用Root权限，因为Root权限的获取相对简单很多，并且很多用户的安卓设备都有Root过）。网上也看到很多人在提类似的问题，很多人讨论了半天，结果都是无解。于是我花了很大精力，最后终于找到了解决方案。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/android-key-simulation/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+
+    </div>
+
+    
+    
+    
+      
+
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -832,9 +957,9 @@
       "@context": "https://schema.org",
       "@type": "Article",
       "headline": "Notepad++中用正则表达式匹配中文",
-      "description": "通常正则表达式匹配中文可以利用Unicode的特点，使用[\u4e00-\u9fa5]匹配。但在Notepad++中不能正常使用。 解决方法是，首先将编码转换成Unicode（菜单-&gt;格式-&gt;转换为UTF-8，如果不转换可能匹配出错），然后使用[\x{4e00}-\x{9fa5}]就可以实现匹配中文了。",
+      "description": "通常正则表达式匹配中文可以利用Unicode的特点，使用\[\\u4e00-\\u9fa5\]匹配。但在Notepad++中不能正常使用。 解决方法是，首先将编码转换成Unicode（菜单-&gt;格式-&gt;转换为UTF-8，如果不转换可能匹配出错），然后使用\[\\x{4e00}-\\x{9fa5}\]就可以实现匹配中文了。",
       "datePublished": "2014-10-08T07:23:27.000Z",
-      "dateModified": "2025-06-17T13:33:21.661Z",
+      "dateModified": "2026-04-19T13:13:57.745Z",
       "author": {
         "@type": "Person",
         "name": "小明"
@@ -921,8 +1046,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>通常正则表达式匹配中文可以利用Unicode的特点，使用[\u4e00-\u9fa5]匹配。但在Notepad++中不能正常使用。</p>
-<p>解决方法是，首先将编码转换成Unicode（菜单-&gt;格式-&gt;转换为UTF-8，如果不转换可能匹配出错），然后使用[\x{4e00}-\x{9fa5}]就可以实现匹配中文了。</p>
+          <p>通常正则表达式匹配中文可以利用Unicode的特点，使用<code>\[\\u4e00-\\u9fa5\]</code>匹配。但在Notepad++中不能正常使用。</p>
+<p>解决方法是，首先将编码转换成Unicode（菜单-&gt;格式-&gt;转换为UTF-8，如果不转换可能匹配出错），然后使用<code>\[\\x{4e00}-\\x{9fa5}\]</code>就可以实现匹配中文了。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/notepad-regexp/#more" rel="contents">
@@ -2577,131 +2702,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "单片机小白学步(1) 单片机的前世今生",
-      "description": "从本文开始进入单片机入门篇的学习。入门篇主要介绍各种单片机基础知识概念。 入门篇阅读建议：根据个人已经掌握的知识，有重点的去读。如果介绍到你已经学过的知识，你只需要简单阅读一下，或者直接跳过。如果看后面的文章感觉有些知识掌握的还不好，可以在回来看入门篇相关的介绍。",
-      "datePublished": "2014-10-07T10:30:08.000Z",
-      "dateModified": "2025-06-17T13:33:21.772Z",
-      "author": {
-        "@type": "Person",
-        "name": "小明"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "搬砖的小明",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "/images/logo-32.png"
-        }
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://www.xiaoming.io/mcu-primer-1/"
-      }
-    }
-    </script>
-    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/mcu-primer-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="小明">
-      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="搬砖的小明">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/mcu-primer-1/" class="post-title-link" itemprop="url">单片机小白学步(1) 单片机的前世今生</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2014-10-07 18:30:08" itemprop="dateCreated datePublished" datetime="2014-10-07T18:30:08+08:00">2014-10-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mcu-primer/" itemprop="url" rel="index"><span itemprop="name">单片机小白学步</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/mcu-primer-1/" class="post-meta-item leancloud_visitors" data-flag-title="单片机小白学步(1) 单片机的前世今生" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/mcu-primer-1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/mcu-primer-1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>从本文开始进入单片机入门篇的学习。入门篇主要介绍各种单片机基础知识概念。</strong></p>
-<p>入门篇阅读建议：根据个人已经掌握的知识，有重点的去读。如果介绍到你已经学过的知识，你只需要简单阅读一下，或者直接跳过。如果看后面的文章感觉有些知识掌握的还不好，可以在回来看入门篇相关的介绍。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/mcu-primer-1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-
-    </div>
-
-    
-    
-    
-      
-
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2775,7 +2775,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">301</span>
+          <span class="site-state-item-count">302</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2788,7 +2788,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">162</span>
+        <span class="site-state-item-count">165</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

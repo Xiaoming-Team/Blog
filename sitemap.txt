@@ -1,3 +1,5 @@
+https://www.xiaoming.io/chatgpt-images-2/
+https://www.xiaoming.io/notepad-regexp/
 https://www.xiaoming.io/hexo-plugin-ai/
 https://www.xiaoming.io/android-lint-3-application/
 https://www.xiaoming.io/android-lint-2-implements/
@@ -232,7 +234,6 @@ https://www.xiaoming.io/masonry-lazyload-waterfall/
 https://www.xiaoming.io/java-tcp-socket/
 https://www.xiaoming.io/js-get-self-url/
 https://www.xiaoming.io/matlab-c-java/
-https://www.xiaoming.io/notepad-regexp/
 https://www.xiaoming.io/markdown/
 https://www.xiaoming.io/nuedc/
 https://www.xiaoming.io/infer/
@@ -465,6 +466,9 @@ https://www.xiaoming.io/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/
 https://www.xiaoming.io/tags/Hexo/
 https://www.xiaoming.io/tags/AI%E7%BC%96%E7%A8%8B/
 https://www.xiaoming.io/tags/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/
+https://www.xiaoming.io/tags/ChatGPT/
+https://www.xiaoming.io/tags/%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90/
+https://www.xiaoming.io/tags/AI%E5%B7%A5%E5%85%B7/
 https://www.xiaoming.io/categories/study/
 https://www.xiaoming.io/categories/develop/
 https://www.xiaoming.io/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2/
