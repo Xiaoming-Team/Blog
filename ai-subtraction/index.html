@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.xiaoming.io/ai-subtraction/images/AI%E6%97%B6%E4%BB%A3%E5%AD%A6%E4%BC%9A%E5%81%9A%E5%87%8F%E6%B3%95.webp">
 <meta property="article:published_time" content="2026-04-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-04-25T09:25:09.611Z">
+<meta property="article:modified_time" content="2026-04-25T12:16:39.103Z">
 <meta property="article:author" content="小明">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="产品思维">
@@ -211,7 +211,7 @@
       "headline": "AI时代，学会做减法，拒绝焦虑",
       "description": "最近在网上看到一个观点。在 AI 大模型时代，做一个产品，功能实现的边际成本很低，所以人会倾向于把产品功能做得很全，什么都想放进去。 但功能一多，核心功能就容易被淹没。而真正厉害的不是“什么都做”，而是“什么不做”。真正解决用户的核心问题，才是最重要的。",
       "datePublished": "2026-04-24T16:00:00.000Z",
-      "dateModified": "2026-04-25T09:25:09.611Z",
+      "dateModified": "2026-04-25T12:16:39.103Z",
       "author": {
         "@type": "Person",
         "name": "小明"
@@ -323,7 +323,7 @@
 <p>在用 Hermes 之前，我以为 Skills 必须是“放之四海而皆准”的通用技能，发到网上谁都能用。后来发现这个理解不准确。</p>
 <p>Skills 不只可以是公共通用技能，也可以是对我个人“相对通用”的技能。比如我希望每次发一个链接给 Hermes，它都帮我提取原文并保存到 Wiki 目录。这个就是个人通用技能，也可以做成 Skills。</p>
 <p>虽然 Memory 和 Skills 看起来都是 Markdown 文件，但运作原理完全不一样。</p>
-<p>在 Memory 的设计下，每次 Agent 调用大模型时，都会把完整 Memory 文档发给上下文。比如 Memory 里有很多条规则，其中一条是收到链接就保存到 Wiki 目录并按某种命名规则执行，另一条是记 ToDo 时保存到 ToDo 目录并按另一套命名规则执行。</p>
+<p>在 Memory 的设计下，每次 Agent 调用大模型时，都会把完整 Memory 文档发给大模型。比如 Memory 里有很多条规则，其中一条是收到链接就保存到 Wiki 目录并按某种命名规则执行，另一条是记 ToDo 时保存到 ToDo 目录并按另一套命名规则执行。</p>
 <p>每次模型会看到完整的 <a target="_blank" rel="noopener" href="http://MEMORY.md">MEMORY.md</a> 文件，同时看到这些规则。于是当我真的发一个链接时，它有可能把信息搞混，没保存到 Wiki，反而存进 ToDo。</p>
 <p>Skills 是一种<strong>渐进式加载策略</strong>。每次系统先把所有 <strong>Skills 的一句话描述</strong> 组成列表发给大模型，不会把每个 Skill 的详细步骤都一起塞进去。</p>
 <p>当我发一个链接时，模型会在列表里匹配到“收到链接要保存到 Wiki”这个 Skill，再读取这个 Skill 的具体步骤，知道该放哪个目录、怎么命名。这个时候它不会读取 ToDo Skill 的细节，所以就不容易把文件误放到 ToDo 目录。</p>
