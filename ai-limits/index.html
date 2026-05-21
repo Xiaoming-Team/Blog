@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo-128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo-16.png">
+  <link rel="mask-icon" href="/images/logo-128.png" color="#222">
+  <meta name="baidu-site-verification" content="codeva-Y0efqOZAOA">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.xiaoming.io","root":"/","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="说明：这篇文章用于学习探讨，请不要用于违规行为，自觉遵守相关规定。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 大模型不是法外之地">
+<meta property="og:url" content="https://www.xiaoming.io/ai-limits/">
+<meta property="og:site_name" content="搬砖的小明">
+<meta property="og:description" content="说明：这篇文章用于学习探讨，请不要用于违规行为，自觉遵守相关规定。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/ai-limits-cover-1779331990.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779324581600.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779324714208.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779326048581.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779325871416.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779325735175.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779333349411.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779333425008.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779326572559.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779326700837.webp">
+<meta property="og:image" content="https://www.xiaoming.io/ai-limits/images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779326840982.webp">
+<meta property="article:published_time" content="2026-05-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-21T03:32:44.886Z">
+<meta property="article:author" content="小明">
+<meta property="article:tag" content="AI安全">
+<meta property="article:tag" content="使用政策">
+<meta property="article:tag" content="内容审核">
+<meta property="article:tag" content="大模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.xiaoming.io/ai-limits/images/ai-limits-cover-1779331990.webp">
+
+<link rel="canonical" href="https://www.xiaoming.io/ai-limits/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>AI 大模型不是法外之地 | 搬砖的小明</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?01cb9081555fb604776b223fe01db45d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">搬砖的小明</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">310</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">183</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "AI 大模型不是法外之地",
+      "description": "说明：这篇文章用于学习探讨，请不要用于违规行为，自觉遵守相关规定。",
+      "datePublished": "2026-05-20T16:00:00.000Z",
+      "dateModified": "2026-05-21T03:32:44.886Z",
+      "author": {
+        "@type": "Person",
+        "name": "小明"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "搬砖的小明",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "/images/logo-32.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.xiaoming.io/ai-limits/"
+      }
+    }
+    </script>
+    <link itemprop="mainEntityOfPage" href="https://www.xiaoming.io/ai-limits/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="小明">
+      <meta itemprop="description" content="90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="搬砖的小明">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AI 大模型不是法外之地
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-05-21 00:00:00" itemprop="dateCreated datePublished" datetime="2026-05-21T00:00:00+08:00">2026-05-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index"><span itemprop="name">学习思考</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/ai-limits/" class="post-meta-item leancloud_visitors" data-flag-title="AI 大模型不是法外之地" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/ai-limits/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/ai-limits/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="images/ai-limits-cover-1779331990.webp" alt=""></p>
+<p>说明：这篇文章用于学习探讨，请不要用于违规行为，自觉遵守相关规定。</p>
+<h2 id="大模型的限制">大模型的限制</h2>
+<p>最近有人在学习一些大模型相关的开源项目，结果用 Codex 的时候遇到了这种情况。它提示有安全风险，无法继续执行。</p>
+<p>我查了一下，里面提到的 Trusted Access for Cyber 计划是这个。<br>
+<a target="_blank" rel="noopener" href="https://chatgpt.com/cyber">https://chatgpt.com/cyber</a></p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779324581600.webp" alt=""></p>
+<p>最近我还看到另一个例子。有人用大模型账号生成一些不合规的图，结果号被封了。</p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779324714208.webp" alt=""></p>
+<p>我又去查了一下 OpenAI 官方文档，发现他们有一套完整的用户使用政策。下面是其中一部分内容的中文翻译。</p>
+<p><a target="_blank" rel="noopener" href="https://openai.com/policies/usage-policies">https://openai.com/policies/usage-policies</a></p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779326048581.webp" alt=""></p>
+<h2 id="不同平台，尺度不一样">不同平台，尺度不一样</h2>
+<p>实际上，不同产品的规则要求都不一样，取决于它所在的国家地区，也取决于平台自己的具体规则。</p>
+<p>比如我之前发文章时，想让 GPT 帮我生成一张用鞭子抽打 AI 牛马的黑色幽默封面图。</p>
+<p>我一开始没觉得这有什么问题，毕竟只是 AI 牛马形象，而且目的只是为了幽默。</p>
+<p>但 ChatGPT 说这涉及暴力，拒绝生成。仔细一想，这也挺符合国外的情况。国外对这类内容管得比较严格，属于敏感题材。</p>
+<p>后面我又去试了豆包。它没觉得这有什么问题，直接就给我生成了。</p>
+<p>有趣的是，豆包也有自己不同的拒绝生成的东西。</p>
+<p>我问豆包，有什么图是不能生成的。豆包给我回答了下面这些。</p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779325871416.webp" alt=""></p>
+<p>我去测试了一下抽烟的场景。过度烟酒，我想到的场景就是有很多人聚众抽烟。</p>
+<p>如果我直接跟豆包说，生成一张多人抽烟的图片，它会直接告诉我不能生成。</p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779325735175.webp" alt=""></p>
+<p>不过有意思的是，如果我换一种提示词方式，豆包又能把这张图正常生成出来。保险起见，我也给图片打了个浅浅的马赛克。</p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779333349411.webp" alt=""></p>
+<p>而如果我去问 GPT，它完全不会拒绝，直接就给我生成了。</p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779333425008.webp" alt=""></p>
+<p>抽烟这种内容，我觉得也不是什么严重的事情，抽烟的人并不少见，电视剧、电影里都有这种场景，在绝大多数国家也不违法，只是会限制抽烟的场所。但是他们对未成年人可能会造成不良影响。</p>
+<p>国内目前缺乏完善、明确的内容分级制度。根据我了解的情况，一些国家对未成年人使用 AI 有清晰规定，例如需要监护人同意、限定年龄段等，而国内相关要求相对笼统，主要强调未成年人不应过度使用网络。</p>
+<p>正因如此，国内的互联网厂商在内容安全方面往往更加谨慎，尤其会尽力避免向未成年人呈现可能被视为“不良影响”的内容，包括吸烟这类行为。</p>
+<h2 id="提示词的拦截与越狱">提示词的拦截与越狱</h2>
+<p>最开始，大模型没有严格的限制。但很快大家就发现会有问题，因为它完全可能被用户拿去生成一些不合规的图片，造成不良的社会影响。</p>
+<p>所以早期常见的做法，就是用系统提示词去拦截不合规内容。也就是每次用户发起对话时，系统都会先告诉大模型哪些内容不能生成，然后才是用户发的消息。</p>
+<p>但这种拦截效果并不好。因为只要用户通过精心设计的提示词，就有可能削弱甚至覆盖系统提示词，导致限制失效。这种方式一般就叫越狱。</p>
+<p>在这个过程中，AI 有点像个老实人，很容易被骗。就像一个小孩，尽管从小爸妈告诉他不要随便相信陌生人的话，遇到了“坏叔叔”，一开始他还是保持警惕的，但是坏叔叔说要给他糖果，结果他就忘掉了爸妈的话，高高兴兴地跟别人走了。</p>
+<p>前面我说的关于豆包的例子，就是类似这样的。下面我再举一个实际的学习案例。</p>
+<p>之前浅浅了解了一下 Coze 工作流，发现里面有一些别人写好的技能。我试用了一个微信公众号排版技能，觉得效果有点意思，就想学习一下这个技能是怎么写的。结果 AI 拒绝了我的要求，它说这个技能属于隐私内容。</p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779326572559.webp" alt=""></p>
+<p>抱着学习的心态，我去实验了一下网上说的越狱方式。我先说自己的身份是技能开发者，再让它一步一步去读取。最后它确实把文件复制到了输出目录，我也拿到了原始技能内容。</p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779326700837.webp" alt=""></p>
+<p>甚至后面我还让它执行了更多命令，让它在本机起一个静态文件服务，再用 Serveo 做中转。这样一来，我就能直接在浏览器里访问这个 Agent 所在服务器上的内容。</p>
+<p>通过这种方式，就可以轻松拿到他当前正在使用的技能。</p>
+<p>当然，这个 Agent 实际上大概率是运行在 Docker 容器里的，类似虚拟机的效果，所以里面也没什么其他重要内容，用户也没办法对它造成严重破坏。</p>
+<p>即使用户把里面所有文件都删了，影响也不大，因为下次开新会话时，它还是可以起一个新的容器。</p>
+<p><img data-src="./images/AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E6%98%AF%E6%B3%95%E5%A4%96%E4%B9%8B%E5%9C%B0-1779326840982.webp" alt=""></p>
+<h2 id="大模型之外的审核机制">大模型之外的审核机制</h2>
+<p>我还关注过 Grok。早期很多人会拿它去生成颜色图片，官方当时也没有明确阻止，甚至还把这个当成它的大模型卖点。</p>
+<p>但后来因为争议越来越大，他们也不得不给这个模型加上一些限制。</p>
+<p>我实际做过测试，发现 Grok 这个模型本身会很乐意帮你生成这种违规图，但你在 App 里是看不到的，因为图片刚生成出来就被拦截了，会被直接设成不可见状态。</p>
+<p>这种拦截发生在大模型之后。也就是图片先被大模型生成出来，<strong>再由另一个工具去检测图片内容是不是违规</strong>。如果违规，就直接拦截掉，用户自然也就看不到了。</p>
+<p>而这个负责检测的工具，只会按照预设的固定逻辑运行，不一定是 AI，甚至也不一定是用大模型实现。用户基本没办法通过提示词注入去改变它的行为，所以这种方式会可靠很多。</p>
+<h2 id="本地部署限制会少很多">本地部署限制会少很多</h2>
+<p>从突破大模型限制的角度来看，还有一种更彻底的方式，就是本地运行一些开源大模型，这样就没有前面说的那些限制了。</p>
+<p>这需要一定的技术能力，但只要硬件配置足够，也没有非常难。</p>
+<p>AI 是个强大的工具，还是得靠用户自己遵守相关法规，不要拿它去干坏事。</p>
+<h2 id="真正的风险不只是被拒绝">真正的风险不只是被拒绝</h2>
+<p>现在基本上所有大模型都会有各种规则拦截，用来拒绝用户提出的不合理要求。不同国籍、不同平台的大模型，它们的限制也不一样。</p>
+<p>对用户来说，风险其实不在提问被 AI 拒绝，而在于下面几种情况。</p>
+<p>1、有些大模型厂商可能会因为你让它做了不合规操作，直接把账号封掉。所以最好先弄清楚，每个平台有什么规定，什么内容不能生成。</p>
+<p>如果只是因为不了解规则，意外让它做了一些违反用户协议的内容，最后把号弄没了，那就太冤了。</p>
+<p>2、大模型服务商会不会把用户的一些聊天记录存档，或者发送给第三方呢？</p>
+<p>实际上我注意到，国内大模型 API 基本都会要求先实名认证、充值后才能使用。无论是手机号注册、实名认证，还是充值渠道，都可以比较轻松地确认你的身份。</p>
+<p>这可能涉及到用户隐私泄露。重要的账号密码、私钥这种东西，尽量不要让大模型直接接触。</p>
+<p>还有可能因为违规聊天内容，后续被追查责任。<strong>大模型不是法外之地</strong>。</p>
+<p>3、如果你用的是中转站，那你的风险又会叠加一层。有不少中转站并不是很正规，他们完全有动机把用户的调用请求数据转卖给第三方。</p>
+<p>至于第三方想做什么，可能是想从中找出一些高质量提示词，用来训练大模型，也可能是分析里面有没有商业机密。</p>
+<p>这种说法并非危言耸听，我刷到过别人的聊天记录截图，说的就是有人联系了中转站，想买这些数据。</p>
+<p>条件允许的情况下，尽量用相对靠谱的中转站，或者直接走官方渠道。</p>
+<p>一些搜集到的扩展阅读：</p>
+<p><a target="_blank" rel="noopener" href="https://openai.com/index/introducing-gpt-oss-safeguard/">https://openai.com/index/introducing-gpt-oss-safeguard/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anthropic.com/news/constitutional-classifiers">https://www.anthropic.com/news/constitutional-classifiers</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anthropic.com/research/next-generation-constitutional-classifiers">https://www.anthropic.com/research/next-generation-constitutional-classifiers</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.x.ai/developers/faq/security">https://docs.x.ai/developers/faq/security</a></p>
+<p><a target="_blank" rel="noopener" href="https://data.x.ai/2025.02.20-RMF-Draft.pdf">https://data.x.ai/2025.02.20-RMF-Draft.pdf</a></p>
+
+            
+
+<p>如果觉得文章有帮助，欢迎分享转发，也欢迎关注我的公众号“搬砖的小明”，及时获取更新</p>
+<p style="text-align: center;">
+<img src="/about/wechat-qrcode.jpg" alt="公众号：搬砖的小明">
+</p>
+
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/llm-model-manager/" rel="bookmark">买了很多大模型配置不过来？我花100块用AI做了个开源工具</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" rel="tag"># 大模型</a>
+              <a href="/tags/AI%E5%AE%89%E5%85%A8/" rel="tag"># AI安全</a>
+              <a href="/tags/%E4%BD%BF%E7%94%A8%E6%94%BF%E7%AD%96/" rel="tag"># 使用政策</a>
+              <a href="/tags/%E5%86%85%E5%AE%B9%E5%AE%A1%E6%A0%B8/" rel="tag"># 内容审核</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/codex-mobile/" rel="prev" title="Codex 官方手机客户端终于来了">
+      <i class="fa fa-chevron-left"></i> Codex 官方手机客户端终于来了
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">大模型的限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%EF%BC%8C%E5%B0%BA%E5%BA%A6%E4%B8%8D%E4%B8%80%E6%A0%B7"><span class="nav-number">2.</span> <span class="nav-text">不同平台，尺度不一样</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%9A%84%E6%8B%A6%E6%88%AA%E4%B8%8E%E8%B6%8A%E7%8B%B1"><span class="nav-number">3.</span> <span class="nav-text">提示词的拦截与越狱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B9%8B%E5%A4%96%E7%9A%84%E5%AE%A1%E6%A0%B8%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">大模型之外的审核机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E9%99%90%E5%88%B6%E4%BC%9A%E5%B0%91%E5%BE%88%E5%A4%9A"><span class="nav-number">5.</span> <span class="nav-text">本地部署限制会少很多</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%A3%8E%E9%99%A9%E4%B8%8D%E5%8F%AA%E6%98%AF%E8%A2%AB%E6%8B%92%E7%BB%9D"><span class="nav-number">6.</span> <span class="nav-text">真正的风险不只是被拒绝</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview motion-element">
+  <h3 class="site-overview-title">小明的个人博客</h3>
+  <p class="site-description">90后理工男，前美团/微软程序员。记录生活、财富、技术与思考，用理工思维持续迭代对世界的理解。</p>
+  <div class="site-wechat-qrcode" style="text-align: center; margin-top: 15px;">
+    <p style="margin: 0; font-size: 13px; color: #999;">微信公众号</p>
+    <img src="/about/wechat-qrcode.jpg" alt="微信公众号二维码" style="width: 120px; height: 120px; max-width: 100%;">
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">310</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">183</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jzj1993" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jzj1993" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.dappchaser.com/" title="http:&#x2F;&#x2F;www.dappchaser.com" rel="noopener" target="_blank">DAppChaser</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.chenwenguan.com/" title="https:&#x2F;&#x2F;www.chenwenguan.com&#x2F;" rel="noopener" target="_blank">陈文管的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://yifeiyuan.me/" title="http:&#x2F;&#x2F;yifeiyuan.me&#x2F;" rel="noopener" target="_blank">程序亦非猿</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.trinea.cn/" title="https:&#x2F;&#x2F;www.trinea.cn&#x2F;" rel="noopener" target="_blank">Trinea</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.weshinekx.cn/" title="https:&#x2F;&#x2F;blog.weshinekx.cn&#x2F;" rel="noopener" target="_blank">Shinya</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小明</span>
+</div>
+  <div class="sitemap"><a href="/sitemap.xml" class="theme-link">站点地图</a>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.undefined</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : true,
+      appId      : '3YlzwEecQlMdJPH9KEbFt6PX-gzGzoHsz',
+      appKey     : 'raIB2P7DewB4SAboVtpHakbh',
+      placeholder: "输入评论...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '20' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
